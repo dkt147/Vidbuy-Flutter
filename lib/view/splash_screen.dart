@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/main.dart';
 import 'package:vidbuy_app/resources/componenets/primary_button.dart';
 import 'package:vidbuy_app/view/select_login_screen.dart';
+import 'package:vidbuy_app/view/user_login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -49,31 +51,40 @@ class SplashScreen extends StatelessWidget {
           //   ),
           // ),
           Positioned(
-            bottom: 130.h,
-            child: Text("Shout Hello to\nthe world!", style: TextStyle(
-              fontWeight: FontWeight.w900, 
-              // fontFamily: "Londrina Solid",
-              fontSize: 40.h,
-              color: Colors.white,
-            ),)
-          ),
+              bottom: 130.h,
+              child: Text(
+                "Shout Hello to\nthe world!",
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  // fontFamily: "Londrina Solid",
+                  fontSize: 40.h,
+                  color: Colors.white,
+                ),
+              )),
           Positioned(
-            bottom: 56.h,
-            child: Row(
-              children: [
-                PrimaryButton(title: "Register", func: (){
-                  Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    SelectLoginScreen(
-                                                    )));
-                },),
-                SizedBox(width: 10.w,),
-                PrimaryButton(title: "title",  func: (){},),
-              ],
-            )
-          ),
+              bottom: 56.h,
+              child: Row(
+                children: [
+                  PrimaryButton(
+                    title: "Register",
+                    func: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => SelectLoginScreen()));
+                    },
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  PrimaryButton(
+                    title: "Login",
+                    func: () {
+                      navigate(context, LoginScreen());
+                    },
+                  ),
+                ],
+              )),
         ],
       ),
     );

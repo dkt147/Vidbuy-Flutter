@@ -38,43 +38,60 @@ class CreateNewPasswordScreen extends StatelessWidget {
             ),
             SizedBox(height: 55.h),
             Text(
-              "Password.",
+              "Password",
               style: TextStyle(
                   fontSize: 14.h,
-                  color: Color(0xff908B8B),
+                  color: Color(0xff000000),
                   fontFamily: "Nunito",
-                  fontWeight: FontWeight.w300),
+                  fontWeight: FontWeight.w400),
             ),
-            _buildPasswordTextField("Password"),
+            _buildPasswordTextField(),
             SizedBox(height: 8.h),
+
             Text(
               "Must be at least 6 characters.",
               style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.grey,
+                fontSize: 14.h,
+                fontFamily: "Nunito",
+                color: Color(0xff908B8B),
               ),
             ),
             SizedBox(height: 20.h),
-            _buildPasswordTextField("Confirm Password"),
+            Text(
+              " Confirm Password",
+              style: TextStyle(
+                  fontSize: 14.h,
+                  color: Color(0xff000000),
+                  fontFamily: "Nunito",
+                  fontWeight: FontWeight.w400),
+            ),
+            _buildPasswordTextField(),
             SizedBox(height: 40.h),
-            Center(
+            Container(
+              width: 335.w,
+              height: 50.h,
               child: ElevatedButton(
                 onPressed: () {
                   // Add functionality to reset password
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 120.w,
-                    vertical: 15.h,
-                  ),
+                  backgroundColor: Color(0xff5271FF),
+                  // padding: EdgeInsets.symmetric(
+                  //   horizontal: 120.w,
+                  //   vertical: 15.h,
+                  // ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.r),
                   ),
                 ),
                 child: Text(
-                  "Reset password",
-                  style: TextStyle(fontSize: 16.sp),
+                  "Reset Password",
+                  style: TextStyle(
+                    fontSize: 16.h,
+                    color: Colors.white,
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),
@@ -84,32 +101,37 @@ class CreateNewPasswordScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPasswordTextField(String label) {
-    return TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(Icons.lock, color: Colors.grey),
-        suffixIcon: Icon(Icons.visibility_outlined, color: Colors.grey),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 1.5.w,
+  Widget _buildPasswordTextField() {
+    return Container(
+      width: 335.w,
+      height: 50.h,
+      child: TextField(
+        obscureText: true,
+        decoration: InputDecoration(
+          // label: Text(label),
+          // labelText: label,
+          prefixIcon: Icon(Icons.lock, color: Color(0xff908B8B)),
+          suffixIcon: Icon(Icons.visibility_outlined, color: Color(0xff908B8B)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.r),
+            borderSide: BorderSide(
+              color: Color(0xff908B8B),
+              width: 1.5.w,
+            ),
           ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 1.5.w,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.r),
+            borderSide: BorderSide(
+              color: Color(0xff908B8B),
+              width: 1.5.w,
+            ),
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Colors.blue,
-            width: 1.5.w,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.r),
+            borderSide: BorderSide(
+              color: Color(0xff908B8B),
+              width: 1.5.w,
+            ),
           ),
         ),
       ),

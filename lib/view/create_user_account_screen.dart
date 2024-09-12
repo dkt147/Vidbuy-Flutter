@@ -11,194 +11,196 @@ class CreateUserAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 52.h), // Space from top
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                // Add functionality to go back
-              },
-            ),
-            SizedBox(height: 15.h),
-            Container(
-              margin: EdgeInsets.only(left: 21.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Text(
-                  //   "Create user account",
-                  //   style: TextStyle(
-                  //     fontSize: 28.h,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                  Content(
-                    data: "Create User Account",
-                    size: 30.h,
-                    weight: FontWeight.bold,
-                  ),
-                  SizedBox(height: 5.h),
-                  Content(
-                    data:
-                        "Create your account to buy, create orders and share videos\nwith your friends",
-                    size: 10.h,
-                    weight: FontWeight.w400,
-                    family: "Nunito",
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: 30.h),
-            Center(
-              child: Container(
-                height: 89.h,
-                width: 87.w,
-                child: CircleAvatar(
-                  radius: 40.r,
-                  backgroundColor: Colors.grey[200],
-                  child: Icon(
-                    Icons.camera_alt,
-                    size: 26.h,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 30.h),
-            Container(
-              margin: EdgeInsets.only(left: 21.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Content(
-                    data: "Your name",
-                    size: 16.h,
-                    weight: FontWeight.w400,
-                    family: "Lato",
-                  ),
-                  _buildTextField(
-                    // label: "Your name",
-                    hintText: "Enter your name",
-                    icon: Icons.person,
-                  ),
-                  SizedBox(height: 10.h),
-                  Content(
-                    data: "Your username",
-                    size: 16.h,
-                    weight: FontWeight.w400,
-                    family: "Lato",
-                  ),
-                  _buildTextField(
-                    // label: "Your username",
-                    hintText: "Enter your username",
-                    icon: Icons.person_outline,
-                  ),
-                  SizedBox(height: 10.h),
-                  Content(
-                    data: "Your Email",
-                    size: 16.h,
-                    weight: FontWeight.w400,
-                    family: "Lato",
-                  ),
-                  _buildTextField(
-                    // label: "Your email",
-                    hintText: "Enter your email address",
-                    icon: Icons.email,
-                  ),
-                  SizedBox(height: 10.h),
-                  Content(
-                    data: "Your password",
-                    size: 16.h,
-                    weight: FontWeight.w400,
-                    family: "Lato",
-                  ),
-                  _buildPasswordField(),
-                ],
-              ),
-            ),
-
-            SizedBox(height: 20.h),
-            Row(
-              children: [
-                Checkbox(
-                  value: true,
-                  onChanged: (value) {
-                    // Handle checkbox change
-                  },
-                ),
-                Expanded(
-                  child: Text(
-                    "I want to receive news and information via email",
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h),
-            Center(
-              child: Container(
-                width: 280.w,
-                height: 50.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Handle account creation
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OtpScren()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    // padding: EdgeInsets.symmetric(
-                    //   horizontal: 120.w,
-                    //   vertical: 15.h,
-                    // ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                  ),
-                  child: Text(
-                    "Create account",
-                    style: TextStyle(
-                      fontSize: 20.h,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20.h),
-            Center(
-              child: TextButton(
+        child: Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 52.h), // Space from top
+              IconButton(
+                icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  // Handle login redirect
+                  // Add functionality to go back
                 },
-                child: RichText(
-                  text: TextSpan(
-                    text: "Already have an account? ",
-                    style: TextStyle(color: Colors.black54),
-                    children: [
-                      TextSpan(
-                        text: "Log in",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+              ),
+              SizedBox(height: 15.h),
+              Container(
+                margin: EdgeInsets.only(left: 21.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text(
+                    //   "Create user account",
+                    //   style: TextStyle(
+                    //     fontSize: 28.h,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    Content(
+                      data: "Create User Account",
+                      size: 30.h,
+                      weight: FontWeight.bold,
+                    ),
+                    SizedBox(height: 5.h),
+                    Content(
+                      data:
+                          "Create your account to buy, create orders and share videos\nwith your friends",
+                      size: 10.h,
+                      weight: FontWeight.w400,
+                      family: "Nunito",
+                    ),
+                  ],
+                ),
+              ),
+        
+              SizedBox(height: 30.h),
+              Center(
+                child: Container(
+                  height: 89.h,
+                  width: 87.w,
+                  child: CircleAvatar(
+                    radius: 40.r,
+                    backgroundColor: Colors.grey[200],
+                    child: Icon(
+                      Icons.camera_alt,
+                      size: 26.h,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: 30.h),
+              Container(
+                margin: EdgeInsets.only(left: 21.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Content(
+                      data: "Your name",
+                      size: 16.h,
+                      weight: FontWeight.w400,
+                      family: "Lato",
+                    ),
+                    _buildTextField(
+                      // label: "Your name",
+                      hintText: "Enter your name",
+                      icon: Icons.person,
+                    ),
+                    SizedBox(height: 10.h),
+                    Content(
+                      data: "Your username",
+                      size: 16.h,
+                      weight: FontWeight.w400,
+                      family: "Lato",
+                    ),
+                    _buildTextField(
+                      // label: "Your username",
+                      hintText: "Enter your username",
+                      icon: Icons.person_outline,
+                    ),
+                    SizedBox(height: 10.h),
+                    Content(
+                      data: "Your Email",
+                      size: 16.h,
+                      weight: FontWeight.w400,
+                      family: "Lato",
+                    ),
+                    _buildTextField(
+                      // label: "Your email",
+                      hintText: "Enter your email address",
+                      icon: Icons.email,
+                    ),
+                    SizedBox(height: 10.h),
+                    Content(
+                      data: "Your password",
+                      size: 16.h,
+                      weight: FontWeight.w400,
+                      family: "Lato",
+                    ),
+                    _buildPasswordField(),
+                  ],
+                ),
+              ),
+        
+              SizedBox(height: 20.h),
+              Row(
+                children: [
+                  Checkbox(
+                    value: true,
+                    onChanged: (value) {
+                      // Handle checkbox change
+                    },
+                  ),
+                  Expanded(
+                    child: Text(
+                      "I want to receive news and information via email",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Center(
+                child: Container(
+                  width: 280.w,
+                  height: 50.h,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Handle account creation
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => OtpScren()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      // padding: EdgeInsets.symmetric(
+                      //   horizontal: 120.w,
+                      //   vertical: 15.h,
+                      // ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                    ),
+                    child: Text(
+                      "Create account",
+                      style: TextStyle(
+                        fontSize: 20.h,
+                        fontFamily: "Lato",
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    // Handle login redirect
+                  },
+                  child: RichText(
+                    text: TextSpan(
+                      text: "Already have an account? ",
+                      style: TextStyle(color: Colors.black54),
+                      children: [
+                        TextSpan(
+                          text: "Log in",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

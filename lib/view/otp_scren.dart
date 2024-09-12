@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/view/user_login_screen.dart';
 
 class OtpScren extends StatelessWidget {
   const OtpScren({super.key});
@@ -84,10 +86,11 @@ class OtpScren extends StatelessWidget {
                       // Navigator.push(
                       //   context,
                       //   MaterialPageRoute(builder: (context) => OtpScren()),
-                      // );
+                      // );navigat
+                      navigate(context, LoginScreen());
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Color(0xff5271FF),
                       // padding: EdgeInsets.symmetric(
                       //   horizontal: 120.w,
                       //   vertical: 15.h,

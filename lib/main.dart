@@ -26,7 +26,12 @@ class MyApp extends StatelessWidget {
           title: 'VidBuy App',
           theme: ThemeData(
             fontFamily: "LondrinaSolid",
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            scrollbarTheme: ScrollbarThemeData(
+              trackColor: 
+                            MaterialStateProperty.all(Color(0xffFFFFFF)),
+
+            ),
             useMaterial3: true,
           ),
           home: SplashScreen(),
