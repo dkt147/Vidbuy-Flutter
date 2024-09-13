@@ -6,35 +6,10 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
-import 'package:vidbuy_app/view/choose_category_screen.dart';
+import 'package:vidbuy_app/view/choose_category_screen.dart.dart';
 import 'package:vidbuy_app/view/create_user_account_screen.dart';
 import 'package:vidbuy_app/view/forgot_password_screen.dart';
 
-// class LoginScreen extends StatelessWidget {
-//   const LoginScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         body: Column(
-//           children: [
-//             Container(
-//               margin: EdgeInsets.only(top: 100.h, left: 21.w),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Content(data: "Welcome Back,", size: 30.h,weight: FontWeight.w300,),
-//                   Content(data: "We are happy to see you here again. Enter your email address and\npassword", size: 10.h,weight: FontWeight.w300,),
-//                 ],
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -57,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 52.h), // To give some top spacing
             IconButton(
               icon: Icon(Icons.arrow_back),
-              onPressed: () {},
+              onPressed: () {Navigator.pop(context);},
             ),
             Container(
               margin: EdgeInsets.only(left: 21.w),
@@ -107,7 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
+
                     ],
+                    // validate: validateEmail,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 10.h),
@@ -124,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       // textInput: TextInputType.text,
                       controller: _passwordController,
                       inputFormat: <TextInputFormatter>[
-                        FilteringTextInputFormatter.singleLineFormatter
+                        FilteringTextInputFormatter.singleLineFormatter,
                       ]),
                   // Container(
                   //   height: 50.h,
@@ -159,45 +135,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 50.h,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_emailController.text.isEmpty ||
-                        _passwordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.red.shade500,
-                          content: Text(
-                            'Please Enter Email and password',
-                            style: TextStyle(color: Colors.red.shade50),
-                          ),
-                        ),
-                      );
-                      // }
-                      // else if (_emailController.text.length < 9 ||
-                      //     _passwordController.text.length < 6) {
-                      //   Utils.snackBar("Wrong Credentials", context);
-                    }
+
                     if (_emailController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.red.shade500,
-                          content: Text(
-                            'Please Enter Email',
-                            style: TextStyle(color: Colors.red.shade50),
-                          ),
-                        ),
-                      );
-                      // }
-                      // else if (_phoneController.text.length < 9 ||
-                      //     _passwordController.text.length < 6) {
-                      //   Utils.snackBar("Wrong Credentials", context);
-                    } else {
-                      // navigate(context, ChooseCategoryScreen());
+                      snackBar("Enter Valid Email", context);
+                      
+                    } else if (_passwordController.text.isEmpty) {
+                      snackBar("Enter Password", context,);
+                    } else if (_passwordController.text.length < 8) {
+                      snackBar(
+                          "Enter Minium 8 Characters of Password", context);
+                    } else{
+
                       Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ChooseCategoryScreen()));
-                    }
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ChooseCategoryScreen()));
+                              }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,

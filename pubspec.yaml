@@ -38,6 +38,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   shared_preferences: ^2.3.2
   page_transition: ^2.0.9
+  image_picker: ^0.8.7+3
   pinput: ^3.0.1
 
 dev_dependencies:

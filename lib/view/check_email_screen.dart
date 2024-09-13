@@ -22,7 +22,7 @@ class CheckEmailScreen extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
-                    // Add functionality to go back
+                    Navigator.pop(context);
                   },
                 ),
                 SizedBox(height: 24.h),

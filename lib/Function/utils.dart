@@ -33,7 +33,7 @@ class  Utils {
 
   snackBar(String message, BuildContext context) {
     return ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+        .showSnackBar(SnackBar(content: Text(message, ),duration: Duration(microseconds: 1),));
   }
 
   // static dateFormat1(value) {

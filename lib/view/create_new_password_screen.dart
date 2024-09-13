@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/utils.dart';
+import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
 
 class CreateNewPasswordScreen extends StatelessWidget {
-  const CreateNewPasswordScreen({super.key});
+  CreateNewPasswordScreen({super.key});
+
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                // Add functionality to go back
+                Navigator.pop(context);
               },
             ),
             SizedBox(height: 24.h),
@@ -37,15 +43,15 @@ class CreateNewPasswordScreen extends StatelessWidget {
                   fontWeight: FontWeight.w300),
             ),
             SizedBox(height: 55.h),
-            Text(
-              "Password",
-              style: TextStyle(
-                  fontSize: 14.h,
-                  color: Color(0xff000000),
-                  fontFamily: "Nunito",
-                  fontWeight: FontWeight.w400),
-            ),
-            _buildPasswordTextField(),
+            ContentFieldPassword(
+                label: "Password",
+                hint: "Password",
+                index: 1,
+                // textInput: TextInputType.text,
+                controller: _passwordController,
+                inputFormat: <TextInputFormatter>[
+                  FilteringTextInputFormatter.singleLineFormatter,
+                ]),
             SizedBox(height: 8.h),
 
             Text(
@@ -57,22 +63,26 @@ class CreateNewPasswordScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.h),
-            Text(
-              " Confirm Password",
-              style: TextStyle(
-                  fontSize: 14.h,
-                  color: Color(0xff000000),
-                  fontFamily: "Nunito",
-                  fontWeight: FontWeight.w400),
-            ),
-            _buildPasswordTextField(),
+            ContentFieldPassword(
+                label: "Confirm Password",
+                hint: "Password",
+                index: 1,
+                // textInput: TextInputType.text,
+                controller: _confirmPasswordController,
+                inputFormat: <TextInputFormatter>[
+                  FilteringTextInputFormatter.singleLineFormatter,
+                ]),
             SizedBox(height: 40.h),
             Container(
               width: 335.w,
               height: 50.h,
               child: ElevatedButton(
                 onPressed: () {
-                  // Add functionality to reset password
+                  if (_passwordController.text.isEmpty) {
+                    snackBar("Please Enter Pass", context);
+                  } else if (_confirmPasswordController.text.isEmpty) {
+                    snackBar("Please Enter Confrim Password", context);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff5271FF),

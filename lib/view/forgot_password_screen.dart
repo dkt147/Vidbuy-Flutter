@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/utils.dart';
+import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/view/check_email_screen.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({super.key});
+  ForgotPasswordScreen({super.key});
+  TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                // Add functionality to go back
+                Navigator.pop(context);
               },
             ),
             SizedBox(height: 20.h),
@@ -38,15 +42,24 @@ class ForgotPasswordScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 40.h),
-            Text(
-              "Enter Your Email Address",
-              style: TextStyle(
-                fontSize: 16.h,
-                fontFamily: "lato",
-                color: Colors.black,
-              ),
+            // Text(
+            //   "Enter Your Email Address",
+            //   style: TextStyle(
+            //     fontSize: 16.h,
+            //     fontFamily: "lato",
+            //     color: Colors.black,
+            //   ),
+            // ),
+            ContentField(
+              label: "Enter Your Email Address",
+              hint: "example@gmail.com",
+              prefixIcon: Icon(Icons.email),
+              controller: _emailController,
+              inputFormat: <TextInputFormatter>[
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              keyboardType: TextInputType.emailAddress,
             ),
-            _buildEmailTextField(),
             SizedBox(height: 40.h),
             Center(
               child: Container(
@@ -54,11 +67,15 @@ class ForgotPasswordScreen extends StatelessWidget {
                 width: 335.w,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CheckEmailScreen()),
-                    );
+                    if (_emailController.text.isEmpty) {
+                      snackBar("Please Enter Email", context);
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CheckEmailScreen()),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff5271FF),
@@ -82,38 +99,6 @@ class ForgotPasswordScreen extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmailTextField() {
-    return TextField(
-      decoration: InputDecoration(
-        // labelText: "Enter your email adress",
-        hintText: "exemple@gmail.com",
-        prefixIcon: Icon(Icons.email, color: Colors.grey),
-        hintStyle: TextStyle(color: Color(0xff908B8B), fontFamily: "Lato"),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Color(0xff908B8B),
-            width: 1.5.w,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Color(0xff908B8B),
-            width: 1.5.w,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Color(0xff908B8B),
-            width: 1.5.w,
-          ),
         ),
       ),
     );
