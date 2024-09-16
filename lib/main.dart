@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vidbuy_app/Provider/navbar_provider.dart';
+import 'package:vidbuy_app/view/home_screen.dart';
+import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
 
 late SharedPreferences pref;
@@ -17,26 +21,31 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      useInheritedMediaQuery: true,
-      designSize: const Size(375, 812),
-      builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'VidBuy App',
-          theme: ThemeData(
-            fontFamily: "LondrinaSolid",
-            // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            scrollbarTheme: ScrollbarThemeData(
-              trackColor: 
-                            MaterialStateProperty.all(Color(0xffFFFFFF)),
-
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavbarProvider()),
+      ],
+      child: ScreenUtilInit(
+        useInheritedMediaQuery: true,
+        designSize: const Size(375, 812),
+        builder: (context, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'VidBuy App',
+            theme: ThemeData(
+              fontFamily: "LondrinaSolid",
+              // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              scrollbarTheme: ScrollbarThemeData(
+                trackColor: 
+                              MaterialStateProperty.all(Color(0xffFFFFFF)),
+      
+              ),
+              useMaterial3: true,
             ),
-            useMaterial3: true,
-          ),
-          home: SplashScreen(),
-        );
-      },
+            home: NavBarScreen(),
+          );
+        },
+      ),
     );
   }
 }

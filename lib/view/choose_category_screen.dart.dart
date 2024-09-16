@@ -1,10 +1,14 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vidbuy_app/view/videos_accepet_screen.dart';
 
 class ChooseCategoryScreen extends StatefulWidget {
+  final Function(String) onSave;
+  ChooseCategoryScreen({required this.onSave});
+
   @override
-  _ChooseCategoryScreenState createState() => _ChooseCategoryScreenState();
+  State<ChooseCategoryScreen> createState() => _ChooseCategoryScreenState();
 }
 
 class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
@@ -23,25 +27,24 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
     "Kitchen",
     "Business"
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: EdgeInsets.only(top: 40.h, left: 21.w),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-          // SizedBox(height: 20.h),
-          TabBarWidget(),
-          SizedBox(height: 20.h),
+          // Container(
+          //   margin: EdgeInsets.only(top: 40.h, left: 21.w),
+          //   child: IconButton(
+          //     icon: Icon(Icons.arrow_back),
+          //     onPressed: () {
+          //       Navigator.pop(context);
+          //     },
+          //   ),
+          // ),
+          // // SizedBox(height: 20.h),
+          // // TabBarWidget(),
+          SizedBox(height: 47.h),
           Container(
             margin: EdgeInsets.only(left: 21.w),
             child: Column(
@@ -118,11 +121,12 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
               height: 50.h,
               child: ElevatedButton(
                 onPressed: () {
+                  widget.onSave(selectedCategory);
                   // Handle Save & Continue
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => VIdeosAcceptScreen()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (_) => VIdeosAcceptScreen()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff5271FF),
@@ -154,32 +158,6 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class TabBarWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      child: TabBar(
-        isScrollable: true,
-        indicatorColor: Colors.blue,
-        labelColor: Colors.black,
-        unselectedLabelColor: Colors.black45,
-        // labelPadding: EdgeInsets.symmetric(horizontal: 20),
-        labelStyle: TextStyle(
-            fontSize: 16.h, fontWeight: FontWeight.bold, fontFamily: "Lato"),
-        tabs: [
-          Tab(text: 'Categorie'),
-          Tab(text: 'Videos'),
-          Tab(
-            text: 'Prices',
-          ),
-          Tab(text: 'Review'),
         ],
       ),
     );
