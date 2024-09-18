@@ -10,6 +10,7 @@ import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
 import 'package:vidbuy_app/view/choose_category_screen.dart.dart';
 import 'package:vidbuy_app/view/create_user_account_screen.dart';
 import 'package:vidbuy_app/view/forgot_password_screen.dart';
+import 'package:vidbuy_app/view/nav_bar.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -33,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 52.h), // To give some top spacing
             IconButton(
               icon: Icon(Icons.arrow_back),
-              onPressed: () {Navigator.pop(context);},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             Container(
               margin: EdgeInsets.only(left: 21.w),
@@ -82,7 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
-
                     ],
                     // validate: validateEmail,
                     keyboardType: TextInputType.emailAddress,
@@ -136,22 +139,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 50.h,
                 child: ElevatedButton(
                   onPressed: () {
-
                     if (_emailController.text.isEmpty) {
                       snackBar("Enter Valid Email", context);
-                      
                     } else if (_passwordController.text.isEmpty) {
-                      snackBar("Enter Password", context,);
+                      snackBar(
+                        "Enter Password",
+                        context,
+                      );
                     } else if (_passwordController.text.length < 8) {
                       snackBar(
                           "Enter Minium 8 Characters of Password", context);
-                    } else{
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => TabBarWidget()));
-                              }
+                    } else {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (_) => TabBarWidget()));
+                      navigate(context, NavBarScreen());
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,

@@ -11,35 +11,38 @@ class SelectLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            // HeaderWidget(bottomMargin: 8, )
-            // SizedBox(
-            //   height: 108.h,
-            // ),
-
-            Center(
-              child: Container(
-                margin: EdgeInsets.only(top: 108.h),
-                child: Text(
-                  "Enjoy Vidbuy",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 44.h,
-                      color: Colors.black),
-                ),
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // HeaderWidget(bottomMargin: 8, )
+          // SizedBox(
+          //   height: 108.h,
+          // ),
+          // Icon(Icons.arrow_back_ios)
+          Container(
+            margin: EdgeInsets.only(top: 55.h, left: 21.w),
+            child: Image.asset("assets/Icon/backarrow.png", height: 25.h,)),
+    
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(top: 108.h),
+              child: Text(
+                "Enjoy Vidbuy",
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 44.h,
+                    color: Colors.black),
               ),
             ),
-            SizedBox(
-              height: 161.h,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+          ),
+          SizedBox(
+            height: 161.h,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 66.w),
+            child: Text(
                   "Create account as",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -47,6 +50,13 @@ class SelectLoginScreen extends StatelessWidget {
                       fontFamily: "lato",
                       color: Colors.black),
                 ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                
                 SizedBox(
                   height: 18.h,
                 ),
@@ -89,7 +99,7 @@ class SelectLoginScreen extends StatelessWidget {
                       width: 280.w,
                       decoration: BoxDecoration(
                           // color: Colors.blue,
-
+            
                           borderRadius: BorderRadius.circular(30.r),
                           border: Border.all(
                               color: Colors.black,
@@ -114,8 +124,8 @@ class SelectLoginScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
