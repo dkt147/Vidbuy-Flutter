@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vidbuy_app/view/home_screen.dart';
 import 'package:vidbuy_app/view/otp_scren.dart';
+import 'package:vidbuy_app/view/profile_screen.dart';
+import 'package:vidbuy_app/view/search_screen.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
 
 final screens = [
   HomeScreen(),
-   LoginScreen(),
+  //  LoginScreen(),
+  SearchScreen(),
    OtpScren(),
-   OtpScren(),
+   ProfileScreen(),
+  //  OtpScren(),
 
   // const HomeScreen(),
   // const GatePassScreen(),
