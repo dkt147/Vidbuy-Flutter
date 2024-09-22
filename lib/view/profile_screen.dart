@@ -3,7 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
+import 'package:vidbuy_app/view/contact_us_screen.dart';
+import 'package:vidbuy_app/view/delete_account_screen.dart';
 import 'package:vidbuy_app/view/language_screen.dart';
+import 'package:vidbuy_app/view/notification_screen.dart';
+import 'package:vidbuy_app/view/user_edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -70,15 +74,25 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(
                     height: 17.h,
                   ),
-                  ProfileTile(
-                      image: "assets/Icon/layouticon.png",
-                      text: "Notification Setting"),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context, NotificationScreen());
+                    },
+                    child: ProfileTile(
+                        image: "assets/Icon/layouticon.png",
+                        text: "Notification Setting"),
+                  ),
                   SizedBox(
                     height: 17.h,
                   ),
-                  ProfileTile(
-                      image: "assets/Icon/layouticon.png",
-                      text: "Edit Profile"),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context,  UserEditProfileScreen());
+                    },
+                    child: ProfileTile(
+                        image: "assets/Icon/layouticon.png",
+                        text: "Edit Profile"),
+                  ),
                   SizedBox(
                     height: 25.h,
                   ),
@@ -103,8 +117,13 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(
                     height: 17.h,
                   ),
-                  ProfileTile(
-                      image: "assets/Icon/layouticon.png", text: "Support"),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context, ContactUsScreen());
+                    },
+                    child: ProfileTile(
+                        image: "assets/Icon/layouticon.png", text: "Support"),
+                  ),
                   SizedBox(
                     height: 17.h,
                   ),
@@ -119,11 +138,16 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(
                     height: 17.h,
                   ),
-                  Center(
-                      child: Content(
-                          data: "Do you want to delete the account? Delete",
-                          size: 12.h,
-                          weight: FontWeight.w300)),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context, DeleteAccountScreen());
+                    },
+                    child: Center(
+                        child: Content(
+                            data: "Do you want to delete the account? Delete",
+                            size: 12.h,
+                            weight: FontWeight.w300)),
+                  ),
                   SizedBox(
                     height: 100.h,
                   ),

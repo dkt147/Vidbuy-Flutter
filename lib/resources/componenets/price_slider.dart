@@ -30,8 +30,8 @@ class _PriceSliderState extends State<PriceSlider> {
   Widget build(BuildContext context) {
     return 
  Container(
-  width: 169.w,
-  height: 55.h,
+  // width: 169.w,
+  // height: 55.h,
    child: Row(
         children: 
    [

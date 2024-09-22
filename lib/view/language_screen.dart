@@ -13,155 +13,152 @@ class LanguageScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-              margin: EdgeInsets.only(top: 55.h, left: 21.w),
-              child: Row(
-                children: [
-                  Image.asset(
-                    "assets/Icon/backarrow.png",
-                    height: 25.h,
-                  ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Content(
-                    data: "Language",
-                    size: 14.h,
-                    weight: FontWeight.w600,
-                    family: "Nunito",
-                  ),
-                ],
-              ),
+            margin: EdgeInsets.only(top: 55.h, left: 21.w),
+            child: Row(
+              children: [
+                Image.asset(
+                  "assets/Icon/backarrow.png",
+                  height: 25.h,
+                ),
+                SizedBox(
+                  width: 5.w,
+                ),
+                Content(
+                  data: "Language",
+                  size: 14.h,
+                  weight: FontWeight.w600,
+                  family: "Nunito",
+                ),
+              ],
             ),
-            SizedBox(
-              height: 30.h,
+          ),
+          SizedBox(
+            height: 30.h,
+          ),
+          Divider(
+            color: Colors.black,
+            endIndent: 30.w,
+            indent: 30.w,
+          ),
+          SizedBox(
+            height: 12.h,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 34.w),
+            child: Content(
+              data: "English",
+              size: 16.h,
+              weight: FontWeight.w400,
+              family: "Nunito",
             ),
-
-            Divider(
-              color: Colors.black,
-                              endIndent: 30.w,
-                              indent: 30.w,
-                            ),
-                            SizedBox(
-                              height: 12.h,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 34.w),
-                              child: Content(
-                                                  data: "English",
-                                                  size: 16.h,
-                                                  weight: FontWeight.w400,
-                                                  family: "Nunito",
-                                                ),
-                            ),
-                  Divider(
-              color: Colors.black,
-                              endIndent: 30.w,
-                              indent: 30.w,
-                            ),
-                            SizedBox(
-                              height: 12.h,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 34.w),
-                              child: Content(
-                                                  data: "English",
-                                                  size: 16.h,
-                                                  weight: FontWeight.w400,
-                                                  family: "Nunito",
-                                                ),
-                            ),
-                  Divider(
-              color: Colors.black,
-                              endIndent: 30.w,
-                              indent: 30.w,
-                            ),
-                            SizedBox(
-                              height: 12.h,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 34.w),
-                              child: Content(
-                                                  data: "English",
-                                                  size: 16.h,
-                                                  weight: FontWeight.w400,
-                                                  family: "Nunito",
-                                                ),
-                            ),
-                  Divider(
-              color: Colors.black,
-                              endIndent: 30.w,
-                              indent: 30.w,
-                            ),
-                            SizedBox(
-                              height: 12.h,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 34.w),
-                              child: Content(
-                                                  data: "English",
-                                                  size: 16.h,
-                                                  weight: FontWeight.w400,
-                                                  family: "Nunito",
-                                                ),
-                            ),
-                  Divider(
-              color: Colors.black,
-                              endIndent: 30.w,
-                              indent: 30.w,
-                            ),
-                            SizedBox(
-                              height: 12.h,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 34.w),
-                              child: Content(
-                                                  data: "English",
-                                                  size: 16.h,
-                                                  weight: FontWeight.w400,
-                                                  family: "Nunito",
-                                                ),
-                            ),
-                  Divider(
-              color: Colors.black,
-                              endIndent: 30.w,
-                              indent: 30.w,
-                            ),
-                            SizedBox(
-                              height: 12.h,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 34.w),
-                              child: Content(
-                                                  data: "English",
-                                                  size: 16.h,
-                                                  weight: FontWeight.w400,
-                                                  family: "Nunito",
-                                                ),
-                            ),
-                  Divider(
-              color: Colors.black,
-                              endIndent: 30.w,
-                              indent: 30.w,
-                            ),
-                            SizedBox(
-                              height: 12.h,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 34.w),
-                              child: Content(
-                                                  data: "English",
-                                                  size: 16.h,
-                                                  weight: FontWeight.w400,
-                                                  family: "Nunito",
-                                                ),
-                            ),
-                  Divider(
-              color: Colors.black,
-                              endIndent: 30.w,
-                              indent: 30.w,
-                            ),
-
-
+          ),
+          Divider(
+            color: Colors.black,
+            endIndent: 30.w,
+            indent: 30.w,
+          ),
+          SizedBox(
+            height: 12.h,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 34.w),
+            child: Content(
+              data: "English",
+              size: 16.h,
+              weight: FontWeight.w400,
+              family: "Nunito",
+            ),
+          ),
+          Divider(
+            color: Colors.black,
+            endIndent: 30.w,
+            indent: 30.w,
+          ),
+          SizedBox(
+            height: 12.h,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 34.w),
+            child: Content(
+              data: "English",
+              size: 16.h,
+              weight: FontWeight.w400,
+              family: "Nunito",
+            ),
+          ),
+          Divider(
+            color: Colors.black,
+            endIndent: 30.w,
+            indent: 30.w,
+          ),
+          SizedBox(
+            height: 12.h,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 34.w),
+            child: Content(
+              data: "English",
+              size: 16.h,
+              weight: FontWeight.w400,
+              family: "Nunito",
+            ),
+          ),
+          Divider(
+            color: Colors.black,
+            endIndent: 30.w,
+            indent: 30.w,
+          ),
+          SizedBox(
+            height: 12.h,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 34.w),
+            child: Content(
+              data: "English",
+              size: 16.h,
+              weight: FontWeight.w400,
+              family: "Nunito",
+            ),
+          ),
+          Divider(
+            color: Colors.black,
+            endIndent: 30.w,
+            indent: 30.w,
+          ),
+          SizedBox(
+            height: 12.h,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 34.w),
+            child: Content(
+              data: "English",
+              size: 16.h,
+              weight: FontWeight.w400,
+              family: "Nunito",
+            ),
+          ),
+          Divider(
+            color: Colors.black,
+            endIndent: 30.w,
+            indent: 30.w,
+          ),
+          SizedBox(
+            height: 12.h,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 34.w),
+            child: Content(
+              data: "English",
+              size: 16.h,
+              weight: FontWeight.w400,
+              family: "Nunito",
+            ),
+          ),
+          Divider(
+            color: Colors.black,
+            endIndent: 30.w,
+            indent: 30.w,
+          ),
         ],
       ),
     );
