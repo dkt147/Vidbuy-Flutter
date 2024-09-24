@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
 import 'package:vidbuy_app/view/delete_confirm_account_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 
 class DeleteAccountScreen extends StatelessWidget {
-  const DeleteAccountScreen({super.key});
+   DeleteAccountScreen({super.key});
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,6 @@ class DeleteAccountScreen extends StatelessWidget {
               ),
             ),
           ),
-
           Container(
             margin: EdgeInsets.only(left: 21.w, top: 20.h),
             child: Column(
@@ -39,16 +41,29 @@ class DeleteAccountScreen extends StatelessWidget {
                   weight: FontWeight.w300,
                 ),
                 Content(
-                  data: "To confirm your identity, please insert your password. ",
+                  data:
+                      "To confirm your identity, please insert your password. ",
                   size: 16.h,
                   weight: FontWeight.w300,
                   family: "Lato",
                 ),
+                SizedBox(
+                  height: 40.h,
+                ),
+                ContentFieldPassword(
+                    label: "Your Password",
+                    hint: "Password",
+                    index: 1,
+                    // textInput: TextInputType.text,
+                    controller: _passwordController,
+                    inputFormat: <TextInputFormatter>[
+                      FilteringTextInputFormatter.singleLineFormatter,
+                    ]),
               ],
             ),
           ),
           SizedBox(
-            height: 140.h,
+            height: 31.h,
           ),
           Center(
             child: Container(
@@ -71,7 +86,7 @@ class DeleteAccountScreen extends StatelessWidget {
                   //   //     context,
                   //   //     MaterialPageRoute(
                   //   //         builder: (_) => TabBarWidget()));
-                    navigate(context, DeleteConfirmAccountScreen());
+                  navigate(context, DeleteConfirmAccountScreen());
                   // }
                 },
                 style: ElevatedButton.styleFrom(

@@ -6,6 +6,8 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_card_widget.dart';
 import 'package:vidbuy_app/view/giveaway_screen.dart';
+import 'package:vidbuy_app/view/notification_screen.dart';
+import 'package:vidbuy_app/view/notification_setting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,9 +68,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     // ),
                     SizedBox(width: 8),
                     // Icon(Icons.notifications, size: 25.h),
-                    Image.asset(
-                      "assets/Icon/Notification.png",
-                      height: 25.h,
+                    GestureDetector(
+                      onTap: () {
+                        navigate(context, NotificationScreen());
+                      },
+                      child: Image.asset(
+                        "assets/Icon/Notification.png",
+                        height: 25.h,
+                      ),
                     ),
                   ],
                 ),

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/view/active_history_screen.dart';
 import 'package:vidbuy_app/view/all_orders_screen.dart';
 import 'package:vidbuy_app/view/orders_details_screen.dart';
 import 'package:vidbuy_app/view/video_screen.dart';
@@ -22,7 +23,7 @@ class _TabBarWidget2State extends State<TabBarWidget2>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   void goToNextTab() {
@@ -73,7 +74,7 @@ class _TabBarWidget2State extends State<TabBarWidget2>
             // Tab(text: 'Waiting Video', ),
             Tab(text: 'Video', ),
             Tab(text: 'Orders Details', ),
-            // Tab(text: 'Active History', ),
+            Tab(text: 'Active History', ),
           ],
         ),
       ),
@@ -85,7 +86,7 @@ class _TabBarWidget2State extends State<TabBarWidget2>
           // WaitingVideoScreen(),
           VideoScreen(),
           OrdersDetailsScreen(),
-          // ActiveHistoryScreen(),
+          ActiveHistoryScreen(),
           // ChooseCategoryScreen(onSave: saveCategory),
           // VIdeosAcceptScreen(onSave: saveVideos),
           // ChoosePricesScreen(onSave: savePrices),

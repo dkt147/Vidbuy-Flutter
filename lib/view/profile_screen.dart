@@ -6,7 +6,8 @@ import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
 import 'package:vidbuy_app/view/contact_us_screen.dart';
 import 'package:vidbuy_app/view/delete_account_screen.dart';
 import 'package:vidbuy_app/view/language_screen.dart';
-import 'package:vidbuy_app/view/notification_screen.dart';
+import 'package:vidbuy_app/view/notification_setting_screen.dart';
+import 'package:vidbuy_app/view/policies_screen.dart';
 import 'package:vidbuy_app/view/user_edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -76,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      navigate(context, NotificationScreen());
+                      navigate(context, NotificationSettingScreen());
                     },
                     child: ProfileTile(
                         image: "assets/Icon/layouticon.png",
@@ -87,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      navigate(context,  UserEditProfileScreen());
+                      navigate(context, UserEditProfileScreen());
                     },
                     child: ProfileTile(
                         image: "assets/Icon/layouticon.png",
@@ -127,8 +128,13 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(
                     height: 17.h,
                   ),
-                  ProfileTile(
-                      image: "assets/Icon/layouticon.png", text: "Policies"),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context, PoliciesScreen());
+                    },
+                    child: ProfileTile(
+                        image: "assets/Icon/layouticon.png", text: "Policies"),
+                  ),
                   // ProfileTile(image: "assets/Icon/layouticon.png", text: "Logout"),
                   SizedBox(
                     height: 17.h,

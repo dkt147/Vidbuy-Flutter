@@ -9,7 +9,8 @@ class ContentField extends StatelessWidget {
   List<TextInputFormatter> inputFormat;
   int? maxLength;
   TextInputType keyboardType;
-  Icon prefixIcon;
+  Icon? prefixIcon;
+  Icon? suffixIcon;
   final String? Function(String?)? validate;
   void Function(String)? onChange;
   ContentField(
@@ -20,7 +21,8 @@ class ContentField extends StatelessWidget {
       required this.controller,
       required this.inputFormat,
       required this.keyboardType,
-      required this.prefixIcon,
+      this.prefixIcon,
+      this.suffixIcon,
       this.onChange,
       this.validate});
 
@@ -62,7 +64,8 @@ class ContentField extends StatelessWidget {
               hintStyle: TextStyle(color: Color(0xff908B8B), fontSize: 16.h),
               counterText: "",
               prefixIcon: prefixIcon,
-              
+              suffixIcon: suffixIcon,
+
               // Container(
               //     margin: EdgeInsets.symmetric(vertical: 13.h),
               //     child: GestureDetector(
@@ -109,7 +112,7 @@ class ContentField extends StatelessWidget {
             //   // }
             // },
           ),
-        )
+        ),
       ],
     );
   }

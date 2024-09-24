@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/resources/componenets/language_tile.dart';
 
-class LanguageScreen extends StatelessWidget {
+class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
 
+  @override
+  State<LanguageScreen> createState() => _LanguageScreenState();
+}
+
+class _LanguageScreenState extends State<LanguageScreen> {
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,130 +42,16 @@ class LanguageScreen extends StatelessWidget {
           SizedBox(
             height: 30.h,
           ),
-          Divider(
-            color: Colors.black,
-            endIndent: 30.w,
-            indent: 30.w,
-          ),
+          LanguageTile(),
           SizedBox(
             height: 12.h,
           ),
-          Container(
-            margin: EdgeInsets.only(left: 34.w),
-            child: Content(
-              data: "English",
-              size: 16.h,
-              weight: FontWeight.w400,
-              family: "Nunito",
-            ),
-          ),
-          Divider(
-            color: Colors.black,
-            endIndent: 30.w,
-            indent: 30.w,
-          ),
+          LanguageTile(),
           SizedBox(
             height: 12.h,
           ),
-          Container(
-            margin: EdgeInsets.only(left: 34.w),
-            child: Content(
-              data: "English",
-              size: 16.h,
-              weight: FontWeight.w400,
-              family: "Nunito",
-            ),
-          ),
-          Divider(
-            color: Colors.black,
-            endIndent: 30.w,
-            indent: 30.w,
-          ),
-          SizedBox(
-            height: 12.h,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 34.w),
-            child: Content(
-              data: "English",
-              size: 16.h,
-              weight: FontWeight.w400,
-              family: "Nunito",
-            ),
-          ),
-          Divider(
-            color: Colors.black,
-            endIndent: 30.w,
-            indent: 30.w,
-          ),
-          SizedBox(
-            height: 12.h,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 34.w),
-            child: Content(
-              data: "English",
-              size: 16.h,
-              weight: FontWeight.w400,
-              family: "Nunito",
-            ),
-          ),
-          Divider(
-            color: Colors.black,
-            endIndent: 30.w,
-            indent: 30.w,
-          ),
-          SizedBox(
-            height: 12.h,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 34.w),
-            child: Content(
-              data: "English",
-              size: 16.h,
-              weight: FontWeight.w400,
-              family: "Nunito",
-            ),
-          ),
-          Divider(
-            color: Colors.black,
-            endIndent: 30.w,
-            indent: 30.w,
-          ),
-          SizedBox(
-            height: 12.h,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 34.w),
-            child: Content(
-              data: "English",
-              size: 16.h,
-              weight: FontWeight.w400,
-              family: "Nunito",
-            ),
-          ),
-          Divider(
-            color: Colors.black,
-            endIndent: 30.w,
-            indent: 30.w,
-          ),
-          SizedBox(
-            height: 12.h,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 34.w),
-            child: Content(
-              data: "English",
-              size: 16.h,
-              weight: FontWeight.w400,
-              family: "Nunito",
-            ),
-          ),
-          Divider(
-            color: Colors.black,
-            endIndent: 30.w,
-            indent: 30.w,
-          ),
+          
+          LanguageTile(),
         ],
       ),
     );

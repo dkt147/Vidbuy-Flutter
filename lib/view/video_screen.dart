@@ -4,6 +4,7 @@ import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/main.dart';
 import 'package:vidbuy_app/view/feedback_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
+import 'package:vidbuy_app/view/order_cancel_screen.dart';
 
 class VideoScreen extends StatefulWidget {
   const VideoScreen({super.key});
@@ -22,7 +23,7 @@ class _VideoScreenState extends State<VideoScreen> {
             SizedBox(
               height: 15.h,
             ),
-            Image.asset("assets/Vector/boy.png", width: 305.w, height: 527.h,),
+            Image.asset("assets/Vector/boy.png", width: 305.w, height: 400.h,),
             SizedBox(
               height: 20.h,
             ),
@@ -85,7 +86,7 @@ class _VideoScreenState extends State<VideoScreen> {
                         //   //     context,
                         //   //     MaterialPageRoute(
                         //   //         builder: (_) => TabBarWidget()));
-                        //   navigate(context, NavBarScreen());
+                          navigate(context, OrderCancelScreen());
                         // }
                       },
                       style: ElevatedButton.styleFrom(

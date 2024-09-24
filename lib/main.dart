@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidbuy_app/Provider/navbar_provider.dart';
-import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
 
 late SharedPreferences pref;
