@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/view/home_screen.dart';
 
 class PaymentErrorScreen extends StatelessWidget {
   const PaymentErrorScreen({super.key});
@@ -48,7 +50,7 @@ class PaymentErrorScreen extends StatelessWidget {
                     //   //     context,
                     //   //     MaterialPageRoute(
                     //   //         builder: (_) => TabBarWidget()));
-                    // navigate(context, PaymentErrorScreen());
+                    navigate(context, HomeScreen());
                     // }
                   },
                   style: ElevatedButton.styleFrom(

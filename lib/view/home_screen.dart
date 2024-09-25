@@ -5,6 +5,7 @@ import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_card_widget.dart';
+import 'package:vidbuy_app/resources/componenets/influencer_donations_tabbar_widget.dart';
 import 'package:vidbuy_app/view/giveaway_screen.dart';
 import 'package:vidbuy_app/view/notification_screen.dart';
 import 'package:vidbuy_app/view/notification_setting_screen.dart';
@@ -57,9 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 Spacer(),
                 Row(
                   children: [
-                    Image.asset(
-                      "assets/Icon/Hand.png",
-                      height: 25.h,
+                    GestureDetector(
+                      onTap: () {
+                        navigate(context, InfluencerDonationsTabbarWidget());
+                      },
+                      child: Image.asset(
+                        "assets/Icon/Hand.png",
+                        height: 25.h,
+                      ),
                     ),
                     // Icon(
                     //   Icons.favorite,

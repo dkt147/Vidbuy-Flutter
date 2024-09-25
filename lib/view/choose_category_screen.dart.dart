@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/resources/componenets/content.dart';
 
 class ChooseCategoryScreen extends StatefulWidget {
   final Function(String) onSave;
@@ -33,16 +34,27 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Container(
-          //   margin: EdgeInsets.only(top: 40.h, left: 21.w),
-          //   child: IconButton(
-          //     icon: Icon(Icons.arrow_back),
-          //     onPressed: () {
-          //       Navigator.pop(context);
-          //     },
-          //   ),
-          // ),
-          // // SizedBox(height: 20.h),
+          Container(
+              margin: EdgeInsets.only(top: 55.h, left: 21.w),
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/Icon/backarrow.png",
+                    height: 25.h,
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Content(
+                    data: "Categorie",
+                    size: 14.h,
+                    weight: FontWeight.w600,
+                    family: "Nunito",
+                  ),
+                ],
+              ),
+            ),
+          // SizedBox(height: 20.h),
           // // TabBarWidget(),
           SizedBox(height: 47.h),
           Container(

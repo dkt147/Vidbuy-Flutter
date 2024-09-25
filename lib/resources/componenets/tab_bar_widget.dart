@@ -1,13 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vidbuy_app/main.dart';
-import 'package:vidbuy_app/view/choose_category_screen.dart.dart';
-import 'package:vidbuy_app/view/choose_price_screen.dart';
-import 'package:vidbuy_app/view/review_selection_screen.dart';
-import 'package:vidbuy_app/view/videos_accepet_screen.dart';
 
 class TabBarWidget extends StatefulWidget {
+    final List<Widget> screens;
+  final List<String> tabTitles;
+
+  TabBarWidget({required this.screens, required this.tabTitles});
   @override
   _TabBarWidgetState createState() => _TabBarWidgetState();
 }
@@ -24,7 +23,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: widget.screens.length  , vsync: this);
   }
 
   void goToNextTab() {
@@ -53,6 +52,12 @@ class _TabBarWidgetState extends State<TabBarWidget>
     });
     goToNextTab();
   }
+  void dispose() {
+    // Dispose the TabController when it's no longer needed
+    _tabController.dispose();
+    super.dispose();
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -69,26 +74,22 @@ class _TabBarWidgetState extends State<TabBarWidget>
             fontSize:   16.h,
             fontWeight: FontWeight.w500,
           ),
-          tabs: [
-            Tab(text: 'Categorie'),
-            Tab(text: 'Videos', ),
-            Tab(text: 'Prices', ),
-            Tab(text: 'Review', ),
-          ],
+          tabs: widget.tabTitles.map((title) => Tab(text: title)).toList(),
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          ChooseCategoryScreen(onSave: saveCategory),
-          VIdeosAcceptScreen(onSave: saveVideos),
-          ChoosePricesScreen(onSave: savePrices),
-          ReviewSelectionScreen(
-            selectedCategory: selectedCategory,
-            selectedVideos: selectedVideos,
-            prices: prices,
-          ),
-        ],
+        children: widget.screens,
+        // children: [
+        //   ChooseCategoryScreen(onSave: saveCategory),
+        //   VIdeosAcceptScreen(onSave: saveVideos),
+        //   ChoosePricesScreen(onSave: savePrices),
+        //   ReviewSelectionScreen(
+        //     selectedCategory: selectedCategory,
+        //     selectedVideos: selectedVideos,
+        //     prices: prices,
+        //   ),
+        // ],
       ),
     );
   }

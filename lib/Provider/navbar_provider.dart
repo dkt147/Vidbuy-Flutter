@@ -1,18 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vidbuy_app/resources/componenets/tab_bar_widget2.dart';
+import 'package:vidbuy_app/resources/componenets/user_donations_tabbar_widget.dart';
 import 'package:vidbuy_app/view/home_screen.dart';
-import 'package:vidbuy_app/view/otp_scren.dart';
-import 'package:vidbuy_app/view/profile_screen.dart';
 import 'package:vidbuy_app/view/search_screen.dart';
-import 'package:vidbuy_app/view/user_login_screen.dart';
+import 'package:vidbuy_app/view/user_profile_screen.dart';
 
 final screens = [
   HomeScreen(),
   //  LoginScreen(),
   SearchScreen(),
   //  OtpScren(),
-  TabBarWidget2(),
-   ProfileScreen(),
+  UserDonationsTabBarWidget(),
+   UserProfileScreen(),
   //  OtpScren(),
 
   // const HomeScreen(),

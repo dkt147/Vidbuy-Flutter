@@ -6,12 +6,12 @@ import 'package:vidbuy_app/view/all_orders_screen.dart';
 import 'package:vidbuy_app/view/orders_details_screen.dart';
 import 'package:vidbuy_app/view/video_screen.dart';
 
-class TabBarWidget2 extends StatefulWidget {
+class UserDonationsTabBarWidget extends StatefulWidget {
   @override
-  _TabBarWidget2State createState() => _TabBarWidget2State();
+  _UserDonationsTabBarWidgetState createState() => _UserDonationsTabBarWidgetState();
 }
 
-class _TabBarWidget2State extends State<TabBarWidget2>
+class _UserDonationsTabBarWidgetState extends State<UserDonationsTabBarWidget>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 

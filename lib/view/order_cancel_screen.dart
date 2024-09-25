@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/view/home_screen.dart';
+import 'package:vidbuy_app/view/payment_error_screen.dart';
 
 class OrderCancelScreen extends StatelessWidget {
    OrderCancelScreen({super.key});
@@ -19,7 +21,7 @@ class OrderCancelScreen extends StatelessWidget {
               height: 146.h,
             ),
             Content(
-              data: "Give your feedback",
+              data: "Reason For rejection",
               size: 30.h,
               weight: FontWeight.w300,
             ),
@@ -70,7 +72,7 @@ class OrderCancelScreen extends StatelessWidget {
                         //   //     context,
                         //   //     MaterialPageRoute(
                         //   //         builder: (_) => TabBarWidget()));
-                          // navigate(context, OrderCancelScreen());
+                          navigate(context, HomeScreen());
                         // }
                       },
                       style: ElevatedButton.styleFrom(

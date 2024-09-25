@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/main.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/view/payment_confirm_screen.dart';
 
 class FeedbackScreen extends StatefulWidget {
   const FeedbackScreen({super.key});
@@ -111,6 +113,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   //   //         builder: (_) => TabBarWidget()));
                   // navigate(context, FeedbackScreen());
                   print(selectedEmoji);
+                  navigate(context, PaymentConfirmScreen());
                   // }
                 },
                 style: ElevatedButton.styleFrom(
@@ -120,7 +123,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   ),
                 ),
                 child: Text(
-                  "Accepet",
+                  "Sumbit now",
                   style: TextStyle(fontSize: 16.h, color: Colors.white),
                 ),
               ),

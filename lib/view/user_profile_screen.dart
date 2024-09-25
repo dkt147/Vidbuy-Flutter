@@ -10,8 +10,8 @@ import 'package:vidbuy_app/view/notification_setting_screen.dart';
 import 'package:vidbuy_app/view/policies_screen.dart';
 import 'package:vidbuy_app/view/user_edit_profile_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class UserProfileScreen extends StatelessWidget {
+  const UserProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

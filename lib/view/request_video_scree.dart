@@ -261,7 +261,7 @@ margin: EdgeInsets.only(left: 19.w),
                     ),
                   ),
                   child: Text(
-                    "Next",
+                    "Request your Video",
                     style: TextStyle(
                         fontSize: 16.h, color: Colors.white, fontFamily: "Lato"),
                   ),

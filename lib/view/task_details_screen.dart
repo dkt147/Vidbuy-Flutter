@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/view/order_cancel_screen.dart';
 
-class OrdersDetailsScreen extends StatelessWidget {
-  const OrdersDetailsScreen({super.key});
+class TaskDetailsScreen extends StatefulWidget {
+  const TaskDetailsScreen({super.key});
 
+  @override
+  State<TaskDetailsScreen> createState() => _TaskDetailsScreenState();
+}
+
+class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,6 +208,88 @@ class OrdersDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(
+              height: 153.h,
+            ),
+                            Center(
+                  child: Container(
+                    width: 280.w,
+                    height: 50.h,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // if (_emailController.text.isEmpty) {
+                        //   snackBar("Enter Valid Email", context);
+                        // } else if (_passwordController.text.isEmpty) {
+                        //   snackBar(
+                        //     "Enter Password",
+                        //     context,
+                        //   );
+                        // } else if (_passwordController.text.length < 8) {
+                        //   snackBar(
+                        //       "Enter Minium 8 Characters of Password", context);
+                        // } else {
+                        //   // Navigator.push(
+                        //   //     context,
+                        //   //     MaterialPageRoute(
+                        //   //         builder: (_) => TabBarWidget()));
+                          // navigate(context, OrderCancelScreen());
+                        // }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff5271FF),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                      ),
+                      child: Text(
+                        "Accepet",
+                        style: TextStyle(fontSize: 16.h, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Center(
+                  child: Container(
+                    width: 280.w,
+                    height: 50.h,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // if (_emailController.text.isEmpty) {
+                        //   snackBar("Enter Valid Email", context);
+                        // } else if (_passwordController.text.isEmpty) {
+                        //   snackBar(
+                        //     "Enter Password",
+                        //     context,
+                        //   );
+                        // } else if (_passwordController.text.length < 8) {
+                        //   snackBar(
+                        //       "Enter Minium 8 Characters of Password", context);
+                        // } else {
+                        //   // Navigator.push(
+                        //   //     context,
+                        //   //     MaterialPageRoute(
+                        //   //         builder: (_) => TabBarWidget()));
+                          navigate(context, OrderCancelScreen());
+                        // }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff5271FF),
+                        // backgroundColor: Colors.transparent,
+                        // disabledBackgroundColor: Colors.amber,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                      ),
+                      child: Text(
+                        "Reject",
+                        style: TextStyle(fontSize: 16.h, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
           ],
         ),
       ),
