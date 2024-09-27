@@ -59,10 +59,13 @@ class _UserDonationsTabBarWidgetState extends State<UserDonationsTabBarWidget>
       appBar: AppBar(
         // title: Text("Influencer Setup"),
         bottom: TabBar(
+          isScrollable: true,
           controller: _tabController,
           indicatorColor: Color(0xff5271FF),
           labelColor: Colors.black,
           unselectedLabelColor: Colors.black45,
+          // indicatorSize: 10,
+          indicatorWeight: 3.w,
           labelStyle: TextStyle(
             fontFamily: "Lato",
             fontSize:   16.h,

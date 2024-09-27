@@ -179,7 +179,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
             Container(
               width: 375.w,
               height: 31.h,
-              color: Color(0xff5271FF).withOpacity(0.8),
+              color: Color(0xff5271FF).withOpacity(0.3),
               padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
               child: Content(
                 data: "Price Detail",

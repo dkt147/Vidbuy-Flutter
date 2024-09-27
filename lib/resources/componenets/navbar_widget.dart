@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/Provider/navbar_provider.dart';
 
 class NavBar extends StatelessWidget {
