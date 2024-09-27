@@ -73,6 +73,7 @@ class ContactUsScreen extends StatelessWidget {
                   ContentField(
                             label: "Your Name",
                             hint: "Enter Your Name",
+                            colorr: Colors.transparent,
                             prefixIcon: Icon(Icons.person),
                             controller: _nameController,
                             inputFormat: <TextInputFormatter>[
@@ -84,6 +85,7 @@ class ContactUsScreen extends StatelessWidget {
                     ContentField(
                       label: "Email",
                       hint: "Enter Your Email",
+                      colorr: Colors.transparent,
                       prefixIcon: Icon(Icons.person),
                       controller: _emailController,
                       inputFormat: <TextInputFormatter>[

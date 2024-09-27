@@ -54,6 +54,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               label: "Enter Your Email Address",
               hint: "example@gmail.com",
               prefixIcon: Icon(Icons.email),
+              colorr: Colors.transparent,
               controller: _emailController,
               inputFormat: <TextInputFormatter>[
                 FilteringTextInputFormatter.singleLineFormatter

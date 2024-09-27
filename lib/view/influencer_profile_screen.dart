@@ -22,9 +22,14 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
             margin: EdgeInsets.only(top: 55.h, left: 21.w),
             child: Row(
               children: [
-                Image.asset(
-                  "assets/Icon/backarrow.png",
-                  height: 25.h,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Image.asset(
+                    "assets/Icon/backarrow.png",
+                    height: 25.h,
+                  ),
                 ),
                 SizedBox(
                   width: 5.w,

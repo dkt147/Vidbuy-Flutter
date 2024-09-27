@@ -34,26 +34,26 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-              margin: EdgeInsets.only(top: 55.h, left: 21.w),
-              child: Row(
-                children: [
-                  Image.asset(
-                    "assets/Icon/backarrow.png",
-                    height: 25.h,
-                  ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Content(
-                    data: "Categorie",
-                    size: 14.h,
-                    weight: FontWeight.w600,
-                    family: "Nunito",
-                  ),
-                ],
-              ),
-            ),
+          // Container(
+          //     margin: EdgeInsets.only(top: 55.h, left: 21.w),
+          //     child: Row(
+          //       children: [
+          //         Image.asset(
+          //           "assets/Icon/backarrow.png",
+          //           height: 25.h,
+          //         ),
+          //         SizedBox(
+          //           width: 5.w,
+          //         ),
+          //         Content(
+          //           data: "Categorie",
+          //           size: 14.h,
+          //           weight: FontWeight.w600,
+          //           family: "Nunito",
+          //         ),
+          //       ],
+          //     ),
+          //   ),
           // SizedBox(height: 20.h),
           // // TabBarWidget(),
           SizedBox(height: 47.h),

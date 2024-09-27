@@ -1,6 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/view/choose_category_screen.dart.dart';
+import 'package:vidbuy_app/view/choose_price_screen.dart';
+import 'package:vidbuy_app/view/review_selection_screen.dart';
+import 'package:vidbuy_app/view/videos_accepet_screen.dart';
 
 class TabBarWidget extends StatefulWidget {
     final List<Widget> screens;
@@ -23,7 +27,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: widget.screens.length  , vsync: this);
+    _tabController = TabController(length: 4  , vsync: this);
   }
 
   void goToNextTab() {
@@ -74,22 +78,29 @@ class _TabBarWidgetState extends State<TabBarWidget>
             fontSize:   16.h,
             fontWeight: FontWeight.w500,
           ),
-          tabs: widget.tabTitles.map((title) => Tab(text: title)).toList(),
+          tabs: [
+            Tab(text: "Categorie",),
+            Tab(text: "Videos",),
+            Tab(text: "Price",),
+            Tab(text: "Review",),
+          ]
+          
+          // widget.tabTitles.map((title) => Tab(text: title)).toList(),
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children: widget.screens,
-        // children: [
-        //   ChooseCategoryScreen(onSave: saveCategory),
-        //   VIdeosAcceptScreen(onSave: saveVideos),
-        //   ChoosePricesScreen(onSave: savePrices),
-        //   ReviewSelectionScreen(
-        //     selectedCategory: selectedCategory,
-        //     selectedVideos: selectedVideos,
-        //     prices: prices,
-        //   ),
-        // ],
+        // children: widget.screens,
+        children: [
+          ChooseCategoryScreen(onSave: saveCategory),
+          VIdeosAcceptScreen(onSave: saveVideos),
+          ChoosePricesScreen(onSave: savePrices),
+          ReviewSelectionScreen(
+            selectedCategory: selectedCategory,
+            selectedVideos: selectedVideos,
+            prices: prices,
+          ),
+        ],
       ),
     );
   }

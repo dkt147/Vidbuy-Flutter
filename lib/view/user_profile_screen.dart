@@ -16,6 +16,7 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffFFFFFF),
       body: Column(
         children: [
           SizedBox(
@@ -24,7 +25,17 @@ class UserProfileScreen extends StatelessWidget {
           Container(
             width: 375.w,
             height: 143.h,
-            color: Color(0xffFFFFFF),
+            
+            decoration: BoxDecoration(
+color: Color(0xffFFFFFF),
+boxShadow: [
+  BoxShadow(
+        color: Color(0xff000000),
+        blurRadius: 1,
+        offset: Offset(0, 0), // Shadow position
+      ),
+]
+            ),
             child: Row(
               children: [
                 Container(
@@ -65,13 +76,18 @@ class UserProfileScreen extends StatelessWidget {
                         family: "Lato",
                         weight: FontWeight.w600,
                       )),
+                      SizedBox(
+                    height: 22.h,
+                  ),
                   ProfileTile(
+                    height: 18.h,
                       image: "assets/Icon/layouticon.png", text: "Orders"),
                   SizedBox(
                     height: 17.h,
                   ),
                   ProfileTile(
-                      image: "assets/Icon/layouticon.png", text: "Donations"),
+                    height: 20.h,
+                      image: "assets/Icon/simpleheart.png", text: "Donations"),
                   SizedBox(
                     height: 17.h,
                   ),
@@ -80,7 +96,8 @@ class UserProfileScreen extends StatelessWidget {
                       navigate(context, NotificationSettingScreen());
                     },
                     child: ProfileTile(
-                        image: "assets/Icon/layouticon.png",
+                      height: 25.h,
+                        image: "assets/Icon/bell.png",
                         text: "Notification Setting"),
                   ),
                   SizedBox(
@@ -91,7 +108,8 @@ class UserProfileScreen extends StatelessWidget {
                       navigate(context, UserEditProfileScreen());
                     },
                     child: ProfileTile(
-                        image: "assets/Icon/layouticon.png",
+                      height: 25.h,
+                        image: "assets/Icon/editprofile.png",
                         text: "Edit Profile"),
                   ),
                   SizedBox(
@@ -113,7 +131,8 @@ class UserProfileScreen extends StatelessWidget {
                         navigate(context, LanguageScreen());
                       },
                       child: ProfileTile(
-                          image: "assets/Icon/layouticon.png",
+                        height: 20.h,
+                          image: "assets/Icon/world.png",
                           text: "Language")),
                   SizedBox(
                     height: 17.h,
@@ -123,7 +142,8 @@ class UserProfileScreen extends StatelessWidget {
                       navigate(context, ContactUsScreen());
                     },
                     child: ProfileTile(
-                        image: "assets/Icon/layouticon.png", text: "Support"),
+                      height: 25.h,
+                        image: "assets/Icon/help.png", text: "Support"),
                   ),
                   SizedBox(
                     height: 17.h,
@@ -133,14 +153,16 @@ class UserProfileScreen extends StatelessWidget {
                       navigate(context, PoliciesScreen());
                     },
                     child: ProfileTile(
-                        image: "assets/Icon/layouticon.png", text: "Policies"),
+                      height: 25.h,
+                        image: "assets/Icon/lock.png", text: "Policies"),
                   ),
                   // ProfileTile(image: "assets/Icon/layouticon.png", text: "Logout"),
                   SizedBox(
                     height: 17.h,
                   ),
                   ProfileTile(
-                      image: "assets/Icon/layouticon.png", text: "Logout"),
+                    height: 25.h,
+                      image: "assets/Icon/Logout.png", text: "Logout"),
                   SizedBox(
                     height: 17.h,
                   ),

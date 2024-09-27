@@ -36,9 +36,14 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               margin: EdgeInsets.only(left: 21.w),
               child: Row(
                 children: [
-                  Image.asset(
-                    "assets/Icon/backarrow.png",
-                    height: 25.h,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      "assets/Icon/backarrow.png",
+                      height: 25.h,
+                    ),
                   ),
                   SizedBox(
                     width: 5.w,
@@ -133,6 +138,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               child: ContentField(
                 label: "Select the type of video",
                 hint: "Please Select",
+                colorr: Colors.transparent,
                 // prefixIcon: ,
                 suffixIcon: Icon(Icons.arrow_drop_down),
                 controller: _videoSelectController,
@@ -148,6 +154,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               child: ContentField(
                 label: "From",
                 hint: "Enter Name",
+                colorr: Colors.transparent,
                 // prefixIcon: ,
                 // suffixIcon: Icon(Icons.arrow_drop_down),
                 controller: _videoSelectController,
@@ -163,6 +170,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               child: ContentField(
                 label: "To",
                 hint: "Enter Name",
+                colorr: Colors.transparent,
                 // prefixIcon: ,
                 // suffixIcon: Icon(Icons.arrow_drop_down),
                 controller: _videoSelectController,
@@ -176,7 +184,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               ),
             ),
             Container(
-                margin: EdgeInsets.only(bottom: 9.h,left: 17.w),
+                margin: EdgeInsets.only(bottom: 9.h, left: 17.w),
                 child: Text(
                   "Details about Request",
                   style: TextStyle(
@@ -187,21 +195,19 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 )),
             Center(
               child: Container(
-                  width: 334.w,
-                  height: 141.h,
-
-                  child: TextField(
-                    // controller: _messageController,
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                      hintText: 'Description of what is going on..',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.r),
-                        
-                      ),
+                width: 334.w,
+                height: 141.h,
+                child: TextField(
+                  // controller: _messageController,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    hintText: 'Description of what is going on..',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                   ),
                 ),
+              ),
             ),
             SizedBox(
               height: 33.h,
@@ -239,12 +245,13 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                   child: Text(
                     "Next",
                     style: TextStyle(
-                        fontSize: 16.h, color: Colors.white, fontFamily: "Lato"),
+                        fontSize: 16.h,
+                        color: Colors.white,
+                        fontFamily: "Lato"),
                   ),
                 ),
               ),
             ),
-            
           ],
         ),
       ),

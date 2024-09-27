@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidbuy_app/Provider/navbar_provider.dart';
+import 'package:vidbuy_app/view/admin_influencer_screen.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
 
 late SharedPreferences pref;
@@ -32,13 +33,16 @@ class MyApp extends StatelessWidget {
             title: 'VidBuy App',
             theme: ThemeData(
               fontFamily: "LondrinaSolid",
+              scaffoldBackgroundColor: Color(0xffFFFFFF),
               // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               scrollbarTheme: ScrollbarThemeData(
                 trackColor: MaterialStateProperty.all(Color(0xffFFFFFF)),
               ),
               useMaterial3: true,
             ),
-            home: SplashScreen(),
+            home: SplashScreen()
+            
+            // InfluencerChart(),
           );
         },
       ),

@@ -11,16 +11,16 @@ import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
 import 'package:vidbuy_app/view/otp_scren.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
 
-class CreateInfluencerAccountScreen extends StatefulWidget {
-  const CreateInfluencerAccountScreen({super.key});
+class InfluencerEditProfileScreen extends StatefulWidget {
+  const InfluencerEditProfileScreen({super.key});
 
   @override
-  State<CreateInfluencerAccountScreen> createState() =>
-      _CreateInfluencerAccountScreenState();
+  State<InfluencerEditProfileScreen> createState() =>
+      _InfluencerEditProfileScreenState();
 }
 
-class _CreateInfluencerAccountScreenState
-    extends State<CreateInfluencerAccountScreen> {
+class _InfluencerEditProfileScreenState
+    extends State<InfluencerEditProfileScreen> {
   late TextEditingController _nameController;
   late TextEditingController _usernameController;
   late TextEditingController _emailController;
@@ -97,12 +97,26 @@ class _CreateInfluencerAccountScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 52.h), // Space from top
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            // SizedBox(height: 52.h), // Space from top
+            Container(
+              margin: EdgeInsets.only(top: 55.h, left: 21.w),
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/Icon/backarrow.png",
+                    height: 25.h,
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Content(
+                    data: "Edit Profile",
+                    size: 14.h,
+                    weight: FontWeight.w600,
+                    family: "Nunito",
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 15.h),
             Container(
@@ -118,17 +132,16 @@ class _CreateInfluencerAccountScreenState
                   //   ),
                   // ),
                   Content(
-                    data: "Create Influencer Account",
+                    data: "Edit profile",
                     size: 30.h,
-                    weight: FontWeight.bold,
+                    weight: FontWeight.w300,
                   ),
                   SizedBox(height: 5.h),
                   Content(
-                    data:
-                        "Create your account to buy, create orders and share videos\nwith your friends",
-                    size: 10.h,
-                    weight: FontWeight.w400,
-                    family: "Nunito",
+                    data: "Below are your profile details",
+                    size: 16.h,
+                    weight: FontWeight.w500,
+                    family: "Lato",
                   ),
                 ],
               ),
@@ -257,10 +270,11 @@ class _CreateInfluencerAccountScreenState
                   ),
                   SizedBox(height: 10.h),
                   ContentField(
-                    label: "Your email",
-                    hint: "Enter Your Email",
+                    label: "Your category",
+                    hint: "[CATEGORY]",
                     colorr: Colors.transparent,
-                    prefixIcon: Icon(Icons.email),
+                    // prefixIcon: Icon(Icons.email),
+                    suffixIcon: Icon(Icons.arrow_drop_down_circle),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -268,45 +282,50 @@ class _CreateInfluencerAccountScreenState
                     keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 10.h),
-                  ContentFieldPassword(
-                      label: "Your Password",
-                      hint: "Password",
-                      index: 1,
-                      // textInput: TextInputType.text,
-                      controller: _passwordController,
-                      inputFormat: <TextInputFormatter>[
-                        FilteringTextInputFormatter.singleLineFormatter
-                      ]),
+                  ContentField(
+                    label: "Your Country",
+                    hint: "[Country]",
+                    colorr: Colors.transparent,
+                    // prefixIcon: Icon(Icons.email),
+                    suffixIcon: Icon(Icons.arrow_drop_down_circle),
+                    controller: _emailController,
+                    inputFormat: <TextInputFormatter>[
+                      FilteringTextInputFormatter.singleLineFormatter
+                    ],
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  SizedBox(height: 10.h),
+                  ContentField(
+                    label: "The email associated with this account is:",
+                    hint: "Email",
+                    colorr: Colors.transparent,
+                    // prefixIcon: Icon(Icons.email),
+                    suffixIcon: Icon(Icons.arrow_drop_down_circle),
+                    controller: _emailController,
+                    inputFormat: <TextInputFormatter>[
+                      FilteringTextInputFormatter.singleLineFormatter
+                    ],
+                    keyboardType: TextInputType.emailAddress,
+                  ),
                 ],
               ),
             ),
 
-            SizedBox(height: 20.h),
-            Row(
-              children: [
-                Checkbox(
-                  value: isChecked,
-                  onChanged: (value) {
-                    setState(() {
-                      isChecked = value ?? false;
-                    });
-                  },
+            // SizedBox(height: 20.h),
+            Container(
+              margin: EdgeInsets.only(left: 27.w),
+              child: Text(
+                "Change Password?",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 14.h,
                 ),
-                Expanded(
-                  child: Text(
-                    "I want to receive news and information via email",
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
             SizedBox(height: 20.h),
             Center(
               child: Container(
-                width: 280.w,
+                width: 335.w,
                 height: 50.h,
                 child: ElevatedButton(
                   onPressed: () {
@@ -316,7 +335,7 @@ class _CreateInfluencerAccountScreenState
                         SnackBar(
                           behavior: SnackBarBehavior.floating,
                           duration: Duration(microseconds: 1),
-                          backgroundColor: Colors.red.shade500,
+                          backgroundColor: Colors.black,
                           content: Text(
                             'Please Enter Email',
                             style: TextStyle(color: Colors.red.shade50),
@@ -336,14 +355,11 @@ class _CreateInfluencerAccountScreenState
                     } else if (_passwordController.text.length < 8) {
                       snackBar("Please Enter 8 Digit Password", context);
                     } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => OtpScren()),
-                      );
+                      Navigator.pop(context);
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Color(0xff5271FF),
                     // padding: EdgeInsets.symmetric(
                     //   horizontal: 120.w,
                     //   vertical: 15.h,
@@ -353,7 +369,7 @@ class _CreateInfluencerAccountScreenState
                     ),
                   ),
                   child: Text(
-                    "Create account",
+                    "Save",
                     style: TextStyle(
                       fontSize: 20.h,
                       fontFamily: "Lato",
@@ -364,122 +380,12 @@ class _CreateInfluencerAccountScreenState
                 ),
               ),
             ),
-            SizedBox(height: 20.h),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
-                  );
-                },
-                child: RichText(
-                  text: TextSpan(
-                    text: "Already have an account? ",
-                    style: TextStyle(color: Colors.black54),
-                    children: [
-                      TextSpan(
-                        text: "Log in",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            SizedBox(
+              height: 15.h,
             ),
           ],
         ),
       ),
     );
   }
-}
-
-Widget _buildTextField({
-  // required String label,
-  required String hintText,
-  required IconData icon,
-}) {
-  return Container(
-    width: 335.w,
-    height: 50.h,
-    child: TextField(
-      decoration: InputDecoration(
-        // labelText: label,
-        hintText: hintText,
-        prefixIcon: Icon(icon, color: Colors.grey),
-        hintStyle: TextStyle(
-            color: Color(0xff908B8B),
-            fontFamily: "Lato",
-            fontWeight: FontWeight.w500,
-            fontSize: 16.h),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 1.5.w,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 1.5.w,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Colors.blue,
-            width: 1.5.w,
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-Widget _buildPasswordField() {
-  return Container(
-    width: 335.w,
-    height: 50.h,
-    child: TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-        // labelText: "Your password",
-        hintText: "********",
-        prefixIcon: Icon(Icons.lock, color: Colors.grey),
-        suffixIcon: IconButton(
-          icon: Icon(Icons.visibility, color: Colors.grey),
-          onPressed: () {
-            // Handle password visibility toggle
-          },
-        ),
-        hintStyle: TextStyle(color: Colors.grey),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 1.5.w,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Colors.grey,
-            width: 1.5.w,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
-          borderSide: BorderSide(
-            color: Colors.blue,
-            width: 1.5.w,
-          ),
-        ),
-      ),
-    ),
-  );
 }

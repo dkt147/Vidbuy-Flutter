@@ -50,7 +50,7 @@ class NavBar extends StatelessWidget {
                               ? "assets/Icon/Home.png"
                               : "assets/Icon/Home2.png",
                           height: 30.h,
-                          color: value.screen == 0 ? Colors.blue : null,
+                          // color: value.screen == 0 ? Colors.blue : null,
                         ),
                       ),
                     ),
@@ -114,11 +114,11 @@ class NavBar extends StatelessWidget {
                         duration: Duration(seconds: 2),
                         child: Image.asset(
                           value.screen == 2
-                              ? "assets/Icon/LayoutWidget.png"
+                              ? "assets/Icon/LayoutWidget2.png"
                               : "assets/Icon/LayoutWidget.png",
                           // value.screen == 0 ? home : home2,
                           height: 29.h,
-                          color: value.screen == 2 ? Colors.blue : null,
+                          // color: value.screen == 2 ? Colors.blue : null,
                         ),
                       ),
                     ),

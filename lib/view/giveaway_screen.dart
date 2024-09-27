@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/main.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
@@ -22,9 +23,14 @@ class _GivewayScreenState extends State<GivewayScreen> {
               margin: EdgeInsets.only(top: 55.h, left: 21.w),
               child: Row(
                 children: [
-                  Image.asset(
-                    "assets/Icon/backarrow.png",
-                    height: 25.h,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      "assets/Icon/backarrow.png",
+                      height: 25.h,
+                    ),
                   ),
                   SizedBox(
                     width: 5.w,
@@ -84,6 +90,12 @@ class _GivewayScreenState extends State<GivewayScreen> {
                               ),
                               child: Image.asset("assets/Vector/girl.png"),
                             ),
+                            Container(
+                                margin: EdgeInsets.only(left: 270.w, top: 13.h),
+                                child: Image.asset(
+                                  "assets/Icon/Info.png",
+                                  height: 13.h,
+                                )),
                           ],
                         ),
                       ],
@@ -122,7 +134,7 @@ class _GivewayScreenState extends State<GivewayScreen> {
                       ),
                     ),
                     // SizedBox(width: 10.w),
-        
+
                     // Podium for 1st place (tallest, slanted slightly on both sides)
                     PodiumBlock(
                       height: 172.h,
@@ -132,7 +144,7 @@ class _GivewayScreenState extends State<GivewayScreen> {
                       clipper: CenterSlantClipper(),
                     ),
                     // SizedBox(width: 10.w),
-        
+
                     // Podium for 3rd place (slanted to the right)
                     PodiumBlock(
                       height: 138.h,
@@ -319,6 +331,13 @@ class PodiumBlock extends StatelessWidget {
             width: width,
             decoration: BoxDecoration(
               color: color,
+              boxShadow: [
+                BoxShadow(
+        color: Color(0xff000000),
+        blurRadius: 4,
+        offset: Offset(0, 6), // Shadow position
+      ),
+              ]
             ),
           ),
         ),
@@ -332,13 +351,13 @@ class PodiumBlock extends StatelessWidget {
               fontWeight: FontWeight.w800,
               color: Colors.white,
               fontFamily: "Nunito",
-              // shadows: [
-              //   Shadow(
-              //     offset: Offset(2.0, 2.0),
-              //     blurRadius: 3.0,
-              //     color: Colors.black.withOpacity(0.4),
-              //   ),
-              // ],
+              shadows: [
+                Shadow(
+                  offset: Offset(2.0, 2.0),
+                  blurRadius: 3.0,
+                  color: Colors.black.withOpacity(0.4),
+                ),
+              ],
             ),
           ),
         ),

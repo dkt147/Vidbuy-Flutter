@@ -130,6 +130,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   ContentField(
                     label: "Your Name",
                     hint: "Enter Your Name",
+                    colorr: Colors.transparent,
                     prefixIcon: Icon(Icons.person),
                     controller: _nameController,
                     inputFormat: <TextInputFormatter>[
@@ -141,6 +142,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   ContentField(
                     label: "Your username",
                     hint: "Enter Your Username",
+                    colorr: Colors.transparent,
                     prefixIcon: Icon(Icons.person),
                     controller: _usernameController,
                     inputFormat: <TextInputFormatter>[
@@ -152,6 +154,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   ContentField(
                     label: "The email associated with this account is:",
                     hint: "Enter Your Email",
+                    colorr: Colors.transparent,
                     prefixIcon: Icon(Icons.email),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[

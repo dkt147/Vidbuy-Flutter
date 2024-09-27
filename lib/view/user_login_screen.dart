@@ -84,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hint: "example@gmail.com",
                     prefixIcon: Icon(Icons.email),
                     controller: _emailController,
+                    colorr: Colors.transparent,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
                     ],

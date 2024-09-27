@@ -11,6 +11,10 @@ class ContentField extends StatelessWidget {
   TextInputType keyboardType;
   Icon? prefixIcon;
   Icon? suffixIcon;
+  Color colorr;
+  String? family;
+  double? heightt;
+  double? widthh;
   final String? Function(String?)? validate;
   void Function(String)? onChange;
   ContentField(
@@ -23,7 +27,11 @@ class ContentField extends StatelessWidget {
       required this.keyboardType,
       this.prefixIcon,
       this.suffixIcon,
+      this.family,
+      this.heightt,
+      this.widthh,
       this.onChange,
+      required this.colorr,
       this.validate});
 
   @override
@@ -44,8 +52,8 @@ class ContentField extends StatelessWidget {
                       fontWeight: FontWeight.w500),
                 )),
         Container(
-          height: 50.h,
-          width: 335.w,
+          height: 50.h?? heightt,
+          width: 335.w??  widthh,
           child: TextFormField(
             controller: controller,
             maxLength: maxLength,
@@ -53,12 +61,12 @@ class ContentField extends StatelessWidget {
             style: TextStyle(
                 fontSize: 18.h,
                 // color: Color.fromARGB(186, 0, 0, 0),
-                fontFamily: "Lato"),
+                fontFamily: "Lato" ?? family),
             inputFormatters: inputFormat,
             decoration: new InputDecoration(
               // fillColor: Color(0xff908B8B),
               // fillColor: Color(0xffFFFFFF),
-              fillColor: Colors.transparent,
+              fillColor: colorr,
               filled: true,
               hintText: hint,
               hintStyle: TextStyle(color: Color(0xff908B8B), fontSize: 16.h),
