@@ -53,7 +53,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             ContentField(
               label: "Enter Your Email Address",
               hint: "example@gmail.com",
-              prefixIcon: Icon(Icons.email),
+              prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h,),
               colorr: Colors.transparent,
               controller: _emailController,
               inputFormat: <TextInputFormatter>[

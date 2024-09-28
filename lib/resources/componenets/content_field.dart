@@ -9,8 +9,8 @@ class ContentField extends StatelessWidget {
   List<TextInputFormatter> inputFormat;
   int? maxLength;
   TextInputType keyboardType;
-  Icon? prefixIcon;
-  Icon? suffixIcon;
+  Image? prefixIcon;
+  Image? suffixIcon;
   Color colorr;
   String? family;
   double? heightt;

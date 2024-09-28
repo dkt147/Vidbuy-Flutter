@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ContentField(
                     label: "Your Email",
                     hint: "example@gmail.com",
-                    prefixIcon: Icon(Icons.email),
+                    prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h,),
                     controller: _emailController,
                     colorr: Colors.transparent,
                     inputFormat: <TextInputFormatter>[

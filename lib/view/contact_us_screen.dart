@@ -74,7 +74,7 @@ class ContactUsScreen extends StatelessWidget {
                             label: "Your Name",
                             hint: "Enter Your Name",
                             colorr: Colors.transparent,
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
                             controller: _nameController,
                             inputFormat: <TextInputFormatter>[
                               FilteringTextInputFormatter.singleLineFormatter
@@ -86,7 +86,9 @@ class ContactUsScreen extends StatelessWidget {
                       label: "Email",
                       hint: "Enter Your Email",
                       colorr: Colors.transparent,
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h,),
+                      
+                      // Icon(Icons.person),
                       controller: _emailController,
                       inputFormat: <TextInputFormatter>[
                         FilteringTextInputFormatter.singleLineFormatter

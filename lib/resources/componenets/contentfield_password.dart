@@ -63,7 +63,8 @@ class ContentFieldPassword extends StatelessWidget {
                       // onTap: () {
                       //   value.togglePasswordVisibility(index);
                       // },
-                      child: Icon(Icons.lock_open))),
+                      child:
+                       Image.asset("assets/Icon/password.png", height: 30.h,))),
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               focusedBorder: OutlineInputBorder(

@@ -236,7 +236,7 @@ class _CreateInfluencerAccountScreenState
                     label: "Your Name",
                     hint: "Enter Your Name",
                     colorr: Colors.transparent,
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
                     controller: _nameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -248,7 +248,7 @@ class _CreateInfluencerAccountScreenState
                     label: "Your username",
                     hint: "Enter Your Username",
                     colorr: Colors.transparent,
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
                     controller: _usernameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -260,7 +260,7 @@ class _CreateInfluencerAccountScreenState
                     label: "Your email",
                     hint: "Enter Your Email",
                     colorr: Colors.transparent,
-                    prefixIcon: Icon(Icons.email),
+                    prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h,),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -280,29 +280,43 @@ class _CreateInfluencerAccountScreenState
                 ],
               ),
             ),
-
-            SizedBox(height: 20.h),
-            Row(
-              children: [
-                Checkbox(
-                  value: isChecked,
-                  onChanged: (value) {
-                    setState(() {
-                      isChecked = value ?? false;
-                    });
-                  },
-                ),
-                Expanded(
-                  child: Text(
-                    "I want to receive news and information via email",
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 14.sp,
+            SizedBox(height: 10.h),
+                  Center(
+                    child: ContentField(
+                      label: "Your Country",
+                      hint: "Country",
+                      colorr: Colors.transparent,
+                      suffixIcon: Image.asset("assets/Icon/down.png", height: 25.h,),
+                      controller: _emailController,
+                      inputFormat: <TextInputFormatter>[
+                        FilteringTextInputFormatter.singleLineFormatter
+                      ],
+                      keyboardType: TextInputType.emailAddress,
                     ),
                   ),
-                ),
-              ],
-            ),
+
+            // SizedBox(height: 20.h),
+            // Row(
+            //   children: [
+            //     Checkbox(
+            //       value: isChecked,
+            //       onChanged: (value) {
+            //         setState(() {
+            //           isChecked = value ?? false;
+            //         });
+            //       },
+            //     ),
+            //     Expanded(
+            //       child: Text(
+            //         "I want to receive news and information via email",
+            //         style: TextStyle(
+            //           color: Colors.black54,
+            //           fontSize: 14.h,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             SizedBox(height: 20.h),
             Center(
               child: Container(
@@ -381,7 +395,7 @@ class _CreateInfluencerAccountScreenState
                       TextSpan(
                         text: "Log in",
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: Color(0xff810F9E),
                           fontWeight: FontWeight.bold,
                         ),
                       ),

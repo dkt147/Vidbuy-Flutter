@@ -131,7 +131,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     label: "Your Name",
                     hint: "Enter Your Name",
                     colorr: Colors.transparent,
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
                     controller: _nameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -143,7 +143,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     label: "Your username",
                     hint: "Enter Your Username",
                     colorr: Colors.transparent,
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
                     controller: _usernameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -155,7 +155,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     label: "The email associated with this account is:",
                     hint: "Enter Your Email",
                     colorr: Colors.transparent,
-                    prefixIcon: Icon(Icons.email),
+                    prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h,),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
