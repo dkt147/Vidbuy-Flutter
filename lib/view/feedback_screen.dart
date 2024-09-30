@@ -4,6 +4,7 @@ import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/main.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/payment_confirm_screen.dart';
+import 'package:vidbuy_app/view/success_payment_screen.dart';
 
 class FeedbackScreen extends StatefulWidget {
   const FeedbackScreen({super.key});
@@ -113,7 +114,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   //   //         builder: (_) => TabBarWidget()));
                   // navigate(context, FeedbackScreen());
                   print(selectedEmoji);
-                  navigate(context, PaymentConfirmScreen());
+                  navigate(context, SuccessPaymentScreen());
                   // }
                 },
                 style: ElevatedButton.styleFrom(

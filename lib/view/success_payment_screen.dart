@@ -1,34 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
-import 'package:vidbuy_app/view/home_screen.dart';
 
-import '../Function/navigate.dart';
+class SuccessPaymentScreen extends StatefulWidget {
+  const SuccessPaymentScreen({super.key});
 
-class PaymentConfirmScreen extends StatelessWidget {
-  const PaymentConfirmScreen({super.key});
+  @override
+  State<SuccessPaymentScreen> createState() => _SuccessPaymentScreenState();
+}
 
+class _SuccessPaymentScreenState extends State<SuccessPaymentScreen> {
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: 202.h,
           ),
-          Image.asset("assets/Vector/success.png", height: 110.h, width: 110.w,),
+          Center(child: Image.asset("assets/Vector/success.png", height: 110.h, width: 110.w,)),
             SizedBox(
             height: 46.h,
           ),
-          Content(data: "Payment Confirmed !", size: 30.h, weight: FontWeight.w500, family: "Nunito",),
+          Center(child: Content(data: "Payment Confirmed !", size: 30.h, weight: FontWeight.w500, family: "Nunito",)),
           SizedBox(
             height: 13.h,
           ),
-          Content(data: "Congratulations, your payment has been confirmed.", size: 14.h, weight: FontWeight.w400, family: "Nunito",),
+          Center(child: Content(data: "Congratulations, your payment has been confirmed.", size: 14.h, weight: FontWeight.w400, family: "Nunito",)),
           SizedBox(
-              height: 245.h,
+            height: 79.h,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 45.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset("assets/Icon/Hand.png", height: 30.h,),
+                Row(
+                  children: [
+                    Content(data: "Want to say thankyou with a donation?", size: 14.h, weight: FontWeight.w400, family: "Nunito",),
+                    SizedBox(
+                      width: 21.w,
+                    ),
+                    Checkbox(
+                  value: isChecked,
+                  onChanged: (value) {
+                    setState(() {
+                      isChecked = value ?? false;
+                    });
+                  },
+                ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+              height: 111.h,
             ),
             Center(
               child: Container(
@@ -51,7 +83,8 @@ class PaymentConfirmScreen extends StatelessWidget {
                     //   //     context,
                     //   //     MaterialPageRoute(
                     //   //         builder: (_) => TabBarWidget()));
-                    navigate(context, HomeScreen());
+                    // navigate(context, HomeScreen());
+                    
                     // }
                   },
                   style: ElevatedButton.styleFrom(

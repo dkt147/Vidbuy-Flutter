@@ -214,7 +214,7 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                   height: 50.h,
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.w, right: 22.w),
+                  margin: EdgeInsets.only(left: 10.w, right: 22.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

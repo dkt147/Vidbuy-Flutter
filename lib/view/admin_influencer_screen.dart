@@ -340,10 +340,10 @@ class InfluencerDashboardScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Content(data: "Influncers", size: 16.h, family: "Nunito",weight: FontWeight.w500,), 
+              Content(data: "Influncers", size: 16.h, family: "Lato",weight: FontWeight.w500,), 
               // Text('Influencers', style: TextStyle(color: Colors.black, fontSize: 16.sp)),
-              Content(data: "Users", size: 16.h, family: "Nunito",weight: FontWeight.w500,),
-              Content(data: "Billing", size: 16.h, family: "Nunito",weight: FontWeight.w500,),
+              Content(data: "Users", size: 16.h, family: "Lato",weight: FontWeight.w500,),
+              Content(data: "Billing", size: 16.h, family: "Lato",weight: FontWeight.w500,),
             ],
           ),
         ),
@@ -361,7 +361,7 @@ class InfluencerDashboardScreen extends StatelessWidget {
               xLabels: [
                 "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
               ],
-              barColor: Colors.blue,
+              barColor: Color(0xff4A3AFF),
             ),
             SizedBox(height: 16.h),
             _buildBarChartSection(
@@ -369,7 +369,7 @@ class InfluencerDashboardScreen extends StatelessWidget {
               xLabels: [
                 "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
               ],
-              barColor: Colors.grey,
+              barColor: Color(0xff85848F),
             ),
           ],
         ),
@@ -382,13 +382,29 @@ class InfluencerDashboardScreen extends StatelessWidget {
       width: 222.w,
       height: 80.h,
       decoration: BoxDecoration(
-        color: Colors.green,
+        // color: Colors.green,
+         gradient: LinearGradient(
+              // begin: Alignment.topRight,
+              // end: Alignment.bottomLeft,
+              // stops: [
+              //   0.1,
+              //   0.4,
+              //   0.6,
+              //   0.9,
+              // ],
+              colors: [
+                Color(0xff67D47F),
+                Color(0xff459556),
+
+              ],
+            ),
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.person, color: Colors.orange, size: 40.h),
+          // Icon(Icons.person, color: Colors.orange, size: 40.h),
+          Image.asset("assets/Icon/woman.png", height: 45.h,),
           SizedBox(width: 10.w),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -458,38 +474,38 @@ class InfluencerDashboardScreen extends StatelessWidget {
               alignment: BarChartAlignment.spaceAround,
               maxY: 3000, // Adjust maxY to fit your data
               barTouchData: BarTouchData(enabled: false),
-              titlesData: FlTitlesData(
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: (value, meta) {
-                      return Text(
-                        xLabels[value.toInt()],
-                        style: TextStyle(fontSize: 12.h),
-                      );
-                    },
-                  ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: (value, meta) {
-                      return Text(
-                        '${(value / 1000).toStringAsFixed(1)}k',
-                        style: TextStyle(fontSize: 12.sp),
-                      );
-                    },
-                    interval: 500, // Adjust interval to fit better
-                  ),
-                ),
-              ),
+              // titlesData: FlTitlesData(
+              //   // bottomTitles: AxisTitles(
+              //   //   sideTitles: SideTitles(
+              //   //     // showTitles: true,
+              //   //     getTitlesWidget: (value, meta) {
+              //   //       return Text(
+              //   //         xLabels[value.toInt()],
+              //   //         style: TextStyle(fontSize: 12.h),
+              //   //       );
+              //   //     },
+              //   //   ),
+              //   // ),
+              //   // leftTitles: AxisTitles(
+              //   //   sideTitles: SideTitles(
+              //   //     showTitles: true,
+              //   //     getTitlesWidget: (value, meta) {
+              //   //       return Text(
+              //   //         '${(value / 1000).toStringAsFixed(1)}k',
+              //   //         style: TextStyle(fontSize: 12.sp),
+              //   //       );
+              //   //     },
+              //   //     interval: 500, // Adjust interval to fit better
+              //   //   ),
+              //   // ),
+              // ),  
               barGroups: [
                 for (int i = 0; i < xLabels.length; i++)
                   BarChartGroupData(
                     x: i,
                     barRods: [
                       BarChartRodData(
-                        toY: (i + 1) * 400.0, // Adjust bar height here
+                        toY: (i + 1) * 200.0.h, // Adjust bar height here
                         color: barColor,
                         width: 12.w, // Bar width adjusted
                       ),

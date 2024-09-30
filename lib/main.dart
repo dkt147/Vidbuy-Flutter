@@ -3,7 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidbuy_app/Provider/navbar_provider.dart';
+import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
 import 'package:vidbuy_app/view/admin_influencer_screen.dart';
+import 'package:vidbuy_app/view/cancel_screen.dart';
+import 'package:vidbuy_app/view/pending_admin_screen.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
 
 late SharedPreferences pref;
@@ -40,7 +43,19 @@ class MyApp extends StatelessWidget {
               ),
               useMaterial3: true,
             ),
-            home: SplashScreen()
+            home: MainTabbarAdminWidget(
+              tabTitles: [
+                "Pending Request",
+                "Approved",
+                "Canceled"
+                
+              ],
+              screens: [
+                          PendingAdminScreen(),
+                          PendingAdminScreen(),
+                          CancelScreen(),
+              ],
+            )
             
             // InfluencerChart(),
           );

@@ -91,6 +91,8 @@ class _InfluencerDonationsTabbarWidgetState extends State<InfluencerDonationsTab
         children: [
           // AllOrdersScreen(),
           AllTaskScereen(),
+          // Tab(text: 'Pending', ),
+          // Tab(text: 'Waiting Video', ),
           // PendingScreen(),
           // WaitingVideoScreen(),
           VideoScreen(),

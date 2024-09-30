@@ -274,7 +274,7 @@ class _InfluencerEditProfileScreenState
                     hint: "[CATEGORY]",
                     colorr: Colors.transparent,
                     // prefixIcon: Icon(Icons.email),
-                    suffixIcon: Icon(Icons.arrow_drop_down_circle),
+                    suffixIcon: Image.asset("assets/Icon/down.png",),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -287,7 +287,7 @@ class _InfluencerEditProfileScreenState
                     hint: "[Country]",
                     colorr: Colors.transparent,
                     // prefixIcon: Icon(Icons.email),
-                    suffixIcon: Icon(Icons.arrow_drop_down_circle),
+                    suffixIcon: Image.asset("assets/Icon/down.png",),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -300,7 +300,7 @@ class _InfluencerEditProfileScreenState
                     hint: "Email",
                     colorr: Colors.transparent,
                     // prefixIcon: Icon(Icons.email),
-                    suffixIcon: Icon(Icons.arrow_drop_down_circle),
+                    // suffixIcon: Image.asset("assets/Icon/down.png",),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
