@@ -6,8 +6,11 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_card_widget.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_donations_tabbar_widget.dart';
+import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
+import 'package:vidbuy_app/view/cancel_screen.dart';
 import 'package:vidbuy_app/view/giveaway_screen.dart';
 import 'package:vidbuy_app/view/notification_screen.dart';
+import 'package:vidbuy_app/view/pending_admin_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,9 +35,28 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: EdgeInsets.only(right: 18.w, left: 11.w),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 22.r,
-                    backgroundImage: AssetImage("assets/UI/grouppicture.jpg"),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(
+                        context,
+                        MainTabbarAdminWidget(
+                          tabTitles: [
+                            "Pending Request",
+                            "Approved",
+                            "Canceled"
+                          ],
+                          screens: [
+                            PendingAdminScreen(),
+                            PendingAdminScreen(),
+                            CancelScreen(),
+                          ],
+                        ),
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 22.r,
+                      backgroundImage: AssetImage("assets/UI/grouppicture.jpg"),
+                    ),
                   ),
                   SizedBox(width: 5.w),
                   Column(
@@ -109,40 +131,45 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 23.h,
             ),
             Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            decoration: BoxDecoration(
-              color: Color(0xff4B4A51), // Background color similar to the image
-              borderRadius: BorderRadius.circular(30.r), // Rounded edges
-            ),
-            width: 349,
-            height: 48.h,
-            child: Row(
-              children: [
-                // Icon(
-                //   Icons.search,
-                //   color: Colors.grey[400], // Icon color similar to placeholder
-                // ),
-                Image.asset("assets/Icon/searchIcon.png", height: 18.h,),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: TextField(
-                    style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
-                    decoration: InputDecoration(
-                      hintText: 'Discover celebrities...',
-                      hintStyle: TextStyle(
-                        fontFamily: "Nunito",
-                        fontSize: 14.h,
-                        color: Color(0xff8E8E8E), // Placeholder text color
-                      ),
-                      border: InputBorder.none, // No border
-                    ),
-                  ),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                decoration: BoxDecoration(
+                  color: Color(
+                      0xff4B4A51), // Background color similar to the image
+                  borderRadius: BorderRadius.circular(30.r), // Rounded edges
                 ),
-              ],
+                width: 349,
+                height: 48.h,
+                child: Row(
+                  children: [
+                    // Icon(
+                    //   Icons.search,
+                    //   color: Colors.grey[400], // Icon color similar to placeholder
+                    // ),
+                    Image.asset(
+                      "assets/Icon/searchIcon.png",
+                      height: 18.h,
+                    ),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: TextField(
+                        style: TextStyle(
+                            color: Colors.white, fontFamily: "Nunito"),
+                        decoration: InputDecoration(
+                          hintText: 'Discover celebrities...',
+                          hintStyle: TextStyle(
+                            fontFamily: "Nunito",
+                            fontSize: 14.h,
+                            color: Color(0xff8E8E8E), // Placeholder text color
+                          ),
+                          border: InputBorder.none, // No border
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
             SizedBox(
               height: 13.h,
             ),
@@ -157,7 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SliderWidget(
-                          text: "Music", picture: "assets/Vector/Shortwave.png"),
+                          text: "Music",
+                          picture: "assets/Vector/Shortwave.png"),
                       SizedBox(
                         width: 50.w,
                       ),
@@ -167,7 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 50.w,
                       ),
                       SliderWidget(
-                          text: "Tv\nShows", picture: "assets/Vector/Shortwave.png"),
+                          text: "Tv\nShows",
+                          picture: "assets/Vector/Shortwave.png"),
                     ],
                   ),
                 ),
@@ -210,8 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ListTile(
                     leading: CircleAvatar(
                       radius: 22.r,
-                      backgroundImage:
-                          AssetImage("assets/UI/grouppicture.jpg"),
+                      backgroundImage: AssetImage("assets/UI/grouppicture.jpg"),
                     ),
                     title: Text(
                       '1000',
@@ -245,15 +273,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Container(
-                         margin: EdgeInsets.only(left: 300.w,), 
-                          child: Image.asset("assets/Icon/bookmark.png", height: 31.h,)),
+                            margin: EdgeInsets.only(
+                              left: 300.w,
+                            ),
+                            child: Image.asset(
+                              "assets/Icon/bookmark.png",
+                              height: 31.h,
+                            )),
                       ],
                     ),
                   ),
                 ),
-                
                 Row(
-                  crossAxisAlignment:CrossAxisAlignment.start ,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       height: 16.63.h,
@@ -274,30 +306,34 @@ class _HomeScreenState extends State<HomeScreen> {
                             weight: FontWeight.w700,
                             family: "Nunito",
                           ),
-                          
                         ],
                       ),
                     ),
                     SizedBox(
-                    height: 60.h, 
-                    width: 150.w,// Adjust based on your image size
-                    child: Stack(
-                      children: [
-            for (int i = 0; i < 4; i++) // Loop to create multiple images
-              Positioned(
-                left: i * 15.0.w, // Adjust to control the overlap amount
-                child: CircleAvatar(
-                  radius: 15.r, // Adjust the size of the images
-                  backgroundColor: Colors.purple, // Border color
-                  child: CircleAvatar(
-                    radius: 28.r, // Slightly smaller to create the border effect
-                    backgroundImage: AssetImage("assets/Vector/girl.png"),
-                  ),
-                ),
-              ),
-                      ],
+                      height: 60.h,
+                      width: 150.w, // Adjust based on your image size
+                      child: Stack(
+                        children: [
+                          for (int i = 0;
+                              i < 4;
+                              i++) // Loop to create multiple images
+                            Positioned(
+                              left: i *
+                                  15.0.w, // Adjust to control the overlap amount
+                              child: CircleAvatar(
+                                radius: 15.r, // Adjust the size of the images
+                                backgroundColor: Colors.purple, // Border color
+                                child: CircleAvatar(
+                                  radius: 28
+                                      .r, // Slightly smaller to create the border effect
+                                  backgroundImage:
+                                      AssetImage("assets/Vector/girl.png"),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
                   ],
                 ),
                 Container(

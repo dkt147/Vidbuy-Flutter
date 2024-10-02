@@ -80,7 +80,7 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
                 ),
                 child: Text(
                   "Delete  Account",
-                  style: TextStyle(fontSize: 16.h, color: Colors.white),
+                  style: TextStyle(fontSize: 16.h, color: Colors.white, fontFamily: "Lato", fontWeight: FontWeight.w700),
                 ),
               ),
             ),
@@ -88,44 +88,59 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
           SizedBox(
             height: 18.h,
           ),
+          // Center(
+          //   child: Container(
+          //     width: 335.w,
+          //     height: 50.h,
+          //     child: ElevatedButton(
+          //       onPressed: () {
+          //         // if (_emailController.text.isEmpty) {
+          //         //   snackBar("Enter Valid Email", context);
+          //         // } else if (_passwordController.text.isEmpty) {
+          //         //   snackBar(
+          //         //     "Enter Password",
+          //         //     context,
+          //         //   );
+          //         // } else if (_passwordController.text.length < 8) {
+          //         //   snackBar(
+          //         //       "Enter Minium 8 Characters of Password", context);
+          //         // } else {
+          //         //   // Navigator.push(
+          //         //   //     context,
+          //         //   //     MaterialPageRoute(
+          //         //   //         builder: (_) => TabBarWidget()));
+          //           // navigate(context, DeleteConfirmAccountScreen());
+          //         // }
+          //       },
+          //       style: ElevatedButton.styleFrom(
+          //         // backgroundColor: Color(0xffFFFFFF),
+                  
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(30.r),
+                    
+          //         ),
+                  
+          //       ),
+          //       child: Text(
+          //         "Cancel",
+          //         style: TextStyle(fontSize: 16.h, color: Colors.black, fontFamily: "Lato", fontWeight: FontWeight.w700),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Center(
             child: Container(
               width: 335.w,
-              height: 50.h,
-              child: ElevatedButton(
-                onPressed: () {
-                  // if (_emailController.text.isEmpty) {
-                  //   snackBar("Enter Valid Email", context);
-                  // } else if (_passwordController.text.isEmpty) {
-                  //   snackBar(
-                  //     "Enter Password",
-                  //     context,
-                  //   );
-                  // } else if (_passwordController.text.length < 8) {
-                  //   snackBar(
-                  //       "Enter Minium 8 Characters of Password", context);
-                  // } else {
-                  //   // Navigator.push(
-                  //   //     context,
-                  //   //     MaterialPageRoute(
-                  //   //         builder: (_) => TabBarWidget()));
-                    // navigate(context, DeleteConfirmAccountScreen());
-                  // }
-                },
-                style: ElevatedButton.styleFrom(
-                  // backgroundColor: Color(0xffFFFFFF),
-                  
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.r),
-                    
-                  ),
-                  
+                height: 50.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.r),
+                  border: Border.all(color: Colors.black),
+            
                 ),
                 child: Text(
-                  "Cancel",
-                  style: TextStyle(fontSize: 16.h, color: Colors.black),
-                ),
-              ),
+                    "Cancel",
+                    style: TextStyle(fontSize: 16.h, color: Colors.black, fontFamily: "Lato", fontWeight: FontWeight.w700),
+                  ),
             ),
           ),
         ],

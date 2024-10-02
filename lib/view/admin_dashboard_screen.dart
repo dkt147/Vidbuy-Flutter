@@ -319,7 +319,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
-class InfluencerDashboardScreen extends StatelessWidget {
+class AdminDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ScreenUtil.init(context, designSize: Size(375, 812));

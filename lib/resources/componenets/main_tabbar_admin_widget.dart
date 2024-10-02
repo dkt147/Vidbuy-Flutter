@@ -42,7 +42,7 @@ class _MainTabbarAdminWidgetState extends State<MainTabbarAdminWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         title: _tabController.index == widget.tabTitles.indexOf("Pending Request")
             ? Row(
                 children: [
