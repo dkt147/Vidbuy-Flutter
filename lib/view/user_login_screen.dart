@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,11 +8,12 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
-import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
-import 'package:vidbuy_app/view/choose_category_screen.dart.dart';
+
 import 'package:vidbuy_app/view/create_user_account_screen.dart';
 import 'package:vidbuy_app/view/forgot_password_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
+import 'package:vidbuy_app/services/api.service.dart';
+import 'package:vidbuy_app/services/network.service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -21,11 +24,21 @@ class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
 
+  // NetworkService instance
+  late NetworkService _networkService;
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+
+    // Initialize NetworkService
+    _networkService = NetworkService(
+      api: ApiService(),
+      // utility: UtilityService(),
+    );
   }
 
   @override
@@ -35,6 +48,54 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  Future<void> _login() async {
+    if (_emailController.text.isEmpty) {
+      snackBar("Enter Valid Email", context);
+      return;
+    }
+    if (_passwordController.text.isEmpty) {
+      snackBar("Enter Password", context);
+      return;
+    }
+    if (_passwordController.text.length < 8) {
+      snackBar("Enter Minimum 8 Characters for Password", context);
+      return;
+    }
+
+    // Show loading indicator
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Preparing the data for the API call
+    Map<String, dynamic> data = {
+      'email': _emailController.text,
+      'password': _passwordController.text,
+      'role_id' : "2"
+    };
+
+    try {
+      var response = await _networkService.login(data);
+      print(response);
+      log('Login Response: $response');  // Log the response for debugging
+      setState(() {
+        _isLoading = false;
+      });
+
+      // Handle response (adjust based on the API response structure)
+      if (response) {
+        navigate(context, NavBarScreen());
+      } else {
+        snackBar(response['message'] ?? 'Login failed. Please try again.', context);
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      snackBar('Error: $e', context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 52.h), // To give some top spacing
+            SizedBox(height: 52.h),
             IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
@@ -73,63 +134,27 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Content(
-                  //   data: "Your Email",
-                  //   size: 16.h,
-                  //   family: "Lato",
-                  //   weight: FontWeight.w500,
-                  // ),
                   ContentField(
                     label: "Your Email",
                     hint: "example@gmail.com",
-                    prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h,),
+                    prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h),
                     controller: _emailController,
                     colorr: Colors.transparent,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
                     ],
-                    // validate: validateEmail,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 10.h),
-                  // Content(
-                  //   data: "Your Password",
-                  //   size: 16.h,
-                  //   family: "Lato",
-                  //   weight: FontWeight.w500,
-                  // ),
                   ContentFieldPassword(
-                      label: "Your Password",
-                      hint: "Password",
-                      index: 1,
-                      // textInput: TextInputType.text,
-                      controller: _passwordController,
-                      inputFormat: <TextInputFormatter>[
-                        FilteringTextInputFormatter.singleLineFormatter,
-                      ]),
-                  // Container(
-                  //   height: 50.h,
-                  //   width: 335.w,
-                  //   child: TextField(
-                  //     obscureText: true,
-                  //     decoration: InputDecoration(
-                  //       hintText: "********",
-                  //       hintStyle: TextStyle(
-                  //           fontFamily: "Lato",
-                  //           fontSize: 16.h,
-                  //           color: Color(0xff908B8B)),
-                  //       prefixIcon: Icon(Icons.lock),
-                  //       suffixIcon: IconButton(
-                  //         icon: Icon(Icons.visibility),
-                  //         onPressed: () {},
-                  //       ),
-                  //       border: OutlineInputBorder(
-                  //         borderSide: BorderSide(color: Color(0xffFFFFFF)),
-                  //         borderRadius: BorderRadius.circular(30.r),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                    label: "Your Password",
+                    hint: "Password",
+                    index: 1,
+                    controller: _passwordController,
+                    inputFormat: <TextInputFormatter>[
+                      FilteringTextInputFormatter.singleLineFormatter,
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -139,35 +164,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 280.w,
                 height: 50.h,
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (_emailController.text.isEmpty) {
-                      snackBar("Enter Valid Email", context);
-                    } else if (_passwordController.text.isEmpty) {
-                      snackBar(
-                        "Enter Password",
-                        context,
-                      );
-                    } else if (_passwordController.text.length < 8) {
-                      snackBar(
-                          "Enter Minium 8 Characters of Password", context);
-                    } else {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (_) => TabBarWidget()));
-                      navigate(context, NavBarScreen());
-                    }
-                  },
+                  onPressed: _isLoading ? null : _login, // Disable button while loading
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.r),
                     ),
                   ),
-                  child: Text(
-                    "Log In",
-                    style: TextStyle(fontSize: 16.h, color: Colors.white),
-                  ),
+                  child: _isLoading
+                      ? CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        )
+                      : Text(
+                          "Log In",
+                          style: TextStyle(fontSize: 16.h, color: Colors.white),
+                        ),
                 ),
               ),
             ),
