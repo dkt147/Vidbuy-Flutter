@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +7,6 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
-
 import 'package:vidbuy_app/view/create_user_account_screen.dart';
 import 'package:vidbuy_app/view/forgot_password_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
@@ -37,7 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
     // Initialize NetworkService
     _networkService = NetworkService(
       api: ApiService(),
-      // utility: UtilityService(),
     );
   }
 
@@ -48,7 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _login() async {
+  Future<void> _login(BuildContext context) async {
+    // Input validation
     if (_emailController.text.isEmpty) {
       snackBar("Enter Valid Email", context);
       return;
@@ -67,32 +65,34 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
 
-    // Preparing the data for the API call
+    // Prepare data for the API call
     Map<String, dynamic> data = {
       'email': _emailController.text,
       'password': _passwordController.text,
-      'role_id' : "2"
+      'role_id': "2"
     };
 
     try {
+      // Call the login API
       var response = await _networkService.login(data);
-      print(response);
-      log('Login Response: $response');  // Log the response for debugging
+      log('Login Response: $response'); // Log the response for debugging
       setState(() {
         _isLoading = false;
       });
 
-      // Handle response (adjust based on the API response structure)
+      // Handle the response
       if (response) {
-        navigate(context, NavBarScreen());
+        // Navigate to the NavBarScreen upon successful login
+        // navigate(context, NavBarScreen());
       } else {
+        // Show error message if login fails
         snackBar(response['message'] ?? 'Login failed. Please try again.', context);
       }
     } catch (e) {
       setState(() {
         _isLoading = false;
       });
-      snackBar('Error: $e', context);
+      snackBar('Error: $e', context); // Show error if the API call fails
     }
   }
 
@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 280.w,
                 height: 50.h,
                 child: ElevatedButton(
-                  onPressed: _isLoading ? null : _login, // Disable button while loading
+                  onPressed: _isLoading ? null : () => _login(context), // Pass context here
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
