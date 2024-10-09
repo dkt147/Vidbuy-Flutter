@@ -12,6 +12,8 @@ import 'package:vidbuy_app/view/forgot_password_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/services/api.service.dart';
 import 'package:vidbuy_app/services/network.service.dart';
+import 'package:logger/logger.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -19,6 +21,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  final Logger _logger = Logger();
+
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
 
@@ -81,17 +86,30 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       // Handle the response
-      if (response) {
+      if (response['bool'] == true) {
         // Navigate to the NavBarScreen upon successful login
-        // navigate(context, NavBarScreen());
+        //
+
+        // Check if the widget is still mounted before navigating
+        if (!mounted) return;
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const NavBarScreen()),
+        );
       } else {
+        if (!mounted) return;
         // Show error message if login fails
-        snackBar(response['message'] ?? 'Login failed. Please try again.', context);
+        snackBar(
+            response['message'] ?? 'Login failed. Please try again.', context);
       }
     } catch (e) {
       setState(() {
         _isLoading = false;
       });
+      if (!mounted) return;
+      // Log error instead of using print
+      _logger.e('Login failed', error: e);
       snackBar('Error: $e', context); // Show error if the API call fails
     }
   }
@@ -137,7 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ContentField(
                     label: "Your Email",
                     hint: "example@gmail.com",
-                    prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h),
+                    prefixIcon:
+                        Image.asset("assets/Icon/email.png", height: 25.h),
                     controller: _emailController,
                     colorr: Colors.transparent,
                     inputFormat: <TextInputFormatter>[
@@ -164,7 +183,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 280.w,
                 height: 50.h,
                 child: ElevatedButton(
-                  onPressed: _isLoading ? null : () => _login(context), // Pass context here
+                  onPressed: _isLoading
+                      ? null
+                      : () => _login(context), // Pass context here
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
@@ -173,7 +194,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: _isLoading
                       ? CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
                         )
                       : Text(
                           "Log In",
