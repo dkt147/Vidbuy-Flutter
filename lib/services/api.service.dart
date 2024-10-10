@@ -32,28 +32,32 @@ class ApiService {
   }
 
   // PUT request
-  // Future<http.Response> put(String endpoint, dynamic body) async {
-  //   var uri = Uri.parse('$url/$endpoint');
-  //   return await http.put(
-  //     uri,
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode(body),
-  //   );
-  // }
+  Future<Response> put(String endpoint, dynamic body) async {
 
-  // // DELETE request
-  // Future<http.Response> delete(String endpoint) async {
-  //   var uri = Uri.parse('$url/$endpoint');
-  //   return await http.delete(uri);
-  // }
+    return await _dio.put(endpoint, data: body);
+    // var uri = Uri.parse('$url/$endpoint');
+    // return await http.put(
+    //   uri,
+    //   headers: {'Content-Type': 'application/json'},
+    //   body: jsonEncode(body),
+    // );
+  }
 
-  // // PATCH request
-  // Future<http.Response> patch(String endpoint, dynamic body) async {
-  //   var uri = Uri.parse('$url/$endpoint');
-  //   return await http.patch(
-  //     uri,
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode(body),
-  //   );
-  // }
+  // DELETE request
+  Future<Response> delete(String endpoint) async {
+    return await _dio.delete(endpoint);
+    // var uri = Uri.parse('$url/$endpoint');
+    // return await http.delete(uri);
+  }
+
+  // PATCH request
+  Future<Response> patch(String endpoint, dynamic body) async {
+    return await _dio.patch(endpoint, data: body);
+    // var uri = Uri.parse('$url/$endpoint');
+    // return await http.patch(
+    //   uri,
+    //   headers: {'Content-Type': 'application/json'},
+    //   body: jsonEncode(body),
+    // );
+  }
 }
