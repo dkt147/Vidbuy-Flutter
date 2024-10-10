@@ -5,7 +5,7 @@ import 'package:vidbuy_app/services/interceptor.service.dart';
 class ApiService {
   final Logger _logger = Logger();
   final Dio _dio =
-      Dio(BaseOptions(baseUrl: 'http://influenzers.duckdns.org/api'));
+      Dio(BaseOptions(baseUrl: 'http://influenzers.duckdns.org/api/'));
 
   ApiService() {
     // Attach interceptor
