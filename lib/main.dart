@@ -10,17 +10,16 @@ import 'package:vidbuy_app/view/pending_admin_screen.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
 
 late SharedPreferences pref;
-Future<void> main() async {
-  runApp(const MyApp());
 
-  await ScreenUtil.ensureScreenSize();
-  pref = await SharedPreferences.getInstance();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensures proper initialization
+  pref = await SharedPreferences.getInstance(); // Initialize SharedPreferences
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -36,31 +35,13 @@ class MyApp extends StatelessWidget {
             title: 'VidBuy App',
             theme: ThemeData(
               fontFamily: "LondrinaSolid",
-              scaffoldBackgroundColor: Color(0xffFFFFFF),
-              // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              scaffoldBackgroundColor: const Color(0xffFFFFFF),
               scrollbarTheme: ScrollbarThemeData(
-                trackColor: MaterialStateProperty.all(Color(0xffFFFFFF)),
+                trackColor: WidgetStateProperty.all(const Color(0xffFFFFFF)),
               ),
               useMaterial3: true,
             ),
             home: SplashScreen(),
-            
-            
-            // MainTabbarAdminWidget(
-            //   tabTitles: [
-            //     "Pending Request",
-            //     "Approved",
-            //     "Canceled"
-                
-            //   ],
-            //   screens: [
-            //               PendingAdminScreen(),
-            //               PendingAdminScreen(),
-            //               CancelScreen(),
-            //   ],
-            // ),
-            
-            // InfluencerChart(),
           );
         },
       ),

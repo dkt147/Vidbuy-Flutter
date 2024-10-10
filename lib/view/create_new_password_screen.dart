@@ -47,16 +47,16 @@ class CreateNewPasswordScreen extends StatelessWidget {
               ),
               SizedBox(height: 55.h),
               ContentFieldPassword(
-                  label: "Password",
-                  hint: "Password",
-                  index: 1,
-                  // textInput: TextInputType.text,
-                  controller: _passwordController,
-                  inputFormat: <TextInputFormatter>[
-                    FilteringTextInputFormatter.singleLineFormatter,
-                  ]),
+                label: "Your Password",
+                hint: "Password",
+                index: 0, // Add this line
+                controller: _passwordController,
+                inputFormat: [FilteringTextInputFormatter.singleLineFormatter],
+                keyboardType:
+                    TextInputType.visiblePassword, // This line is also included
+              ),
               SizedBox(height: 8.h),
-          
+
               Text(
                 "Must be at least 6 characters.",
                 style: TextStyle(
@@ -67,14 +67,14 @@ class CreateNewPasswordScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               ContentFieldPassword(
-                  label: "Confirm Password",
-                  hint: "Password",
-                  index: 1,
-                  // textInput: TextInputType.text,
-                  controller: _confirmPasswordController,
-                  inputFormat: <TextInputFormatter>[
-                    FilteringTextInputFormatter.singleLineFormatter,
-                  ]),
+                label: "Your Password",
+                hint: "Password",
+                index: 0, // Add this line
+                controller: _passwordController,
+                inputFormat: [FilteringTextInputFormatter.singleLineFormatter],
+                keyboardType:
+                    TextInputType.visiblePassword, // This line is also included
+              ),
               SizedBox(height: 40.h),
               Container(
                 width: 335.w,

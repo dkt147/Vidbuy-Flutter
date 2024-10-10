@@ -16,7 +16,7 @@ class ContentFieldPassword extends StatelessWidget {
     required this.hint,
     required this.index,
     required this.controller,
-    required this.inputFormat,
+    required this.inputFormat, required TextInputType keyboardType,
     // required this.textInput
   });
 

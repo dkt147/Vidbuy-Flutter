@@ -44,22 +44,23 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
     super.dispose();
   }
 
- File? _image;
+  File? _image;
 
   Future<void> _pickImage() async {
-  try {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    try {
+      final ImagePicker _picker = ImagePicker();
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
-    if (image != null) {
-      setState(() {
-        _image = File(image.path);
-      });
+      if (image != null) {
+        setState(() {
+          _image = File(image.path);
+        });
+      }
+    } catch (e) {
+      print('Error picking image: $e');
     }
-  } catch (e) {
-    print('Error picking image: $e');
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,14 +115,14 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
                   child: CircleAvatar(
                     radius: 40.r,
                     backgroundColor: Colors.grey[200],
-                     backgroundImage: _image != null ? FileImage(_image!) : null,
-                                child: _image == null
-                                    ? Icon(
-                      Icons.camera_alt,
-                      size: 26,
-                      color: Colors.grey,
-                                      )
-                                    : null,
+                    backgroundImage: _image != null ? FileImage(_image!) : null,
+                    child: _image == null
+                        ? Icon(
+                            Icons.camera_alt,
+                            size: 26,
+                            color: Colors.grey,
+                          )
+                        : null,
                   ),
                 ),
               ),
@@ -136,7 +137,10 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
                     label: "Your Name",
                     hint: "Enter Your Name",
                     colorr: Colors.transparent,
-                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
+                    prefixIcon: Image.asset(
+                      "assets/Icon/person.png",
+                      height: 25.h,
+                    ),
                     controller: _nameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -148,7 +152,10 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
                     label: "Your username",
                     hint: "Enter Your Username",
                     colorr: Colors.transparent,
-                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
+                    prefixIcon: Image.asset(
+                      "assets/Icon/person.png",
+                      height: 25.h,
+                    ),
                     controller: _usernameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -160,7 +167,10 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
                     label: "Your email",
                     hint: "Enter Your Email",
                     colorr: Colors.transparent,
-                    prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h,),
+                    prefixIcon: Image.asset(
+                      "assets/Icon/email.png",
+                      height: 25.h,
+                    ),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -169,14 +179,16 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
                   ),
                   SizedBox(height: 10.h),
                   ContentFieldPassword(
-                      label: "Your Password",
-                      hint: "Password",
-                      index: 1,
-                      // textInput: TextInputType.text,
-                      controller: _passwordController,
-                      inputFormat: <TextInputFormatter>[
-                        FilteringTextInputFormatter.singleLineFormatter
-                      ]),
+                    label: "Your Password",
+                    hint: "Password",
+                    index: 0, // Add this line
+                    controller: _passwordController,
+                    inputFormat: [
+                      FilteringTextInputFormatter.singleLineFormatter
+                    ],
+                    keyboardType: TextInputType
+                        .visiblePassword, // This line is also included
+                  ),
                 ],
               ),
             ),

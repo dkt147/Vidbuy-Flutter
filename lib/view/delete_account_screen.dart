@@ -8,7 +8,7 @@ import 'package:vidbuy_app/view/delete_confirm_account_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 
 class DeleteAccountScreen extends StatelessWidget {
-   DeleteAccountScreen({super.key});
+  DeleteAccountScreen({super.key});
   TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -51,14 +51,16 @@ class DeleteAccountScreen extends StatelessWidget {
                   height: 40.h,
                 ),
                 ContentFieldPassword(
-                    label: "Your Password",
-                    hint: "Password",
-                    index: 1,
-                    // textInput: TextInputType.text,
-                    controller: _passwordController,
-                    inputFormat: <TextInputFormatter>[
-                      FilteringTextInputFormatter.singleLineFormatter,
-                    ]),
+                  label: "Your Password",
+                  hint: "Password",
+                  index: 0, // Add this line
+                  controller: _passwordController,
+                  inputFormat: [
+                    FilteringTextInputFormatter.singleLineFormatter
+                  ],
+                  keyboardType: TextInputType
+                      .visiblePassword, // This line is also included
+                ),
               ],
             ),
           ),

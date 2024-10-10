@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
@@ -14,14 +15,12 @@ import 'package:vidbuy_app/services/api.service.dart';
 import 'package:vidbuy_app/services/network.service.dart';
 import 'package:logger/logger.dart';
 
-
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final Logger _logger = Logger();
 
   late TextEditingController _emailController;
@@ -87,6 +86,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // Handle the response
       if (response['bool'] == true) {
+
+        final prefs = await SharedPreferences.getInstance();
+          // Extract user ID from response
+          int token = response['user']['token'];
+          await prefs.setString(
+              'token', token.toString());
         // Navigate to the NavBarScreen upon successful login
         //
 
@@ -168,11 +173,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ContentFieldPassword(
                     label: "Your Password",
                     hint: "Password",
-                    index: 1,
+                    index: 0, // Add this line
                     controller: _passwordController,
-                    inputFormat: <TextInputFormatter>[
-                      FilteringTextInputFormatter.singleLineFormatter,
+                    inputFormat: [
+                      FilteringTextInputFormatter.singleLineFormatter
                     ],
+                    keyboardType: TextInputType
+                        .visiblePassword, // This line is also included
                   ),
                 ],
               ),

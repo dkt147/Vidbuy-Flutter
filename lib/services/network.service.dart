@@ -18,6 +18,18 @@ class NetworkService {
     return await httpPostResponse('login', data);
   }
 
+  Future<dynamic> register(Map<String, dynamic> data) async {
+    return await httpPostResponse('signup-via-email', data);
+  }
+
+  Future<dynamic> verifySignUp(Map<String, dynamic> data) async {
+    return await httpPostResponse('verify-signup', data);
+  }
+
+  Future<dynamic> getCategory(Map<String, dynamic> data) async {
+    return await httpGetResponse('category/list');
+  }
+
   // Function to serialize the request body
   String serialize(Map<String, dynamic> obj) {
     List<String> str = [];
