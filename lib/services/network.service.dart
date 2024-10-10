@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -125,7 +124,7 @@ class NetworkService {
       }
 
       String url = key + (id != null ? '/$id' : '');
-      late Response response;
+      late http.Response response;
 
       // Switch based on request type (GET, POST, etc.)
       if (type == 'get') {
@@ -145,7 +144,7 @@ class NetworkService {
       }
 
       // Decode and return the JSON response
-      return jsonDecode(response.data);
+      return jsonDecode(response.body);
     } catch (err) {
       if (showLoader) {
         // utility.hideLoader();
