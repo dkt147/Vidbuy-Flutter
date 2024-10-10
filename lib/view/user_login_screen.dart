@@ -76,8 +76,12 @@ class _LoginScreenState extends State<LoginScreen> {
       'role_id': "2"
     };
 
+    print(data);
+
     try {
       // Call the login API
+    print(data);
+      
       var response = await _networkService.login(data);
       log('Login Response: $response'); // Log the response for debugging
       setState(() {
