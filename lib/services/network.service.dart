@@ -16,6 +16,7 @@ class NetworkService {
 
   // Authentication Related APIs
   Future<dynamic> login(Map<String, dynamic> data) async {
+    print(data);
     return await httpPostResponse('login', data);
   }
 
