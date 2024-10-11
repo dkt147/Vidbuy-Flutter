@@ -78,16 +78,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       // Call the login API
-      
+
       var response = await _networkService.login(data);
       // log('Login Response: $response'); // Log the response for debugging
+      _logger.e(response);
       setState(() {
         _isLoading = false;
       });
 
       // Handle the response
-      if (response['bool'] == true) {
-        
+      if (response['token'] != '') {
         // Navigate to the NavBarScreen upon successful login
         //
 
@@ -102,7 +102,6 @@ class _LoginScreenState extends State<LoginScreen> {
         if (!mounted) return;
         // Show error message if login fails
         // snackBar(response['message'] ?? 'Login failed. Please try again.', context);
-
       }
     } catch (e) {
       setState(() {

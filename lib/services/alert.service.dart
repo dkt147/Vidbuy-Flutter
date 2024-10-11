@@ -4,31 +4,33 @@ import 'package:flutter/services.dart';
 import 'package:vidbuy_app/services/string.service.dart';
 
 class AlertsService {
-  final StringsService strings;
+  StringsService strings = StringsService();
 
-  AlertsService({required this.strings});
+  AlertsService();
 
   // Show an alert dialog
-  Future<bool> showAlert(BuildContext context, String msg, {String title = 'Alert'}) async {
+  Future<bool> showAlert(BuildContext context, String msg,
+      {String title = 'Alert'}) async {
     return await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(msg),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop(true); // Close the dialog and return true
-              },
-            ),
-          ],
-        );
-      },
-    ) ??
-    false; // Return false if dialog is closed without any value
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(title),
+              content: Text(msg),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pop(true); // Close the dialog and return true
+                  },
+                ),
+              ],
+            );
+          },
+        ) ??
+        false; // Return false if dialog is closed without any value
   }
 
   // Show success toast
@@ -36,7 +38,7 @@ class AlertsService {
     Fluttertoast.showToast(
       msg: strings.capitalizeEachFirst(msg),
       toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.TOP,
       backgroundColor: Colors.green,
       textColor: Colors.white,
     );
@@ -75,29 +77,30 @@ class AlertsService {
     String cancelClass = '',
   }) async {
     return await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              child: Text(cancelText),
-              onPressed: () {
-                Navigator.of(context).pop(false); // Close dialog with false
-              },
-            ),
-            TextButton(
-              child: Text(okText),
-              onPressed: () {
-                Navigator.of(context).pop(true); // Close dialog with true
-              },
-            ),
-          ],
-        );
-      },
-    ) ?? false;
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(title),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(cancelText),
+                  onPressed: () {
+                    Navigator.of(context).pop(false); // Close dialog with false
+                  },
+                ),
+                TextButton(
+                  child: Text(okText),
+                  onPressed: () {
+                    Navigator.of(context).pop(true); // Close dialog with true
+                  },
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
   }
 
   // Show a radio selection dialog

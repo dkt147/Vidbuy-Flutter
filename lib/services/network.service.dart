@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+import 'package:vidbuy_app/services/alert.service.dart';
 import 'dart:convert';
 import 'package:vidbuy_app/services/api.service.dart';
 import 'package:vidbuy_app/services/utility.service.dart';
 
 class NetworkService {
-
   final Logger _logger = Logger();
+  final AlertsService ase = AlertsService();
   final ApiService api;
   // final UtilityService utility;
 
@@ -37,7 +38,8 @@ class NetworkService {
   String serialize(Map<String, dynamic> obj) {
     List<String> str = [];
     obj.forEach((key, value) {
-      str.add('${Uri.encodeComponent(key)}=${Uri.encodeComponent(value.toString())}');
+      str.add(
+          '${Uri.encodeComponent(key)}=${Uri.encodeComponent(value.toString())}');
     });
     return str.join('&');
   }
@@ -82,7 +84,8 @@ class NetworkService {
   }
 
   // Generic PUT method handler
-  Future<dynamic> httpPutResponse(String key, Map<String, dynamic> data, {String? id}) async {
+  Future<dynamic> httpPutResponse(String key, Map<String, dynamic> data,
+      {String? id}) async {
     return await httpResponse(
       'put',
       key,
@@ -92,7 +95,8 @@ class NetworkService {
   }
 
   // Generic PATCH method handler
-  Future<dynamic> httpPatchResponse(String key, Map<String, dynamic> data, {String? id}) async {
+  Future<dynamic> httpPatchResponse(String key, Map<String, dynamic> data,
+      {String? id}) async {
     return await httpResponse(
       'patch',
       key,
@@ -102,7 +106,8 @@ class NetworkService {
   }
 
   // Generic DELETE method handler
-  Future<dynamic> httpDeleteResponse(String key, {bool showLoader = true}) async {
+  Future<dynamic> httpDeleteResponse(String key,
+      {bool showLoader = true}) async {
     if (showLoader) {
       // utility.showLoader();
     }
@@ -127,17 +132,17 @@ class NetworkService {
       }
 
       String url = key + (id != null ? '/$id' : '');
-      late http.Response response;
+      late Map<String, dynamic> response;
 
       // Switch based on request type (GET, POST, etc.)
       if (type == 'get') {
-        response = await api.get(url);
+        // response = await api.get(url);
       } else if (type == 'post') {
         response = await api.post(url, data);
       } else if (type == 'put') {
-        response = await api.put(url, data);
+        // response = await api.put(url, data);
       } else if (type == 'patch') {
-        response = await api.patch(url, data);
+        // response = await api.patch(url, data);
       } else {
         throw Exception('Unsupported HTTP request type: $type');
       }
@@ -147,36 +152,38 @@ class NetworkService {
       }
 
       // Decode and return the JSON response
-      _logger.i('Network response', error: response.statusCode);
+      var json = response;
+      _logger.e(json);
 
-      return jsonDecode(response.body);
+      if (showError) {
+        ase.presentFailureToast(json['message']);
+      }
+
+      return json['result'];
     } catch (err) {
-
       _logger.t(err);
-      if (showLoader) {
-        // utility.hideLoader();
-      }
+      // if (showLoader) {
+      //   // utility.hideLoader();
+      // }
 
-      // Display failure toast for error messages
-      // utility.presentFailureToast(err.toString());
+      // // Display failure toast for error messages
+      // // utility.presentFailureToast(err.toString());
 
-      // Handle 401 Unauthorized error
-      if (err is http.Response && err.statusCode == 401) {
-        // Clear any stored session or token information
-        // Optionally: Use SharedPreferences to manage token storage
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // prefs.remove('token');
-        // prefs.remove('user_role');
-        
-        // Navigate to the login page (using Navigator)
-        // Router.navigate([''] as BuildContext); // Adjust to actual navigation in Flutter
-      }
+      // // Handle 401 Unauthorized error
+      // if (err is Response && err.statusCode == 401) {
+      //   // Clear any stored session or token information
+      //   // Optionally: Use SharedPreferences to manage token storage
+      //   // SharedPreferences prefs = await SharedPreferences.getInstance();
+      //   // prefs.remove('token');
+      //   // prefs.remove('user_role');
 
-      // Rethrow the error for further handling
-      return jsonDecode({
-        'message': ''
-      } as String);
-      //throw err.toString();
+      //   // Navigate to the login page (using Navigator)
+      //   // Router.navigate([''] as BuildContext); // Adjust to actual navigation in Flutter
+      // }
+
+      // // Rethrow the error for further handling
+      // return jsonDecode({'message': ''} as String);
+      // //throw err.toString();
     }
   }
 }
