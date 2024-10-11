@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -5,7 +7,7 @@ import 'package:vidbuy_app/services/interceptor.service.dart';
 
 http.Response dioResponseToHttpResponse(Response dioResponse) {
   return http.Response(
-    dioResponse.data.toString(), // Body of the response (string format)
+    dioResponse.data, // Body of the response (string format)
     dioResponse.statusCode ?? 500, // Status code, defaults to 500 if null
     headers: Map<String, String>.from(dioResponse.headers.map),
     request: http.Request(
@@ -26,7 +28,8 @@ class ApiService {
   }
 
   // GET request
-  Future<http.Response> get(String endpoint, {Map<String, String>? params}) async {
+  Future<http.Response> get(String endpoint,
+      {Map<String, String>? params}) async {
     Response dioResponse = await _dio.get(endpoint, queryParameters: params);
     http.Response httpResponse = dioResponseToHttpResponse(dioResponse);
     return httpResponse;
@@ -37,9 +40,33 @@ class ApiService {
 
   // POST request
   Future<http.Response> post(String endpoint, dynamic body) async {
-    Response dioResponse = await _dio.post(endpoint, data: body);
-    http.Response httpResponse = dioResponseToHttpResponse(dioResponse);
-    return httpResponse;
+    try {
+      Response dioResponse = await _dio.post(endpoint, data: body);
+      _logger.t(dioResponse.data);
+      http.Response httpResponse = dioResponseToHttpResponse(dioResponse);
+      return httpResponse;
+    } catch (e) {
+      if (e is DioException) {
+        // Check if DioError has a response
+        if (e.response != null && e.response?.data['message'] != null) {
+          String errorMessage = e.response?.data['message'];
+
+          Map<String, dynamic> errorResponse = {
+            "message": errorMessage
+          };
+
+          // _logger.t(errorMessage);
+          return http.Response(
+            jsonEncode(errorResponse), 
+            e.response?.statusCode ?? 500, 
+            headers: {'Content-Type': 'application/json'}
+          );
+        }
+      }
+
+      // _logger.t(e.toString());
+      return http.Response('An unknown error occurred', 500);
+    }
     // return await http.post(
     //   uri,
     //   headers: {'Content-Type': 'application/json'},

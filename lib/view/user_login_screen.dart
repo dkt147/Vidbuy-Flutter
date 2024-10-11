@@ -76,26 +76,18 @@ class _LoginScreenState extends State<LoginScreen> {
       'role_id': "2"
     };
 
-    print(data);
-
     try {
       // Call the login API
-    print(data);
       
       var response = await _networkService.login(data);
-      log('Login Response: $response'); // Log the response for debugging
+      // log('Login Response: $response'); // Log the response for debugging
       setState(() {
         _isLoading = false;
       });
 
       // Handle the response
       if (response['bool'] == true) {
-
-        final prefs = await SharedPreferences.getInstance();
-          // Extract user ID from response
-          int token = response['user']['token'];
-          await prefs.setString(
-              'token', token.toString());
+        
         // Navigate to the NavBarScreen upon successful login
         //
 
@@ -109,8 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         if (!mounted) return;
         // Show error message if login fails
-        snackBar(
-            response['message'] ?? 'Login failed. Please try again.', context);
+        // snackBar(response['message'] ?? 'Login failed. Please try again.', context);
+
       }
     } catch (e) {
       setState(() {
@@ -118,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       if (!mounted) return;
       // Log error instead of using print
-      _logger.e('Login failed', error: e);
+      // _logger.e('Login failed', error: e);
       snackBar('Error: $e', context); // Show error if the API call fails
     }
   }

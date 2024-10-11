@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'dart:convert';
 import 'package:vidbuy_app/services/api.service.dart';
 import 'package:vidbuy_app/services/utility.service.dart';
 
 class NetworkService {
+
+  final Logger _logger = Logger();
   final ApiService api;
   // final UtilityService utility;
 
@@ -15,7 +18,6 @@ class NetworkService {
 
   // Authentication Related APIs
   Future<dynamic> login(Map<String, dynamic> data) async {
-    print(data);
     return await httpPostResponse('login', data);
   }
 
@@ -145,8 +147,12 @@ class NetworkService {
       }
 
       // Decode and return the JSON response
+      _logger.i('Network response', error: response.statusCode);
+
       return jsonDecode(response.body);
     } catch (err) {
+
+      _logger.t(err);
       if (showLoader) {
         // utility.hideLoader();
       }
@@ -167,7 +173,10 @@ class NetworkService {
       }
 
       // Rethrow the error for further handling
-      throw err;
+      return jsonDecode({
+        'message': ''
+      } as String);
+      //throw err.toString();
     }
   }
 }
