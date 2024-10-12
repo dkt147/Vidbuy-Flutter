@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
+import 'package:vidbuy_app/services/nav.service.dart';
+import 'package:vidbuy_app/services/storage.service.dart';
 import 'package:vidbuy_app/view/contact_us_screen.dart';
 import 'package:vidbuy_app/view/delete_account_screen.dart';
 import 'package:vidbuy_app/view/language_screen.dart';
@@ -12,6 +14,21 @@ import 'package:vidbuy_app/view/user_edit_profile_screen.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
+
+  Future<void> _logoutUser(BuildContext context) async {
+    StorageService stg = StorageService();
+
+    // Clear user session (e.g., token and user data)
+    await stg.remove('token'); // Remove token from storage
+    await stg.remove('user'); // Remove user info from storage
+
+    // Navigate back to the login screen
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      Nav.login, // Assuming `Nav.login` is the route name for the login screen
+      (Route<dynamic> route) => false, // Remove all routes from the stack
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +42,13 @@ class UserProfileScreen extends StatelessWidget {
           Container(
             width: 375.w,
             height: 143.h,
-            
-            decoration: BoxDecoration(
-color: Color(0xffFFFFFF),
-boxShadow: [
-  BoxShadow(
-        color: Color(0xff000000),
-        blurRadius: 1,
-        offset: Offset(0, 0), // Shadow position
-      ),
-]
-            ),
+            decoration: BoxDecoration(color: Color(0xffFFFFFF), boxShadow: [
+              BoxShadow(
+                color: Color(0xff000000),
+                blurRadius: 1,
+                offset: Offset(0, 0), // Shadow position
+              ),
+            ]),
             child: Row(
               children: [
                 Container(
@@ -76,18 +89,20 @@ boxShadow: [
                         family: "Lato",
                         weight: FontWeight.w600,
                       )),
-                      SizedBox(
+                  SizedBox(
                     height: 22.h,
                   ),
                   ProfileTile(
-                    height: 18.h,
-                      image: "assets/Icon/layouticon.png", text: "Orders"),
+                      height: 18.h,
+                      image: "assets/Icon/layouticon.png",
+                      text: "Orders"),
                   SizedBox(
                     height: 17.h,
                   ),
                   ProfileTile(
-                    height: 20.h,
-                      image: "assets/Icon/simpleheart.png", text: "Donations"),
+                      height: 20.h,
+                      image: "assets/Icon/simpleheart.png",
+                      text: "Donations"),
                   SizedBox(
                     height: 17.h,
                   ),
@@ -96,7 +111,7 @@ boxShadow: [
                       navigate(context, NotificationSettingScreen());
                     },
                     child: ProfileTile(
-                      height: 25.h,
+                        height: 25.h,
                         image: "assets/Icon/bell.png",
                         text: "Notification Setting"),
                   ),
@@ -108,7 +123,7 @@ boxShadow: [
                       navigate(context, UserEditProfileScreen());
                     },
                     child: ProfileTile(
-                      height: 25.h,
+                        height: 25.h,
                         image: "assets/Icon/editprofile.png",
                         text: "Edit Profile"),
                   ),
@@ -131,7 +146,7 @@ boxShadow: [
                         navigate(context, LanguageScreen());
                       },
                       child: ProfileTile(
-                        height: 20.h,
+                          height: 20.h,
                           image: "assets/Icon/world.png",
                           text: "Language")),
                   SizedBox(
@@ -142,8 +157,9 @@ boxShadow: [
                       navigate(context, ContactUsScreen());
                     },
                     child: ProfileTile(
-                      height: 25.h,
-                        image: "assets/Icon/help.png", text: "Support"),
+                        height: 25.h,
+                        image: "assets/Icon/help.png",
+                        text: "Support"),
                   ),
                   SizedBox(
                     height: 17.h,
@@ -153,16 +169,24 @@ boxShadow: [
                       navigate(context, PoliciesScreen());
                     },
                     child: ProfileTile(
-                      height: 25.h,
-                        image: "assets/Icon/lock.png", text: "Policies"),
+                        height: 25.h,
+                        image: "assets/Icon/lock.png",
+                        text: "Policies"),
                   ),
                   // ProfileTile(image: "assets/Icon/layouticon.png", text: "Logout"),
                   SizedBox(
                     height: 17.h,
                   ),
-                  ProfileTile(
-                    height: 25.h,
-                      image: "assets/Icon/Logout.png", text: "Logout"),
+                  GestureDetector(
+                    onTap: () async {
+                      await _logoutUser(context);
+                    },
+                    child: ProfileTile(
+                        height: 25.h,
+                        image: "assets/Icon/Logout.png",
+                        text: "Logout"),
+                  ),
+
                   SizedBox(
                     height: 17.h,
                   ),
