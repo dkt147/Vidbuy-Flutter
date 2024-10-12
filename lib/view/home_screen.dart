@@ -6,6 +6,7 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_donations_tabbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
 import 'package:vidbuy_app/services/api.service.dart';
+import 'package:vidbuy_app/services/users.service.dart';
 import 'package:vidbuy_app/view/cancel_screen.dart';
 import 'package:vidbuy_app/view/notification_screen.dart';
 import 'package:vidbuy_app/view/pending_admin_screen.dart';
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> categories = []; // List to hold category data
   bool isLoading = true; // Loading state
   String? errorMessage; // To hold error messages
+  String? userName;
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       api: ApiService(),
     );
 
+    _loadUserName();
     fetchCategories(); // Fetch categories on init
   }
 
@@ -57,7 +60,31 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoading = false; // Stop loading
       });
     }
+
   }
+
+  String getGreeting() {
+    int hour = DateTime.now().hour;
+
+    if (hour < 12) {
+      return "Good Morning";
+    } else if (hour < 17) {
+      return "Good Afternoon";
+    } else if (hour < 20) {
+      return "Good Evening";
+    } else {
+      return "Good Night";
+    }
+  }
+
+  void _loadUserName() async {
+    UserService userService = UserService();
+    String? name = await userService.getUserName();
+
+    setState(() {
+      userName = name ?? 'Guest'; // If no name is found, default to 'Guest'
+    });
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +131,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             Column(
                               children: [
                                 Content(
-                                  data: "Good Evening",
+                                  data: getGreeting(),
                                   size: 14.h,
                                   family: "Nunito",
                                   color: const Color(0xff161436),
                                   weight: FontWeight.w400,
                                 ),
                                 Content(
-                                  data: "Benji Hovla",
+                                  data: userName ?? 'Guest',
                                   size: 16.h,
                                   family: "Nunito",
                                   color: const Color(0xff0A071E),
