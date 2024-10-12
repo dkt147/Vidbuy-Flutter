@@ -41,6 +41,8 @@ class AlertsService {
       gravity: ToastGravity.TOP,
       backgroundColor: Colors.green,
       textColor: Colors.white,
+      webBgColor: "#28A745",  // Hex color code for red
+      timeInSecForIosWeb: 5,
     );
   }
 
@@ -52,6 +54,8 @@ class AlertsService {
       gravity: ToastGravity.TOP,
       backgroundColor: Colors.red,
       textColor: Colors.white,
+      webBgColor: "#FF0000",  // Hex color code for red
+      timeInSecForIosWeb: 5,
     );
   }
 
@@ -63,6 +67,8 @@ class AlertsService {
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.black,
       textColor: Colors.white,
+      webBgColor: "#FF0000",  // Hex color code for red
+      timeInSecForIosWeb: 5,
     );
   }
 

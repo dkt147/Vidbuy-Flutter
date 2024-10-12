@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:vidbuy_app/services/interceptor.service.dart';
+import 'package:vidbuy_app/constants/config.dart';  // Import your config file
+
 
 class ApiService {
   final Logger _logger = Logger();
   final Dio _dio =
-      Dio(BaseOptions(baseUrl: 'http://influenzers.duckdns.org/api/'));
+      Dio(BaseOptions(baseUrl: Config.baseUrl));
 
   ApiService() {
     // Attach interceptor
@@ -52,29 +54,14 @@ class ApiService {
           String message = e.response?.data['message'] ?? "An error occurred";
           int status = e.response?.statusCode ?? 500;
 
-          errorPacket = {
-            "bool": false,
-            "message": message,
-            "status": status,
-            "result": null
-          };
-        } else {
-          // Handle cases where there's no server response (e.g., network issues)
-          errorPacket = {
-            "bool": false,
-            "message": "Network or server error occurred",
-            "status": 500,
-            "result": null
-          };
-        }
+          errorPacket['message'] = message;
+          errorPacket['status'] = status;
+
+        } 
       } else {
         // Handle non-Dio exceptions
-        errorPacket = {
-          "bool": false,
-          "message": e.toString(),
-          "status": 500,
-          "result": null
-        };
+        errorPacket['message'] = e.toString();
+        errorPacket['status'] = 500;        
       }
 
       // Optionally log the error

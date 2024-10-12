@@ -155,7 +155,7 @@ class NetworkService {
       var json = response;
       _logger.e(json);
 
-      if (showError) {
+      if (json['bool'] == false && showError) {
         ase.presentFailureToast(json['message']);
       }
 

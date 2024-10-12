@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/main.dart';
 import 'package:vidbuy_app/resources/componenets/primary_button.dart';
+import 'package:vidbuy_app/services/nav.service.dart';
 import 'package:vidbuy_app/view/select_login_screen.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
 
@@ -68,10 +69,7 @@ class SelectScreen extends StatelessWidget {
                   PrimaryButton(
                     title: "Register",
                     func: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => SelectLoginScreen()));
+                      Navigator.pushNamed(context, Nav.register);                      
                     },
                   ),
                   SizedBox(
@@ -80,7 +78,7 @@ class SelectScreen extends StatelessWidget {
                   PrimaryButton(
                     title: "Login",
                     func: () {
-                      navigate(context, LoginScreen());
+                      Navigator.pushNamed(context, Nav.login);                      
                     },
                   ),
                 ],

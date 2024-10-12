@@ -9,6 +9,7 @@ class ContentFieldPassword extends StatelessWidget {
   int index;
   TextEditingController controller;
   List<TextInputFormatter> inputFormat;
+  final bool obscureText; // Add this line
   // TextInputType textInput;
   ContentFieldPassword({
     super.key,
@@ -17,6 +18,7 @@ class ContentFieldPassword extends StatelessWidget {
     required this.index,
     required this.controller,
     required this.inputFormat, required TextInputType keyboardType,
+    this.obscureText = true,
     // required this.textInput
   });
 
@@ -43,6 +45,7 @@ class ContentFieldPassword extends StatelessWidget {
           height: 50.h,
           width: 335.w,
           child: TextFormField(
+            obscureText: obscureText,
             controller: controller,
             maxLength: 30,
             keyboardType: TextInputType.text,

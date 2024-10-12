@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,8 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
+import 'package:vidbuy_app/services/nav.service.dart';
+import 'package:vidbuy_app/services/storage.service.dart';
 import 'package:vidbuy_app/view/create_user_account_screen.dart';
 import 'package:vidbuy_app/view/forgot_password_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
@@ -88,21 +91,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // Handle the response
       if (response['token'] != '') {
+
+        
+        String userJson = jsonEncode(response['user']);
+
+        StorageService stg = StorageService();
+        stg.set('token', response['token']);
+        stg.set('user', userJson );
+
         // Navigate to the NavBarScreen upon successful login
         //
 
         // Check if the widget is still mounted before navigating
         if (!mounted) return;
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const NavBarScreen()),
-        );
-      } else {
-        if (!mounted) return;
-        // Show error message if login fails
-        // snackBar(response['message'] ?? 'Login failed. Please try again.', context);
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamed(context, Nav.navBar);
+
       }
+
     } catch (e) {
       setState(() {
         _isLoading = false;
@@ -110,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
       // Log error instead of using print
       // _logger.e('Login failed', error: e);
-      snackBar('Error: $e', context); // Show error if the API call fails
+      // snackBar('Error: $e', context); // Show error if the API call fails
     }
   }
 
@@ -173,8 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     inputFormat: [
                       FilteringTextInputFormatter.singleLineFormatter
                     ],
-                    keyboardType: TextInputType
-                        .visiblePassword, // This line is also included
+                    keyboardType: TextInputType.visiblePassword, // This line is also included
                   ),
                 ],
               ),
