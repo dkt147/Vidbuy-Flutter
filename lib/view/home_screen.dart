@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_donations_tabbar_widget.dart';
@@ -18,6 +19,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final Logger _logger = Logger();
+  late NetworkService _networkService;
+
   List<dynamic> categories = []; // List to hold category data
   bool isLoading = true; // Loading state
   String? errorMessage; // To hold error messages
@@ -25,24 +29,31 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
+    _networkService = NetworkService(
+      api: ApiService(),
+    );
+
     fetchCategories(); // Fetch categories on init
   }
 
   Future<void> fetchCategories() async {
     try {
       // Assuming you have a NetworkService instance
-      NetworkService networkService = NetworkService(api: ApiService());
-      final response = await networkService.getCategory({}); // Fetch categories
+      setState(() {
+        isLoading = true; // Stop loading
+      });
 
-      if (response['data'] != null) {
-        setState(() {
-          categories = response['data']; // Set the categories
-          isLoading = false; // Stop loading
-        });
-      }
+      var response = await _networkService.getCategory(); // Fetch categories
+      _logger.e(response);
+
+      categories = response['list'];
+
+      setState(() {
+        isLoading = false; // Stop loading
+      });
     } catch (e) {
       setState(() {
-        errorMessage = 'Failed to load categories'; // Set error message
         isLoading = false; // Stop loading
       });
     }
@@ -52,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
-          ? const Center(child: CircularProgressIndicator()) // Show loading indicator
+          ? const Center(
+              child: CircularProgressIndicator()) // Show loading indicator
           : errorMessage != null
               ? Center(child: Text(errorMessage!)) // Show error message
               : SingleChildScrollView(
@@ -84,7 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               child: CircleAvatar(
                                 radius: 22.r,
-                                backgroundImage: const AssetImage("assets/UI/grouppicture.jpg"),
+                                backgroundImage: const AssetImage(
+                                    "assets/UI/grouppicture.jpg"),
                               ),
                             ),
                             SizedBox(width: 5.w),
@@ -111,7 +124,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    navigate(context, InfluencerDonationsTabbarWidget());
+                                    navigate(context,
+                                        InfluencerDonationsTabbarWidget());
                                   },
                                   child: Image.asset(
                                     "assets/Icon/Hand.png",
@@ -121,7 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(width: 8),
                                 GestureDetector(
                                   onTap: () {
-                                    navigate(context, const NotificationScreen());
+                                    navigate(
+                                        context, const NotificationScreen());
                                   },
                                   child: Image.asset(
                                     "assets/Icon/Notification.png",
@@ -145,11 +160,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 48.h,
                           child: Row(
                             children: [
-                              Image.asset("assets/Icon/searchIcon.png", height: 18.h),
+                              Image.asset("assets/Icon/searchIcon.png",
+                                  height: 18.h),
                               SizedBox(width: 10.w),
                               Expanded(
                                 child: TextField(
-                                  style: const TextStyle(color: Colors.white, fontFamily: "Nunito"),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "Nunito"),
                                   decoration: InputDecoration(
                                     hintText: 'Discover celebrities...',
                                     hintStyle: TextStyle(
@@ -175,7 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: categories.map((category) {
                                 return SliderWidget(
                                   text: category['name'],
-                                  picture: category['image'], // Use the image from the API
+                                  picture: category[
+                                      'image'], // Use the image from the API
                                 );
                               }).toList(),
                             ),
@@ -204,7 +223,12 @@ class _HomeScreenState extends State<HomeScreen> {
 class SliderWidget extends StatelessWidget {
   final String text;
   final String picture;
-  const SliderWidget({super.key, required this.text, required this.picture});
+
+  const SliderWidget({
+    Key? key,
+    required this.text,
+    required this.picture,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -220,46 +244,66 @@ class SliderWidget extends StatelessWidget {
         SizedBox(
           width: 173.w,
           height: 173.h,
-          child: Stack(children: [
-            Image.network( // Use network image
-              picture,
-              height: 173.h,
-              fit: BoxFit.cover,
-            ),
-            Positioned(
-              top: 145.h,
-              child: Container(
-                width: 173.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  // ignore: use_full_hex_values_for_flutter_colors
-                  color: const Color(0xff373535e3),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(7.r),
-                    bottomRight: Radius.circular(7.r),
+          child: Stack(
+            children: [
+              Image.network(
+                picture, // Use dynamic image
+                height: 173.h,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(
+                    Icons.error,
+                    size: 50,
+                    color: Colors.red,
+                  ); // Dynamic error handling
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              (loadingProgress.expectedTotalBytes ?? 1)
+                          : null,
+                    ),
+                  );
+                },
+              ),
+              Positioned(
+                top: 145.h,
+                child: Container(
+                  width: 173.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.7), // Semi-transparent background
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(7.r),
+                      bottomRight: Radius.circular(7.r),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Content(
+                        data: text, // Dynamic text
+                        size: 10.h,
+                        family: "Nunito",
+                        weight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                      Content(
+                        data: "Additional Info", // Replace this with any dynamic field if needed
+                        size: 8.h,
+                        family: "Nunito",
+                        weight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Content(
-                      data: "Agenda total",
-                      size: 10.h,
-                      family: "Nunito",
-                      weight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                    Content(
-                      data: "Stream stocker",
-                      size: 8.h,
-                      family: "Nunito",
-                      weight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ]),
+            ],
+          ),
         ),
       ],
     );

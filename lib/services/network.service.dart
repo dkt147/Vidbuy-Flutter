@@ -30,7 +30,7 @@ class NetworkService {
     return await httpPostResponse('verify-signup', data);
   }
 
-  Future<dynamic> getCategory(Map<String, dynamic> data) async {
+  Future<dynamic> getCategory() async {
     return await httpGetResponse('category/list');
   }
 
@@ -136,7 +136,7 @@ class NetworkService {
 
       // Switch based on request type (GET, POST, etc.)
       if (type == 'get') {
-        // response = await api.get(url);
+        response = await api.get(url);
       } else if (type == 'post') {
         response = await api.post(url, data);
       } else if (type == 'put') {
