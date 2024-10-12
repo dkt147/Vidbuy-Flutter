@@ -4,6 +4,7 @@ import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/main.dart';
 import 'package:vidbuy_app/resources/componenets/header_widget.dart';
 import 'package:vidbuy_app/view/create_influencer_account_screen.dart';
+import 'package:vidbuy_app/view/create_user_account_screen.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
 
 class SelectLoginScreen extends StatelessWidget {
@@ -63,7 +64,7 @@ class SelectLoginScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => LoginScreen()));
+                        MaterialPageRoute(builder: (_) => CreateUserAccountScreen()));
                   },
                   child: Container(
                       height: 50.h,

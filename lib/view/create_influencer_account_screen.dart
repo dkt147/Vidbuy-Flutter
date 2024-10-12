@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,25 +29,23 @@ class _CreateInfluencerAccountScreenState
   late TextEditingController _usernameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  late TextEditingController _countryController;
 
   late NetworkService _networkService;
 
-  bool _isLoading = false;
-  File? _image;
-  File? _media;
-  bool _isImage = true;
-  final ImagePicker _picker = ImagePicker();
+  File? _profileImage;
+  String? _base64Image;
 
   @override
   void initState() {
     super.initState();
-    _networkService = NetworkService(
-      api: ApiService(),
-    );
+    _networkService = NetworkService(api: ApiService());
+
     _nameController = TextEditingController();
     _usernameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _countryController = TextEditingController();
   }
 
   @override
@@ -54,16 +54,20 @@ class _CreateInfluencerAccountScreenState
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _countryController.dispose();
     super.dispose();
   }
 
-  // Pick image for profile photo
-  Future<void> _pickImage() async {
+  Future<void> _pickProfileImage() async {
     try {
+      final ImagePicker _picker = ImagePicker();
       final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
       if (image != null) {
         setState(() {
-          _image = File(image.path);
+          _profileImage = File(image.path);
+          _base64Image = base64Encode(
+              _profileImage!.readAsBytesSync()); // Convert image to Base64
         });
       }
     } catch (e) {
@@ -71,86 +75,72 @@ class _CreateInfluencerAccountScreenState
     }
   }
 
-  // Pick media (image or video)
-  Future<void> _pickMedia() async {
-    final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 100,
-    );
+  void _createAccount() async {
+    if (_nameController.text.isEmpty) {
+      _showSnackBar('Please enter your name');
+      return;
+    }
+    if (_usernameController.text.isEmpty) {
+      _showSnackBar('Please enter your username');
+      return;
+    }
+    if (_emailController.text.isEmpty) {
+      _showSnackBar('Please enter your email');
+      return;
+    }
+    if (_passwordController.text.isEmpty) {
+      _showSnackBar('Please enter your password');
+      return;
+    }
+    if (_countryController.text.isEmpty) {
+      _showSnackBar('Please enter your country');
+      return;
+    }
 
-    if (pickedFile == null) {
-      final XFile? pickedVideo =
-          await _picker.pickVideo(source: ImageSource.gallery);
-      if (pickedVideo != null) {
-        setState(() {
-          _media = File(pickedVideo.path);
-          _isImage = false;
-        });
-      }
+    // Prepare the registration data
+    Map<String, dynamic> registrationData = {
+      'name': _nameController.text,
+      'username': _usernameController.text,
+      'email': _emailController.text,
+      'password': _passwordController.text,
+      'country': 1,
+      'profile_image': _base64Image,
+      'role_id': "3",
+    };
+
+    print(registrationData);
+
+    var response = await _networkService.register(registrationData);
+    print(response);
+    if (response['bool'] == true) {
+      // Save user ID in local storage
+      final prefs = await SharedPreferences.getInstance();
+      // Extract user ID from response
+      int user = response['user'];
+      await prefs.setString('user', user.toString());
+      int userId = response['user']['id'];
+      await prefs.setString('user_id', userId.toString());
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => OtpScren()),
+      );
     } else {
-      setState(() {
-        _media = File(pickedFile.path);
-        _isImage = true;
-      });
+      snackBar(response['message'] ?? 'Registration failed', context);
     }
   }
 
-  // API integration for registration
-  Future<void> _registerUser() async {
-    if (_nameController.text.isEmpty) {
-      snackBar("Please enter your name", context);
-    } else if (_usernameController.text.isEmpty) {
-      snackBar("Please enter a username", context);
-    } else if (_emailController.text.isEmpty ||
-        !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-            .hasMatch(_emailController.text)) {
-      snackBar("Please enter a valid email", context);
-    } else if (_passwordController.text.isEmpty) {
-      snackBar("Please enter a password", context);
-    } else if (_passwordController.text.length < 8) {
-      snackBar("Password should be at least 8 characters", context);
-    } else {
-      setState(() {
-        _isLoading = true;
-      });
-
-      Map<String, dynamic> registerData = {
-        'name': _nameController.text,
-        'username': _usernameController.text,
-        'email': _emailController.text,
-        'password': _passwordController.text,
-        'role_id': "2",
-        // Add other fields as required
-      };
-
-      try {
-        var response = await _networkService.register(registerData);
-        if (response['bool'] == true) {
-          // Save user ID in local storage
-          final prefs = await SharedPreferences.getInstance();
-          // Extract user ID from response
-          int user = response['user'];
-          await prefs.setString(
-              'user', user.toString());
-          int userId = response['user']['id'];
-          await prefs.setString(
-              'user_id', userId.toString()); 
-
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => OtpScren()),
-          );
-        } else {
-          snackBar(response['message'] ?? 'Registration failed', context);
-        }
-      } catch (e) {
-        snackBar('Error: $e', context);
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.red.shade500,
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.red.shade50),
+        ),
+      ),
+    );
   }
 
   @override
@@ -181,7 +171,7 @@ class _CreateInfluencerAccountScreenState
                   SizedBox(height: 5.h),
                   Content(
                     data:
-                        "Create your account to share videos with your friends",
+                        "Create your account to buy, create orders and share videos\nwith your friends",
                     size: 10.h,
                     weight: FontWeight.w400,
                     family: "Nunito",
@@ -190,166 +180,130 @@ class _CreateInfluencerAccountScreenState
               ),
             ),
             SizedBox(height: 30.h),
-            _buildImageAndMediaUploadSection(),
-            SizedBox(height: 30.h),
-            _buildTextFields(),
-            SizedBox(height: 20.h),
-            _buildSubmitButton(),
-            SizedBox(height: 20.h),
-            _buildLoginRedirect(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildImageAndMediaUploadSection() {
-    return Container(
-      margin: EdgeInsets.only(left: 20.w, right: 20.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: _pickImage,
-            child: _buildAvatar(_image, isImage: true),
-          ),
-          GestureDetector(
-            onTap: _pickMedia,
-            child: _buildAvatar(_media, isImage: _isImage),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAvatar(File? file, {required bool isImage}) {
-    return Container(
-      height: 89.h,
-      width: 87.w,
-      child: CircleAvatar(
-        radius: 40.r,
-        backgroundColor: Colors.grey[200],
-        backgroundImage: file != null && isImage ? FileImage(file) : null,
-        child: file == null
-            ? Icon(Icons.camera_alt, size: 26, color: Colors.grey)
-            : !isImage
-                ? Icon(Icons.video_library, size: 26, color: Colors.grey)
-                : null,
-      ),
-    );
-  }
-
-  Widget _buildTextFields() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 21.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ContentField(
-            label: "Your Name",
-            hint: "Enter Your Name",
-            colorr: Colors.transparent,
-            prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h),
-            controller: _nameController,
-            inputFormat: [FilteringTextInputFormatter.singleLineFormatter],
-            keyboardType: TextInputType.name, // Add this line
-          ),
-          SizedBox(height: 10.h),
-          ContentField(
-            label: "Your username",
-            hint: "Enter Your Username",
-            colorr: Colors.transparent,
-            prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h),
-            controller: _usernameController,
-            inputFormat: [FilteringTextInputFormatter.singleLineFormatter],
-            keyboardType: TextInputType.text, // Add this line
-          ),
-          SizedBox(height: 10.h),
-          ContentField(
-            label: "Your email",
-            hint: "Enter Your Email",
-            colorr: Colors.transparent,
-            prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h),
-            controller: _emailController,
-            inputFormat: [FilteringTextInputFormatter.singleLineFormatter],
-            keyboardType: TextInputType.emailAddress, // Add this line
-          ),
-          SizedBox(height: 10.h),
-          ContentFieldPassword(
-            label: "Your Password",
-            hint: "Password",
-            index: 0, // Add this line
-            controller: _passwordController,
-            inputFormat: [FilteringTextInputFormatter.singleLineFormatter],
-            keyboardType:
-                TextInputType.visiblePassword, // This line is also included
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSubmitButton() {
-    return Center(
-      child: Container(
-        width: 280.w,
-        height: 50.h,
-        child: ElevatedButton(
-          onPressed: _isLoading ? null : _registerUser,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.r),
-            ),
-          ),
-          child: _isLoading
-              ? CircularProgressIndicator(color: Colors.white)
-              : Text(
-                  "Create account",
-                  style: TextStyle(
-                    fontSize: 20.h,
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
+            GestureDetector(
+              onTap: _pickProfileImage,
+              child: Container(
+                height: 89.h,
+                width: 87.w,
+                child: CircleAvatar(
+                  radius: 40.r,
+                  backgroundColor: Colors.grey[200],
+                  backgroundImage:
+                      _profileImage != null ? FileImage(_profileImage!) : null,
+                  child: _profileImage == null
+                      ? Icon(Icons.camera_alt, size: 26, color: Colors.grey)
+                      : null,
                 ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoginRedirect() {
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Already have an account? ",
-            style: TextStyle(
-              fontSize: 12.h,
-              fontFamily: "Nunito",
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
-            },
-            child: Text(
-              "Login",
-              style: TextStyle(
-                fontSize: 12.h,
-                fontFamily: "Nunito",
-                fontWeight: FontWeight.w700,
-                color: Colors.blue,
               ),
             ),
-          ),
-        ],
+            SizedBox(height: 10.h),
+            ContentField(
+              label: "Your Name",
+              hint: "Enter Your Name",
+              colorr: Colors.transparent,
+              controller: _nameController,
+              inputFormat: <TextInputFormatter>[
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              keyboardType: TextInputType.name,
+            ),
+            SizedBox(height: 10.h),
+            ContentField(
+              label: "Your Username",
+              hint: "Enter Your Username",
+              colorr: Colors.transparent,
+              controller: _usernameController,
+              inputFormat: <TextInputFormatter>[
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              keyboardType: TextInputType.text,
+            ),
+            SizedBox(height: 10.h),
+            ContentField(
+              label: "Your Email",
+              hint: "Enter Your Email",
+              colorr: Colors.transparent,
+              controller: _emailController,
+              inputFormat: <TextInputFormatter>[
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              keyboardType: TextInputType.emailAddress,
+            ),
+            SizedBox(height: 10.h),
+            ContentFieldPassword(
+              label: "Your Password",
+              hint: "Password",
+              index: 1,
+              controller: _passwordController,
+              inputFormat: <TextInputFormatter>[
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              keyboardType: TextInputType.text,
+            ),
+            SizedBox(height: 10.h),
+            ContentField(
+              label: "Your Country",
+              hint: "Enter Your Country",
+              colorr: Colors.transparent,
+              controller: _countryController,
+              inputFormat: <TextInputFormatter>[
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              keyboardType: TextInputType.text,
+            ),
+            SizedBox(height: 20.h),
+            Center(
+              child: Container(
+                width: 280.w,
+                height: 50.h,
+                child: ElevatedButton(
+                  onPressed: _createAccount,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                  ),
+                  child: Text(
+                    "Create Account",
+                    style: TextStyle(
+                      fontSize: 20.h,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
+                },
+                child: RichText(
+                  text: const TextSpan(
+                    text: "Already have an account? ",
+                    style: TextStyle(color: Colors.black54),
+                    children: [
+                      TextSpan(
+                        text: "Log in",
+                        style: TextStyle(
+                          color: Color(0xff810F9E),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
