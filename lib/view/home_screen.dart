@@ -12,7 +12,7 @@ import 'package:vidbuy_app/view/cancel_screen.dart';
 import 'package:vidbuy_app/view/giveaway_screen.dart';
 import 'package:vidbuy_app/view/notification_screen.dart';
 import 'package:vidbuy_app/view/pending_admin_screen.dart';
-import 'package:vidbuy_app/services/network.service.dart'; // Import the NetworkService
+import 'package:vidbuy_app/services/network.service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
