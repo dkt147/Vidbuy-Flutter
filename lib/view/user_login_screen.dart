@@ -76,7 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
     Map<String, dynamic> data = {
       'email': _emailController.text,
       'password': _passwordController.text,
-      'role_id': "2"
     };
 
     try {

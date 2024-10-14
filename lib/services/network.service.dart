@@ -33,8 +33,13 @@ class NetworkService {
   Future<dynamic> getCategory() async {
     return await httpGetResponse('category/list');
   }
-Future<dynamic> getInfluencers() async {
+
+  Future<dynamic> getInfluencers() async {
     return await httpGetResponse('influencer/list');
+  }
+
+  Future<dynamic> getUserByEmail(String email) async {
+    return await httpGetResponse('user-by-email?email=$email');
   }
 
   // Function to serialize the request body

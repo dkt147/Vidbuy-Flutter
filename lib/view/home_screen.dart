@@ -10,6 +10,7 @@ import 'package:vidbuy_app/services/api.service.dart';
 import 'package:vidbuy_app/services/users.service.dart';
 import 'package:vidbuy_app/view/cancel_screen.dart';
 import 'package:vidbuy_app/view/giveaway_screen.dart';
+import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/notification_screen.dart';
 import 'package:vidbuy_app/view/pending_admin_screen.dart';
 import 'package:vidbuy_app/services/network.service.dart';
@@ -268,18 +269,59 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                InfluencerCardWidget(
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            InfluencerProfileScreen(
+                                              
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: InfluencerCardWidget(
                                     image: "assets/Vector/kreaty.png",
                                     influencerName: influencers[0]['name'],
-                                    categoryName:  influencers[0]['email']),
-                                InfluencerCardWidget(
+                                    categoryName: influencers[0]['email'],
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            InfluencerProfileScreen(
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: InfluencerCardWidget(
                                     image: "assets/Vector/bina.png",
                                     influencerName: influencers[1]['name'],
-                                    categoryName: influencers[1]['email']),
-                                InfluencerCardWidget(
+                                    categoryName: influencers[1]['email'],
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            InfluencerProfileScreen(
+                                         
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: InfluencerCardWidget(
                                     image: "assets/Vector/influencer.png",
                                     influencerName: influencers[2]['name'],
-                                    categoryName: influencers[2]['email']),
+                                    categoryName: influencers[2]['email'],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
