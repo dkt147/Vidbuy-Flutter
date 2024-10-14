@@ -3,11 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/resources/componenets/influencer_card_widget.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_donations_tabbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
 import 'package:vidbuy_app/services/api.service.dart';
 import 'package:vidbuy_app/services/users.service.dart';
 import 'package:vidbuy_app/view/cancel_screen.dart';
+import 'package:vidbuy_app/view/giveaway_screen.dart';
 import 'package:vidbuy_app/view/notification_screen.dart';
 import 'package:vidbuy_app/view/pending_admin_screen.dart';
 import 'package:vidbuy_app/services/network.service.dart'; // Import the NetworkService
@@ -24,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late NetworkService _networkService;
 
   List<dynamic> categories = []; // List to hold category data
+  List<dynamic> influencers = [];
   bool isLoading = true; // Loading state
   String? errorMessage; // To hold error messages
   String? userName;
@@ -37,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     _loadUserName();
-    fetchCategories(); // Fetch categories on init
+    fetchCategories();
+    fetchInfluencers(); // Fetch categories on init
   }
 
   Future<void> fetchCategories() async {
@@ -60,7 +64,28 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoading = false; // Stop loading
       });
     }
+  }
 
+  Future<void> fetchInfluencers() async {
+    try {
+      // Assuming you have a NetworkService instance
+      setState(() {
+        isLoading = true; // Stop loading
+      });
+
+      var response = await _networkService.getInfluencers(); // Fetch categories
+      _logger.e(response);
+
+      influencers = response['list'];
+
+      setState(() {
+        isLoading = false; // Stop loading
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false; // Stop loading
+      });
+    }
   }
 
   String getGreeting() {
@@ -84,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       userName = name ?? 'Guest'; // If no name is found, default to 'Guest'
     });
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -233,11 +258,173 @@ class _HomeScreenState extends State<HomeScreen> {
                               data: "Trending Influencers",
                               size: 22.h,
                               family: "Nunito",
-                              color: const Color(0xff0A071E),
+                              color: Color(0xff0A071E),
                               weight: FontWeight.w700,
                             ),
                           ),
-                          // Add influencer cards and other components below...
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 14.w, right: 14.w, top: 14.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InfluencerCardWidget(
+                                    image: "assets/Vector/kreaty.png",
+                                    influencerName: influencers[0]['name'],
+                                    categoryName:  influencers[0]['email']),
+                                InfluencerCardWidget(
+                                    image: "assets/Vector/bina.png",
+                                    influencerName: influencers[1]['name'],
+                                    categoryName: influencers[1]['email']),
+                                InfluencerCardWidget(
+                                    image: "assets/Vector/influencer.png",
+                                    influencerName: influencers[2]['name'],
+                                    categoryName: influencers[2]['email']),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 23.h,
+                          ),
+                          ListTile(
+                              leading: CircleAvatar(
+                                radius: 22.r,
+                                backgroundImage:
+                                    AssetImage("assets/UI/grouppicture.jpg"),
+                              ),
+                              title: Text(
+                                '1000',
+                                // textScaleFactor: 1.5,
+                              ),
+                              // trailing: Icon(Icons.done),
+                              subtitle: Content(
+                                data: "Love like you do it",
+                                size: 12.h,
+                                weight: FontWeight.w400,
+                                family: "Nunito",
+                              )
+                              // selected: true,
+                              ),
+                          GestureDetector(
+                            onTap: () {
+                              navigate(context, GivewayScreen());
+                            },
+                            child: Center(
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: 331.w,
+                                    height: 165.h,
+                                    decoration: BoxDecoration(
+                                        color: Colors.amber,
+                                        borderRadius:
+                                            BorderRadius.circular(10.r)),
+                                    child: Image.asset(
+                                      "assets/UI/giveaway.png",
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        left: 300.w,
+                                      ),
+                                      child: Image.asset(
+                                        "assets/Icon/bookmark.png",
+                                        height: 31.h,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 16.63.h,
+                                width: 45.w,
+                                margin: EdgeInsets.only(left: 21.w, top: 7.h),
+                                // padding: EdgeInsets.all(50.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  color: Color(0xffB0ABAB),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Image.asset("assets/Icon/Heart.png"),
+                                    Content(
+                                      data: "244",
+                                      size: 10.h,
+                                      weight: FontWeight.w700,
+                                      family: "Nunito",
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 60.h,
+                                width: 150.w, // Adjust based on your image size
+                                child: Stack(
+                                  children: [
+                                    for (int i = 0;
+                                        i < 4;
+                                        i++) // Loop to create multiple images
+                                      Positioned(
+                                        left: i *
+                                            15.0.w, // Adjust to control the overlap amount
+                                        child: CircleAvatar(
+                                          radius: 15
+                                              .r, // Adjust the size of the images
+                                          backgroundColor:
+                                              Colors.purple, // Border color
+                                          child: CircleAvatar(
+                                            radius: 28
+                                                .r, // Slightly smaller to create the border effect
+                                            backgroundImage: AssetImage(
+                                                "assets/Vector/girl.png"),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 12.w),
+                            child: Content(
+                              data: "Recently Added",
+                              size: 22.h,
+                              family: "Nunito",
+                              color: Color(0xff0A071E),
+                              weight: FontWeight.w700,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 14.w, right: 14.w, top: 14.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InfluencerCardWidget(
+                                    image: "assets/Vector/kreaty.png",
+                                    influencerName: "Creaty",
+                                    categoryName: "Actor"),
+                                InfluencerCardWidget(
+                                    image: "assets/Vector/bina.png",
+                                    influencerName: "Creaty",
+                                    categoryName: "Actor"),
+                                InfluencerCardWidget(
+                                    image: "assets/Vector/influencer.png",
+                                    influencerName: "Creaty",
+                                    categoryName: "Actor"),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 70.h,
+                          ),
                         ],
                       ),
                     ],
@@ -302,7 +489,8 @@ class SliderWidget extends StatelessWidget {
                   width: 173.w,
                   height: 40.h,
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.7), // Semi-transparent background
+                    color: Colors.black
+                        .withOpacity(0.7), // Semi-transparent background
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(7.r),
                       bottomRight: Radius.circular(7.r),
@@ -319,7 +507,8 @@ class SliderWidget extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Content(
-                        data: "Additional Info", // Replace this with any dynamic field if needed
+                        data:
+                            "Additional Info", // Replace this with any dynamic field if needed
                         size: 8.h,
                         family: "Nunito",
                         weight: FontWeight.w500,
