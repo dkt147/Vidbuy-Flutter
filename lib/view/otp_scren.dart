@@ -115,9 +115,10 @@ class _OtpScrenState extends State<OtpScren> {
 
       // Call the verifySignUp API
       final response = await networkService.verifySignUp(data);
+      print(response);
 
       // Handle the response
-      if (response['bool'] == true) {
+      if (response['user']['bool'] == true) {
         navigate(context, LoginScreen()); // Navigate to the login screen on success
       } else {
         setState(() {
