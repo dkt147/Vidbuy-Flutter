@@ -33,6 +33,9 @@ class NetworkService {
   Future<dynamic> getCategory() async {
     return await httpGetResponse('category/list');
   }
+Future<dynamic> getInfluencers() async {
+    return await httpGetResponse('influencer/list');
+  }
 
   // Function to serialize the request body
   String serialize(Map<String, dynamic> obj) {
