@@ -62,12 +62,12 @@ class _CreateInfluencerAccountScreenState
     try {
       final ImagePicker _picker = ImagePicker();
       final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      print(image);
 
       if (image != null) {
         setState(() {
           _profileImage = File(image.path);
-          _base64Image = base64Encode(
-              _profileImage!.readAsBytesSync()); // Convert image to Base64
+          _base64Image = base64Encode(_profileImage!.readAsBytesSync());
         });
       }
     } catch (e) {
@@ -112,15 +112,22 @@ class _CreateInfluencerAccountScreenState
 
     var response = await _networkService.register(registrationData);
     print(response);
-    if (response['bool'] == true) {
+    if (response['user']['bool'] == true) {
       // Save user ID in local storage
       final prefs = await SharedPreferences.getInstance();
-      // Extract user ID from response
-      int user = response['user'];
+
+      // Extract the user object from the response
+      Map<String, dynamic> user = response['user'];
+
+      // Save user details in local storage
       await prefs.setString('user', user.toString());
-      int userId = response['user']['id'];
+
+      // Extract user ID from the user object
+      int userId = user['id'];
+
       await prefs.setString('user_id', userId.toString());
 
+      // Navigate to the OTP screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => OtpScren()),
