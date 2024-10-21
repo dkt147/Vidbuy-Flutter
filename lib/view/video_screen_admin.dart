@@ -62,7 +62,11 @@ class _VideoScreenAdminState extends State<VideoScreenAdmin> {
                     ),
                     child: Text(
                       "Ask New video",
-                      style: TextStyle(fontSize: 16.h, color: Colors.white, fontFamily: "Lato", fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                          fontSize: 16.h,
+                          color: Colors.white,
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -98,10 +102,13 @@ class _VideoScreenAdminState extends State<VideoScreenAdmin> {
                         borderRadius: BorderRadius.circular(30.r),
                       ),
                     ),
-                    child: Text(
-                      "Complete",
-                      style: TextStyle(fontSize: 16.h, color: Colors.white, fontFamily: "Lato", fontWeight: FontWeight.w700,)
-                    ),
+                    child: Text("Complete",
+                        style: TextStyle(
+                          fontSize: 16.h,
+                          color: Colors.white,
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w700,
+                        )),
                   ),
                 ),
               ],

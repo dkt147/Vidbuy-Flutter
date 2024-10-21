@@ -249,7 +249,10 @@ class _InfluencerEditProfileScreenState
                     label: "Your Name",
                     hint: "Enter Your Name",
                     colorr: Colors.transparent,
-                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
+                    prefixIcon: Image.asset(
+                      "assets/Icon/person.png",
+                      height: 25.h,
+                    ),
                     controller: _nameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -261,7 +264,10 @@ class _InfluencerEditProfileScreenState
                     label: "Your username",
                     hint: "Enter Your Username",
                     colorr: Colors.transparent,
-                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
+                    prefixIcon: Image.asset(
+                      "assets/Icon/person.png",
+                      height: 25.h,
+                    ),
                     controller: _usernameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -274,7 +280,9 @@ class _InfluencerEditProfileScreenState
                     hint: "[CATEGORY]",
                     colorr: Colors.transparent,
                     // prefixIcon: Icon(Icons.email),
-                    suffixIcon: Image.asset("assets/Icon/down.png",),
+                    suffixIcon: Image.asset(
+                      "assets/Icon/down.png",
+                    ),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -287,7 +295,9 @@ class _InfluencerEditProfileScreenState
                     hint: "[Country]",
                     colorr: Colors.transparent,
                     // prefixIcon: Icon(Icons.email),
-                    suffixIcon: Image.asset("assets/Icon/down.png",),
+                    suffixIcon: Image.asset(
+                      "assets/Icon/down.png",
+                    ),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter

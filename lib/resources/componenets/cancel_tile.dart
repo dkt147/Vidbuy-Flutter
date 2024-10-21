@@ -13,39 +13,41 @@ class CancelTile extends StatelessWidget {
           height: 18.h,
         ),
         Row(
-                // mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Content(
-                    data: "Influencers Name",
-                    size: 16.h,
-                    weight: FontWeight.w500,
-                    family: "Lato",
-                  ),
-                  SizedBox(width: 88.w,),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Content(
-                        data: "Cancel",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w500,
-                      ),
-                      SizedBox(
-                        width: 15.w,
-                      ),
-                      Content(
-                        data: "Revert",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-                      SizedBox(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Content(
+              data: "Influencers Name",
+              size: 16.h,
+              weight: FontWeight.w500,
+              family: "Lato",
+            ),
+            SizedBox(
+              width: 88.w,
+            ),
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Content(
+                  data: "Cancel",
+                  size: 14.h,
+                  family: "Lato",
+                  weight: FontWeight.w500,
+                ),
+                SizedBox(
+                  width: 15.w,
+                ),
+                Content(
+                  data: "Revert",
+                  size: 14.h,
+                  family: "Lato",
+                  weight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(
           height: 16.h,
         ),
         Divider(

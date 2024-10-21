@@ -4,21 +4,18 @@ import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
-import 'package:vidbuy_app/services/api.service.dart';
-import 'package:vidbuy_app/services/network.service.dart';
 
 class OtpScren extends StatefulWidget {
-  const OtpScren({super.key});
+final String code;
+ OtpScren({super.key, required this.code});
 
   @override
   _OtpScrenState createState() => _OtpScrenState();
 }
 
 class _OtpScrenState extends State<OtpScren> {
-  final NetworkService networkService = NetworkService(api: ApiService());
   final TextEditingController otpController = TextEditingController();
-  String? errorMessage;
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +48,7 @@ class _OtpScrenState extends State<OtpScren> {
           Center(
             child: Column(
               children: [
+                Text(widget.code.toString()),
                 Pinput(
                   controller: otpController,
                   length: 4,
@@ -68,18 +66,18 @@ class _OtpScrenState extends State<OtpScren> {
                   ),
                 ),
                 SizedBox(height: 18.h),
-                if (errorMessage != null) // Display error message if exists
-                  Text(
-                    errorMessage!,
-                    style: TextStyle(color: Colors.red),
-                  ),
+                // if (errorMessage != null) // Display error message if exists
+                //   Text(
+                //     errorMessage!,
+                //     style: TextStyle(color: Colors.red),
+                //   ),
                 SizedBox(height: 18.h),
                 Container(
                   width: 280.w,
                   height: 50.h,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await verifySignup(otpController.text);
+                      // await verifySignup(otpController.text);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xff5271FF),
@@ -101,34 +99,35 @@ class _OtpScrenState extends State<OtpScren> {
     );
   }
 
-  Future<void> verifySignup(String otp) async {
-    try {
-      // Retrieve user ID from local storage
-      final prefs = await SharedPreferences.getInstance();
-      String? userId = prefs.getString('user_id'); // Get user ID
+  // Future<void> verifySignup(String otp) async {
+  //   try {
+  //     // Retrieve user ID from local storage
+  //     final prefs = await SharedPreferences.getInstance();
+  //     String? userId = prefs.getString('user_id'); // Get user ID
 
-      // Prepare the data for verification
-      final data = {
-        'code': otp,
-        'user_id': userId, // Include user ID in the request
-      };
+  //     // Prepare the data for verification
+  //     final data = {
+  //       'code': otp,
+  //       'user_id': userId, // Include user ID in the request
+  //     };
 
-      // Call the verifySignUp API
-      final response = await networkService.verifySignUp(data);
-      print(response);
+  //     // Call the verifySignUp API
+  //     final response = await networkService.verifySignUp(data);
+  //     print(response);
 
-      // Handle the response
-      if (response['user']['bool'] == true) {
-        navigate(context, LoginScreen()); // Navigate to the login screen on success
-      } else {
-        setState(() {
-          errorMessage = response['message'] ?? 'Unknown error occurred';
-        });
-      }
-    } catch (error) {
-      setState(() {
-        errorMessage = 'Error: $error'; // Handle the error appropriately
-      });
-    }
-  }
+  //     // Handle the response
+  //     if (response['user']['bool'] == true) {
+  //       navigate(
+  //           context, LoginScreen()); // Navigate to the login screen on success
+  //     } else {
+  //       setState(() {
+  //         errorMessage = response['message'] ?? 'Unknown error occurred';
+  //       });
+  //     }
+  //   } catch (error) {
+  //     setState(() {
+  //       errorMessage = 'Error: $error'; // Handle the error appropriately
+  //     });
+  //   }
+  // }
 }

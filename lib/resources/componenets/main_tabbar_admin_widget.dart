@@ -20,12 +20,15 @@ class _MainTabbarAdminWidgetState extends State<MainTabbarAdminWidget>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: widget.tabTitles.length, vsync: this);
+    _tabController =
+        TabController(length: widget.tabTitles.length, vsync: this);
     _tabController.addListener(() {
       setState(() {
-        if (_tabController.index == widget.tabTitles.indexOf("Pending Request")) {
+        if (_tabController.index ==
+            widget.tabTitles.indexOf("Pending Request")) {
           showSearchField = false; // Reset search field when switching tabs
-        } else if (_tabController.index == widget.tabTitles.indexOf("Canceled")) {
+        } else if (_tabController.index ==
+            widget.tabTitles.indexOf("Canceled")) {
           showSearchField = false; // Reset search field when switching tabs
         }
       });
@@ -43,13 +46,22 @@ class _MainTabbarAdminWidgetState extends State<MainTabbarAdminWidget>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: _tabController.index == widget.tabTitles.indexOf("Pending Request")
+        title: _tabController.index ==
+                widget.tabTitles.indexOf("Pending Request")
             ? Row(
                 children: [
-                  Image.asset("assets/Icon/backarrow.png", height: 25.h,),
+                  Image.asset(
+                    "assets/Icon/backarrow.png",
+                    height: 25.h,
+                  ),
                   SizedBox(width: 8.w),
                   // Text("Influencer Requests", style: T,),
-                  Content(data: "Influencer Request", size: 14.h, weight: FontWeight.w400,family: "Nunito",),
+                  Content(
+                    data: "Influencer Request",
+                    size: 14.h,
+                    weight: FontWeight.w400,
+                    family: "Nunito",
+                  ),
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.search),
@@ -64,7 +76,10 @@ class _MainTabbarAdminWidgetState extends State<MainTabbarAdminWidget>
             : _tabController.index == widget.tabTitles.indexOf("Canceled")
                 ? Row(
                     children: [
-                      Image.asset("assets/Icon/backarrow.png", height: 25.h,),
+                      Image.asset(
+                        "assets/Icon/backarrow.png",
+                        height: 25.h,
+                      ),
                       SizedBox(width: 8.w),
                       Expanded(
                         child: AnimatedContainer(

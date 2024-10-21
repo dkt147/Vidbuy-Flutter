@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class  Utils {
+class Utils {
   // static const String _loginIdKey = 'loginId';
   // static String loginId = "";
 
@@ -29,38 +29,60 @@ class  Utils {
   //         backgroundColor: Colors.red,
   //         duration: Duration(seconds: 3),
   //       )..show(context));
-  }
 
-  snackBar(String message, BuildContext context) {
+  static snackBar(String message, BuildContext context) {
     return ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message, ),duration: Duration(microseconds: 5000000),));
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
-  // static dateFormat1(value) {
-  //   //Output: 01/Jan/23
-  //   return DateFormat('dd/MMM/yy').format(DateTime.parse(value.toString()));
-  // }
+  static errorSnackBar(String message, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.red.shade500,
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.red.shade50),
+        ),
+      ),
+    );
+  }
+}
 
-  // static dateFormat2(value) {
-  //   // Output: Sun, 01 Jan 23
-  //   return DateFormat('E, dd MMM yy').format(DateTime.parse(value.toString()));
-  // }
+snackBar(String message, BuildContext context) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(
+      message,
+    ),
+    duration: Duration(microseconds: 5000000),
+  ));
+}
 
-  // static dateTimeFormat(value) {
-  //   // Output: Sun, 01 Jan 23
-  //   // return
-  //   //  DateFormat(' HH:mm, E, dd MMM yy')
-  //   return dateFormat1('dd MMM yy, E | HH:mm')
-  //       .format(DateTime.parse(value.toString()));
-  // }
+// static dateFormat1(value) {
+//   //Output: 01/Jan/23
+//   return DateFormat('dd/MMM/yy').format(DateTime.parse(value.toString()));
+// }
 
-  // static TimeFormat(value) {
-  //   // Output: Sun, 01 Jan 23
-  //   return dateFormat2('hh:mm a').format(DateTime.parse(value.toString()));
-  // }
-  // //  "Jan 30, Mon | 7:32pm",
+// static dateFormat2(value) {
+//   // Output: Sun, 01 Jan 23
+//   return DateFormat('E, dd MMM yy').format(DateTime.parse(value.toString()));
+// }
 
-  // static getMonth(value) {
-  //   // Output: Sun, 01 Jan 23
-  //   return dateFormat1('MMM').format(DateTime.parse(value.toString()));
-  // }
+// static dateTimeFormat(value) {
+//   // Output: Sun, 01 Jan 23
+//   // return
+//   //  DateFormat(' HH:mm, E, dd MMM yy')
+//   return dateFormat1('dd MMM yy, E | HH:mm')
+//       .format(DateTime.parse(value.toString()));
+// }
+
+// static TimeFormat(value) {
+//   // Output: Sun, 01 Jan 23
+//   return dateFormat2('hh:mm a').format(DateTime.parse(value.toString()));
+// }
+// //  "Jan 30, Mon | 7:32pm",
+
+// static getMonth(value) {
+//   // Output: Sun, 01 Jan 23
+//   return dateFormat1('MMM').format(DateTime.parse(value.toString()));
+// }

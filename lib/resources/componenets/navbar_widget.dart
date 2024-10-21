@@ -15,7 +15,7 @@ class NavBar extends StatelessWidget {
             height: 70.h,
             width: 375.w,
             // color: Colors.amber,
-            
+
             // padding: EdgeInsets.zero,
             // decoration: BoxDecoration(
             //     boxShadow: [
@@ -70,7 +70,7 @@ class NavBar extends StatelessWidget {
                         duration: Duration(seconds: 2),
                         child: Image.asset(
                           value.screen == 1
-                           ? "assets/Icon/Search2.png"
+                              ? "assets/Icon/Search2.png"
                               : "assets/Icon/Search.png",
                           height: 29.h,
                           // color: value.screen == 1 ? Colors.blue : null,
@@ -143,7 +143,6 @@ class NavBar extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
                   ],
                 ),
               );

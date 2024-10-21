@@ -5,14 +5,12 @@ import 'package:vidbuy_app/view/select_login_screen.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
 
-
-class Nav{
+class Nav {
   static const String splash = '/';
   static const String home = '/home';
   static const String navBar = '/navbar';
   static const String login = '/login';
-  static const String register = '/register'; 
-
+  static const String register = '/register';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -27,8 +25,8 @@ class Nav{
       case register:
         return MaterialPageRoute(builder: (_) => const SelectLoginScreen());
       default:
-        return MaterialPageRoute(builder: (_) => SplashScreen()); // Default case
+        return MaterialPageRoute(
+            builder: (_) => SplashScreen()); // Default case
     }
   }
-
 }

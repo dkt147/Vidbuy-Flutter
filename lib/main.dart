@@ -10,6 +10,7 @@ import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
 import 'package:vidbuy_app/view/cancel_screen.dart';
 import 'package:vidbuy_app/view/pending_admin_screen.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
 
 late SharedPreferences pref;
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NavbarProvider()),
+        ChangeNotifierProvider(create: (_) => InfluencerSignupViewModel()),
       ],
       child: ScreenUtilInit(
         useInheritedMediaQuery: true,
@@ -49,12 +51,14 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 title: 'VidBuy App',
-                initialRoute: snapshot.data, // Use the initial route from snapshot
+                initialRoute:
+                    snapshot.data, // Use the initial route from snapshot
                 theme: ThemeData(
                   fontFamily: "LondrinaSolid",
                   scaffoldBackgroundColor: const Color(0xffFFFFFF),
                   scrollbarTheme: ScrollbarThemeData(
-                    trackColor: WidgetStateProperty.all(const Color(0xffFFFFFF)),
+                    trackColor:
+                        WidgetStateProperty.all(const Color(0xffFFFFFF)),
                   ),
                   useMaterial3: true,
                 ),
@@ -67,9 +71,12 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 Future<String> _getInitialRoute() async {
   StorageService storageService = StorageService();
-  String? token = await storageService.get('token'); // Await the future to get the token
-  return (token != null && token.isNotEmpty) ? Nav.navBar : Nav.splash; // Check token and return route
+  String? token =
+      await storageService.get('token'); // Await the future to get the token
+  return (token != null && token.isNotEmpty)
+      ? Nav.navBar
+      : Nav.splash; // Check token and return route
 }
-

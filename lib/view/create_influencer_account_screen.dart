@@ -1,19 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vidbuy_app/Function/utils.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
-import 'package:vidbuy_app/services/api.service.dart';
-import 'package:vidbuy_app/services/network.service.dart';
-import 'package:vidbuy_app/view/otp_scren.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
 
 class CreateInfluencerAccountScreen extends StatefulWidget {
   const CreateInfluencerAccountScreen({super.key});
@@ -30,16 +23,19 @@ class _CreateInfluencerAccountScreenState
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _countryController;
+  String? _selectedCountry;
 
-  late NetworkService _networkService;
+  final List<String> _countries = ['USA', 'Canada', 'UK', 'Australia', 'India'];
 
-  File? _profileImage;
-  String? _base64Image;
+  // late NetworkService _networkService;
+
+  // File? _profileImage;
+  // String? _base64Image;
 
   @override
   void initState() {
     super.initState();
-    _networkService = NetworkService(api: ApiService());
+    // _networkService = NetworkService(api: ApiService());
 
     _nameController = TextEditingController();
     _usernameController = TextEditingController();
@@ -58,100 +54,102 @@ class _CreateInfluencerAccountScreenState
     super.dispose();
   }
 
-  Future<void> _pickProfileImage() async {
-    try {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      print(image);
+  // Future<void> _pickProfileImage() async {
+  //   try {
+  //     final ImagePicker _picker = ImagePicker();
+  //     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  //     print(image);
 
-      if (image != null) {
-        setState(() {
-          _profileImage = File(image.path);
-          _base64Image = base64Encode(_profileImage!.readAsBytesSync());
-        });
-      }
-    } catch (e) {
-      print('Error picking image: $e');
-    }
-  }
+  //     if (image != null) {
+  //       setState(() {
+  //         _profileImage = File(image.path);
+  //         _base64Image = base64Encode(_profileImage!.readAsBytesSync());
+  //       });
+  //     }
+  //   } catch (e) {
+  //     print('Error picking image: $e');
+  //   }
+  // }
 
-  void _createAccount() async {
-    if (_nameController.text.isEmpty) {
-      _showSnackBar('Please enter your name');
-      return;
-    }
-    if (_usernameController.text.isEmpty) {
-      _showSnackBar('Please enter your username');
-      return;
-    }
-    if (_emailController.text.isEmpty) {
-      _showSnackBar('Please enter your email');
-      return;
-    }
-    if (_passwordController.text.isEmpty) {
-      _showSnackBar('Please enter your password');
-      return;
-    }
-    if (_countryController.text.isEmpty) {
-      _showSnackBar('Please enter your country');
-      return;
-    }
+  // void _createAccount() async {
+  //   if (_nameController.text.isEmpty) {
+  //     _showSnackBar('Please enter your name');
+  //     return;
+  //   }
+  //   if (_usernameController.text.isEmpty) {
+  //     _showSnackBar('Please enter your username');
+  //     return;
+  //   }
+  //   if (_emailController.text.isEmpty) {
+  //     _showSnackBar('Please enter your email');
+  //     return;
+  //   }
+  //   if (_passwordController.text.isEmpty) {
+  //     _showSnackBar('Please enter your password');
+  //     return;
+  //   }
+  //   if (_countryController.text.isEmpty) {
+  //     _showSnackBar('Please enter your country');
+  //     return;
+  //   }
 
-    // Prepare the registration data
-    Map<String, dynamic> registrationData = {
-      'name': _nameController.text,
-      'username': _usernameController.text,
-      'email': _emailController.text,
-      'password': _passwordController.text,
-      'country': 1,
-      'profile_image': _base64Image,
-      'role_id': "3",
-    };
+  //   // Prepare the registration data
+  //   Map<String, dynamic> registrationData = {
+  //     'name': _nameController.text,
+  //     'username': _usernameController.text,
+  //     'email': _emailController.text,
+  //     'password': _passwordController.text,
+  //     'country': 1,
+  //     'profile_image': _base64Image,
+  //     'role_id': "3",
+  //   };
 
-    print(registrationData);
+  //   print(registrationData);
 
-    var response = await _networkService.register(registrationData);
-    print(response);
-    if (response['user']['bool'] == true) {
-      // Save user ID in local storage
-      final prefs = await SharedPreferences.getInstance();
+  //   var response = await _networkService.register(registrationData);
+  //   print(response);
+  //   if (response['user']['bool'] == true) {
+  //     // Save user ID in local storage
+  //     final prefs = await SharedPreferences.getInstance();
 
-      // Extract the user object from the response
-      Map<String, dynamic> user = response['user'];
+  //     // Extract the user object from the response
+  //     Map<String, dynamic> user = response['user'];
 
-      // Save user details in local storage
-      await prefs.setString('user', user.toString());
+  //     // Save user details in local storage
+  //     await prefs.setString('user', user.toString());
 
-      // Extract user ID from the user object
-      int userId = user['id'];
+  //     // Extract user ID from the user object
+  //     int userId = user['id'];
 
-      await prefs.setString('user_id', userId.toString());
+  //     await prefs.setString('user_id', userId.toString());
 
-      // Navigate to the OTP screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => OtpScren()),
-      );
-    } else {
-      snackBar(response['message'] ?? 'Registration failed', context);
-    }
-  }
+  //     // Navigate to the OTP screen
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => OtpScren()),
+  //     );
+  //   } else {
+  //     snackBar(response['message'] ?? 'Registration failed', context);
+  //   }
+  // }
 
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.red.shade500,
-        content: Text(
-          message,
-          style: TextStyle(color: Colors.red.shade50),
-        ),
-      ),
-    );
-  }
+  // void _showSnackBar(String message) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       behavior: SnackBarBehavior.floating,
+  //       backgroundColor: Colors.red.shade500,
+  //       content: Text(
+  //         message,
+  //         style: TextStyle(color: Colors.red.shade50),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel =
+        Provider.of<InfluencerSignupViewModel>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -187,21 +185,33 @@ class _CreateInfluencerAccountScreenState
               ),
             ),
             SizedBox(height: 30.h),
-            GestureDetector(
-              onTap: _pickProfileImage,
-              child: Container(
-                height: 89.h,
-                width: 87.w,
-                child: CircleAvatar(
-                  radius: 40.r,
-                  backgroundColor: Colors.grey[200],
-                  backgroundImage:
-                      _profileImage != null ? FileImage(_profileImage!) : null,
-                  child: _profileImage == null
-                      ? Icon(Icons.camera_alt, size: 26, color: Colors.grey)
-                      : null,
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    viewModel.pickProfileImage();
+                  },
+                  child: Consumer<InfluencerSignupViewModel>(
+                    builder: (context, viewModel, child) {
+                      return Container(
+                        height: 89.h,
+                        width: 87.w,
+                        child: CircleAvatar(
+                          radius: 40.r,
+                          backgroundColor: Colors.grey[200],
+                          backgroundImage: viewModel.profileImage != null
+                              ? FileImage(viewModel.profileImage!)
+                              : null,
+                          child: viewModel.profileImage == null
+                              ? Icon(Icons.camera_alt,
+                                  size: 26, color: Colors.grey)
+                              : null,
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
+              ],
             ),
             SizedBox(height: 10.h),
             ContentField(
@@ -248,39 +258,122 @@ class _CreateInfluencerAccountScreenState
               keyboardType: TextInputType.text,
             ),
             SizedBox(height: 10.h),
-            ContentField(
-              label: "Your Country",
-              hint: "Enter Your Country",
-              colorr: Colors.transparent,
-              controller: _countryController,
-              inputFormat: <TextInputFormatter>[
-                FilteringTextInputFormatter.singleLineFormatter
-              ],
-              keyboardType: TextInputType.text,
+            // ContentField(
+            //   label: "Your Country",
+            //   hint: "Enter Your Country",
+            //   colorr: Colors.transparent,
+            //   controller: _countryController,
+            //   inputFormat: <TextInputFormatter>[
+            //     FilteringTextInputFormatter.singleLineFormatter
+            //   ],
+            //   keyboardType: TextInputType.text,
+            // ),
+
+            Container(
+                margin: EdgeInsets.only(bottom: 9.h),
+                child: Text(
+                  "Country",
+                  style: TextStyle(
+                      fontSize: 16.h,
+                      color: Colors.black,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w500),
+                )),
+            SizedBox(
+              height: 50.h,
+              width: 335.w,
+              child: DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                ),
+                hint: Text(
+                  "Select your country",
+                  style: TextStyle(
+                      fontSize: 16.h,
+                      color: Colors.black,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w500),
+                ),
+                value: _selectedCountry,
+                icon: Icon(Icons.arrow_drop_down),
+                items: _countries.map((String country) {
+                  return DropdownMenuItem<String>(
+                    value: country,
+                    child: Text(
+                      country,
+                      style: TextStyle(
+                          fontSize: 16.h,
+                          color: Colors.black,
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w500),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCountry = newValue!;
+                  });
+                },
+              ),
             ),
             SizedBox(height: 20.h),
             Center(
-              child: Container(
-                width: 280.w,
-                height: 50.h,
-                child: ElevatedButton(
-                  onPressed: _createAccount,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
+              child: Consumer<InfluencerSignupViewModel>(
+                builder: (context, viewModel, child) {
+                  return Container(
+                    width: 280.w,
+                    height: 50.h,
+                    child: ElevatedButton(
+                      onPressed: viewModel.loading
+                          ? null // Disable button if loading
+                          : () {
+                              viewModel.fetchInfluencerSignupData(context,
+                                  name: _nameController.text.toString(),
+                                  username: _usernameController.text.toString(),
+                                  email: _emailController.text.toString(),
+                                  password: _passwordController.text.toString(),
+                                  country: _countryController.text.toString(),
+                                  base64Image:
+                                      viewModel.base64Image.toString());
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                      ),
+                      child: viewModel.loading
+                          ? CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            )
+                          : Text(
+                              "Create Account",
+                              style: TextStyle(
+                                fontSize: 20.h,
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
                     ),
-                  ),
-                  child: Text(
-                    "Create Account",
-                    style: TextStyle(
-                      fontSize: 20.h,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
             SizedBox(height: 20.h),

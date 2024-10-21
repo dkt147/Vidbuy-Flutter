@@ -133,10 +133,10 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
           int userId = response['user']['id'];
           await prefs.setString('user_id', userId.toString());
 
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => OtpScren()),
-          );
+          // Navigator.pushReplacement(
+          //   context,
+            // MaterialPageRoute(builder: (context) => OtpScren()),
+          // );
         } else {
           snackBar(response['message'] ?? 'Registration failed', context);
         }
@@ -210,10 +210,6 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
           GestureDetector(
             onTap: _pickImage,
             child: _buildAvatar(_image, isImage: true),
-          ),
-          GestureDetector(
-            onTap: _pickMedia,
-            child: _buildAvatar(_media, isImage: _isImage),
           ),
         ],
       ),

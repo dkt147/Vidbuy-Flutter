@@ -9,10 +9,12 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
+import 'package:vidbuy_app/resources/componenets/primary_button.dart';
 import 'package:vidbuy_app/services/nav.service.dart';
 import 'package:vidbuy_app/services/storage.service.dart';
 import 'package:vidbuy_app/view/create_user_account_screen.dart';
 import 'package:vidbuy_app/view/forgot_password_screen.dart';
+import 'package:vidbuy_app/view/home_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/services/api.service.dart';
 import 'package:vidbuy_app/services/network.service.dart';
@@ -90,13 +92,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // Handle the response
       if (response['token'] != '') {
-
-        
         String userJson = jsonEncode(response['user']);
 
         StorageService stg = StorageService();
         stg.set('token', response['token']);
-        stg.set('user', userJson );
+        stg.set('user', userJson);
 
         // Navigate to the NavBarScreen upon successful login
         //
@@ -106,9 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // ignore: use_build_context_synchronously
         Navigator.pushNamed(context, Nav.navBar);
-
       }
-
     } catch (e) {
       setState(() {
         _isLoading = false;
@@ -179,38 +177,46 @@ class _LoginScreenState extends State<LoginScreen> {
                     inputFormat: [
                       FilteringTextInputFormatter.singleLineFormatter
                     ],
-                    keyboardType: TextInputType.visiblePassword, // This line is also included
+                    keyboardType: TextInputType
+                        .visiblePassword, // This line is also included
                   ),
                 ],
               ),
             ),
             SizedBox(height: 30.h),
-            Center(
-              child: Container(
-                width: 280.w,
-                height: 50.h,
-                child: ElevatedButton(
-                  onPressed: _isLoading
-                      ? null
-                      : () => _login(context), // Pass context here
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                  ),
-                  child: _isLoading
-                      ? CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        )
-                      : Text(
-                          "Log In",
-                          style: TextStyle(fontSize: 16.h, color: Colors.white),
-                        ),
-                ),
-              ),
+
+            PrimaryButton(
+              title: "Login",
+              func: () {
+                navigate(context, HomeScreen());
+              },
             ),
+            // Center(
+            //   child: Container(
+            //     width: 280.w,
+            //     height: 50.h,
+            //     child: ElevatedButton(
+            //       onPressed: _isLoading
+            //           ? null
+            //           : () => _login(context), // Pass context here
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: Colors.blue,
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(30.r),
+            //         ),
+            //       ),
+            //       child: _isLoading
+            //           ? CircularProgressIndicator(
+            //               valueColor:
+            //                   AlwaysStoppedAnimation<Color>(Colors.white),
+            //             )
+            //           : Text(
+            //               "Log In",
+            //               style: TextStyle(fontSize: 16.h, color: Colors.white),
+            //             ),
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: 15.h),
             Center(
               child: TextButton(

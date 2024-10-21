@@ -28,24 +28,23 @@ class _PriceSliderState extends State<PriceSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return 
- Container(
-  // width: 169.w,
-  // height: 55.h,
-   child: Row(
-        children: 
-   [
+    return Container(
+      // width: 169.w,
+      // height: 55.h,
+      child: Row(
+        children: [
           DropdownButton<String>(
             value: 'Sort by',
-            items: ['Sort by', 'Price', 'Date', 'Popularity'].map((String value) {
+            items:
+                ['Sort by', 'Price', 'Date', 'Popularity'].map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
               );
             }).toList(),
             onChanged: (String? newValue) {
-              // Implement dropdown logic   
-   //  here
+              // Implement dropdown logic
+              //  here
             },
           ),
           // Expanded(
@@ -66,6 +65,6 @@ class _PriceSliderState extends State<PriceSlider> {
           const Text('Max price'),
         ],
       ),
- );
+    );
   }
 }

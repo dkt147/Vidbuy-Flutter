@@ -43,38 +43,42 @@ class PoliciesScreen extends StatelessWidget {
           ),
           ProfileTile(
               height: 25.h,
-                        image: "assets/Icon/lock.png",
+              image: "assets/Icon/lock.png",
               text: "Terms and Conditions"),
           SizedBox(
             height: 22.h,
           ),
           ProfileTile(
               height: 25.h,
-                        image: "assets/Icon/lock.png", text: "Cookies Policy"),
+              image: "assets/Icon/lock.png",
+              text: "Cookies Policy"),
           SizedBox(
             height: 22.h,
           ),
           ProfileTile(
               height: 25.h,
-                        image: "assets/Icon/lock.png", text: "Privacy Policy"),
+              image: "assets/Icon/lock.png",
+              text: "Privacy Policy"),
           SizedBox(
             height: 22.h,
           ),
           ProfileTile(
               height: 25.h,
-                        image: "assets/Icon/lock.png", text: "Cookies Policy"),
+              image: "assets/Icon/lock.png",
+              text: "Cookies Policy"),
           SizedBox(
             height: 22.h,
           ),
           ProfileTile(
               height: 25.h,
-                        image: "assets/Icon/lock.png",text: "Platfrom fee"),
+              image: "assets/Icon/lock.png",
+              text: "Platfrom fee"),
           SizedBox(
             height: 22.h,
           ),
           ProfileTile(
               height: 25.h,
-                        image: "assets/Icon/lock.png",
+              image: "assets/Icon/lock.png",
               text: "Contact Inforamation"),
           SizedBox(
             height: 40.h,

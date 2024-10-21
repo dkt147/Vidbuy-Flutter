@@ -24,12 +24,6 @@ class _AllTaskScereenState extends State<AllTaskScereen> {
           AllTaskTile(),
           AllTaskTile(),
           AllTaskTile(),
-      
-          AllTaskTile(),
-          AllTaskTile(),
-          AllTaskTile(),
-          AllTaskTile(),
-      
           AllTaskTile(),
           AllTaskTile(),
           AllTaskTile(),
@@ -44,8 +38,10 @@ class _AllTaskScereenState extends State<AllTaskScereen> {
           AllTaskTile(),
           AllTaskTile(),
           AllTaskTile(),
-          
-          
+          AllTaskTile(),
+          AllTaskTile(),
+          AllTaskTile(),
+          AllTaskTile(),
         ],
       ),
     );
@@ -59,12 +55,12 @@ class _AllTaskScereenState extends State<AllTaskScereen> {
     //                   children: [
     //       Content(data: "€ 1234.56", size: 16.h, weight: FontWeight.w500, family: "Lato",),
     //       Content(data: "[Category]", size: 16.h, weight: FontWeight.w500, family: "Lato",),
-          
+
     //       // Row(
     //       //   mainAxisAlignment: MainAxisAlignment.end,
     //       //   crossAxisAlignment: CrossAxisAlignment.end,
     //       //   children: [
-              
+
     //       //   ],
     //       // ),
     //                   ],
@@ -76,7 +72,7 @@ class _AllTaskScereenState extends State<AllTaskScereen> {
     //                 Content(data: "MMMEd", size: 16.h, weight: FontWeight.w500, family: "Lato",),
     //               ],
     //             ),
-          
+
     //                               Container(
     //                                 margin: EdgeInsets.only(bottom: 20.h),
     //                           width: 120.w,
@@ -87,9 +83,7 @@ class _AllTaskScereenState extends State<AllTaskScereen> {
     //                           ),
     //                           child: Center(child: Content(data: "status order", size: 18.h, color: Colors.white,weight: FontWeight.w300,)),
     //                         ),
-          
-          
-          
+
     //     ],
     //   ),
     // );

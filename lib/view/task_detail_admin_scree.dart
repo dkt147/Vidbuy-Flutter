@@ -209,7 +209,7 @@ class _TaskDetailAdminScreenState extends State<TaskDetailAdminScreen> {
             SizedBox(
               height: 31.h,
             ),
-                        Container(
+            Container(
               width: 375.w,
               height: 31.h,
               color: Color(0xff5271FF).withOpacity(0.3),
@@ -279,10 +279,10 @@ class _TaskDetailAdminScreenState extends State<TaskDetailAdminScreen> {
                 ],
               ),
             ),
-                        SizedBox(
+            SizedBox(
               height: 31.h,
             ),
-                        Container(
+            Container(
               width: 375.w,
               height: 31.h,
               color: Color(0xff5271FF).withOpacity(0.3),
@@ -352,7 +352,6 @@ class _TaskDetailAdminScreenState extends State<TaskDetailAdminScreen> {
                 ],
               ),
             ),
-            
           ],
         ),
       ),

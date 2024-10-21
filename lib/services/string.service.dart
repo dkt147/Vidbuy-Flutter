@@ -26,22 +26,29 @@ class StringsService {
   String capitalizeEachFirst(String str) {
     if (str.isEmpty) return '';
     List<String> words = str.toLowerCase().split(' ');
-    return words.map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
+    return words
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join(' ');
   }
 
   // Capitalize all letters in a string
   String capitalizeAllLetters(String str) {
     if (str.isEmpty) return '';
     List<String> words = str.toLowerCase().split(' ');
-    return words.map((word) => word[0].toUpperCase() + word.substring(1)).join(' ');
+    return words
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join(' ');
   }
 
   // Function to check if passwords match in a FormGroup
-  FormFieldValidator<String> checkIfMatchingPasswords(String passwordKey, String passwordConfirmationKey) {
+  FormFieldValidator<String> checkIfMatchingPasswords(
+      String passwordKey, String passwordConfirmationKey) {
     return (value) {
       // You need to access the form fields from the FormState in Flutter
       // Assuming that `passwordKey` and `passwordConfirmationKey` are passed dynamically
-      return (value != null && value == passwordKey) ? null : 'Passwords do not match';
+      return (value != null && value == passwordKey)
+          ? null
+          : 'Passwords do not match';
     };
   }
 
@@ -53,12 +60,14 @@ class StringsService {
     String? state,
     String? zipCode,
   }) {
-    return '${apartment ?? ''} ${streetAddress ?? ''} ${city ?? ''} ${state ?? ''} ${zipCode ?? ''}'.trim();
+    return '${apartment ?? ''} ${streetAddress ?? ''} ${city ?? ''} ${state ?? ''} ${zipCode ?? ''}'
+        .trim();
   }
 
   // Parse full name into first, middle, and last names
   Map<String, String> parseName(String input, {bool returnObject = false}) {
-    String capitalize(String s) => s.isEmpty ? '' : s[0].toUpperCase() + s.substring(1).toLowerCase();
+    String capitalize(String s) =>
+        s.isEmpty ? '' : s[0].toUpperCase() + s.substring(1).toLowerCase();
 
     Map<String, String> result = {
       'firstName': '',
@@ -66,7 +75,8 @@ class StringsService {
       'lastName': '',
     };
 
-    List<String> nameTokens = input.split(' ').where((name) => name.isNotEmpty).toList();
+    List<String> nameTokens =
+        input.split(' ').where((name) => name.isNotEmpty).toList();
 
     if (nameTokens.isNotEmpty) {
       result['firstName'] = capitalize(nameTokens[0]);

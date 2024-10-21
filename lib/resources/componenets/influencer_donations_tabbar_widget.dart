@@ -1,4 +1,3 @@
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,10 +10,12 @@ import 'package:vidbuy_app/view/video_screen.dart';
 
 class InfluencerDonationsTabbarWidget extends StatefulWidget {
   @override
-  _InfluencerDonationsTabbarWidgetState createState() => _InfluencerDonationsTabbarWidgetState();
+  _InfluencerDonationsTabbarWidgetState createState() =>
+      _InfluencerDonationsTabbarWidgetState();
 }
 
-class _InfluencerDonationsTabbarWidgetState extends State<InfluencerDonationsTabbarWidget>
+class _InfluencerDonationsTabbarWidgetState
+    extends State<InfluencerDonationsTabbarWidget>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -73,16 +74,22 @@ class _InfluencerDonationsTabbarWidgetState extends State<InfluencerDonationsTab
           indicatorWeight: 5.w,
           labelStyle: TextStyle(
             fontFamily: "Lato",
-            fontSize:   16.h,
+            fontSize: 16.h,
             fontWeight: FontWeight.w500,
           ),
           tabs: [
             Tab(text: 'All Task'),
             // Tab(text: 'Pending', ),
             // Tab(text: 'Waiting Video', ),
-            Tab(text: 'Video', ),
-            Tab(text: 'Task Details', ),
-            Tab(text: 'Active History', ),
+            Tab(
+              text: 'Video',
+            ),
+            Tab(
+              text: 'Task Details',
+            ),
+            Tab(
+              text: 'Active History',
+            ),
           ],
         ),
       ),

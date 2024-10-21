@@ -58,43 +58,54 @@ class _SearchScreenState extends State<SearchScreen> {
             //     keyboardType: TextInputType.multiline,
             //   ),
             // ),
-              Center(
-                child: Container(
-                  width: 335.w,
-                  height: 50.h,
-                  child: TextField(
-                    style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
-                    decoration: InputDecoration(
-                      hintText: 'Discover celebrities...',
-                      suffixIcon: Image.asset("assets/Icon/cancel.png", height: 20.h,),
-                      prefixIcon: Image.asset("assets/Icon/searchIcon.png", height: 18.h,),
-                      hintStyle: TextStyle(
-                        fontFamily: "Nunito",
-                        fontSize: 14.h,
-                        // color: Color(0xff8E8E8E), // Placeholder text color
-                      ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
-                                ),
-                      // border: InputBorder.none, // No border
+            Center(
+              child: Container(
+                width: 335.w,
+                height: 50.h,
+                child: TextField(
+                  style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
+                  decoration: InputDecoration(
+                    hintText: 'Discover celebrities...',
+                    suffixIcon: Image.asset(
+                      "assets/Icon/cancel.png",
+                      height: 20.h,
                     ),
+                    prefixIcon: Image.asset(
+                      "assets/Icon/searchIcon.png",
+                      height: 18.h,
+                    ),
+                    hintStyle: TextStyle(
+                      fontFamily: "Nunito",
+                      fontSize: 14.h,
+                      // color: Color(0xff8E8E8E), // Placeholder text color
+                    ),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                      borderSide:
+                          BorderSide(color: Color(0xff908B8B), width: 2.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                      borderSide:
+                          BorderSide(color: Color(0xff908B8B), width: 2.0),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                      borderSide:
+                          BorderSide(color: Color(0xff908B8B), width: 2.0),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                      borderSide:
+                          BorderSide(color: Color(0xff908B8B), width: 2.0),
+                    ),
+                    // border: InputBorder.none, // No border
                   ),
                 ),
               ),
+            ),
             SizedBox(
               height: 22.h,
             ),
@@ -244,19 +255,26 @@ class _SearchScreenState extends State<SearchScreen> {
                             right: 25.w,
                             top: 0,
                             // left: 0.w, // Align with the slider's thumb vertically
-                            child: Content(data: '€${_sliderValue.toInt()}', size: 12.h, family: "Lato" ,weight: FontWeight.w500,) ,
-                            
-                            
+                            child: Content(
+                              data: '€${_sliderValue.toInt()}',
+                              size: 12.h,
+                              family: "Lato",
+                              weight: FontWeight.w500,
+                            ),
                           ),
                           Positioned(
                             right: 25.w,
                             top: 25.h,
-                            child: Content(data: 'Max Price', size: 12.h, family: "Lato" ,weight: FontWeight.w500,) ,
+                            child: Content(
+                              data: 'Max Price',
+                              size: 12.h,
+                              family: "Lato",
+                              weight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
                       // Max price label just below the slider
-                      
                     ],
                   ),
                 ],
@@ -281,33 +299,31 @@ class _SearchScreenState extends State<SearchScreen> {
                         navigate(context, InfluencerProfileScreen());
                       },
                       child: InfluencerCardWidget2(
-                          image: "assets/Vector/influencer.png",
-                          influencerName: "Creaty",
-                          categoryName: "Actor",
-                          price: "€ 1234.56",
-                          rating: "1234.56",
-                          
-                          ),
+                        image: "assets/Vector/influencer.png",
+                        influencerName: "Creaty",
+                        categoryName: "Actor",
+                        price: "€ 1234.56",
+                        rating: "1234.56",
+                      ),
                     ),
                     SizedBox(
                       width: 26.w,
                     ),
-GestureDetector(
+                    GestureDetector(
                       onTap: () {
                         navigate(context, InfluencerProfileScreen());
                       },
                       child: InfluencerCardWidget2(
-                          image: "assets/Vector/influencer.png",
-                          influencerName: "Creaty",
-                          categoryName: "Actor",
-                          price: "€ 1234.56",
-                          rating: "1234.56",
-                          
-                          ),
+                        image: "assets/Vector/influencer.png",
+                        influencerName: "Creaty",
+                        categoryName: "Actor",
+                        price: "€ 1234.56",
+                        rating: "1234.56",
+                      ),
                     ),
                   ],
                 ),
-                
+
                 SizedBox(
                   height: 14.h,
                 ),
@@ -319,13 +335,12 @@ GestureDetector(
                         navigate(context, InfluencerProfileScreen());
                       },
                       child: InfluencerCardWidget2(
-                          image: "assets/Vector/influencer.png",
-                          influencerName: "Creaty",
-                          categoryName: "Actor",
-                          price: "€ 1234.56",
-                          rating: "1234.56",
-                          
-                          ),
+                        image: "assets/Vector/influencer.png",
+                        influencerName: "Creaty",
+                        categoryName: "Actor",
+                        price: "€ 1234.56",
+                        rating: "1234.56",
+                      ),
                     ),
                     SizedBox(
                       width: 26.w,
@@ -335,13 +350,12 @@ GestureDetector(
                         navigate(context, InfluencerProfileScreen());
                       },
                       child: InfluencerCardWidget2(
-                          image: "assets/Vector/influencer.png",
-                          influencerName: "Creaty",
-                          categoryName: "Actor",
-                          price: "€ 1234.56",
-                          rating: "1234.56",
-                          
-                          ),
+                        image: "assets/Vector/influencer.png",
+                        influencerName: "Creaty",
+                        categoryName: "Actor",
+                        price: "€ 1234.56",
+                        rating: "1234.56",
+                      ),
                     ),
                   ],
                 ),
@@ -356,13 +370,12 @@ GestureDetector(
                         navigate(context, InfluencerProfileScreen());
                       },
                       child: InfluencerCardWidget2(
-                          image: "assets/Vector/influencer.png",
-                          influencerName: "Creaty",
-                          categoryName: "Actor",
-                          price: "€ 1234.56",
-                          rating: "1234.56",
-                          
-                          ),
+                        image: "assets/Vector/influencer.png",
+                        influencerName: "Creaty",
+                        categoryName: "Actor",
+                        price: "€ 1234.56",
+                        rating: "1234.56",
+                      ),
                     ),
                     SizedBox(
                       width: 26.w,
@@ -372,13 +385,12 @@ GestureDetector(
                         navigate(context, InfluencerProfileScreen());
                       },
                       child: InfluencerCardWidget2(
-                          image: "assets/Vector/influencer.png",
-                          influencerName: "Creaty",
-                          categoryName: "Actor",
-                          price: "€ 1234.56",
-                          rating: "1234.56",
-                          
-                          ),
+                        image: "assets/Vector/influencer.png",
+                        influencerName: "Creaty",
+                        categoryName: "Actor",
+                        price: "€ 1234.56",
+                        rating: "1234.56",
+                      ),
                     ),
                   ],
                 ),
@@ -388,18 +400,17 @@ GestureDetector(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-GestureDetector(
+                    GestureDetector(
                       onTap: () {
                         navigate(context, InfluencerProfileScreen());
                       },
                       child: InfluencerCardWidget2(
-                          image: "assets/Vector/influencer.png",
-                          influencerName: "Creaty",
-                          categoryName: "Actor",
-                          price: "€ 1234.56",
-                          rating: "1234.56",
-                          
-                          ),
+                        image: "assets/Vector/influencer.png",
+                        influencerName: "Creaty",
+                        categoryName: "Actor",
+                        price: "€ 1234.56",
+                        rating: "1234.56",
+                      ),
                     ),
                     SizedBox(
                       width: 26.w,
@@ -409,13 +420,12 @@ GestureDetector(
                         navigate(context, InfluencerProfileScreen());
                       },
                       child: InfluencerCardWidget2(
-                          image: "assets/Vector/influencer.png",
-                          influencerName: "Creaty",
-                          categoryName: "Actor",
-                          price: "€ 1234.56",
-                          rating: "1234.56",
-                          
-                          ),
+                        image: "assets/Vector/influencer.png",
+                        influencerName: "Creaty",
+                        categoryName: "Actor",
+                        price: "€ 1234.56",
+                        rating: "1234.56",
+                      ),
                     ),
                   ],
                 ),

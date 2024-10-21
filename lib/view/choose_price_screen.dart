@@ -4,7 +4,8 @@ import 'package:vidbuy_app/main.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
 class ChoosePricesScreen extends StatefulWidget {
-  final Function(Map<String, double>) onSave; // Callback function to save prices
+  final Function(Map<String, double>)
+      onSave; // Callback function to save prices
 
   ChoosePricesScreen({required this.onSave});
 
@@ -39,11 +40,14 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              Text("Choose how much to charge for each video", style: TextStyle(
-                fontFamily: "Nunito",
-                fontSize: 10.h,
-                fontWeight: FontWeight.w400,
-              ),),
+              Text(
+                "Choose how much to charge for each video",
+                style: TextStyle(
+                  fontFamily: "Nunito",
+                  fontSize: 10.h,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
               SizedBox(height: 74.h),
               if (!samePriceForAll) ...[
                 priceInputField(
@@ -75,7 +79,12 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
                 ),
               ],
               SizedBox(height: 100.h),
-              Center(child: Content(data: "OR", size: 30.h,  weight: FontWeight.w300,)),
+              Center(
+                  child: Content(
+                data: "OR",
+                size: 30.h,
+                weight: FontWeight.w300,
+              )),
               // SizedBox(height: 16),
               Container(
                 margin: EdgeInsets.only(right: 27.w),
@@ -83,7 +92,12 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Text("Same price for all"),
-                    Content(data: "Same Price For All", size: 16.h, family: "Lato", weight: FontWeight.w500,),
+                    Content(
+                      data: "Same Price For All",
+                      size: 16.h,
+                      family: "Lato",
+                      weight: FontWeight.w500,
+                    ),
                     Checkbox(
                       value: samePriceForAll,
                       onChanged: (bool? value) {
@@ -92,7 +106,6 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
                         });
                       },
                     ),
-                    
                   ],
                 ),
               ),
@@ -114,7 +127,7 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
                 width: 335.w,
                 height: 50.h,
                 child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
+                  style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff5271FF),
                     // padding:
                     //     EdgeInsets.symmetric(horizontal: 80.w, vertical: 15.h),
@@ -122,7 +135,6 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
                       borderRadius: BorderRadius.circular(30.r),
                     ),
                   ),
-                  
                   onPressed: () {
                     Map<String, double> prices;
                     if (samePriceForAll) {
@@ -142,14 +154,20 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    
                     children: [
                       Text(
                         "Review",
-                        style: TextStyle(fontSize: 20.h, fontWeight: FontWeight.w700, fontFamily: "Lato", color: Colors.white),
+                        style: TextStyle(
+                            fontSize: 20.h,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Lato",
+                            color: Colors.white),
                       ),
                       SizedBox(width: 10.w),
-                      Icon(Icons.arrow_forward, color: Colors.white,),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                      ),
                     ],
                   ),
                 ),
@@ -161,18 +179,22 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
     );
   }
 
-  Widget priceInputField(String label, double price, Function(double) onChanged) {
+  Widget priceInputField(
+      String label, double price, Function(double) onChanged) {
     return Padding(
       // padding:  EdgeInsets.symmetric(vertical: 17.h, horizontal: 10.w),
-      padding: EdgeInsets.only(top: 17.h,right: 22.w),
+      padding: EdgeInsets.only(top: 17.h, right: 22.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(
-            fontFamily: "Lato",
-            fontSize: 16.h,
-            fontWeight: FontWeight.w500,
-          ),),
+          Text(
+            label,
+            style: TextStyle(
+              fontFamily: "Lato",
+              fontSize: 16.h,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           SizedBox(
             width: 105.w,
             height: 35.h,
@@ -183,41 +205,50 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
               //   border: OutlineInputBorder(),
               // ),
               decoration: new InputDecoration(
-              // fillColor: Color(0xff908B8B),
-              // fillColor: Color(0xffFFFFFF),
-              fillColor: Colors.transparent,
-              filled: true,
-              // hintText: hint,
-              hintStyle: TextStyle(color: Color(0xff908B8B), fontSize: 14.h, fontFamily: "Lato", fontWeight: FontWeight.w300),
-              counterText: "",
-              prefixText: "€ ",
-              
-              // Container(
-              //     margin: EdgeInsets.symmetric(vertical: 13.h),
-              //     child: GestureDetector(
-              //         // onTap: () {
-              //         //   value.togglePasswordVisibility(index);
-              //         // },
-              //         child: Icon(Icons.email))),
-              contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.r),
-                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0.w),
+                // fillColor: Color(0xff908B8B),
+                // fillColor: Color(0xffFFFFFF),
+                fillColor: Colors.transparent,
+                filled: true,
+                // hintText: hint,
+                hintStyle: TextStyle(
+                    color: Color(0xff908B8B),
+                    fontSize: 14.h,
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w300),
+                counterText: "",
+                prefixText: "€ ",
+
+                // Container(
+                //     margin: EdgeInsets.symmetric(vertical: 13.h),
+                //     child: GestureDetector(
+                //         // onTap: () {
+                //         //   value.togglePasswordVisibility(index);
+                //         // },
+                //         child: Icon(Icons.email))),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20.w, vertical: 0),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                  borderSide:
+                      BorderSide(color: Color(0xff908B8B), width: 2.0.w),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                  borderSide:
+                      BorderSide(color: Color(0xff908B8B), width: 2.0.w),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                  borderSide:
+                      BorderSide(color: Color(0xff908B8B), width: 2.0.w),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                  borderSide:
+                      BorderSide(color: Color(0xff908B8B), width: 2.0.w),
+                ),
+                // errorStyle: InputDecoration.collapsed(hintText: hintText)
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.r),
-                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0.w),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.r),
-                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0.w),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.r),
-                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0.w),
-              ),
-              // errorStyle: InputDecoration.collapsed(hintText: hintText)
-            ),
               onChanged: (value) {
                 onChanged(double.tryParse(value) ?? 0.0);
               },

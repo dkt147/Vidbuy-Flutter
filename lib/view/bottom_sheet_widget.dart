@@ -91,8 +91,7 @@ void bottomSheetWidget(BuildContext context) {
                                 fontFamily: "Lato",
                                 // height: 14.h,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xffC7C3C3)
-                              ),
+                                color: Color(0xffC7C3C3)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
                             ),
@@ -109,11 +108,10 @@ void bottomSheetWidget(BuildContext context) {
                             decoration: InputDecoration(
                               hintText: "Type here your message",
                               hintStyle: TextStyle(
-                                fontFamily: "Lato",
-                                // height: 14.h,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xffC7C3C3)
-                              ),
+                                  fontFamily: "Lato",
+                                  // height: 14.h,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xffC7C3C3)),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.r),
                               ),

@@ -52,8 +52,8 @@ class ContentField extends StatelessWidget {
                       fontWeight: FontWeight.w500),
                 )),
         Container(
-          height: 50.h?? heightt,
-          width: 335.w??  widthh,
+          height: 50.h ?? heightt,
+          width: 335.w ?? widthh,
           child: TextFormField(
             controller: controller,
             maxLength: maxLength,

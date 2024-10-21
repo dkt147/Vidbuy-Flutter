@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/view/active_history_screen.dart';
@@ -8,7 +7,8 @@ import 'package:vidbuy_app/view/video_screen.dart';
 
 class UserDonationsTabBarWidget extends StatefulWidget {
   @override
-  _UserDonationsTabBarWidgetState createState() => _UserDonationsTabBarWidgetState();
+  _UserDonationsTabBarWidgetState createState() =>
+      _UserDonationsTabBarWidgetState();
 }
 
 class _UserDonationsTabBarWidgetState extends State<UserDonationsTabBarWidget>
@@ -68,16 +68,22 @@ class _UserDonationsTabBarWidgetState extends State<UserDonationsTabBarWidget>
           indicatorWeight: 3.w,
           labelStyle: TextStyle(
             fontFamily: "Lato",
-            fontSize:   16.h,
+            fontSize: 16.h,
             fontWeight: FontWeight.w500,
           ),
           tabs: [
             Tab(text: 'All Orders'),
             // Tab(text: 'Pending', ),
             // Tab(text: 'Waiting Video', ),
-            Tab(text: 'Video', ),
-            Tab(text: 'Orders Details', ),
-            Tab(text: 'Active History', ),
+            Tab(
+              text: 'Video',
+            ),
+            Tab(
+              text: 'Orders Details',
+            ),
+            Tab(
+              text: 'Active History',
+            ),
           ],
         ),
       ),

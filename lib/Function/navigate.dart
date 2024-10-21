@@ -6,7 +6,7 @@ navigate(context, screen) {
       context,
       PageTransition(
           child: screen,
-          type: PageTransitionType.leftToRight,
+          type: PageTransitionType.fade,
           duration: Duration(milliseconds: 300)));
 }
 

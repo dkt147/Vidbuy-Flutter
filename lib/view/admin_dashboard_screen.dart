@@ -135,7 +135,6 @@
 //   }
 // }
 
-
 // class WeeklyInfluencerChart extends StatefulWidget {
 //   @override
 //   _WeeklyInfluencerChartState createState() => _WeeklyInfluencerChartState();
@@ -329,8 +328,13 @@ class AdminDashboardScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: Content(data: "Admin Home", size: 14.h, family: "Nunito",weight: FontWeight.w600,), 
-        
+        title: Content(
+          data: "Admin Home",
+          size: 14.h,
+          family: "Nunito",
+          weight: FontWeight.w600,
+        ),
+
         // Text(
         //   'Admin Home',
         //   style: TextStyle(color: Colors.black),
@@ -340,10 +344,25 @@ class AdminDashboardScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Content(data: "Influncers", size: 16.h, family: "Lato",weight: FontWeight.w500,), 
+              Content(
+                data: "Influncers",
+                size: 16.h,
+                family: "Lato",
+                weight: FontWeight.w500,
+              ),
               // Text('Influencers', style: TextStyle(color: Colors.black, fontSize: 16.sp)),
-              Content(data: "Users", size: 16.h, family: "Lato",weight: FontWeight.w500,),
-              Content(data: "Billing", size: 16.h, family: "Lato",weight: FontWeight.w500,),
+              Content(
+                data: "Users",
+                size: 16.h,
+                family: "Lato",
+                weight: FontWeight.w500,
+              ),
+              Content(
+                data: "Billing",
+                size: 16.h,
+                family: "Lato",
+                weight: FontWeight.w500,
+              ),
             ],
           ),
         ),
@@ -359,16 +378,19 @@ class AdminDashboardScreen extends StatelessWidget {
             _buildBarChartSection(
               title: "Graphic Representation",
               xLabels: [
-                "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
               ],
               barColor: Color(0xff4A3AFF),
             ),
             SizedBox(height: 16.h),
             _buildBarChartSection(
               title: "Graphical representation\nInfluencers",
-              xLabels: [
-                "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
-              ],
+              xLabels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
               barColor: Color(0xff85848F),
             ),
           ],
@@ -383,36 +405,49 @@ class AdminDashboardScreen extends StatelessWidget {
       height: 80.h,
       decoration: BoxDecoration(
         // color: Colors.green,
-         gradient: LinearGradient(
-              // begin: Alignment.topRight,
-              // end: Alignment.bottomLeft,
-              // stops: [
-              //   0.1,
-              //   0.4,
-              //   0.6,
-              //   0.9,
-              // ],
-              colors: [
-                Color(0xff67D47F),
-                Color(0xff459556),
-
-              ],
-            ),
+        gradient: LinearGradient(
+          // begin: Alignment.topRight,
+          // end: Alignment.bottomLeft,
+          // stops: [
+          //   0.1,
+          //   0.4,
+          //   0.6,
+          //   0.9,
+          // ],
+          colors: [
+            Color(0xff67D47F),
+            Color(0xff459556),
+          ],
+        ),
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Icon(Icons.person, color: Colors.orange, size: 40.h),
-          Image.asset("assets/Icon/woman.png", height: 45.h,),
+          Image.asset(
+            "assets/Icon/woman.png",
+            height: 45.h,
+          ),
           SizedBox(width: 10.w),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Content(data: "Number of Influencers", size: 14.h, family: "Lato", weight: FontWeight.w600, color: Colors.white,),
-              Content(data: "1000", size: 20.h, weight: FontWeight.w600,family: "Lato",color: Colors.white,),
-              
+              Content(
+                data: "Number of Influencers",
+                size: 14.h,
+                family: "Lato",
+                weight: FontWeight.w600,
+                color: Colors.white,
+              ),
+              Content(
+                data: "1000",
+                size: 20.h,
+                weight: FontWeight.w600,
+                family: "Lato",
+                color: Colors.white,
+              ),
             ],
           ),
         ],
@@ -421,102 +456,112 @@ class AdminDashboardScreen extends StatelessWidget {
   }
 
   Widget _buildBarChartSection({
-  required String title,
-  required List<String> xLabels,
-  required Color barColor,
-}) {
-  return Container(
-    padding: EdgeInsets.all(12.w),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12.r),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.1),
-          spreadRadius: 2,
-          blurRadius: 6,
-        ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Text(
-        //   title,
-        //   style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-        // ),
-        Content(data: title, size: 18.h, weight: FontWeight.w400,family: "Lato",),
-        Content(data: "Influencer", size: 20.h, weight: FontWeight.w700,family: "Lato",),
-        // SizedBox(height: 10.h),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: [
-        //     Container(
-        //       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-        //       decoration: BoxDecoration(
-        //         color: Colors.grey.shade200,
-        //         borderRadius: BorderRadius.circular(20.r),
-        //       ),
-        //       child: Row(
-        //         children: [
-        //           Text("Month", style: TextStyle(fontSize: 14.sp)),
-        //           Icon(Icons.arrow_drop_down),
-        //         ],
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        SizedBox(height: 10.h),
-        AspectRatio(
-          aspectRatio: 1.6, // Adjust this ratio to fit the chart better
-          child: BarChart(
-            BarChartData(
-              alignment: BarChartAlignment.spaceAround,
-              maxY: 3000, // Adjust maxY to fit your data
-              barTouchData: BarTouchData(enabled: false),
-              // titlesData: FlTitlesData(
-              //   // bottomTitles: AxisTitles(
-              //   //   sideTitles: SideTitles(
-              //   //     // showTitles: true,
-              //   //     getTitlesWidget: (value, meta) {
-              //   //       return Text(
-              //   //         xLabels[value.toInt()],
-              //   //         style: TextStyle(fontSize: 12.h),
-              //   //       );
-              //   //     },
-              //   //   ),
-              //   // ),
-              //   // leftTitles: AxisTitles(
-              //   //   sideTitles: SideTitles(
-              //   //     showTitles: true,
-              //   //     getTitlesWidget: (value, meta) {
-              //   //       return Text(
-              //   //         '${(value / 1000).toStringAsFixed(1)}k',
-              //   //         style: TextStyle(fontSize: 12.sp),
-              //   //       );
-              //   //     },
-              //   //     interval: 500, // Adjust interval to fit better
-              //   //   ),
-              //   // ),
-              // ),  
-              barGroups: [
-                for (int i = 0; i < xLabels.length; i++)
-                  BarChartGroupData(
-                    x: i,
-                    barRods: [
-                      BarChartRodData(
-                        toY: (i + 1) * 200.0.h, // Adjust bar height here
-                        color: barColor,
-                        width: 12.w, // Bar width adjusted
-                      ),
-                    ],
-                  ),
-              ],
+    required String title,
+    required List<String> xLabels,
+    required Color barColor,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 6,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Text(
+          //   title,
+          //   style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          // ),
+          Content(
+            data: title,
+            size: 18.h,
+            weight: FontWeight.w400,
+            family: "Lato",
+          ),
+          Content(
+            data: "Influencer",
+            size: 20.h,
+            weight: FontWeight.w700,
+            family: "Lato",
+          ),
+          // SizedBox(height: 10.h),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     Container(
+          //       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+          //       decoration: BoxDecoration(
+          //         color: Colors.grey.shade200,
+          //         borderRadius: BorderRadius.circular(20.r),
+          //       ),
+          //       child: Row(
+          //         children: [
+          //           Text("Month", style: TextStyle(fontSize: 14.sp)),
+          //           Icon(Icons.arrow_drop_down),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          SizedBox(height: 10.h),
+          AspectRatio(
+            aspectRatio: 1.6, // Adjust this ratio to fit the chart better
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                maxY: 3000, // Adjust maxY to fit your data
+                barTouchData: BarTouchData(enabled: false),
+                // titlesData: FlTitlesData(
+                //   // bottomTitles: AxisTitles(
+                //   //   sideTitles: SideTitles(
+                //   //     // showTitles: true,
+                //   //     getTitlesWidget: (value, meta) {
+                //   //       return Text(
+                //   //         xLabels[value.toInt()],
+                //   //         style: TextStyle(fontSize: 12.h),
+                //   //       );
+                //   //     },
+                //   //   ),
+                //   // ),
+                //   // leftTitles: AxisTitles(
+                //   //   sideTitles: SideTitles(
+                //   //     showTitles: true,
+                //   //     getTitlesWidget: (value, meta) {
+                //   //       return Text(
+                //   //         '${(value / 1000).toStringAsFixed(1)}k',
+                //   //         style: TextStyle(fontSize: 12.sp),
+                //   //       );
+                //   //     },
+                //   //     interval: 500, // Adjust interval to fit better
+                //   //   ),
+                //   // ),
+                // ),
+                barGroups: [
+                  for (int i = 0; i < xLabels.length; i++)
+                    BarChartGroupData(
+                      x: i,
+                      barRods: [
+                        BarChartRodData(
+                          toY: (i + 1) * 200.0.h, // Adjust bar height here
+                          color: barColor,
+                          width: 12.w, // Bar width adjusted
+                        ),
+                      ],
+                    ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 }

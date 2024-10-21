@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/view/choose_category_screen.dart.dart';
@@ -7,7 +6,7 @@ import 'package:vidbuy_app/view/review_selection_screen.dart';
 import 'package:vidbuy_app/view/videos_accepet_screen.dart';
 
 class TabBarWidget extends StatefulWidget {
-    final List<Widget> screens;
+  final List<Widget> screens;
   final List<String> tabTitles;
 
   TabBarWidget({required this.screens, required this.tabTitles});
@@ -27,7 +26,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4  , vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   void goToNextTab() {
@@ -56,12 +55,12 @@ class _TabBarWidgetState extends State<TabBarWidget>
     });
     goToNextTab();
   }
+
   void dispose() {
     // Dispose the TabController when it's no longer needed
     _tabController.dispose();
     super.dispose();
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -69,24 +68,32 @@ class _TabBarWidgetState extends State<TabBarWidget>
       appBar: AppBar(
         // title: Text("Influencer Setup"),
         bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: Color(0xff5271FF),
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.black45,
-          labelStyle: TextStyle(
-            fontFamily: "Lato",
-            fontSize:   16.h,
-            fontWeight: FontWeight.w500,
-          ),
-          tabs: [
-            Tab(text: "Categorie",),
-            Tab(text: "Videos",),
-            Tab(text: "Price",),
-            Tab(text: "Review",),
-          ]
-          
-          // widget.tabTitles.map((title) => Tab(text: title)).toList(),
-        ),
+            controller: _tabController,
+            indicatorColor: Color(0xff5271FF),
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.black45,
+            labelStyle: TextStyle(
+              fontFamily: "Lato",
+              fontSize: 16.h,
+              fontWeight: FontWeight.w500,
+            ),
+            tabs: [
+              Tab(
+                text: "Categorie",
+              ),
+              Tab(
+                text: "Videos",
+              ),
+              Tab(
+                text: "Price",
+              ),
+              Tab(
+                text: "Review",
+              ),
+            ]
+
+            // widget.tabTitles.map((title) => Tab(text: title)).toList(),
+            ),
       ),
       body: TabBarView(
         controller: _tabController,

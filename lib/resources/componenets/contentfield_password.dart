@@ -17,7 +17,8 @@ class ContentFieldPassword extends StatelessWidget {
     required this.hint,
     required this.index,
     required this.controller,
-    required this.inputFormat, required TextInputType keyboardType,
+    required this.inputFormat,
+    required TextInputType keyboardType,
     this.obscureText = true,
     // required this.textInput
   });
@@ -51,14 +52,15 @@ class ContentFieldPassword extends StatelessWidget {
             keyboardType: TextInputType.text,
             // obscureText: value.getObscure(false, index),
             style: TextStyle(
-                fontSize: 16.h, fontFamily: "Lato", fontWeight: FontWeight.w500),
+                fontSize: 16.h,
+                fontFamily: "Lato",
+                fontWeight: FontWeight.w500),
             inputFormatters: inputFormat,
             decoration: InputDecoration(
               fillColor: Colors.transparent,
               filled: true,
               hintText: hint,
-              hintStyle:
-                  TextStyle(color: Color(0xff908B8B), fontSize: 17.sp),
+              hintStyle: TextStyle(color: Color(0xff908B8B), fontSize: 17.sp),
               counterText: "",
               prefixIcon: Container(
                   margin: EdgeInsets.symmetric(vertical: 13.h),
@@ -66,10 +68,11 @@ class ContentFieldPassword extends StatelessWidget {
                       // onTap: () {
                       //   value.togglePasswordVisibility(index);
                       // },
-                      child:
-                       Image.asset("assets/Icon/password.png", height: 30.h,))),
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                      child: Image.asset(
+                    "assets/Icon/password.png",
+                    height: 30.h,
+                  ))),
+              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.r),
                 borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),

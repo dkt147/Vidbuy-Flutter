@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 void showDatePickerBottomSheet(BuildContext context) {
-    String _selectedDate = '';
+  String _selectedDate = '';
   String _dateCount = '';
   String _range = '';
   String _rangeCount = '';
@@ -57,38 +57,35 @@ void showDatePickerBottomSheet(BuildContext context) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          
           SizedBox(height: 16.h),
-BottomPicker.date(
-
-  height: 272.h,
-      pickerTitle: Text(
-            "Select expiration date",
-            style: TextStyle(
-              fontSize: 18.h,
-              fontWeight: FontWeight.w700,
-              fontFamily: "Nunito"
+          BottomPicker.date(
+            height: 272.h,
+            pickerTitle: Text(
+              "Select expiration date",
+              style: TextStyle(
+                  fontSize: 18.h,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: "Nunito"),
             ),
+            // buttonPadding: 10.h,
+            dateOrder: DatePickerDateOrder.dmy,
+            initialDateTime: DateTime(1996, 10, 22),
+            maxDateTime: DateTime.now(),
+            minDateTime: DateTime(1980),
+            pickerTextStyle: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 12.h,
+            ),
+            displaySubmitButton: false,
+            onChange: (index) {
+              print(index);
+            },
+            onSubmit: (index) {
+              print(index);
+            },
+            // bottomPickerTheme: BottomPickerTheme.plumPlate,
           ),
-          // buttonPadding: 10.h,
-      dateOrder: DatePickerDateOrder.dmy,
-      initialDateTime: DateTime(1996, 10, 22),
-      maxDateTime: DateTime.now(),
-      minDateTime: DateTime(1980),
-      pickerTextStyle: TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 12.h,
-      ),
-      displaySubmitButton: false,
-      onChange: (index) {
-        print(index);
-      },
-      onSubmit: (index) {
-        print(index);
-      },
-      // bottomPickerTheme: BottomPickerTheme.plumPlate,
-    ),
           SizedBox(height: 16.h),
           Container(
             width: 137.w,

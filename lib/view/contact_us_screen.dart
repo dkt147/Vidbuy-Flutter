@@ -5,7 +5,7 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 
 class ContactUsScreen extends StatelessWidget {
-   ContactUsScreen({super.key});
+  ContactUsScreen({super.key});
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -19,7 +19,6 @@ class ContactUsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Container(
               margin: EdgeInsets.only(top: 55.h, left: 21.w),
               child: Row(
@@ -56,7 +55,8 @@ class ContactUsScreen extends StatelessWidget {
                     weight: FontWeight.w300,
                   ),
                   Content(
-                    data: "Please feel free to contact us, we will respond as quickly as possible",
+                    data:
+                        "Please feel free to contact us, we will respond as quickly as possible",
                     size: 16.h,
                     weight: FontWeight.w300,
                     family: "Lato",
@@ -64,63 +64,67 @@ class ContactUsScreen extends StatelessWidget {
                 ],
               ),
             ),
-        
             Container(
               margin: EdgeInsets.only(left: 21.w, top: 18.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ContentField(
-                            label: "Your Name",
-                            hint: "Enter Your Name",
-                            colorr: Colors.transparent,
-                            prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
-                            controller: _nameController,
-                            inputFormat: <TextInputFormatter>[
-                              FilteringTextInputFormatter.singleLineFormatter
-                            ],
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          SizedBox(height: 10.h),
-                    ContentField(
-                      label: "Email",
-                      hint: "Enter Your Email",
-                      colorr: Colors.transparent,
-                      prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h,),
-                      
-                      // Icon(Icons.person),
-                      controller: _emailController,
-                      inputFormat: <TextInputFormatter>[
-                        FilteringTextInputFormatter.singleLineFormatter
-                      ],
-                      keyboardType: TextInputType.emailAddress,
+                    label: "Your Name",
+                    hint: "Enter Your Name",
+                    colorr: Colors.transparent,
+                    prefixIcon: Image.asset(
+                      "assets/Icon/person.png",
+                      height: 25.h,
                     ),
-                    SizedBox(height: 20.h),
-                    Content(
+                    controller: _nameController,
+                    inputFormat: <TextInputFormatter>[
+                      FilteringTextInputFormatter.singleLineFormatter
+                    ],
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  SizedBox(height: 10.h),
+                  ContentField(
+                    label: "Email",
+                    hint: "Enter Your Email",
+                    colorr: Colors.transparent,
+                    prefixIcon: Image.asset(
+                      "assets/Icon/email.png",
+                      height: 25.h,
+                    ),
+
+                    // Icon(Icons.person),
+                    controller: _emailController,
+                    inputFormat: <TextInputFormatter>[
+                      FilteringTextInputFormatter.singleLineFormatter
+                    ],
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  SizedBox(height: 20.h),
+                  Content(
                     data: "Message",
                     size: 16.h,
                     weight: FontWeight.w500,
                     family: "Lato",
                   ),
-              // Message Field
-              Container(
-                width: 334.w,
-                height: 212.h,
-                child: TextField(
-                  controller: _messageController,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    hintText: 'Description of what is going on..',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
+                  // Message Field
+                  Container(
+                    width: 334.w,
+                    height: 212.h,
+                    child: TextField(
+                      controller: _messageController,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        hintText: 'Description of what is going on..',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              // SizedBox(
-              //   height: 16.h,
-              // ),
-              
+                  // SizedBox(
+                  //   height: 16.h,
+                  // ),
                 ],
               ),
             ),
@@ -161,9 +165,6 @@ class ContactUsScreen extends StatelessWidget {
                 ),
               ),
             ),
-        
-              
-                    
           ],
         ),
       ),

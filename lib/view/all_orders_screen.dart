@@ -26,7 +26,10 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
                   borderRadius: BorderRadius.circular(10.r),
                   border: Border.all(width: 1.w, color: Colors.black)),
               child: Container(
-                margin: EdgeInsets.only(left: 7.w, right: 13.w,),
+                margin: EdgeInsets.only(
+                  left: 7.w,
+                  right: 13.w,
+                ),
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +77,6 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
                         ),
                       ],
                     ),
-                    
                   ],
                 ),
               ),

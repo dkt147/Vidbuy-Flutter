@@ -47,7 +47,8 @@ class UtilityService {
 
   // Show alert dialog
   Future<void> showAlert(String msg, {String title = 'Alert'}) async {
-    await alerts.showAlert(msg as BuildContext, title); // Removed BuildContext type casting
+    await alerts.showAlert(
+        msg as BuildContext, title); // Removed BuildContext type casting
   }
 
   // Show toast message
@@ -110,7 +111,8 @@ class UtilityService {
 
   FormFieldValidator<String> checkIfMatchingPasswords(
       String passwordKey, String passwordConfirmationKey) {
-    return strings.checkIfMatchingPasswords(passwordKey, passwordConfirmationKey);
+    return strings.checkIfMatchingPasswords(
+        passwordKey, passwordConfirmationKey);
   }
 
   bool validateEmail(String email) {

@@ -35,8 +35,8 @@ class _BalanceScreenState extends State<BalanceScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                    Navigator.pop(context);
-                  },
+                          Navigator.pop(context);
+                        },
                         child: Image.asset(
                           "assets/Icon/backarrow.png",
                           height: 25.h,
@@ -99,33 +99,62 @@ class _BalanceScreenState extends State<BalanceScreen> {
             height: 55.h,
             color: Colors.white,
             child: ListTile(
-              leading: Image.asset("assets/Icon/euro.png", width: 30.w, height: 39.h,),
-              title: Content(data: "Pending balance", size: 20.h, weight: FontWeight.w600,),
+              leading: Image.asset(
+                "assets/Icon/euro.png",
+                width: 30.w,
+                height: 39.h,
+              ),
+              title: Content(
+                data: "Pending balance",
+                size: 20.h,
+                weight: FontWeight.w600,
+              ),
               // subtitle: Content(data: "data", size: 15.h),
-              trailing: Content(data: "€50.00", size: 20.h, weight: FontWeight.w600, color: Colors.black,),
-            
+              trailing: Content(
+                data: "€50.00",
+                size: 20.h,
+                weight: FontWeight.w600,
+                color: Colors.black,
+              ),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 34.h, left: 13.w),
-            child: Content(data: "Transactions", size: 18.h, weight: FontWeight.w600, color: Color(0xff8E8E8E),)),
+              margin: EdgeInsets.only(top: 34.h, left: 13.w),
+              child: Content(
+                data: "Transactions",
+                size: 18.h,
+                weight: FontWeight.w600,
+                color: Color(0xff8E8E8E),
+              )),
           SizedBox(
             height: 24.h,
-          ),        
-            Center(
-              child: Container(
+          ),
+          Center(
+            child: Container(
               width: 323.w,
               height: 55.h,
               color: Colors.white,
               child: ListTile(
-                leading: Image.asset("assets/Icon/euro.png", width: 30.w, height: 39.h,),
-                title: Content(data: "Pending balance", size: 20.h, weight: FontWeight.w600,),
+                leading: Image.asset(
+                  "assets/Icon/euro.png",
+                  width: 30.w,
+                  height: 39.h,
+                ),
+                title: Content(
+                  data: "Pending balance",
+                  size: 20.h,
+                  weight: FontWeight.w600,
+                ),
                 // subtitle: Content(data: "data", size: 15.h),
-                trailing: Content(data: "€50.00", size: 20.h, weight: FontWeight.w600, color: Colors.black,),
-              
+                trailing: Content(
+                  data: "€50.00",
+                  size: 20.h,
+                  weight: FontWeight.w600,
+                  color: Colors.black,
+                ),
               ),
-                        ),
             ),
+          ),
         ],
       ),
     );

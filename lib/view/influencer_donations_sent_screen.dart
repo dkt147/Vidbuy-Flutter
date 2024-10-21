@@ -17,7 +17,7 @@ class InfluencerDonationsSentScreen extends StatelessWidget {
             child: Row(
               children: [
                 GestureDetector(
-                    onTap: () {
+                  onTap: () {
                     Navigator.pop(context);
                   },
                   child: Image.asset(

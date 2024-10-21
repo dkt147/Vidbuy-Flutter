@@ -21,7 +21,11 @@ class _VideoScreenState extends State<VideoScreen> {
             SizedBox(
               height: 15.h,
             ),
-            Image.asset("assets/Vector/boy.png", width: 305.w, height: 400.h,),
+            Image.asset(
+              "assets/Vector/boy.png",
+              width: 305.w,
+              height: 400.h,
+            ),
             SizedBox(
               height: 20.h,
             ),
@@ -45,7 +49,7 @@ class _VideoScreenState extends State<VideoScreen> {
                   //   //     context,
                   //   //     MaterialPageRoute(
                   //   //         builder: (_) => TabBarWidget()));
-                    navigate(context, FeedbackScreen());
+                  navigate(context, FeedbackScreen());
                   // }
                 },
                 style: ElevatedButton.styleFrom(
@@ -56,30 +60,37 @@ class _VideoScreenState extends State<VideoScreen> {
                 ),
                 child: Text(
                   "Accepet",
-                  style: TextStyle(fontSize: 16.h, color: Colors.white, fontFamily: "Lato", fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                      fontSize: 16.h,
+                      color: Colors.white,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w700),
                 ),
               ),
             ),
-                SizedBox(
+            SizedBox(
               height: 8.h,
             ),
-                Center(
-            child: Container(
-              width: 280.w,
-              height: 50.h,
+            Center(
+              child: Container(
+                width: 280.w,
+                height: 50.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30.r),
                   border: Border.all(color: Colors.black),
-            
                 ),
                 child: Center(
                   child: Text(
-                      "Something is not right",
-                      style: TextStyle(fontSize: 16.h, color: Colors.black, fontFamily: "Lato", fontWeight: FontWeight.w700),
-                    ),
+                    "Something is not right",
+                    style: TextStyle(
+                        fontSize: 16.h,
+                        color: Colors.black,
+                        fontFamily: "Lato",
+                        fontWeight: FontWeight.w700),
+                  ),
                 ),
+              ),
             ),
-          ),
           ],
         ),
       ),

@@ -39,22 +39,23 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
     super.dispose();
   }
 
- File? _image;
+  File? _image;
 
   Future<void> _pickImage() async {
-  try {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    try {
+      final ImagePicker _picker = ImagePicker();
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
-    if (image != null) {
-      setState(() {
-        _image = File(image.path);
-      });
+      if (image != null) {
+        setState(() {
+          _image = File(image.path);
+        });
+      }
+    } catch (e) {
+      print('Error picking image: $e');
     }
-  } catch (e) {
-    print('Error picking image: $e');
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,8 +90,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   ),
                   SizedBox(height: 5.h),
                   Content(
-                    data:
-                        "Below are your profile details",
+                    data: "Below are your profile details",
                     size: 16.h,
                     weight: FontWeight.w500,
                     family: "Lato",
@@ -109,14 +109,14 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   child: CircleAvatar(
                     radius: 40.r,
                     backgroundColor: Colors.grey[200],
-                     backgroundImage: _image != null ? FileImage(_image!) : null,
-                                child: _image == null
-                                    ? Icon(
-                      Icons.camera_alt,
-                      size: 26,
-                      color: Colors.grey,
-                                      )
-                                    : null,
+                    backgroundImage: _image != null ? FileImage(_image!) : null,
+                    child: _image == null
+                        ? Icon(
+                            Icons.camera_alt,
+                            size: 26,
+                            color: Colors.grey,
+                          )
+                        : null,
                   ),
                 ),
               ),
@@ -131,7 +131,10 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     label: "Your Name",
                     hint: "Enter Your Name",
                     colorr: Colors.transparent,
-                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
+                    prefixIcon: Image.asset(
+                      "assets/Icon/person.png",
+                      height: 25.h,
+                    ),
                     controller: _nameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -143,7 +146,10 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     label: "Your username",
                     hint: "Enter Your Username",
                     colorr: Colors.transparent,
-                    prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h,),
+                    prefixIcon: Image.asset(
+                      "assets/Icon/person.png",
+                      height: 25.h,
+                    ),
                     controller: _usernameController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -155,7 +161,10 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     label: "The email associated with this account is:",
                     hint: "Enter Your Email",
                     colorr: Colors.transparent,
-                    prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h,),
+                    prefixIcon: Image.asset(
+                      "assets/Icon/email.png",
+                      height: 25.h,
+                    ),
                     controller: _emailController,
                     inputFormat: <TextInputFormatter>[
                       FilteringTextInputFormatter.singleLineFormatter
@@ -199,23 +208,23 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
             Container(
               margin: EdgeInsets.only(left: 25.w),
               child: TextButton(
-                  onPressed: () {
-                    // Handle login redirect
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => LoginScreen()),
-                    // );
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      text: "Change Password?",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
+                onPressed: () {
+                  // Handle login redirect
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => LoginScreen()),
+                  // );
+                },
+                child: RichText(
+                  text: TextSpan(
+                    text: "Change Password?",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
+              ),
             ),
             SizedBox(height: 70.h),
             Center(
@@ -280,7 +289,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
             ),
             // SizedBox(height: 20.h),
             // Center(
-            //   child: 
+            //   child:
             // ),
           ],
         ),

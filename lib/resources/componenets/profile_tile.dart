@@ -6,7 +6,11 @@ class ProfileTile extends StatelessWidget {
   String image;
   String text;
   double height;
-  ProfileTile({super.key, required this.image, required this.text, required this.height});
+  ProfileTile(
+      {super.key,
+      required this.image,
+      required this.text,
+      required this.height});
 
   @override
   Widget build(BuildContext context) {

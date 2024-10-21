@@ -329,16 +329,13 @@ class PodiumBlock extends StatelessWidget {
           child: Container(
             height: height,
             width: width,
-            decoration: BoxDecoration(
-              color: color,
-              boxShadow: [
-                BoxShadow(
-        color: Color(0xff000000),
-        blurRadius: 4,
-        offset: Offset(0, 6), // Shadow position
-      ),
-              ]
-            ),
+            decoration: BoxDecoration(color: color, boxShadow: [
+              BoxShadow(
+                color: Color(0xff000000),
+                blurRadius: 4,
+                offset: Offset(0, 6), // Shadow position
+              ),
+            ]),
           ),
         ),
         Positioned(

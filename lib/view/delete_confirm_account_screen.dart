@@ -37,7 +37,8 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
                   weight: FontWeight.w300,
                 ),
                 Content(
-                  data: "To confirm your identity, please insert your password. ",
+                  data:
+                      "To confirm your identity, please insert your password. ",
                   size: 16.h,
                   weight: FontWeight.w300,
                   family: "Lato",
@@ -69,7 +70,7 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
                   //   //     context,
                   //   //     MaterialPageRoute(
                   //   //         builder: (_) => TabBarWidget()));
-                    // navigate(context, DeleteConfirmAccountScreen());
+                  // navigate(context, DeleteConfirmAccountScreen());
                   // }
                 },
                 style: ElevatedButton.styleFrom(
@@ -80,7 +81,11 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
                 ),
                 child: Text(
                   "Delete  Account",
-                  style: TextStyle(fontSize: 16.h, color: Colors.white, fontFamily: "Lato", fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                      fontSize: 16.h,
+                      color: Colors.white,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w700),
                 ),
               ),
             ),
@@ -114,12 +119,12 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
           //       },
           //       style: ElevatedButton.styleFrom(
           //         // backgroundColor: Color(0xffFFFFFF),
-                  
+
           //         shape: RoundedRectangleBorder(
           //           borderRadius: BorderRadius.circular(30.r),
-                    
+
           //         ),
-                  
+
           //       ),
           //       child: Text(
           //         "Cancel",
@@ -131,16 +136,19 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
           Center(
             child: Container(
               width: 335.w,
-                height: 50.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.r),
-                  border: Border.all(color: Colors.black),
-            
-                ),
-                child: Text(
-                    "Cancel",
-                    style: TextStyle(fontSize: 16.h, color: Colors.black, fontFamily: "Lato", fontWeight: FontWeight.w700),
-                  ),
+              height: 50.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.r),
+                border: Border.all(color: Colors.black),
+              ),
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                    fontSize: 16.h,
+                    color: Colors.black,
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w700),
+              ),
             ),
           ),
         ],

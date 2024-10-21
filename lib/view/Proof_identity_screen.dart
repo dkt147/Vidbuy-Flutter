@@ -7,10 +7,10 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/stripe_connect_account_screen.dart';
 
 class ProofIdentityScreen extends StatelessWidget {
-   ProofIdentityScreen({super.key});
+  ProofIdentityScreen({super.key});
   final ImagePicker _picker = ImagePicker();
 
-    Future<void> _openCamera() async {
+  Future<void> _openCamera() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       print('Image captured: ${image.path}');

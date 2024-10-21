@@ -6,7 +6,11 @@ class NotificationTile extends StatelessWidget {
   String title;
   String message;
   String date;
-   NotificationTile({super.key, required this.title, required this.message, required this.date});
+  NotificationTile(
+      {super.key,
+      required this.title,
+      required this.message,
+      required this.date});
 
   @override
   Widget build(BuildContext context) {

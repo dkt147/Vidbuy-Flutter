@@ -11,7 +11,7 @@ final screens = [
   SearchScreen(),
   //  OtpScren(),
   UserDonationsTabBarWidget(),
-   UserProfileScreen(),
+  UserProfileScreen(),
   // InfluencerUniqueProfile()
   //  OtpScren(),
 

@@ -55,7 +55,10 @@ class OrderTile extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Image.asset("assets/Icon/forward.png", height: 30.h,),
+                  Image.asset(
+                    "assets/Icon/forward.png",
+                    height: 30.h,
+                  ),
                 ],
               ),
             ],

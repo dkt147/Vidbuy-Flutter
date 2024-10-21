@@ -23,9 +23,12 @@ class SelectLoginScreen extends StatelessWidget {
           // ),
           // Icon(Icons.arrow_back_ios)
           Container(
-            margin: EdgeInsets.only(top: 55.h, left: 21.w),
-            child: Image.asset("assets/Icon/backarrow.png", height: 25.h,)),
-    
+              margin: EdgeInsets.only(top: 55.h, left: 21.w),
+              child: Image.asset(
+                "assets/Icon/backarrow.png",
+                height: 25.h,
+              )),
+
           Center(
             child: Container(
               margin: EdgeInsets.only(top: 108.h),
@@ -44,27 +47,28 @@ class SelectLoginScreen extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(left: 66.w),
             child: Text(
-                  "Create account as",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.h,
-                      fontFamily: "lato",
-                      color: Colors.black),
-                ),
+              "Create account as",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.h,
+                  fontFamily: "lato",
+                  color: Colors.black),
+            ),
           ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                
                 SizedBox(
                   height: 18.h,
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => CreateUserAccountScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => CreateUserAccountScreen()));
                   },
                   child: Container(
                       height: 50.h,
@@ -100,7 +104,7 @@ class SelectLoginScreen extends StatelessWidget {
                       width: 280.w,
                       decoration: BoxDecoration(
                           // color: Colors.blue,
-            
+
                           borderRadius: BorderRadius.circular(30.r),
                           border: Border.all(
                               color: Colors.black,

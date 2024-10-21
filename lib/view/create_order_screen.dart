@@ -140,7 +140,9 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 hint: "Please Select",
                 colorr: Colors.transparent,
                 // prefixIcon: ,
-                suffixIcon: Image.asset("assets/Icon/down.png",),
+                suffixIcon: Image.asset(
+                  "assets/Icon/down.png",
+                ),
                 controller: _videoSelectController,
                 inputFormat: <TextInputFormatter>[
                   FilteringTextInputFormatter.singleLineFormatter
