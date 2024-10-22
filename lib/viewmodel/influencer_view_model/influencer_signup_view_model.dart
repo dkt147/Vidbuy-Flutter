@@ -52,7 +52,7 @@ class InfluencerSignupViewModel extends ChangeNotifier {
     }
   }
 
-Future<void> fetchInfluencerSignupData(
+  Future<void> fetchInfluencerSignupData(
     BuildContext context, {
     required String name,
     required String username,
@@ -77,14 +77,17 @@ Future<void> fetchInfluencerSignupData(
 
       setLoading(true);
       setInfluencerSignupData(ApiResponse.loading());
-      _signupRepo.fetchGenericSignupResponse(registrationData).then((value) async {
+      _signupRepo
+          .fetchGenericSignupResponse(registrationData)
+          .then((value) async {
         setInfluencerSignupData(ApiResponse.completed(value));
 
         // Check if value.result is a Map and access code properly
         if (value.result is Map<String, dynamic>) {
           String verificationCode = value.result['code'].toString();
-          navigate(context, OtpScren(code: verificationCode));
-        } 
+          String userId = value.result['user']['id'].toString();
+          navigate(context, OtpScren(code: verificationCode, id: userId));
+        }
         // else {
         //   // Handle unexpected result structure
         //   Utils.snackBar("Unexpected response structure.", context);
@@ -105,7 +108,6 @@ Future<void> fetchInfluencerSignupData(
       });
     }
   }
-
 
   // Future<bool> fetchInfluencerSignupData(
   //   BuildContext context, {

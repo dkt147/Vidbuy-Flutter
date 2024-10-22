@@ -49,7 +49,6 @@ import 'package:vidbuy_app/model/generic_signup_data_model/user.dart';
 //   }
 // }
 
-
 class GenericSignupDataModel {
   final bool boolValue; // Renamed to avoid conflict with Dart's 'bool' keyword
   final int status;

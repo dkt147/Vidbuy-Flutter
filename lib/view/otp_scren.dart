@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
-import 'package:vidbuy_app/Function/navigate.dart';
-import 'package:vidbuy_app/view/user_login_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:vidbuy_app/viewmodel/verify_otp_view_model.dart';
 
 class OtpScren extends StatefulWidget {
-final String code;
- OtpScren({super.key, required this.code});
+  final String id;
+  final String code;
+  OtpScren({super.key, required this.code, required this.id});
 
   @override
   _OtpScrenState createState() => _OtpScrenState();
@@ -15,9 +15,10 @@ final String code;
 
 class _OtpScrenState extends State<OtpScren> {
   final TextEditingController otpController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
+    Provider.of<OtpVerificationViewModel>(context, listen: false);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,6 +50,7 @@ class _OtpScrenState extends State<OtpScren> {
             child: Column(
               children: [
                 Text(widget.code.toString()),
+                Text(widget.id.toString()),
                 Pinput(
                   controller: otpController,
                   length: 4,
@@ -72,24 +74,42 @@ class _OtpScrenState extends State<OtpScren> {
                 //     style: TextStyle(color: Colors.red),
                 //   ),
                 SizedBox(height: 18.h),
-                Container(
-                  width: 280.w,
-                  height: 50.h,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      // await verifySignup(otpController.text);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff5271FF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.r),
+                Consumer<OtpVerificationViewModel>(
+                  builder: (context, viewModel, child) {
+                    return Container(
+                      width: 280.w,
+                      height: 50.h,
+                      child: ElevatedButton(
+                        onPressed: viewModel.loading
+                            ? null // Disable button if loading
+                            : () {
+                                viewModel.fetchOtpVerificationData(context,
+                                    userId: widget.id,
+                                    code: otpController.text);
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.r),
+                          ),
+                        ),
+                        child: viewModel.loading
+                            ? CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              )
+                            : Text(
+                                "Create Account",
+                                style: TextStyle(
+                                  fontSize: 20.h,
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
                       ),
-                    ),
-                    child: Text(
-                      "Verify and Create Account",
-                      style: TextStyle(fontSize: 16.h, color: Colors.white),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),

@@ -11,6 +11,7 @@ import 'package:vidbuy_app/view/cancel_screen.dart';
 import 'package:vidbuy_app/view/pending_admin_screen.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
+import 'package:vidbuy_app/viewmodel/verify_otp_view_model.dart';
 
 late SharedPreferences pref;
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => NavbarProvider()),
         ChangeNotifierProvider(create: (_) => InfluencerSignupViewModel()),
+        ChangeNotifierProvider(create: (_) => OtpVerificationViewModel()),
       ],
       child: ScreenUtilInit(
         useInheritedMediaQuery: true,
