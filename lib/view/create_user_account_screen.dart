@@ -12,7 +12,6 @@ import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
 import 'package:vidbuy_app/services/api.service.dart';
 import 'package:vidbuy_app/services/network.service.dart';
-import 'package:vidbuy_app/view/otp_scren.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
 
 class CreateUserAccountScreen extends StatefulWidget {
@@ -178,7 +177,7 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
                   SizedBox(height: 5.h),
                   Content(
                     data:
-                        "Create your account to share videos with your friends",
+                        "Create your account to buy, create orders and share videos with your friends",
                     size: 10.h,
                     weight: FontWeight.w400,
                     family: "Nunito",

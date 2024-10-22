@@ -214,48 +214,59 @@ class _CreateInfluencerAccountScreenState
               ],
             ),
             SizedBox(height: 10.h),
-            ContentField(
-              label: "Your Name",
-              hint: "Enter Your Name",
-              colorr: Colors.transparent,
-              controller: _nameController,
-              inputFormat: <TextInputFormatter>[
-                FilteringTextInputFormatter.singleLineFormatter
-              ],
-              keyboardType: TextInputType.name,
+            Center(
+              child: ContentField(
+                label: "Your Name",
+                hint: "Enter Your Name",
+                colorr: Colors.transparent,
+                controller: _nameController,
+                prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h),
+                inputFormat: <TextInputFormatter>[
+                  FilteringTextInputFormatter.singleLineFormatter
+                ],
+                keyboardType: TextInputType.name,
+              ),
             ),
             SizedBox(height: 10.h),
-            ContentField(
-              label: "Your Username",
-              hint: "Enter Your Username",
-              colorr: Colors.transparent,
-              controller: _usernameController,
-              inputFormat: <TextInputFormatter>[
-                FilteringTextInputFormatter.singleLineFormatter
-              ],
-              keyboardType: TextInputType.text,
+            Center(
+              child: ContentField(
+                label: "Your Username",
+                hint: "Enter Your Username",
+                colorr: Colors.transparent,
+                controller: _usernameController,
+                prefixIcon: Image.asset("assets/Icon/person.png", height: 25.h),
+                inputFormat: <TextInputFormatter>[
+                  FilteringTextInputFormatter.singleLineFormatter
+                ],
+                keyboardType: TextInputType.text,
+              ),
             ),
             SizedBox(height: 10.h),
-            ContentField(
-              label: "Your Email",
-              hint: "Enter Your Email",
-              colorr: Colors.transparent,
-              controller: _emailController,
-              inputFormat: <TextInputFormatter>[
-                FilteringTextInputFormatter.singleLineFormatter
-              ],
-              keyboardType: TextInputType.emailAddress,
+            Center(
+              child: ContentField(
+                label: "Your Email",
+                hint: "Enter Your Email",
+                colorr: Colors.transparent,
+                controller: _emailController,
+                prefixIcon: Image.asset("assets/Icon/email.png", height: 25.h),
+                inputFormat: <TextInputFormatter>[
+                  FilteringTextInputFormatter.singleLineFormatter
+                ],
+                keyboardType: TextInputType.emailAddress,
+              ),
             ),
             SizedBox(height: 10.h),
-            ContentFieldPassword(
-              label: "Your Password",
-              hint: "Password",
-              index: 1,
-              controller: _passwordController,
-              inputFormat: <TextInputFormatter>[
-                FilteringTextInputFormatter.singleLineFormatter
-              ],
-              keyboardType: TextInputType.text,
+            Center(
+              child: ContentFieldPassword(
+                label: "Your Password",
+                hint: "Password",
+                index: 1,
+                controller: _passwordController,
+                inputFormat: <TextInputFormatter>[
+                  FilteringTextInputFormatter.singleLineFormatter
+                ],
+                keyboardType: TextInputType.text,
+              ),
             ),
             SizedBox(height: 10.h),
             // ContentField(
@@ -270,7 +281,7 @@ class _CreateInfluencerAccountScreenState
             // ),
 
             Container(
-                margin: EdgeInsets.only(bottom: 9.h),
+                margin: EdgeInsets.only(bottom: 9.h,left: 25.w),
                 child: Text(
                   "Country",
                   style: TextStyle(
@@ -279,56 +290,67 @@ class _CreateInfluencerAccountScreenState
                       fontFamily: "Lato",
                       fontWeight: FontWeight.w500),
                 )),
-            SizedBox(
-              height: 50.h,
-              width: 335.w,
-              child: DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
+            Center(
+              child: Container(
+                child: SizedBox(
+                  height: 50.h,
+                  width: 335.w,
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      // contentPadding:
+                      //     EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
+                      // filled: true,
+                      // fillColor: Colors.grey[200],
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
                 ),
-                hint: Text(
-                  "Select your country",
-                  style: TextStyle(
-                      fontSize: 16.h,
-                      color: Colors.black,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.w500),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
                 ),
-                value: _selectedCountry,
-                icon: Icon(Icons.arrow_drop_down),
-                items: _countries.map((String country) {
-                  return DropdownMenuItem<String>(
-                    value: country,
-                    child: Text(
-                      country,
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+                ),
+                // suffix: Image.asset("assets/Icon/dropdown.png"),
+                    ),
+                    hint: Text(
+                      "Select your country",
                       style: TextStyle(
                           fontSize: 16.h,
                           color: Colors.black,
                           fontFamily: "Lato",
                           fontWeight: FontWeight.w500),
                     ),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCountry = newValue!;
-                  });
-                },
+                    value: _selectedCountry,
+                    // icon: Icon(Icons.arrow_drop_down),
+                    icon: Image.asset("assets/Icon/dropdown.png"),
+                    items: _countries.map((String country) {
+                      return DropdownMenuItem<String>(
+                        value: country,
+                        child: Text(
+                          country,
+                          style: TextStyle(
+                              fontSize: 16.h,
+                              color: Colors.black,
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.w500),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedCountry = newValue!;
+                      });
+                    },
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 20.h),
@@ -352,7 +374,7 @@ class _CreateInfluencerAccountScreenState
                                       viewModel.base64Image.toString());
                             },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Color(0xff5271FF),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.r),
                         ),

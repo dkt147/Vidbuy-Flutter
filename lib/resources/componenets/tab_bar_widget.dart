@@ -57,7 +57,6 @@ class _TabBarWidgetState extends State<TabBarWidget>
   }
 
   void dispose() {
-    // Dispose the TabController when it's no longer needed
     _tabController.dispose();
     super.dispose();
   }
@@ -72,6 +71,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
             indicatorColor: Color(0xff5271FF),
             labelColor: Colors.black,
             unselectedLabelColor: Colors.black45,
+            isScrollable: true,
             labelStyle: TextStyle(
               fontFamily: "Lato",
               fontSize: 16.h,
