@@ -134,7 +134,7 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
 
           // Navigator.pushReplacement(
           //   context,
-            // MaterialPageRoute(builder: (context) => OtpScren()),
+          // MaterialPageRoute(builder: (context) => OtpScren()),
           // );
         } else {
           snackBar(response['message'] ?? 'Registration failed', context);
@@ -149,6 +149,7 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
     }
   }
 
+  bool pushNotifications = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,14 +171,14 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Content(
-                    data: "Create Influencer Account",
+                    data: "Create user account",
                     size: 30.h,
                     weight: FontWeight.bold,
                   ),
                   SizedBox(height: 5.h),
                   Content(
                     data:
-                        "Create your account to buy, create orders and share videos with your friends",
+                        "Create your account to buy, create orders and share videos with\nyour friends",
                     size: 10.h,
                     weight: FontWeight.w400,
                     family: "Nunito",
@@ -189,10 +190,68 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
             _buildImageAndMediaUploadSection(),
             SizedBox(height: 30.h),
             _buildTextFields(),
-            SizedBox(height: 20.h),
+            SizedBox(height: 10.h),
+            // Row(
+            //   children: [
+            //     Content(data: "I want to receive news and informations via email", size: 10.h, weight: FontWeight.w300,),
+            //   ],
+            // ),
+            SwitchListTile(
+              // activeColor: Colors.blue,
+              activeColor: Color(0xff17171F29),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 40.w,
+              ),
+              title: Content(
+                data: "I want to receive news and informations via email",
+                size: 10.h,
+                weight: FontWeight.w300,
+              ),
+              // Text(
+              //   'I want to receive news and informations via email',
+              //   style: TextStyle(
+              //     fontSize: 18.h,
+              //     fontWeight: FontWeight.w600,
+              //     fontFamily: "Nunito",
+              //   ),
+              // ),
+              // subtitle: Text(
+              //   'I want to receive news and informations via email',
+              //   style: TextStyle(
+              //       fontSize: 14.h,
+              //       fontFamily: "Nunito",
+              //       fontWeight: FontWeight.w400),
+              // ),
+              value: pushNotifications,
+              onChanged: (bool value) {
+                setState(() {
+                  pushNotifications = value;
+                });
+              },
+            ),
             _buildSubmitButton(),
+            SizedBox(
+              height: 10.h,
+            ),
+            Center(
+              child: RichText(
+                text: const TextSpan(
+                  text: "Already have an account? ",
+                  style: TextStyle(color: Colors.black54),
+                  children: [
+                    TextSpan(
+                      text: "Log in",
+                      style: TextStyle(
+                        color: Color(0xff810F9E),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             SizedBox(height: 20.h),
-            _buildLoginRedirect(),
+            // _buildLoginRedirect(),
           ],
         ),
       ),
@@ -273,6 +332,10 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
             hint: "Password",
             index: 0,
             controller: _passwordController,
+            suffixx: Image.asset(
+              "assets/Icon/eys.png",
+              height: 18.h,
+            ),
             inputFormat: [FilteringTextInputFormatter.singleLineFormatter],
             keyboardType: TextInputType.visiblePassword,
           ),
@@ -287,8 +350,8 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
         width: 280.w,
         height: 50.h,
         decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(12.r),
+          color: Color(0xff5271FF),
+          borderRadius: BorderRadius.circular(30.r),
         ),
         child: TextButton(
           onPressed: _isLoading ? null : _registerUser,
@@ -303,21 +366,22 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
     );
   }
 
-  Widget _buildLoginRedirect() {
-    return Center(
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-          );
-        },
-        child: Content(
-          data: "Already have an account? Login",
-          size: 12.h,
-          weight: FontWeight.w400,
-        ),
-      ),
-    );
-  }
+//   Widget _buildLoginRedirect() {
+//     return Center(
+//       child: GestureDetector(
+//         onTap: () {
+//           Navigator.pushReplacement(
+//             context,
+//             MaterialPageRoute(builder: (context) => LoginScreen()),
+//           );
+//         },
+//         child: Content(
+//           data: "Already have an account? Login",
+//           size: 12.h,
+//           weight: FontWeight.w400,
+//         ),
+//       ),
+//     );
+//   }
+// }
 }

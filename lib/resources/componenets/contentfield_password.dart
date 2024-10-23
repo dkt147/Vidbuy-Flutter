@@ -9,7 +9,8 @@ class ContentFieldPassword extends StatelessWidget {
   int index;
   TextEditingController controller;
   List<TextInputFormatter> inputFormat;
-  final bool obscureText; // Add this line
+  final bool obscureText;
+  Image? suffixx; // Add this line
   // TextInputType textInput;
   ContentFieldPassword({
     super.key,
@@ -20,6 +21,7 @@ class ContentFieldPassword extends StatelessWidget {
     required this.inputFormat,
     required TextInputType keyboardType,
     this.obscureText = true,
+    this.suffixx,
     // required this.textInput
   });
 
@@ -72,6 +74,7 @@ class ContentFieldPassword extends StatelessWidget {
                     "assets/Icon/password.png",
                     height: 30.h,
                   ))),
+              suffix: suffixx,
               contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.r),

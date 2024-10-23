@@ -185,7 +185,8 @@ class _CreateInfluencerAccountScreenState
               ),
             ),
             SizedBox(height: 30.h),
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -193,20 +194,58 @@ class _CreateInfluencerAccountScreenState
                   },
                   child: Consumer<InfluencerSignupViewModel>(
                     builder: (context, viewModel, child) {
-                      return Container(
-                        height: 89.h,
-                        width: 87.w,
-                        child: CircleAvatar(
-                          radius: 40.r,
-                          backgroundColor: Colors.grey[200],
-                          backgroundImage: viewModel.profileImage != null
-                              ? FileImage(viewModel.profileImage!)
-                              : null,
-                          child: viewModel.profileImage == null
-                              ? Icon(Icons.camera_alt,
-                                  size: 26, color: Colors.grey)
-                              : null,
-                        ),
+                      return Column(
+                        children: [
+                          Container(
+                            height: 89.h,
+                            width: 87.w,
+                            child: CircleAvatar(
+                              radius: 40.r,
+                              backgroundColor: Colors.grey[200],
+                              backgroundImage: viewModel.profileImage != null
+                                  ? FileImage(viewModel.profileImage!)
+                                  : null,
+                              child: viewModel.profileImage == null
+                                  ? Icon(Icons.camera_alt,
+                                      size: 26, color: Colors.grey)
+                                  : null,
+                            ),
+                          ),
+                          Content(data: "Profile photo", size: 12.h, family: "Lato",weight: FontWeight.w500,),
+                          
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 40.w,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    viewModel.pickProfileImage();
+                  },
+                  child: Consumer<InfluencerSignupViewModel>(
+                    builder: (context, viewModel, child) {
+                      return Column(
+                        children: [
+                          Container(
+                            height: 89.h,
+                            width: 87.w,
+                            child: CircleAvatar(
+                              radius: 40.r,
+                              backgroundColor: Colors.grey[200],
+                              backgroundImage: viewModel.profileImage != null
+                                  ? FileImage(viewModel.profileImage!)
+                                  : null,
+                              child: viewModel.profileImage == null
+                                  ? Icon(Icons.camera_alt,
+                                      size: 26, color: Colors.grey)
+                                  : null,
+                            ),
+                          ),
+                          Content(data: "Intro Video", size: 12.h, family: "Lato",weight: FontWeight.w500,),
+                        ],
                       );
                     },
                   ),
