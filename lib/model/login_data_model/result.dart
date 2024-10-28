@@ -17,7 +17,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         'user': user?.toJson(),
-        'token': token,
+        'token': token!,
       };
 
   @override

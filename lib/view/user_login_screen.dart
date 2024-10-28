@@ -1,24 +1,16 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
-import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
 import 'package:vidbuy_app/resources/componenets/primary_button.dart';
-import 'package:vidbuy_app/services/nav.service.dart';
-import 'package:vidbuy_app/services/storage.service.dart';
 import 'package:vidbuy_app/view/create_user_account_screen.dart';
 import 'package:vidbuy_app/view/forgot_password_screen.dart';
 import 'package:vidbuy_app/view/home_screen.dart';
-import 'package:vidbuy_app/view/nav_bar.dart';
-import 'package:vidbuy_app/services/api.service.dart';
-import 'package:vidbuy_app/services/network.service.dart';
-import 'package:logger/logger.dart';
+import 'package:vidbuy_app/viewmodel/login_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -26,14 +18,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final Logger _logger = Logger();
+  // final Logger _logger = Logger();
 
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
 
   // NetworkService instance
-  late NetworkService _networkService;
-  bool _isLoading = false;
+  // late NetworkService _networkService;
+  // bool _isLoading = false;
 
   @override
   void initState() {
@@ -42,9 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController = TextEditingController();
 
     // Initialize NetworkService
-    _networkService = NetworkService(
-      api: ApiService(),
-    );
+    // _networkService = NetworkService(
+    //   api: ApiService(),
+    // );
   }
 
   @override
@@ -54,72 +46,74 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _login(BuildContext context) async {
-    // Input validation
-    if (_emailController.text.isEmpty) {
-      snackBar("Enter Valid Email", context);
-      return;
-    }
-    if (_passwordController.text.isEmpty) {
-      snackBar("Enter Password", context);
-      return;
-    }
-    if (_passwordController.text.length < 8) {
-      snackBar("Enter Minimum 8 Characters for Password", context);
-      return;
-    }
+  // Future<void> _login(BuildContext context) async {
+  //   // Input validation
+  //   if (_emailController.text.isEmpty) {
+  //     snackBar("Enter Valid Email", context);
+  //     return;
+  //   }
+  //   if (_passwordController.text.isEmpty) {
+  //     snackBar("Enter Password", context);
+  //     return;
+  //   }
+  //   if (_passwordController.text.length < 8) {
+  //     snackBar("Enter Minimum 8 Characters for Password", context);
+  //     return;
+  //   }
 
-    // Show loading indicator
-    setState(() {
-      _isLoading = true;
-    });
+  //   // Show loading indicator
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
 
-    // Prepare data for the API call
-    Map<String, dynamic> data = {
-      'email': _emailController.text,
-      'password': _passwordController.text,
-    };
+  //   // Prepare data for the API call
+  //   Map<String, dynamic> data = {
+  //     'email': _emailController.text,
+  //     'password': _passwordController.text,
+  //   };
 
-    try {
-      // Call the login API
+  //   try {
+  //     // Call the login API
 
-      var response = await _networkService.login(data);
-      // log('Login Response: $response'); // Log the response for debugging
-      _logger.e(response);
-      setState(() {
-        _isLoading = false;
-      });
+  //     var response = await _networkService.login(data);
+  //     // log('Login Response: $response'); // Log the response for debugging
+  //     _logger.e(response);
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
 
-      // Handle the response
-      if (response['token'] != '') {
-        String userJson = jsonEncode(response['user']);
+  //     // Handle the response
+  //     if (response['token'] != '') {
+  //       String userJson = jsonEncode(response['user']);
 
-        StorageService stg = StorageService();
-        stg.set('token', response['token']);
-        stg.set('user', userJson);
+  //       StorageService stg = StorageService();
+  //       stg.set('token', response['token']);
+  //       stg.set('user', userJson);
 
-        // Navigate to the NavBarScreen upon successful login
-        //
+  //       // Navigate to the NavBarScreen upon successful login
+  //       //
 
-        // Check if the widget is still mounted before navigating
-        if (!mounted) return;
+  //       // Check if the widget is still mounted before navigating
+  //       if (!mounted) return;
 
-        // ignore: use_build_context_synchronously
-        Navigator.pushNamed(context, Nav.navBar);
-      }
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-      if (!mounted) return;
-      // Log error instead of using print
-      // _logger.e('Login failed', error: e);
-      // snackBar('Error: $e', context); // Show error if the API call fails
-    }
-  }
+  //       // ignore: use_build_context_synchronously
+  //       Navigator.pushNamed(context, Nav.navBar);
+  //     }
+  //   } catch (e) {
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //     if (!mounted) return;
+  //     // Log error instead of using print
+  //     // _logger.e('Login failed', error: e);
+  //     // snackBar('Error: $e', context); // Show error if the API call fails
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<LoginViewModel>(context, listen: false);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -184,13 +178,48 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(height: 30.h),
-
-            PrimaryButton(
-              title: "Login",
-              func: () {
-                navigate(context, HomeScreen());
-              },
+            Center(
+              child: Consumer<LoginViewModel>(
+                builder: (context, viewModel, child) {
+                  return Container(
+                    width: 280.w,
+                    height: 50.h,
+                    child: ElevatedButton(
+                      onPressed: viewModel.loading
+                          ? null // Disable button if loading
+                          : () {
+                              viewModel.fetchLoginData(
+                                context,
+                                email: _emailController.text.toString(),
+                                password: _passwordController.text.toString(),
+                              );
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff5271FF),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                      ),
+                      child: viewModel.loading
+                          ? CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            )
+                          : Text(
+                              "Log In",
+                              style: TextStyle(
+                                fontSize: 20.h,
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
+                  );
+                },
+              ),
             ),
+
             // Center(
             //   child: Container(
             //     width: 280.w,

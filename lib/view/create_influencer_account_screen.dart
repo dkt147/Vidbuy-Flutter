@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:vidbuy_app/data/response/status.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
@@ -27,6 +28,9 @@ class _CreateInfluencerAccountScreenState
 
   final List<String> _countries = ['USA', 'Canada', 'UK', 'Australia', 'India'];
 
+  InfluencerSignupViewModel influencerSignupViewModel =
+      InfluencerSignupViewModel();
+
   // late NetworkService _networkService;
 
   // File? _profileImage;
@@ -37,6 +41,7 @@ class _CreateInfluencerAccountScreenState
     super.initState();
     // _networkService = NetworkService(api: ApiService());
 
+    influencerSignupViewModel.fetchCountryList();
     _nameController = TextEditingController();
     _usernameController = TextEditingController();
     _emailController = TextEditingController();
@@ -281,7 +286,7 @@ class _CreateInfluencerAccountScreenState
             // ),
 
             Container(
-                margin: EdgeInsets.only(bottom: 9.h,left: 25.w),
+                margin: EdgeInsets.only(bottom: 9.h, left: 25.w),
                 child: Text(
                   "Country",
                   style: TextStyle(
@@ -291,66 +296,81 @@ class _CreateInfluencerAccountScreenState
                       fontWeight: FontWeight.w500),
                 )),
             Center(
-              child: Container(
-                child: SizedBox(
-                  height: 50.h,
-                  width: 335.w,
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      // contentPadding:
-                      //     EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
-                      // filled: true,
-                      // fillColor: Colors.grey[200],
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.r),
-                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.r),
-                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.r),
-                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.r),
-                  borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
-                ),
-                // suffix: Image.asset("assets/Icon/dropdown.png"),
-                    ),
-                    hint: Text(
-                      "Select your country",
-                      style: TextStyle(
-                          fontSize: 16.h,
-                          color: Colors.black,
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.w500),
-                    ),
-                    value: _selectedCountry,
-                    // icon: Icon(Icons.arrow_drop_down),
-                    icon: Image.asset("assets/Icon/dropdown.png"),
-                    items: _countries.map((String country) {
-                      return DropdownMenuItem<String>(
-                        value: country,
-                        child: Text(
-                          country,
-                          style: TextStyle(
-                              fontSize: 16.h,
-                              color: Colors.black,
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w500),
+              child: Consumer<InfluencerSignupViewModel>(
+                builder: (context, value, child) {
+                  switch (value.countryList.status) {
+                    case Status.INIT:
+                      return Container();
+                    case Status.LOADING:
+                      return const CircularProgressIndicator();
+                    case Status.ERROR:
+                      return Center(
+                        child: Content(
+                            data: value.countryList.message.toString(),
+                            size: 18),
+                      );
+                    case Status.COMPLETED:
+                      List countries =
+                          viewModel.countryList.data?.result?.list!.data ?? [];
+
+                      return Container(
+                        child: SizedBox(
+                          height: 50.h,
+                          width: 335.w,
+                          child: DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 0),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.r),
+                                borderSide: BorderSide(
+                                    color: Color(0xff908B8B), width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30.r),
+                                borderSide: BorderSide(
+                                    color: Color(0xff908B8B), width: 2.0),
+                              ),
+                            ),
+                            hint: Text(
+                              "Select your country",
+                              style: TextStyle(
+                                fontSize: 16.h,
+                                color: Colors.black,
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            value: _selectedCountry,
+                            icon: Image.asset("assets/Icon/dropdown.png"),
+                            items: countries.map((country) {
+                              return DropdownMenuItem<String>(
+                                value: country.name,
+                                child: Text(
+                                  country.name,
+                                  style: TextStyle(
+                                    fontSize: 16.h,
+                                    color: Colors.black,
+                                    fontFamily: "Lato",
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedCountry = newValue!;
+                              });
+                            },
+                          ),
                         ),
                       );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedCountry = newValue!;
-                      });
-                    },
-                  ),
-                ),
+                    case null:
+                  }
+                  return Container();
+
+                  // Return an empty container if no data
+                },
               ),
             ),
             SizedBox(height: 20.h),

@@ -5,8 +5,8 @@ class User {
   int? roleId;
   String? name;
   String? username;
-  int? countryId;
-  String? countryName;
+  dynamic countryId;
+  dynamic countryName;
   String? email;
   dynamic emailVerifiedAt;
   dynamic image;
@@ -48,8 +48,8 @@ class User {
         roleId: json['role_id'] as int?,
         name: json['name'] as String?,
         username: json['username'] as String?,
-        countryId: json['country_id'] as int?,
-        countryName: json['country_name'] as String?,
+        countryId: json['country_id'] as dynamic,
+        countryName: json['country_name'] as dynamic,
         email: json['email'] as String?,
         emailVerifiedAt: json['email_verified_at'] as dynamic,
         image: json['image'] as dynamic,

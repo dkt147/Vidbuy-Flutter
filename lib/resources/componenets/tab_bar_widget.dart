@@ -6,10 +6,10 @@ import 'package:vidbuy_app/view/review_selection_screen.dart';
 import 'package:vidbuy_app/view/videos_accepet_screen.dart';
 
 class TabBarWidget extends StatefulWidget {
-  final List<Widget> screens;
-  final List<String> tabTitles;
+  // final List<Widget> screens;
+  // final List<String> tabTitles;
 
-  TabBarWidget({required this.screens, required this.tabTitles});
+  // TabBarWidget({required this.screens, required this.tabTitles});
   @override
   _TabBarWidgetState createState() => _TabBarWidgetState();
 }
@@ -19,8 +19,8 @@ class _TabBarWidgetState extends State<TabBarWidget>
   late TabController _tabController;
 
   // Example data storage for user selections
-  String selectedCategory = "Actor";
-  List<String> selectedVideos = [];
+  // late Map<String, dynamic> selectedCategory;
+  List<Map<String, dynamic>> selectedVideos = [];
   Map<String, double> prices = {"Birthday": 0, "Special Day": 0, "Other": 0};
 
   @override
@@ -35,19 +35,35 @@ class _TabBarWidgetState extends State<TabBarWidget>
     });
   }
 
-  void saveCategory(String category) {
+  void goToNextReview([List<Map<String, dynamic>>? videos]) {
+    if (videos != null) {
+      saveVideos(videos);
+    }
     setState(() {
-      selectedCategory = category;
+      _tabController.index += 1;
     });
-    goToNextTab();
   }
 
-  void saveVideos(List<String> videos) {
+  void saveVideos(List<Map<String, dynamic>> videos) {
     setState(() {
       selectedVideos = videos;
     });
     goToNextTab();
   }
+
+  void saveCategory(Map<String, dynamic> category) {
+    setState(() {
+      // selectedCategory = category;
+    });
+    goToNextTab();
+  }
+
+  // void saveVideos(List<String> videos) {
+  //   setState(() {
+  //     selectedVideos = videos;
+  //   });
+  //   goToNextTab();
+  // }
 
   void savePrices(Map<String, double> newPrices) {
     setState(() {
@@ -79,7 +95,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
             ),
             tabs: [
               Tab(
-                text: "Categorie",
+                text: "Categories",
               ),
               Tab(
                 text: "Videos",
@@ -99,14 +115,14 @@ class _TabBarWidgetState extends State<TabBarWidget>
         controller: _tabController,
         // children: widget.screens,
         children: [
-          ChooseCategoryScreen(onSave: saveCategory),
-          VIdeosAcceptScreen(onSave: saveVideos),
-          ChoosePricesScreen(onSave: savePrices),
-          ReviewSelectionScreen(
-            selectedCategory: selectedCategory,
-            selectedVideos: selectedVideos,
-            prices: prices,
-          ),
+          ChooseCategoryScreen(onNextTab: goToNextTab),
+          VideosAcceptScreen(
+              onNextTab: (selectedVideos) => goToNextReview(selectedVideos)),
+          ChoosePricesScreen(
+              selectedVideos: selectedVideos,
+              onSave: savePrices,
+              onNextTab: goToNextTab),
+          ReviewSelectionScreen(),
         ],
       ),
     );

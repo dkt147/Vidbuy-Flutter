@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:vidbuy_app/viewmodel/verify_otp_view_model.dart';
 
 class OtpScren extends StatefulWidget {
-  final String id;
   final String code;
-  OtpScren({super.key, required this.code, required this.id});
+  final String token;
+  OtpScren({super.key, required this.code, required this.token});
 
   @override
   _OtpScrenState createState() => _OtpScrenState();
@@ -50,7 +50,7 @@ class _OtpScrenState extends State<OtpScren> {
             child: Column(
               children: [
                 Text(widget.code.toString()),
-                Text(widget.id.toString()),
+
                 Pinput(
                   controller: otpController,
                   length: 4,
@@ -84,7 +84,6 @@ class _OtpScrenState extends State<OtpScren> {
                             ? null // Disable button if loading
                             : () {
                                 viewModel.fetchOtpVerificationData(context,
-                                    userId: widget.id,
                                     code: otpController.text);
                               },
                         style: ElevatedButton.styleFrom(

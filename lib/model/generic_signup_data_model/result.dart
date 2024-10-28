@@ -21,13 +21,14 @@ import 'package:vidbuy_app/model/generic_signup_data_model/user.dart';
 class Result {
   final User user;
   final int code;
+  final String token;
 
-  Result({required this.user, required this.code});
+  Result({required this.user, required this.code, required this.token});
 
   factory Result.fromJson(Map<String, dynamic> json) {
     return Result(
-      user: User.fromJson(json['user']),
-      code: json['code'],
-    );
+        user: User.fromJson(json['user']),
+        code: json['code'],
+        token: json['token']);
   }
 }

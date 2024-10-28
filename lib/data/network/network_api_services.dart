@@ -3,14 +3,29 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:vidbuy_app/data/app_excaptions.dart';
 import 'package:vidbuy_app/data/network/base_api_services.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 
 class NetworkApiService implements BaseApiServices {
   @override
-  Future getGetApiResponse(String url) async {
+  Future<dynamic> getGetApiResponse(String url, dynamic includeToken) async {
     dynamic responseJson;
     try {
-      final response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 20));
+      final headers = <String, String>{
+        'Content-Type': 'application/json',
+      };
+
+      // Check if `includeToken` is true and add token if available
+      if (includeToken == true && LocalData.token.isNotEmpty) {
+        headers[HttpHeaders.authorizationHeader] = 'Bearer ${LocalData.token}';
+      }
+
+      // final response =
+      // await http.get(Uri.parse(url)).timeout(const Duration(seconds: 20));
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: headers,
+      );
       responseJson = returnResponse(response);
     } on SocketException {
       throw NoInternetException();
@@ -19,17 +34,42 @@ class NetworkApiService implements BaseApiServices {
   }
 
   @override
-  Future getPostApiResponse(String url, data) async {
+  Future<dynamic> getPostApiResponse(
+      String url, dynamic data, dynamic includeToken) async {
     dynamic responseJson;
     try {
-      final response = await http.post(Uri.parse(url), body: data);
-      // .timeout(Duration(seconds: 10));
+      final headers = <String, String>{
+        'Content-Type': 'application/json',
+      };
+
+      // Check if `includeToken` is true and add token if available
+      if (includeToken == true && LocalData.token.isNotEmpty) {
+        headers[HttpHeaders.authorizationHeader] = 'Bearer ${LocalData.token}';
+      }
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode(data),
+      );
       responseJson = returnResponse(response);
     } on SocketException {
-      throw NoInternetException();
+      throw Exception("No Internet Connection");
     }
     return responseJson;
   }
+
+  // Future getPostApiResponse(String url, data) async {
+  //   dynamic responseJson;
+  //   try {
+  //     final response = await http.post(Uri.parse(url), body: data);
+  //     // .timeout(Duration(seconds: 10));
+  //     responseJson = returnResponse(response);
+  //   } on SocketException {
+  //     throw NoInternetException();
+  //   }
+  //   return responseJson;
+  // }
 
   @override
   Future getPostMultipartResponse(String url, File file, fields) async {

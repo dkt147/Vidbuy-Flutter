@@ -2,6 +2,7 @@ import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/data/network/network_api_services.dart';
 import 'package:vidbuy_app/model/generic_otp_data_model/generic_otp_data_model.dart';
 import 'package:vidbuy_app/model/generic_signup_data_model/generic_signup_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/country_list_data_model/country_list_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
 class SignupRepo {
@@ -10,8 +11,8 @@ class SignupRepo {
   Future<GenericSignupDataModel> fetchGenericSignupResponse(
       dynamic data) async {
     try {
-      dynamic response =
-          await apiServices.getPostApiResponse(AppUrl.genericSignupUrl, data);
+      dynamic response = await apiServices.getPostApiResponse(
+          AppUrl.genericSignupUrl, data, true);
       print(response); // Print the raw response
 
       return GenericSignupDataModel.fromJson(response);
@@ -23,12 +24,23 @@ class SignupRepo {
   Future<GenericOtpDataModel> fetchGenericOtpResponse(dynamic data) async {
     try {
       dynamic response =
-          await apiServices.getPostApiResponse(AppUrl.verifyOtpUrl, data);
+          await apiServices.getPostApiResponse(AppUrl.verifyOtpUrl, data, true);
       print(response); // Print the raw response
 
       return GenericOtpDataModel.fromJson(response);
     } catch (e) {
       throw Exception("Error fetching signup response: $e");
+    }
+  }
+
+  Future<CountryListDataModel> fetchCountryList() async {
+    try {
+      dynamic response = await apiServices.getGetApiResponse(
+          AppUrl.influencerCategoryUrl, true);
+      print(response);
+      return response = CountryListDataModel.fromJson(response);
+    } catch (e) {
+      throw e;
     }
   }
 

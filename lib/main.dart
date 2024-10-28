@@ -3,14 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidbuy_app/Provider/navbar_provider.dart';
-import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/services/nav.service.dart';
 import 'package:vidbuy_app/services/storage.service.dart';
-import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
-import 'package:vidbuy_app/view/cancel_screen.dart';
-import 'package:vidbuy_app/view/pending_admin_screen.dart';
-import 'package:vidbuy_app/view/splash_screen.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
+import 'package:vidbuy_app/viewmodel/login_view_model.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/user_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/verify_otp_view_model.dart';
 
 late SharedPreferences pref;
@@ -18,6 +17,10 @@ late SharedPreferences pref;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensures proper initialization
   pref = await SharedPreferences.getInstance(); // Initialize SharedPreferences
+
+  LocalData ld = LocalData();
+  await ld.getTokenLocally();
+
   runApp(const MyApp());
 }
 
@@ -30,7 +33,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => NavbarProvider()),
         ChangeNotifierProvider(create: (_) => InfluencerSignupViewModel()),
+        ChangeNotifierProvider(create: (_) => UserSignupViewModel()),
+        ChangeNotifierProvider(create: (_) => InfluencerSelectionViewModel()),
         ChangeNotifierProvider(create: (_) => OtpVerificationViewModel()),
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
       ],
       child: ScreenUtilInit(
         useInheritedMediaQuery: true,

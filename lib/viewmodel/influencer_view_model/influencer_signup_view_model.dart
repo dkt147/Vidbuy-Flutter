@@ -8,7 +8,9 @@ import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/generic_signup_data_model/generic_signup_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/country_list_data_model/country_list_data_model.dart';
 import 'package:vidbuy_app/repo/signup_repo.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/otp_scren.dart';
 
 class InfluencerSignupViewModel extends ChangeNotifier {
@@ -85,8 +87,10 @@ class InfluencerSignupViewModel extends ChangeNotifier {
         // Check if value.result is a Map and access code properly
         if (value.result is Map<String, dynamic>) {
           String verificationCode = value.result['code'].toString();
-          String userId = value.result['user']['id'].toString();
-          navigate(context, OtpScren(code: verificationCode, id: userId));
+          String token = value.result['token'].toString();
+          print(token);
+          await LocalData.setToken(token);
+          navigate(context, OtpScren(code: verificationCode, token: token));
         }
         // else {
         //   // Handle unexpected result structure
@@ -107,6 +111,25 @@ class InfluencerSignupViewModel extends ChangeNotifier {
         }
       });
     }
+  }
+
+  ApiResponse<CountryListDataModel> _countryList = ApiResponse.loading();
+  ApiResponse<CountryListDataModel> get countryList => _countryList;
+
+  setCountryList(ApiResponse<CountryListDataModel> response) {
+    _countryList = response;
+    _countryList.toString();
+    notifyListeners();
+  }
+
+  Future<void> fetchCountryList() async {
+    setCountryList(ApiResponse.loading());
+    _signupRepo.fetchCountryList().then((value) {
+      setCountryList(ApiResponse.completed(value));
+      print("country list fetched");
+    }).onError((error, stackTrace) {
+      setCountryList(ApiResponse.error(error.toString()));
+    });
   }
 
   // Future<bool> fetchInfluencerSignupData(

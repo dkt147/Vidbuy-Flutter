@@ -7,77 +7,91 @@ class LocalData {
   static String _lid = "";
   static String get id => _lid;
 
-  static String _ltoken = "";
-  static String get token => _ltoken;
+  static String _lroleId = "";
+  static String get roleId => _lroleId;
 
   static String _lname = "";
   static String get name => _lname;
 
-  static String _laddress = "";
-  static String get address => _laddress;
-  static String _laddressId = "";
-  static String get addressId => _laddressId;
+  static String _lusername = "";
+  static String get username => _lusername;
 
-  static String _lcnic = "";
-  static String get cnic => _lcnic;
+  static String _lcountryId = "";
+  static String get countryId => _lcountryId;
 
-  static String _lphone = "";
-  static String get phone => _lphone;
+  static String _lcountryName = "";
+  static String get countryName => _lcountryName;
 
-  static String _lsociety = "";
-  static String get society => _lsociety;
+  static String _lemail = "";
+  static String get email => _lemail;
 
-  static String _lsocietyId = "";
-  static String get societyId => _lsocietyId;
+  static String _limage = "";
+  static String get image => _limage;
 
-  static String _lprofile = "";
-  static String get profile => _lprofile;
+  static String _lstatus = "";
+  static String get status => _lstatus;
 
-  static String _lqr = "";
-  static String get qr => _lqr;
+  static String _lfirebaseToken = "";
+  static String get firebaseToken => _lfirebaseToken;
 
-  static bool _logout = true;
-  static bool get logout => _logout;
+  static String _lisProfileCompleted = "";
+  static String get isProfileCompleted => _lisProfileCompleted;
+
+  static String _ltoken = "";
+  static String get token => _ltoken;
+
+  static const String _ktoken = "ktoken";
+
+  // Function to set token and save it locally
+  static Future<void> setToken(String token) async {
+    _ltoken = token;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_ktoken, token);
+  }
+
+  // Function to load token from shared preferences
+  static Future<void> loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _ltoken = prefs.getString(_ktoken) ?? "";
+  }
 
   static setlValues(
-      String id,
-      String token,
-      String name,
-      String address,
-      String addressId,
-      String cnic,
-      String phone,
-      String society,
-      String societyId,
-      String profile,
-      String qr,
-      bool logout) {
+    String id,
+    String roleId,
+    String name,
+    String username,
+    String countryId,
+    String countryName,
+    String email,
+    String image,
+    String status,
+    String isProfileCompleted,
+    // String token,
+  ) {
     _lid = id;
-    _ltoken = token;
+    _lroleId = roleId;
     _lname = name;
-    _laddress = address;
-    _laddressId = addressId;
-    _lcnic = cnic;
-    _lphone = phone;
-    _lsociety = society;
-    _lsocietyId = societyId;
-    _lprofile = profile;
-    _lqr = qr;
-    _logout = logout;
+    _lusername = username;
+    _lcountryId = countryId;
+    _lcountryName = countryName;
+    _lemail = email;
+    _limage = image;
+    _lstatus = status;
+    _lisProfileCompleted = isProfileCompleted;
+    // _ltoken = token;
   }
 
   String _kid = "kid";
-  String _token = 'token';
-  String _name = 'name';
-  String _address = 'address';
-  String _addressId = 'kaddressId';
-  String _cnic = "kcnic";
-  String _kphone = "kphone";
-  String _ksociety = "ksociety";
-  String _ksocietyId = "ksocietyId";
-  String _kprofile = "kprofile";
-  String _kqr = 'kqr';
-  String _klogout = 'klo';
+  String _kroleId = "kroleId";
+  String _kname = "kname";
+  String _kusername = "kusername";
+  String _kcountryId = "kcountryId";
+  String _kcountryName = "kcountryName";
+  String _kemail = "kemail";
+  String _kimage = "kimage";
+  String _kstatus = "kstatus";
+  String _kisProfileCompleted = "kisProfileCompleted";
+  // String _ktoken = "ktoken";
 
 // Future<void> saveDataLocally(Data? data) async {
 //   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -86,86 +100,67 @@ class LocalData {
 // }
 
   Future<void> saveTokenLocally(
-      String id,
-      String token,
-      String name,
-      String address,
-      String addressId,
-      String cnic,
-      String phone,
-      String society,
-      String societyId,
-      String profile,
-      String qr,
-      bool logout) async {
+    String id,
+    String roleId,
+    String name,
+    String username,
+    String countryId,
+    String countryName,
+    String email,
+    String image,
+    String status,
+    String isProfileCompleted,
+    // String token
+  ) async {
     _lid = id;
-    _ltoken = token;
+    _lroleId = roleId;
     _lname = name;
-    _laddress = address;
-    _laddressId = addressId;
-    _lcnic = cnic;
-    _lphone = phone;
-    _lsociety = society;
-    _lsocietyId = societyId;
-    _lprofile = profile;
-    _lqr = qr;
-    _logout = logout;
+    _lusername = username;
+    _lcountryId = countryId;
+    _lcountryName = countryName;
+    _lemail = email;
+    _limage = image;
+    _lstatus = status;
+    _lisProfileCompleted = isProfileCompleted;
+    // _ltoken = token;
     pref.setString(_kid, id);
-    pref.setString(_token, token);
-    pref.setString(_name, name);
-    pref.setString(_address, address);
-    pref.setString(_addressId, addressId);
-    pref.setString(_cnic, cnic);
-    pref.setString(_kphone, phone);
-    pref.setString(_ksociety, society);
-    pref.setString(_ksocietyId, societyId);
-    pref.setString(_kprofile, profile);
-    pref.setString(_kqr, qr);
-    pref.setBool(_klogout, logout);
-  }
-
-  Future<void> saveContactLocally(String phone) async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    pref.setString(_kphone, phone);
-  }
-
-  Future<void> saveProfile(String profile) async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    pref.setString(_kprofile, profile);
-  }
-
-  Future<void> saveSessionLocally(bool logout) async {
-    pref.setBool(_klogout, logout);
+    pref.setString(_kroleId, roleId);
+    pref.setString(_kname, name);
+    pref.setString(_kusername, username);
+    pref.setString(_kcountryId, countryId);
+    pref.setString(_kcountryName, countryName);
+    pref.setString(_kemail, email);
+    pref.setString(_kimage, image);
+    pref.setString(_kstatus, status);
+    pref.setString(_kisProfileCompleted, isProfileCompleted);
+    // pref.setString(_ktoken, token);
   }
 
   Future<String?> getTokenLocally() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? i = prefs.getString(_kid);
-    String? t = prefs.getString(_token);
-    String? n = prefs.getString(_name);
-    String? a = prefs.getString(_address);
-    String? ai = prefs.getString(_addressId);
-    String? c = prefs.getString(_cnic);
-    String? p = prefs.getString(_kphone);
-    String? s = prefs.getString(_ksociety);
-    String? si = prefs.getString(_ksocietyId);
-    String? pr = prefs.getString(_kprofile);
-    String? q = prefs.getString(_kqr);
-    bool? l = prefs.getBool(_klogout);
+    String? ri = prefs.getString(_kroleId);
+    String? n = prefs.getString(_kname);
+    String? un = prefs.getString(_kusername);
+    String? ci = prefs.getString(_kcountryId);
+    String? cn = prefs.getString(_kcountryName);
+    String? e = prefs.getString(_kemail);
+    String? im = prefs.getString(_kimage);
+    String? s = prefs.getString(_kstatus);
+    String? ipc = prefs.getString(_kisProfileCompleted);
+    // String? t = prefs.getString(_ktoken);
     setlValues(
-        i.toString(),
-        t.toString(),
-        n.toString(),
-        a.toString(),
-        ai.toString(),
-        c.toString(),
-        p.toString(),
-        s.toString(),
-        si.toString(),
-        pr.toString(),
-        q.toString(),
-        l ?? true);
+      i.toString(),
+      ri.toString(),
+      n.toString(),
+      un.toString(),
+      ci.toString(),
+      cn.toString(),
+      e.toString(),
+      im.toString(),
+      s.toString(),
+      ipc.toString(),
+      // t.toString()
+    );
   }
 }

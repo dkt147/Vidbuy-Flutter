@@ -1,38 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/Function/utils.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 
-class VIdeosAcceptScreen extends StatefulWidget {
-  final Function(List<String>) onSave;
-  VIdeosAcceptScreen({super.key, required this.onSave});
+class VideosAcceptScreen extends StatefulWidget {
+  final void Function(List<Map<String, dynamic>>) onNextTab;
+  VideosAcceptScreen({super.key, required this.onNextTab});
 
   @override
-  State<VIdeosAcceptScreen> createState() => _VIdeosAcceptScreenState();
+  State<VideosAcceptScreen> createState() => _VideosAcceptScreenState();
 }
 
-class _VIdeosAcceptScreenState extends State<VIdeosAcceptScreen> {
-  String selectedVideoType = "Birthday"; // Initial selected video type
-  String selectedPriceRange = "€50 - €100"; // Initial selected price range
+class _VideosAcceptScreenState extends State<VideosAcceptScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch the categories after the first frame is rendered
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<InfluencerSelectionViewModel>(context, listen: false)
+          .fetchInfluencerVideoTypeList();
+    });
 
-  final List<String> videoTypes = [
-    "Birthday",
-    "Advice",
-    "Promotional",
-    "Special Day",
-    "Other",
-    "Questions"
-  ];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<InfluencerSelectionViewModel>(context, listen: false)
+          .fetchInfluencerPriceRangeList();
+    });
+  }
 
-  final List<String> priceRanges = [
-    "€0 - €50",
-    "€50 - €100",
-    "€100 - €200",
-    "€200 - €500",
-    "€500 - €700",
-    "€700 +"
-  ];
   @override
   Widget build(BuildContext context) {
+    final influencerSelectionViewModel =
+        Provider.of<InfluencerSelectionViewModel>(context);
+
+    if (influencerSelectionViewModel.videoTypeLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    if (influencerSelectionViewModel.videoTypes.isEmpty) {
+      return Center(child: Text("No Video Type found."));
+    }
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xffFFFFFF),
@@ -66,20 +74,21 @@ class _VIdeosAcceptScreenState extends State<VIdeosAcceptScreen> {
               Wrap(
                 spacing: 5.w,
                 runSpacing: 10.h,
-                children: videoTypes.map((type) {
+                children:
+                    influencerSelectionViewModel.videoTypes.map((videosType) {
+                  bool isSelected = influencerSelectionViewModel
+                      .selectedVideoTypeIds
+                      .contains(videosType['id']);
+
                   return GestureDetector(
                     onTap: () {
-                      setState(() {
-                        selectedVideoType = type;
-                      });
+                      influencerSelectionViewModel.selectVideoType(videosType);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 20.w, vertical: 10.h),
                       decoration: BoxDecoration(
-                        color: selectedVideoType == type
-                            ? Color(0xff000000)
-                            : Colors.white,
+                        color: isSelected ? Color(0xff000000) : Colors.white,
                         borderRadius: BorderRadius.circular(30.r),
                         border: Border.all(
                           color: Color(0xff000000),
@@ -87,20 +96,19 @@ class _VIdeosAcceptScreenState extends State<VIdeosAcceptScreen> {
                         ),
                       ),
                       child: Text(
-                        type,
+                        videosType["name"],
                         style: TextStyle(
                           fontSize: 15.h,
                           fontFamily: "Lato",
                           fontWeight: FontWeight.w700,
-                          color: selectedVideoType == type
-                              ? Colors.white
-                              : Color(0xff000000),
+                          color: isSelected ? Colors.white : Color(0xff000000),
                         ),
                       ),
                     ),
                   );
                 }).toList(),
               ),
+
               SizedBox(height: 30.h),
               Text(
                 "What is a range of price?",
@@ -113,18 +121,19 @@ class _VIdeosAcceptScreenState extends State<VIdeosAcceptScreen> {
               Wrap(
                 spacing: 5.w,
                 runSpacing: 10.h,
-                children: priceRanges.map((range) {
+                children:
+                    influencerSelectionViewModel.priceRanges.map((priceRange) {
                   return GestureDetector(
                     onTap: () {
-                      setState(() {
-                        selectedPriceRange = range;
-                      });
+                      influencerSelectionViewModel.selectPriceRange(priceRange);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 20.w, vertical: 10.h),
                       decoration: BoxDecoration(
-                        color: selectedPriceRange == range
+                        color: influencerSelectionViewModel
+                                    .selectedPriceRange?['id'] ==
+                                priceRange['id']
                             ? Colors.black
                             : Colors.white,
                         borderRadius: BorderRadius.circular(30.r),
@@ -134,12 +143,14 @@ class _VIdeosAcceptScreenState extends State<VIdeosAcceptScreen> {
                         ),
                       ),
                       child: Text(
-                        range,
+                        priceRange["name"],
                         style: TextStyle(
                           fontSize: 15.h,
                           fontFamily: "Lato",
                           fontWeight: FontWeight.w700,
-                          color: selectedPriceRange == range
+                          color: influencerSelectionViewModel
+                                      .selectedPriceRange?['id'] ==
+                                  priceRange['id']
                               ? Colors.white
                               : Colors.black,
                         ),
@@ -156,12 +167,38 @@ class _VIdeosAcceptScreenState extends State<VIdeosAcceptScreen> {
                 width: 335.w,
                 height: 50.h,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Handle Save & Continue
-                    // widget.onSave(priceRanges);
-                    widget.onSave(priceRanges);
-                    // navigate(context, widget.onSave(priceRanges));
-                  },
+                  onPressed: influencerSelectionViewModel.videoTypeLoading
+                      ? null // Disable button if loading
+                      : () {
+                          if (influencerSelectionViewModel.selectedPriceRange !=
+                                  null &&
+                              influencerSelectionViewModel
+                                      .selectedVideoTypeIds !=
+                                  []) {
+                            influencerSelectionViewModel.fetchInfluencerData(
+                                context,
+                                priceRangeId: influencerSelectionViewModel
+                                    .selectedCategory!['id'],
+                                videoTypes: influencerSelectionViewModel
+                                    .selectedVideoTypeIds, func: () {
+                              List<Map<String, dynamic>> selectedVideosData =
+                                  influencerSelectionViewModel
+                                      .selectedVideoTypes
+                                      .map((videoType) {
+                                return {
+                                  'id': videoType['id'],
+                                  'name': videoType['name'],
+                                };
+                              }).toList();
+
+                              // Pass the selected videos to the TabBarWidget's saveVideos function
+                              widget.onNextTab(selectedVideosData);
+                            });
+                          } else {
+                            Utils.snackBar(
+                                "PLease select both option", context);
+                          }
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff5271FF),
                     // padding:
@@ -170,24 +207,29 @@ class _VIdeosAcceptScreenState extends State<VIdeosAcceptScreen> {
                       borderRadius: BorderRadius.circular(30.r),
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Save & Continue",
-                        style: TextStyle(
-                            fontSize: 20.h,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "Lato",
-                            color: Colors.white),
-                      ),
-                      SizedBox(width: 10.w),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
+                  child: influencerSelectionViewModel.priceRangeLoading
+                      ? CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        )
+                      : Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Save & Continue",
+                              style: TextStyle(
+                                  fontSize: 20.h,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "Lato",
+                                  color: Colors.white),
+                            ),
+                            SizedBox(width: 10.w),
+                            Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
                 ),
               ),
             ],
