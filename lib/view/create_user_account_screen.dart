@@ -144,6 +144,7 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
   //   }
   // }
 
+  bool pushNotifications = true;
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<UserSignupViewModel>(context, listen: false);
@@ -166,14 +167,14 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Content(
-                    data: "Create Influencer Account",
+                    data: "Create user account",
                     size: 30.h,
                     weight: FontWeight.bold,
                   ),
                   SizedBox(height: 5.h),
                   Content(
                     data:
-                        "Create your account to buy, create orders and share videos with your friends",
+                        "Create your account to buy, create orders and share videos with\nyour friends",
                     size: 10.h,
                     weight: FontWeight.w400,
                     family: "Nunito",
