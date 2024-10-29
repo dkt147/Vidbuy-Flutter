@@ -9,6 +9,7 @@ import 'package:vidbuy_app/repo/login_repo.dart';
 import 'package:vidbuy_app/resources/componenets/navbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
+import 'package:vidbuy_app/view/home_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 
 class LoginViewModel with ChangeNotifier {
@@ -78,7 +79,7 @@ class LoginViewModel with ChangeNotifier {
           } else if (result.user!.isProfileCompleted == 1) {
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => NavBarScreen()),
+                MaterialPageRoute(builder: (context) => HomeScreen()),
                 (route) => false);
           }
         }

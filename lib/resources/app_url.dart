@@ -15,4 +15,6 @@ class AppUrl {
   static String influencerVideoTypeUrl = "$baseUrl/video-types/list";
   static String influencerAddVideoTypeUrl = "$baseUrl/influencer/videotype/add";
   static String influencerReviewUrl = "$baseUrl/influencer-detail";
+  static String trendingInfluencerUrl = "$baseUrl/trending/list";
+
 }

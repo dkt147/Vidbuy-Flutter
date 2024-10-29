@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
-import 'package:vidbuy_app/resources/componenets/navbar_widget.dart';
-import 'package:vidbuy_app/view/Proof_identity_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 
@@ -61,35 +59,35 @@ class _ReviewSelectionScreenState extends State<ReviewSelectionScreen> {
                 // Display the selected category
                 SizedBox(height: 26.h),
 
-      Container(
-  width: 100.w,
-  height: 45.h,
-  decoration: BoxDecoration(
-    color: Colors.black,
-    borderRadius: BorderRadius.circular(30.r),
-  ),
-  child: Center(
-    child: ListView.builder(
-      shrinkWrap: true,
-
-      itemCount: reviewList.data?.result?.videoTypes!.length,
-      itemBuilder: (context, index) {
-        final videoType = reviewList.data!.result!.videoTypes![index];
-        return Center(
-          child: Text(
-            videoType.videoTypeName ?? '',
-            style: TextStyle(
-              fontSize: 18.h,
-              fontWeight: FontWeight.w500,
-              fontFamily: "lato",
-              color: Colors.white,
-            ),
-          ),
-        );
-      },
-    ),
-  ),
-      ),
+                Container(
+                  width: 100.w,
+                  height: 45.h,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(30.r),
+                  ),
+                  child: Center(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: reviewList.data?.result?.videoTypes!.length,
+                      itemBuilder: (context, index) {
+                        final videoType =
+                            reviewList.data!.result!.videoTypes![index];
+                        return Center(
+                          child: Text(
+                            videoType.videoTypeName ?? '',
+                            style: TextStyle(
+                              fontSize: 18.h,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "lato",
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 SizedBox(height: 26.h),
                 Text("Prices For Each Video:",
                     style: TextStyle(
@@ -98,21 +96,20 @@ class _ReviewSelectionScreenState extends State<ReviewSelectionScreen> {
                         fontFamily: "lato")),
                 SizedBox(height: 30.h),
 
-
-
-    ListView.builder(
-      shrinkWrap: true,
-      itemCount: reviewList.data?.result?.videoTypes!.length,
-      itemBuilder: (context, index) {
-        final videoType = reviewList.data!.result!.videoTypes![index];
-        return Text(
-                  "${videoType.videoTypeName.toString()} Videos : €${videoType.price.toString()}",
-                  style: TextStyle(
-                      fontSize: 18.h,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "lato"),
-        );
-          }),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: reviewList.data?.result?.videoTypes!.length,
+                    itemBuilder: (context, index) {
+                      final videoType =
+                          reviewList.data!.result!.videoTypes![index];
+                      return Text(
+                        "${videoType.videoTypeName.toString()} Videos : €${videoType.price.toString()}",
+                        style: TextStyle(
+                            fontSize: 18.h,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "lato"),
+                      );
+                    }),
 
                 // ...reviewList.data!.result["prices"].map<Widget>((priceData) {
                 //   return Text(

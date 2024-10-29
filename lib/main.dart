@@ -9,6 +9,7 @@ import 'package:vidbuy_app/services/storage.service.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/login_view_model.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/home_screen_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/verify_otp_view_model.dart';
 
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => InfluencerSelectionViewModel()),
         ChangeNotifierProvider(create: (_) => OtpVerificationViewModel()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => HomeScreenViewModel()),
       ],
       child: ScreenUtilInit(
         useInheritedMediaQuery: true,
