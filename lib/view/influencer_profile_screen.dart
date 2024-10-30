@@ -5,7 +5,9 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/create_order_screen.dart';
 
 class InfluencerProfileScreen extends StatefulWidget {
-  const InfluencerProfileScreen({super.key});
+  const InfluencerProfileScreen({
+    super.key,
+  });
 
   @override
   State<InfluencerProfileScreen> createState() =>

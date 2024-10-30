@@ -35,8 +35,8 @@ class SignupRepo {
 
   Future<CountryListDataModel> fetchCountryList() async {
     try {
-      dynamic response = await apiServices.getGetApiResponse(
-          AppUrl.influencerCategoryUrl, true);
+      dynamic response =
+          await apiServices.getGetApiResponse(AppUrl.countryListUrl, true);
       print(response);
       return response = CountryListDataModel.fromJson(response);
     } catch (e) {

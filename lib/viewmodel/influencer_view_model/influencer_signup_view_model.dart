@@ -54,17 +54,37 @@ class InfluencerSignupViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchInfluencerSignupData(
-    BuildContext context, {
-    required String name,
-    required String username,
-    required String email,
-    required String password,
-    required String country,
-    required String? base64Image,
-  }) async {
+  File? _introVideo;
+  File? get introVideo => _introVideo;
+
+  String? _introVideoBase64;
+  String? get introVideoBase64 => _introVideoBase64;
+
+  Future<void> pickIntroVideo() async {
+    try {
+      final ImagePicker _picker = ImagePicker();
+      final XFile? video = await _picker.pickImage(source: ImageSource.gallery);
+
+      if (video != null) {
+        _introVideo = File(video.path);
+        _introVideoBase64 = base64Encode(_introVideo!.readAsBytesSync());
+        notifyListeners(); // Notify listeners after updating the image
+      }
+    } catch (e) {
+      print('Error picking image: $e');
+    }
+  }
+
+  Future<void> fetchInfluencerSignupData(BuildContext context,
+      {required String name,
+      required String username,
+      required String email,
+      required String password,
+      required String country,
+      required String? base64Image,
+      required String? base64Video}) async {
     if (_validateFields(
-        context, name, username, email, password, base64Image)) {
+        context, name, username, email, password, base64Image, base64Video)) {
       // Return early if validation fails
 
       Map<String, dynamic> registrationData = {
@@ -171,10 +191,16 @@ class InfluencerSignupViewModel extends ChangeNotifier {
 
   // }
 
-  bool _validateFields(BuildContext context, String name, String username,
-      String email, String password, String? base64Image) {
+  bool _validateFields(
+      BuildContext context,
+      String name,
+      String username,
+      String email,
+      String password,
+      String? base64Image,
+      String? videoBase64Image) {
     if (name.isEmpty) {
-      Utils.errorSnackBar('Please enter your name', context);
+      Utils.snackBar('Please enter your name', context);
       return false;
     }
     if (username.isEmpty) {
@@ -191,6 +217,10 @@ class InfluencerSignupViewModel extends ChangeNotifier {
     }
     if (base64Image == null) {
       Utils.snackBar('Please select a profile image', context);
+      return false;
+    }
+    if (videoBase64Image == null) {
+      Utils.snackBar('Please select a intro video', context);
       return false;
     }
     return true;

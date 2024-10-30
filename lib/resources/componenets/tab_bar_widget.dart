@@ -21,7 +21,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
   // Example data storage for user selections
   // late Map<String, dynamic> selectedCategory;
   List<Map<String, dynamic>> selectedVideos = [];
-  Map<String, double> prices = {"Birthday": 0, "Special Day": 0, "Other": 0};
+  // Map<String, double> prices = {"Birthday": 0, "Special Day": 0, "Other": 0};
 
   @override
   void initState() {
@@ -65,12 +65,12 @@ class _TabBarWidgetState extends State<TabBarWidget>
   //   goToNextTab();
   // }
 
-  void savePrices(Map<String, double> newPrices) {
-    setState(() {
-      prices = newPrices;
-    });
-    goToNextTab();
-  }
+  // void savePrices(Map<String, double> newPrices) {
+  //   setState(() {
+  //     prices = newPrices;
+  //   });
+  //   goToNextTab();
+  // }
 
   void dispose() {
     _tabController.dispose();
@@ -120,7 +120,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
               onNextTab: (selectedVideos) => goToNextReview(selectedVideos)),
           ChoosePricesScreen(
               selectedVideos: selectedVideos,
-              onSave: savePrices,
+              // onSave: savePrices,
               onNextTab: goToNextTab),
           ReviewSelectionScreen(),
         ],

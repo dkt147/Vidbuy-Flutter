@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
+import 'package:vidbuy_app/model/user_model/give_away_data_model/give_away_data_model.dart';
+import 'package:vidbuy_app/model/user_model/recently_added_data_model/recently_added_data_model.dart';
 import 'package:vidbuy_app/model/user_model/trending_influencers_data_model/trending_influencers_data_model.dart';
 import 'package:vidbuy_app/repo/user_home_repo.dart';
 
@@ -36,15 +38,17 @@ class HomeScreenViewModel with ChangeNotifier {
       setInfluencerCategoryList(ApiResponse.completed(value));
       setCategoryLoading(false);
       categories = List<Map<String, dynamic>>.from(value.result!.categorylist!
-          .map((item) =>
-              {'id': item.id, 'name': item.name, 'image': item.image}));
+          .map((item) => {
+                'id': item.id,
+                'name': item.name,
+                'image': item.image.toString()
+              }));
       print(value);
     }).onError((error, stackTrace) {
+      setCategoryLoading(false);
       setInfluencerCategoryList(ApiResponse.error(error.toString()));
     });
   }
-
-
 
   List<Map<String, dynamic>> trendingInfluencers = [];
 
@@ -62,7 +66,8 @@ class HomeScreenViewModel with ChangeNotifier {
   ApiResponse<TrendingInfluencersDataModel> get trendingInfluencerList =>
       _trendingInfluencerList;
 
-  setTrendingInfluencerList(ApiResponse<TrendingInfluencersDataModel> response) {
+  setTrendingInfluencerList(
+      ApiResponse<TrendingInfluencersDataModel> response) {
     _trendingInfluencerList = response;
     _trendingInfluencerList.toString();
     notifyListeners();
@@ -74,12 +79,81 @@ class HomeScreenViewModel with ChangeNotifier {
     _userHomeRepo.fetchTrendingInfluencersList().then((value) {
       setTrendingInfluencerList(ApiResponse.completed(value));
       setCategoryLoading(false);
-      categories = List<Map<String, dynamic>>.from(value.result!.topUsers!
-          .map((item) =>
-              {'id': item.id, 'name': item.name, 'image': item.image}));
+      // categories = List<Map<String, dynamic>>.from(value.result!.topUsers!.map(
+      //     (item) => {'id': item.id, 'name': item.name, 'image': item.image}));
       print(value);
     }).onError((error, stackTrace) {
       setTrendingInfluencerList(ApiResponse.error(error.toString()));
+    });
+  }
+
+  ApiResponse<GiveAwayDataModel> _giveAwayList = ApiResponse.loading();
+  ApiResponse<GiveAwayDataModel> get giveAwayList => _giveAwayList;
+
+  setGiveAwayList(ApiResponse<GiveAwayDataModel> response) {
+    _giveAwayList = response;
+    _giveAwayList.toString();
+    notifyListeners();
+  }
+
+  bool _giveAwayLoading = false;
+  bool get giveAwayLoading => _giveAwayLoading;
+
+  setGiveAwayLoading(bool value) {
+    _giveAwayLoading = value;
+    print(_giveAwayLoading);
+    notifyListeners();
+  }
+
+  Future<void> fetchGiveAwayList() async {
+    setGiveAwayLoading(true);
+    setGiveAwayList(ApiResponse.loading());
+    _userHomeRepo.fetchGiveAwayList().then((value) {
+      setGiveAwayList(ApiResponse.completed(value));
+      setGiveAwayLoading(false);
+      // categories = List<Map<String, dynamic>>.from(value.result!.topUsers!.map(
+      //     (item) => {'id': item.id, 'name': item.name, 'image': item.image}));
+      print(value);
+    }).onError((error, stackTrace) {
+      setGiveAwayList(ApiResponse.error(error.toString()));
+    });
+  }
+
+
+
+
+
+
+
+  ApiResponse<RecentlyAddedDataModel> _recentlyAddedList = ApiResponse.loading();
+  ApiResponse<RecentlyAddedDataModel> get recentlyAddedList => _recentlyAddedList;
+
+  setRecentlyAddedList(ApiResponse<RecentlyAddedDataModel> response) {
+    _recentlyAddedList = response;
+    _recentlyAddedList.toString();
+    notifyListeners();
+  }
+
+  bool _recentlyAddedLoading = false;
+  bool get recentlyAddedLoading => _recentlyAddedLoading;
+
+  setRecentlyAddedLoading(bool value) {
+    _recentlyAddedLoading = value;
+    print(_recentlyAddedLoading);
+    notifyListeners();
+  }
+
+  Future<void> fetchRecentlyAddedList() async {
+    setRecentlyAddedLoading(true);
+    setRecentlyAddedList(ApiResponse.loading());
+    _userHomeRepo.fetchRecentlyAddedList().then((value) {
+      setRecentlyAddedList(ApiResponse.completed(value));
+      setRecentlyAddedLoading(false);
+      // categories = List<Map<String, dynamic>>.from(value.result!.topUsers!.map(
+      //     (item) => {'id': item.id, 'name': item.name, 'image': item.image}));
+      print(value);
+    }).onError((error, stackTrace) {
+      setRecentlyAddedList(ApiResponse.error(error.toString()));
     });
   }
 }

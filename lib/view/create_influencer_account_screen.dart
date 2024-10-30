@@ -38,10 +38,10 @@ class _CreateInfluencerAccountScreenState
 
   @override
   void initState() {
+    influencerSignupViewModel.fetchCountryList();
     super.initState();
     // _networkService = NetworkService(api: ApiService());
 
-    influencerSignupViewModel.fetchCountryList();
     _nameController = TextEditingController();
     _usernameController = TextEditingController();
     _emailController = TextEditingController();
@@ -216,8 +216,12 @@ class _CreateInfluencerAccountScreenState
                                   : null,
                             ),
                           ),
-                          Content(data: "Profile photo", size: 12.h, family: "Lato",weight: FontWeight.w500,),
-                          
+                          Content(
+                            data: "Profile photo",
+                            size: 12.h,
+                            family: "Lato",
+                            weight: FontWeight.w500,
+                          ),
                         ],
                       );
                     },
@@ -228,7 +232,7 @@ class _CreateInfluencerAccountScreenState
                 ),
                 GestureDetector(
                   onTap: () {
-                    viewModel.pickProfileImage();
+                    viewModel.pickIntroVideo();
                   },
                   child: Consumer<InfluencerSignupViewModel>(
                     builder: (context, viewModel, child) {
@@ -240,16 +244,21 @@ class _CreateInfluencerAccountScreenState
                             child: CircleAvatar(
                               radius: 40.r,
                               backgroundColor: Colors.grey[200],
-                              backgroundImage: viewModel.profileImage != null
-                                  ? FileImage(viewModel.profileImage!)
+                              backgroundImage: viewModel.introVideo != null
+                                  ? FileImage(viewModel.introVideo!)
                                   : null,
-                              child: viewModel.profileImage == null
+                              child: viewModel.introVideo == null
                                   ? Icon(Icons.camera_alt,
                                       size: 26, color: Colors.grey)
                                   : null,
                             ),
                           ),
-                          Content(data: "Intro Video", size: 12.h, family: "Lato",weight: FontWeight.w500,),
+                          Content(
+                            data: "Intro Video",
+                            size: 12.h,
+                            family: "Lato",
+                            weight: FontWeight.w500,
+                          ),
                         ],
                       );
                     },
@@ -429,8 +438,9 @@ class _CreateInfluencerAccountScreenState
                                   email: _emailController.text.toString(),
                                   password: _passwordController.text.toString(),
                                   country: _countryController.text.toString(),
-                                  base64Image:
-                                      viewModel.base64Image.toString());
+                                  base64Image: viewModel.base64Image.toString(),
+                                  base64Video:
+                                      viewModel.introVideoBase64.toString());
                             },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xff5271FF),

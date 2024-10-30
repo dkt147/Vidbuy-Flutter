@@ -115,18 +115,18 @@ class _SearchScreenState extends State<SearchScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SliderWidget(
-                      text: "Music", picture: "assets/Vector/Cover.png"),
-                  SizedBox(
-                    width: 50.w,
-                  ),
-                  SliderWidget(
-                      text: "Music", picture: "assets/Vector/Cover.png"),
-                  SizedBox(
-                    width: 50.w,
-                  ),
-                  SliderWidget(
-                      text: "Music", picture: "assets/Vector/Cover.png"),
+                  // SliderWidget(
+                  //     text: "Music", picture: "assets/Vector/Cover.png"),
+                  // SizedBox(
+                  //   width: 50.w,
+                  // ),
+                  // SliderWidget(
+                  //     text: "Music", picture: "assets/Vector/Cover.png"),
+                  // SizedBox(
+                  //   width: 50.w,
+                  // ),
+                  // SliderWidget(
+                  //     text: "Music", picture: "assets/Vector/Cover.png"),
                 ],
               ),
             ),

@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
 class InfluencerCardWidget extends StatelessWidget {
-  String image;
+  String? image;
   String influencerName;
   String categoryName;
   InfluencerCardWidget(
       {super.key,
-      required this.image,
+      this.image,
       required this.influencerName,
       required this.categoryName});
 
@@ -24,8 +24,8 @@ class InfluencerCardWidget extends StatelessWidget {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10.r)),
               child: Stack(children: [
-                Image.asset(
-                  image,
+                Image.network(
+                  image ?? "",
                   height: 173.h,
                   fit: BoxFit.cover,
                 ),
