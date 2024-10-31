@@ -11,8 +11,10 @@ import 'package:vidbuy_app/resources/componenets/navbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/home_screen.dart';
+import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/otp_scren.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
+import 'package:vidbuy_app/view/user_profile_screen.dart';
 
 class OtpVerificationViewModel extends ChangeNotifier {
   SignupRepo _signupRepo = SignupRepo();
@@ -102,8 +104,8 @@ class OtpVerificationViewModel extends ChangeNotifier {
 
     final Map<int, Widget> roleNavigationMap = {
       1: LoginScreen(),
-      2: HomeScreen(),
-      3: isProfileComplete == 0 ? TabBarWidget() : NavBar(),
+      2: UserProfileScreen(),
+      3: isProfileComplete == 0 ? TabBarWidget() : InfluencerProfileScreen(),
     };
 
     if (roleNavigationMap.containsKey(roleId)) {

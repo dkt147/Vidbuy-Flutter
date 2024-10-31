@@ -119,14 +119,10 @@ class HomeScreenViewModel with ChangeNotifier {
     });
   }
 
-
-
-
-
-
-
-  ApiResponse<RecentlyAddedDataModel> _recentlyAddedList = ApiResponse.loading();
-  ApiResponse<RecentlyAddedDataModel> get recentlyAddedList => _recentlyAddedList;
+  ApiResponse<RecentlyAddedDataModel> _recentlyAddedList =
+      ApiResponse.loading();
+  ApiResponse<RecentlyAddedDataModel> get recentlyAddedList =>
+      _recentlyAddedList;
 
   setRecentlyAddedList(ApiResponse<RecentlyAddedDataModel> response) {
     _recentlyAddedList = response;

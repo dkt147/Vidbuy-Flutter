@@ -6,6 +6,13 @@ import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 
 class NetworkApiService implements BaseApiServices {
+    ApiService() {
+    initializeToken();
+  }
+
+  Future<void> initializeToken() async {
+    await LocalData.loadToken(); // Ensure the token is loaded from SharedPreferences
+  }
   @override
   Future<dynamic> getGetApiResponse(String url, dynamic includeToken) async {
     dynamic responseJson;

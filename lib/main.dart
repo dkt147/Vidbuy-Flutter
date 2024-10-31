@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidbuy_app/Provider/navbar_provider.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/services/nav.service.dart';
 import 'package:vidbuy_app/services/storage.service.dart';
+import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
+import 'package:vidbuy_app/view/influencer_profile_screen.dart';
+import 'package:vidbuy_app/view/splash_screen.dart';
+import 'package:vidbuy_app/view/user_profile_screen.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/login_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/home_screen_view_model.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/user_search_screen_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/verify_otp_view_model.dart';
 
@@ -20,6 +26,7 @@ Future<void> main() async {
   pref = await SharedPreferences.getInstance(); // Initialize SharedPreferences
 
   LocalData ld = LocalData();
+  await LocalData.loadToken(); 
   await ld.getTokenLocally();
 
   runApp(const MyApp());
@@ -31,62 +38,61 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => NavbarProvider()),
-        ChangeNotifierProvider(create: (_) => InfluencerSignupViewModel()),
-        ChangeNotifierProvider(create: (_) => UserSignupViewModel()),
-        ChangeNotifierProvider(create: (_) => InfluencerSelectionViewModel()),
-        ChangeNotifierProvider(create: (_) => OtpVerificationViewModel()),
-        ChangeNotifierProvider(create: (_) => LoginViewModel()),
-        ChangeNotifierProvider(create: (_) => HomeScreenViewModel()),
-      ],
-      child: ScreenUtilInit(
-        useInheritedMediaQuery: true,
-        designSize: const Size(375, 812),
-        builder: (context, child) {
-          return FutureBuilder<String>(
-            future: _getInitialRoute(), // Await the initial route
-            builder: (context, snapshot) {
-              // Check the connection state
-              // if (snapshot.connectionState == ConnectionState.waiting) {
-              //   return const Center(child: CircularProgressIndicator()); // Show loading while waiting
-              // }
-              // if (snapshot.hasError) {
-              //   return MaterialApp(
-              //     home: Center(child: Text('Error: ${snapshot.error}')),
-              //   ); // Show error if it occurs
-              // }
+        providers: [
+          ChangeNotifierProvider(create: (_) => NavbarProvider()),
+          ChangeNotifierProvider(create: (_) => InfluencerSignupViewModel()),
+          ChangeNotifierProvider(create: (_) => UserSignupViewModel()),
+          ChangeNotifierProvider(create: (_) => InfluencerSelectionViewModel()),
+          ChangeNotifierProvider(create: (_) => OtpVerificationViewModel()),
+          ChangeNotifierProvider(create: (_) => LoginViewModel()),
+          ChangeNotifierProvider(create: (_) => HomeScreenViewModel()),
+          ChangeNotifierProvider(create: (_) => SearchScreenViewModel()),
 
-              // If route is ready, return MaterialApp with initialRoute
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'VidBuy App',
-                initialRoute:
-                    snapshot.data, // Use the initial route from snapshot
-                theme: ThemeData(
-                  fontFamily: "LondrinaSolid",
-                  scaffoldBackgroundColor: const Color(0xffFFFFFF),
-                  scrollbarTheme: ScrollbarThemeData(
-                    trackColor:
-                        WidgetStateProperty.all(const Color(0xffFFFFFF)),
+        ],
+        child: Builder(builder: (BuildContext context) {
+          return ScreenUtilInit(
+            useInheritedMediaQuery: true,
+            designSize: const Size(375, 812),
+            // minTextAdapt: true,
+            // splitScreenMode: true,
+            builder: (context, child) {
+              return GetMaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  // title: 'First Method',
+                  // You can use the library anywhere in the app even in theme
+                  theme: ThemeData(
+                    fontFamily: "LondrinaSolid",
+                    scaffoldBackgroundColor: const Color(0xffFFFFFF),
+                    scrollbarTheme: ScrollbarThemeData(
+                      trackColor:
+                          WidgetStateProperty.all(const Color(0xffFFFFFF)),
+                    ),
+                    useMaterial3: true,
                   ),
-                  useMaterial3: true,
-                ),
-                onGenerateRoute: Nav.generateRoute, // Use the route generator
-              );
+                  home: _getInitialScreen());
             },
           );
-        },
-      ),
-    );
+        }));
+  }
+
+  Widget _getInitialScreen() {
+    if (LocalData.roleId == "1") {
+      return AdminDashboardScreen();
+    } else if (LocalData.roleId == "2") {
+      return UserProfileScreen();
+    } else if (LocalData.roleId == "3") {
+      return InfluencerProfileScreen();
+    } else {
+      return SplashScreen();
+    }
   }
 }
 
-Future<String> _getInitialRoute() async {
-  StorageService storageService = StorageService();
-  String? token =
-      await storageService.get('token'); // Await the future to get the token
-  return (token != null && token.isNotEmpty)
-      ? Nav.navBar
-      : Nav.splash; // Check token and return route
-}
+// Future<String> _getInitialRoute() async {
+//   StorageService storageService = StorageService();
+//   String? token =
+//       await storageService.get('token'); // Await the future to get the token
+//   return (token != null && token.isNotEmpty)
+//       ? Nav.navBar
+//       : Nav.splash; // Check token and return route
+// }

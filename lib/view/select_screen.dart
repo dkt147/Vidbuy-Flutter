@@ -69,7 +69,7 @@ class SelectScreen extends StatelessWidget {
                   PrimaryButton(
                     title: "Register",
                     func: () {
-                      Navigator.pushNamed(context, Nav.register);
+                      navigate(context, SelectLoginScreen());
                     },
                   ),
                   SizedBox(
@@ -78,7 +78,7 @@ class SelectScreen extends StatelessWidget {
                   PrimaryButton(
                     title: "Login",
                     func: () {
-                      Navigator.pushNamed(context, Nav.login);
+                      navigate(context, LoginScreen());
                     },
                   ),
                 ],

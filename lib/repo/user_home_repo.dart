@@ -39,7 +39,6 @@ class UserHomeRepo {
     }
   }
 
-
   Future<RecentlyAddedDataModel> fetchRecentlyAddedList() async {
     try {
       dynamic response =

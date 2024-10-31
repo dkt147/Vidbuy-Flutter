@@ -5,12 +5,17 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/login_data_model/login_data_model.dart';
 import 'package:vidbuy_app/model/login_data_model/result.dart';
+import 'package:vidbuy_app/model/login_data_model/user.dart';
 import 'package:vidbuy_app/repo/login_repo.dart';
 import 'package:vidbuy_app/resources/componenets/navbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
+import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
 import 'package:vidbuy_app/view/home_screen.dart';
+import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
+import 'package:vidbuy_app/view/user_login_screen.dart';
+import 'package:vidbuy_app/view/user_profile_screen.dart';
 
 class LoginViewModel with ChangeNotifier {
   LoginRepo _loginRepo = LoginRepo();
@@ -48,48 +53,51 @@ class LoginViewModel with ChangeNotifier {
       setLoading(true);
       setLoginData(ApiResponse.loading());
       _loginRepo.fetchLoginResponse(loginData).then((value) async {
-        // setLoginData(ApiResponse.completed(value));
+        setLoginData(ApiResponse.completed(value));
         // Check if value.result is a Map and access code properly
-        if (value.result is Map<String, dynamic>) {
+        if (value.boolValue) {
           Result result = Result.fromJson(value.result);
-
           await LocalData.setToken(result.token ?? "");
-
-          LocalData ld = LocalData();
-          await ld.saveTokenLocally(
-            result.user!.id.toString(),
-            result.user!.roleId.toString(),
-            result.user!.name.toString(),
-            result.user!.username.toString(),
-            result.user!.countryId.toString(),
-            result.user!.countryName.toString(),
-            result.user!.email.toString(),
-            result.user!.image.toString(),
-            result.user!.status.toString(),
-            result.user!.isProfileCompleted.toString(),
-            // result.token.toString()
-          );
-          await ld.getTokenLocally();
-
-          if (result.user!.isProfileCompleted == 0) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => TabBarWidget()),
-                (route) => false);
-          } else if (result.user!.isProfileCompleted == 1) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-                (route) => false);
-          }
+          await handleSuccessfulLogin(value, context);
+        } else {
+          handleFailedLogin(value, context);
         }
+
+        // LocalData ld = LocalData();
+        // await ld.saveTokenLocally(
+        //   result.user!.id.toString(),
+        //   result.user!.roleId.toString(),
+        //   result.user!.name.toString(),
+        //   result.user!.username.toString(),
+        //   result.user!.countryId.toString(),
+        //   result.user!.countryName.toString(),
+        //   result.user!.email.toString(),
+        //   result.user!.image.toString(),
+        //   result.user!.status.toString(),
+        //   result.user!.isProfileCompleted.toString(),
+        //   // result.token.toString()
+        // );
+        // await ld.getTokenLocally();
+
+        // if (result.user!.isProfileCompleted == 0) {
+        //   Navigator.pushAndRemoveUntil(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => TabBarWidget()),
+        //       (route) => false);
+        // } else if (result.user!.isProfileCompleted == 1) {
+        //   Navigator.pushAndRemoveUntil(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => HomeScreen()),
+        //       (route) => false);
+        // }
+        // }
         // else {
         //   // Handle unexpected result structure
         //   Utils.snackBar("Unexpected response structure.", context);
         // }
 
         setLoading(false);
-        Utils.snackBar(value.message.toString(), context);
+        // Utils.snackBar(value.message.toString(), context);
 
         if (kDebugMode) {
           print(value.toString());
@@ -102,6 +110,65 @@ class LoginViewModel with ChangeNotifier {
         }
       });
     }
+  }
+
+  Future<void> handleSuccessfulLogin(
+      LoginDataModel response, BuildContext context) async {
+    // Result result = Result.fromJson(response.result);
+    // User user = User.fromJson(response.result["result"]["user"]);
+    //User user = User.fromJson(response["result"]["user"]);
+    User user = User.fromJson(response.result["user"]);
+
+    // value.result['code'].toString();
+
+    await saveUserData(user);
+    Utils.snackBar(response.message.toString(), context);
+
+    navigateBasedOnRole(context, user);
+  }
+
+  Future<void> saveUserData(User user) async {
+    LocalData ld = LocalData();
+    await ld.saveTokenLocally(
+      user.id.toString(),
+      user.roleId.toString(),
+      user.name.toString(),
+      user.username.toString(),
+      user.countryId.toString(),
+      user.countryName.toString(),
+      user.email.toString(),
+      user.image.toString(),
+      user.status.toString(),
+      user.isProfileCompleted.toString(),
+      // token,
+    );
+    await ld.getTokenLocally();
+  }
+
+  void navigateBasedOnRole(BuildContext context, User user) {
+    // User user = User.fromJson(result.user as Map<String, dynamic>);
+    final roleId = user.roleId;
+    final isProfileComplete = user.isProfileCompleted;
+
+    final Map<int, Widget> roleNavigationMap = {
+      1: AdminDashboardScreen(),
+      2: UserProfileScreen(),
+      3: isProfileComplete == 0 ? TabBarWidget() : LoginScreen(),
+    };
+
+    if (roleNavigationMap.containsKey(roleId)) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => roleNavigationMap[roleId]!),
+        (route) => false,
+      );
+    } else {
+      Utils.snackBar("Unknown role: $roleId", context);
+    }
+  }
+
+  void handleFailedLogin(LoginDataModel response, BuildContext context) {
+    Utils.snackBar(response.message.toString(), context);
   }
 
   bool _validateFields(BuildContext context, String email, String password) {

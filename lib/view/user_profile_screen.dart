@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
+import 'package:vidbuy_app/resources/log_out.dart';
 import 'package:vidbuy_app/services/nav.service.dart';
 import 'package:vidbuy_app/services/storage.service.dart';
 import 'package:vidbuy_app/view/contact_us_screen.dart';
@@ -10,25 +12,26 @@ import 'package:vidbuy_app/view/delete_account_screen.dart';
 import 'package:vidbuy_app/view/language_screen.dart';
 import 'package:vidbuy_app/view/notification_setting_screen.dart';
 import 'package:vidbuy_app/view/policies_screen.dart';
+import 'package:vidbuy_app/view/search_screen.dart';
 import 'package:vidbuy_app/view/user_edit_profile_screen.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
 
-  Future<void> _logoutUser(BuildContext context) async {
-    StorageService stg = StorageService();
+  // Future<void> _logoutUser(BuildContext context) async {
+  //   StorageService stg = StorageService();
 
-    // Clear user session (e.g., token and user data)
-    await stg.remove('token'); // Remove token from storage
-    await stg.remove('user'); // Remove user info from storage
+  //   // Clear user session (e.g., token and user data)
+  //   await stg.remove('token'); // Remove token from storage
+  //   await stg.remove('user'); // Remove user info from storage
 
-    // Navigate back to the login screen
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      Nav.login, // Assuming `Nav.login` is the route name for the login screen
-      (Route<dynamic> route) => false, // Remove all routes from the stack
-    );
-  }
+  //   // Navigate back to the login screen
+  //   Navigator.pushNamedAndRemoveUntil(
+  //     context,
+  //     Nav.login, // Assuming `Nav.login` is the route name for the login screen
+  //     (Route<dynamic> route) => false, // Remove all routes from the stack
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,7 @@ class UserProfileScreen extends StatelessWidget {
                   width: 17.w,
                 ),
                 Content(
-                  data: "Benji hovl\nBenji@gmail.com",
+                  data: "${LocalData.name} \n ${LocalData.email}",
                   size: 18.h,
                   family: "Lato",
                   weight: FontWeight.w700,
@@ -91,6 +94,18 @@ class UserProfileScreen extends StatelessWidget {
                       )),
                   SizedBox(
                     height: 22.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context, SearchScreen());
+                    },
+                    child: ProfileTile(
+                        height: 18.h,
+                        image: "assets/Icon/layouticon.png",
+                        text: "Influencers"),
+                  ),
+                  SizedBox(
+                    height: 17.h,
                   ),
                   ProfileTile(
                       height: 18.h,
@@ -179,12 +194,17 @@ class UserProfileScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      await _logoutUser(context);
+                      // await _logoutUser(context);
                     },
-                    child: ProfileTile(
-                        height: 25.h,
-                        image: "assets/Icon/Logout.png",
-                        text: "Logout"),
+                    child: GestureDetector(
+                      onTap: (){
+                        logOut(context, true);
+                      },
+                      child: ProfileTile(
+                          height: 25.h,
+                          image: "assets/Icon/Logout.png",
+                          text: "Logout"),
+                    ),
                   ),
 
                   SizedBox(

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/data/response/status.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
-import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_card_widget.dart';
-import 'package:vidbuy_app/resources/componenets/price_slider.dart';
-import 'package:vidbuy_app/view/home_screen.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/influencer_profile_screen.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/user_search_screen_view_model.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({super.key});
@@ -31,6 +32,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+     final viewModel = Provider.of<SearchScreenViewModel>(context, listen: false);
+    viewModel.fetchInfluencerList();
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -39,25 +42,6 @@ class _SearchScreenState extends State<SearchScreen> {
             SizedBox(
               height: 62.h,
             ),
-            // Center(
-            //   child: ContentField(
-            //     label: "",
-            //     hint: "Discover Celebrities",
-            //     colorr: Colors.transparent,
-            //     prefixIcon: Icon(
-            //       Icons.search,
-            //       color: Color(0xff4B4A51),
-            //     ),
-            //     suffixIcon: Icon(Icons.cancel),
-
-            //     controller: _searchController,
-            //     inputFormat: <TextInputFormatter>[
-            //       FilteringTextInputFormatter.singleLineFormatter
-            //     ],
-            //     // validate: validateEmail,
-            //     keyboardType: TextInputType.multiline,
-            //   ),
-            // ),
             Center(
               child: Container(
                 width: 335.w,
@@ -109,55 +93,6 @@ class _SearchScreenState extends State<SearchScreen> {
             SizedBox(
               height: 22.h,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // SliderWidget(
-                  //     text: "Music", picture: "assets/Vector/Cover.png"),
-                  // SizedBox(
-                  //   width: 50.w,
-                  // ),
-                  // SliderWidget(
-                  //     text: "Music", picture: "assets/Vector/Cover.png"),
-                  // SizedBox(
-                  //   width: 50.w,
-                  // ),
-                  // SliderWidget(
-                  //     text: "Music", picture: "assets/Vector/Cover.png"),
-                ],
-              ),
-            ),
-            // Row(
-            //   children: [
-            // // Container(
-            // //   height: 169.h,
-            // //   width: 55.h,
-            // //   child: ContentField(
-            // //                   label: "",
-            // //                   hint: "Discover Celebrities",
-            // //                   prefixIcon: Icon(Icons.search),
-            // //                   controller: _searchController,
-            // //                   inputFormat: <TextInputFormatter>[
-            // //   FilteringTextInputFormatter.singleLineFormatter
-            // //                   ],
-            // //                   // validate: validateEmail,
-            // //                   keyboardType: TextInputType.multiline,
-            // //                 ),
-            // // ),
-            // Container(
-            //   color: Colors.amber,
-            //   child: PriceSlider(
-            //             initialValue: 25,
-            //             onChanged: (double value) {
-            //               // Handle slider value changes here
-            //               print('Slider value: $value');
-            //             },
-            //             maxValue: 100,
-            //           ),
-            // ),
             Container(
               margin: EdgeInsets.only(left: 20.w, top: 22.h),
               child: Row(
@@ -198,32 +133,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       }).toList(),
                     ),
                   ),
-                  // Column(
-                  //   crossAxisAlignment: CrossAxisAlignment.end,
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //    Container(
-                  //     margin: EdgeInsets.only(right: 20.w,),
-                  //     child: Content(data: "€25", size: 12.h, family: "Lato" ,weight: FontWeight.w500,)) ,
-                  //     Slider(
-                  //       value: _sliderValue,
-                  //       min: 0.0,
-                  //       max: 100.0, // Adjust the maximum value as needed
-                  //       divisions: 100,
-                  //       onChanged: (double value) {
-                  //         setState(() {
-                  //           _sliderValue = value;
-                  //         });
-                  //       },
-                  //       label: '€${_sliderValue.toStringAsFixed(2)}',
-                  //       activeColor:
-                  //           Colors.black, // Adjust the active color as desired
-                  //       inactiveColor:
-                  //           Colors.grey, // Adjust the inactive color as desired
-                  //     ),
-                  //     Content(data: "Max price", size: 12.h, family: "Lato" ,weight: FontWeight.w500,) ,
-                  //   ],
-                  // ),
                   Column(
                     crossAxisAlignment:
                         CrossAxisAlignment.start, // Align text to start
@@ -286,12 +195,27 @@ class _SearchScreenState extends State<SearchScreen> {
             SizedBox(
               height: 31.h,
             ),
-            Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.center,
+            
+                  Consumer<SearchScreenViewModel>(
+                    // Assume data is in HomeScreenViewModel
+                    builder: (context, value, child) {
+                      switch (value.influencersList.status) {
+                        case Status.INIT:
+                          return Container();
+                        case Status.LOADING:
+                          return Center(
+                              child: const CircularProgressIndicator());
+                        case Status.ERROR:
+                          return Center(
+                            child: Content(
+                                data:
+                                    value.influencersList.message.toString(),
+                                size: 18),
+                          );
+                        case Status.COMPLETED:
+                          return Column(
               children: [
-                Row(
+                  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
@@ -327,112 +251,21 @@ class _SearchScreenState extends State<SearchScreen> {
                 SizedBox(
                   height: 14.h,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        navigate(context, InfluencerProfileScreen());
-                      },
-                      child: InfluencerCardWidget2(
-                        image: "assets/Vector/influencer.png",
-                        influencerName: "Creaty",
-                        categoryName: "Actor",
-                        price: "€ 1234.56",
-                        rating: "1234.56",
-                      ),
-                    ),
-                    SizedBox(
-                      width: 26.w,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        navigate(context, InfluencerProfileScreen());
-                      },
-                      child: InfluencerCardWidget2(
-                        image: "assets/Vector/influencer.png",
-                        influencerName: "Creaty",
-                        categoryName: "Actor",
-                        price: "€ 1234.56",
-                        rating: "1234.56",
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 14.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        navigate(context, InfluencerProfileScreen());
-                      },
-                      child: InfluencerCardWidget2(
-                        image: "assets/Vector/influencer.png",
-                        influencerName: "Creaty",
-                        categoryName: "Actor",
-                        price: "€ 1234.56",
-                        rating: "1234.56",
-                      ),
-                    ),
-                    SizedBox(
-                      width: 26.w,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        navigate(context, InfluencerProfileScreen());
-                      },
-                      child: InfluencerCardWidget2(
-                        image: "assets/Vector/influencer.png",
-                        influencerName: "Creaty",
-                        categoryName: "Actor",
-                        price: "€ 1234.56",
-                        rating: "1234.56",
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 14.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        navigate(context, InfluencerProfileScreen());
-                      },
-                      child: InfluencerCardWidget2(
-                        image: "assets/Vector/influencer.png",
-                        influencerName: "Creaty",
-                        categoryName: "Actor",
-                        price: "€ 1234.56",
-                        rating: "1234.56",
-                      ),
-                    ),
-                    SizedBox(
-                      width: 26.w,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        navigate(context, InfluencerProfileScreen());
-                      },
-                      child: InfluencerCardWidget2(
-                        image: "assets/Vector/influencer.png",
-                        influencerName: "Creaty",
-                        categoryName: "Actor",
-                        price: "€ 1234.56",
-                        rating: "1234.56",
-                      ),
-                    ),
-                  ],
-                ),
-
-                //
+                
               ],
-            ),
+            );
+                        case null:
+                      }
+                      return Container();
+                    },
+                  ),
+
+                
+                
+  Text(LocalData.token),
+  Text(LocalData.roleId),
+
+              
             SizedBox(
               height: 70.h,
             ),

@@ -273,11 +273,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             // crossAxisAlignment: CrossAxisAlignment.,
                             children: value.categories.map((category) {
-                              return StyledCarouselSlider  (
-                                // text: category['name'],
-                                // picture: category[
-                                //     'image'], // Display image from API
-                              );
+                              return StyledCarouselSlider(
+                                  // text: category['name'],
+                                  // picture: category[
+                                  //     'image'], // Display image from API
+                                  );
                             }).toList(),
                           ),
                         );
@@ -584,7 +584,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     weight: FontWeight.w700,
                   ),
                 ),
-                
+
                 Container(
                   margin: EdgeInsets.only(left: 14.w, right: 14.w, top: 14.h),
                   child: Consumer<HomeScreenViewModel>(
@@ -599,8 +599,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         case Status.ERROR:
                           return Center(
                             child: Content(
-                                data: value.recentlyAddedList.message
-                                    .toString(),
+                                data:
+                                    value.recentlyAddedList.message.toString(),
                                 size: 18),
                           );
                         case Status.COMPLETED:
@@ -621,11 +621,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 },
                                 child: InfluencerCardWidget(
-                                  image: influencer.image
-                                      .toString(), // Assuming 'image' is a URL or asset path
-                                  influencerName: influencer.name.toString(), // Use actual name from API
-                                  categoryName: influencer.influencerCategory!.first.name.toString() // Or whichever field you need
-                                ),
+                                    image: influencer.image
+                                        .toString(), // Assuming 'image' is a URL or asset path
+                                    influencerName: influencer.name
+                                        .toString(), // Use actual name from API
+                                    categoryName: influencer
+                                        .influencerCategory!.first.name
+                                        .toString() // Or whichever field you need
+                                    ),
                               );
                             }).toList(),
                           );
@@ -634,9 +637,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Container();
                     },
                   ),
-
-
-
 
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -760,7 +760,6 @@ class _HomeScreenState extends State<HomeScreen> {
 //   }
 // }
 
-
 class StyledCarouselSlider extends StatefulWidget {
   @override
   _StyledCarouselSliderState createState() => _StyledCarouselSliderState();
@@ -775,36 +774,42 @@ class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
       {
         "title": "Tv Show",
         // "subtitle": "Walter White's Journey",
-        "image": "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
+        "image":
+            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
       },
       {
         "title": "Music Podcast",
         // "subtitle": "Mystery of Hawkins",
-        "image": "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
+        "image":
+            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
       },
     ],
     "Music": [
       {
         "title": "Music",
         // "subtitle": "Believer",
-        "image": "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
+        "image":
+            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
       },
       {
         "title": "Music",
         // "subtitle": "Fix You",
-        "image": "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
+        "image":
+            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
       },
     ],
     "Podcast": [
       {
         "title": "Podcast",
         // "subtitle": "New York Times",
-        "image": "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
+        "image":
+            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
       },
       {
         "title": "Tv Show",
         // "subtitle": "Gimlet Media",
-        "image": "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
+        "image":
+            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
       },
     ],
   };
@@ -815,122 +820,122 @@ class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
 
     final items = categories[_currentCategory]!;
 
-    return  Column(
-        children: [
-          // Category Selector Row
-          Column(
-            children: [
-              Text(
-                items[_currentIndex]["title"]!,
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+    return Column(
+      children: [
+        // Category Selector Row
+        Column(
+          children: [
+            Text(
+              items[_currentIndex]["title"]!,
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
-              SizedBox(height: 5.h),
-            ],
-          ),
-          CarouselSlider(
-            items: items.map((item) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 5,
-                          spreadRadius: 1,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                      image: DecorationImage(
-                        image: NetworkImage(item["image"]!),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Stack(
-                      alignment: Alignment.bottomLeft,
-                      children: [
-                        // Text Overlay on Image
-                        Container(
-                          padding: EdgeInsets.all(10.w),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20.r),
-                              bottomRight: Radius.circular(20.r),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item["title"]!,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 5.h),
-                              Text(
-                                item["subtitle"]!,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            }).toList(),
-            options: CarouselOptions(
-              height: 156.h,
-              enlargeCenterPage: true,
-              enableInfiniteScroll: true,
-              // autoPlay: true,
-              // autoPlayInterval: Duration(seconds: 3),
-              viewportFraction: 0.7,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
             ),
+            SizedBox(height: 5.h),
+          ],
+        ),
+        CarouselSlider(
+          items: items.map((item) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 5.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 5,
+                        spreadRadius: 1,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                    image: DecorationImage(
+                      image: NetworkImage(item["image"]!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Stack(
+                    alignment: Alignment.bottomLeft,
+                    children: [
+                      // Text Overlay on Image
+                      Container(
+                        padding: EdgeInsets.all(10.w),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20.r),
+                            bottomRight: Radius.circular(20.r),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item["title"]!,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5.h),
+                            Text(
+                              item["subtitle"]!,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }).toList(),
+          options: CarouselOptions(
+            height: 156.h,
+            enlargeCenterPage: true,
+            enableInfiniteScroll: true,
+            // autoPlay: true,
+            // autoPlayInterval: Duration(seconds: 3),
+            viewportFraction: 0.7,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
           ),
-          SizedBox(height: 20.h),
-          // Text that changes with carousel index
-          // Column(
-          //   children: [
-          //     Text(
-          //       items[_currentIndex]["title"]!,
-          //       style: TextStyle(
-          //         fontSize: 20.sp,
-          //         fontWeight: FontWeight.bold,
-          //         color: Colors.black,
-          //       ),
-          //     ),
-          //     SizedBox(height: 5.h),
-          //     Text(
-          //       items[_currentIndex]["subtitle"]!,
-          //       style: TextStyle(
-          //         fontSize: 16.sp,
-          //         color: Colors.grey,
-          //       ),
-          //     ),
-          //   ],
-          // ),
-        ],
-      );
+        ),
+        SizedBox(height: 20.h),
+        // Text that changes with carousel index
+        // Column(
+        //   children: [
+        //     Text(
+        //       items[_currentIndex]["title"]!,
+        //       style: TextStyle(
+        //         fontSize: 20.sp,
+        //         fontWeight: FontWeight.bold,
+        //         color: Colors.black,
+        //       ),
+        //     ),
+        //     SizedBox(height: 5.h),
+        //     Text(
+        //       items[_currentIndex]["subtitle"]!,
+        //       style: TextStyle(
+        //         fontSize: 16.sp,
+        //         color: Colors.grey,
+        //       ),
+        //     ),
+        //   ],
+        // ),
+      ],
+    );
   }
 }
