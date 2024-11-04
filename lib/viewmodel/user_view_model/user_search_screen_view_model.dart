@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
+import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/influencer_review_data_model/category_data.dart';
+import 'package:vidbuy_app/model/user_model/influencer_list_by_catagory_data_model/influencer_list_by_catagory_data_model.dart';
 import 'package:vidbuy_app/model/user_model/influencers_list_data_model/influencers_list_data_model.dart';
 import 'package:vidbuy_app/repo/user_search_repo.dart';
 
@@ -17,21 +20,65 @@ class SearchScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  ApiResponse<InfluencersListDataModel> _influencersList =
+  List<Map<String, String?>> _categories = [];
+  List<Map<String, String?>> get categories => _categories;
+
+  bool _categoryLoading = false;
+  bool get categoryLoading => _categoryLoading;
+
+  setCategoryLoading(bool value) {
+    _categoryLoading = value;
+    print(_categoryLoading);
+    notifyListeners();
+  }
+
+  ApiResponse<InfluencerCategoryDataModel> _influencerCategoryList =
       ApiResponse.loading();
-  ApiResponse<InfluencersListDataModel> get influencersList =>
+  ApiResponse<InfluencerCategoryDataModel> get influencerCategoryList =>
+      _influencerCategoryList;
+
+  setInfluencerCategoryList(ApiResponse<InfluencerCategoryDataModel> response) {
+    _influencerCategoryList = response;
+    _influencerCategoryList.toString();
+    notifyListeners();
+  }
+
+  Future<void> fetchCategoryList() async {
+    setCategoryLoading(true);
+    setInfluencerCategoryList(ApiResponse.loading());
+    _userSearchRepo.fetchCategoryList().then((value) {
+      setInfluencerCategoryList(ApiResponse.completed(value));
+      setCategoryLoading(false);
+      _categories = value.result!.categorylist!
+          .map((item) => {
+                "id": item.id.toString(),
+                "title": item.name.toString(),
+                "subtitle": item.tagLine.toString(),
+                "image": item.image.toString(), // Fallback image
+              })
+          .toList();
+      print(value);
+    }).onError((error, stackTrace) {
+      setCategoryLoading(false);
+      setInfluencerCategoryList(ApiResponse.error(error.toString()));
+    });
+  }
+
+  ApiResponse<InfluencerListByCatagoryDataModel> _influencersList =
+      ApiResponse.loading();
+  ApiResponse<InfluencerListByCatagoryDataModel> get influencersList =>
       _influencersList;
 
-  setInfluencersList(ApiResponse<InfluencersListDataModel> response) {
+  setInfluencersList(ApiResponse<InfluencerListByCatagoryDataModel> response) {
     _influencersList = response;
     _influencersList.toString();
     notifyListeners();
   }
 
-  Future<void> fetchInfluencerList() async {
+  Future<void> fetchInfluencerList(String categoryId) async {
     setInfluencerLoading(true);
     setInfluencersList(ApiResponse.loading());
-    _userSearchRepo.fetchInfluencersList().then((value) {
+    _userSearchRepo.fetchInfluencerByCategory(categoryId).then((value) {
       setInfluencersList(ApiResponse.completed(value));
       setInfluencerLoading(false);
       print(value);
@@ -39,6 +86,4 @@ class SearchScreenViewModel with ChangeNotifier {
       setInfluencersList(ApiResponse.error(error.toString()));
     });
   }
-
-
 }

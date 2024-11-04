@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 import 'datum.dart';
 import 'link.dart';
 
-class InfluencersList {
+class Result {
   int? currentPage;
   List<Datum>? data;
   String? firstPageUrl;
@@ -11,14 +11,14 @@ class InfluencersList {
   int? lastPage;
   String? lastPageUrl;
   List<Link>? links;
-  String? nextPageUrl;
+  dynamic nextPageUrl;
   String? path;
   int? perPage;
   dynamic prevPageUrl;
   int? to;
   int? total;
 
-  InfluencersList({
+  Result({
     this.currentPage,
     this.data,
     this.firstPageUrl,
@@ -34,27 +34,25 @@ class InfluencersList {
     this.total,
   });
 
-  factory InfluencersList.fromJson(Map<String, dynamic> json) {
-    return InfluencersList(
-      currentPage: json['current_page'] as int?,
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      firstPageUrl: json['first_page_url'] as String?,
-      from: json['from'] as int?,
-      lastPage: json['last_page'] as int?,
-      lastPageUrl: json['last_page_url'] as String?,
-      links: (json['links'] as List<dynamic>?)
-          ?.map((e) => Link.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextPageUrl: json['next_page_url'] as String?,
-      path: json['path'] as String?,
-      perPage: json['per_page'] as int?,
-      prevPageUrl: json['prev_page_url'] as dynamic,
-      to: json['to'] as int?,
-      total: json['total'] as int?,
-    );
-  }
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
+        currentPage: json['current_page'] as int?,
+        data: (json['data'] as List<dynamic>?)
+            ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        firstPageUrl: json['first_page_url'] as String?,
+        from: json['from'] as int?,
+        lastPage: json['last_page'] as int?,
+        lastPageUrl: json['last_page_url'] as String?,
+        links: (json['links'] as List<dynamic>?)
+            ?.map((e) => Link.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        nextPageUrl: json['next_page_url'] as dynamic,
+        path: json['path'] as String?,
+        perPage: json['per_page'] as int?,
+        prevPageUrl: json['prev_page_url'] as dynamic,
+        to: json['to'] as int?,
+        total: json['total'] as int?,
+      );
 
   Map<String, dynamic> toJson() => {
         'current_page': currentPage,
@@ -75,7 +73,7 @@ class InfluencersList {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! InfluencersList) return false;
+    if (other is! Result) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

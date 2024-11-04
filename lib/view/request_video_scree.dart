@@ -6,16 +6,53 @@ import 'package:vidbuy_app/view/payment_confirm_screen.dart';
 import '../Function/navigate.dart';
 
 class RequestVideoScree extends StatefulWidget {
-  const RequestVideoScree({super.key});
+  String from;
+  String to;
+  String videoFor;
+  String description;
+  String videotTypeId;
+
+  RequestVideoScree(
+      {required this.from,
+      required this.to,
+      required this.videoFor,
+      required this.description,
+      required this.videotTypeId,
+      super.key});
 
   @override
   State<RequestVideoScree> createState() => _RequestVideoScreeState();
 }
 
 class _RequestVideoScreeState extends State<RequestVideoScree> {
+  Color _containerColor = Colors.transparent;
   bool isChecked = false;
+  int _selectedIndex = -1; // Track the selected index
+   double _deliveryCharge = 0.0; // Track the delivery charge
+
+
+   final List<String> texts = [
+    "7 Days",
+    "3 Days",
+    "24 Hours",
+  ];
+
+  //  final List<double> deliveryCharges = [
+  //   0.0, // Option 1: €0.00 delivery charge
+  //   200 * 0.3, // Option 2: 30% of 200
+  //   200 * 0.6, // Option 3: 60% of 200
+  // ];
+
   @override
   Widget build(BuildContext context) {
+    double basePrice = double.tryParse(widget.videoFor) ?? 0.0;
+
+    // List of delivery charges based on the converted price
+    final List<double> deliveryCharges = [
+      0.0, // Option 1: €0.00 delivery charge
+      basePrice * 0.3, // Option 2: 30% of the price
+      basePrice * 0.6, // Option 3: 60% of the price
+    ];
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,99 +112,180 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
           SizedBox(
             height: 39.h,
           ),
-          Center(
-            child: Container(
-              width: 340.w,
-              height: 50.h,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(10.r)),
-              child: Container(
-                margin: EdgeInsets.only(left: 28.w, right: 10.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Content(
-                      data: "7 Days",
-                      size: 16.h,
-                      family: "Lato",
-                      weight: FontWeight.w500,
+
+      Column(
+          children: List.generate(texts.length, (index) {
+            return Column(
+              children: [
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = index; // Update selected index
+                        _deliveryCharge = deliveryCharges[index]; // Update delivery charge
+                      });
+                    },
+                    child: Container(
+                      width: 340.w,
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: _selectedIndex == index
+                            ? Color(0xffEAE9F1) // Change to desired color for selected
+                            : Colors.white, // Default color for unselected
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        margin: EdgeInsets.only(left: 28, right: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Content(
+                              data: texts[index], // Use text from the list
+                              size: 16,
+                              family: "Lato",
+                              weight: FontWeight.w500,
+                            ),
+                            Content(
+                              data: index == 0 ? "Included" : "€${deliveryCharges[index].toStringAsFixed(2)}",
+                              size: 16,
+                              family: "Lato",
+                              weight: FontWeight.w500,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Content(
-                      data: "Included",
-                      size: 16.h,
-                      family: "Lato",
-                      weight: FontWeight.w500,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 12.h,
-          ),
-          Center(
-            child: Container(
-              width: 340.w,
-              height: 50.h,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(10.r)),
-              child: Container(
-                margin: EdgeInsets.only(left: 28.w, right: 10.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Content(
-                      data: "7 Days",
-                      size: 16.h,
-                      family: "Lato",
-                      weight: FontWeight.w500,
-                    ),
-                    Content(
-                      data: "Included",
-                      size: 16.h,
-                      family: "Lato",
-                      weight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 12.h,
-          ),
-          Center(
-            child: Container(
-              width: 340.w,
-              height: 50.h,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(10.r)),
-              child: Container(
-                margin: EdgeInsets.only(left: 28.w, right: 10.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Content(
-                      data: "7 Days",
-                      size: 16.h,
-                      family: "Lato",
-                      weight: FontWeight.w500,
-                    ),
-                    Content(
-                      data: "Included",
-                      size: 16.h,
-                      family: "Lato",
-                      weight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+            SizedBox(height: 12.h), // Add spacing between items
+          ],
+        );
+      }),
+    ),
+          // Center(
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       setState(() {
+          //         _containerColor =
+          //             Color(0xffEAE9F1); // Change to desired color
+          //       });
+          //     },
+          //     child: Container(
+          //       width: 340.w,
+          //       height: 50.h,
+          //       decoration: BoxDecoration(
+          //         color: _containerColor, // Apply the dynamic color here
+          //         border: Border.all(color: Colors.black),
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //       child: Container(
+          //         margin: EdgeInsets.only(left: 28, right: 10),
+          //         child: Row(
+          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           children: [
+          //             Content(
+          //               data: "7 Days",
+          //               size: 16,
+          //               family: "Lato",
+          //               weight: FontWeight.w500,
+          //             ),
+          //             Content(
+          //               data: "Included",
+          //               size: 16,
+          //               family: "Lato",
+          //               weight: FontWeight.w500,
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 12.h,
+          // ),
+          // Center(
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       setState(() {
+          //         _containerColor =
+          //             Color(0xffEAE9F1); // Change to desired color
+          //       });
+          //     },
+          //     child: Container(
+          //       width: 340.w,
+          //       height: 50.h,
+          //       decoration: BoxDecoration(
+          //         color: _containerColor, // Apply the dynamic color here
+          //         border: Border.all(color: Colors.black),
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //       child: Container(
+          //         margin: EdgeInsets.only(left: 28, right: 10),
+          //         child: Row(
+          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           children: [
+          //             Content(
+          //               data: "7 Days",
+          //               size: 16,
+          //               family: "Lato",
+          //               weight: FontWeight.w500,
+          //             ),
+          //             Content(
+          //               data: "Included",
+          //               size: 16,
+          //               family: "Lato",
+          //               weight: FontWeight.w500,
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 12.h,
+          // ),
+          // Center(
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       setState(() {
+          //         _containerColor =
+          //             Color(0xffEAE9F1); // Change to desired color
+          //       });
+          //     },
+          //     child: Container(
+          //       width: 340.w,
+          //       height: 50.h,
+          //       decoration: BoxDecoration(
+          //         color: _containerColor, // Apply the dynamic color here
+          //         border: Border.all(color: Colors.black),
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //       child: Container(
+          //         margin: EdgeInsets.only(left: 28, right: 10),
+          //         child: Row(
+          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           children: [
+          //             Content(
+          //               data: "7 Days",
+          //               size: 16,
+          //               family: "Lato",
+          //               weight: FontWeight.w500,
+          //             ),
+          //             Content(
+          //               data: "Included",
+          //               size: 16,
+          //               family: "Lato",
+          //               weight: FontWeight.w500,
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Container(
             margin: EdgeInsets.only(left: 17.w),
             child: Row(
@@ -271,7 +389,7 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                             weight: FontWeight.w500,
                           ),
                           Content(
-                            data: "€100.00",
+                            data: "€${_deliveryCharge.toStringAsFixed(2)}",
                             size: 16.h,
                             family: "Lato",
                             weight: FontWeight.w400,

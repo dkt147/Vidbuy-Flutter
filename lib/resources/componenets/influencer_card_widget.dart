@@ -105,7 +105,7 @@ class InfluencerCardWidget2 extends StatelessWidget {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10.r)),
               child: Stack(children: [
-                Image.asset(
+                Image.network(
                   image,
                   height: 173.h,
                   fit: BoxFit.cover,

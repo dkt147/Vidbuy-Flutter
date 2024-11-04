@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vidbuy_app/resources/componenets/user_donations_tabbar_widget.dart';
 import 'package:vidbuy_app/view/home_screen.dart';
-import 'package:vidbuy_app/view/influencer_unique_profile.dart';
 import 'package:vidbuy_app/view/search_screen.dart';
 import 'package:vidbuy_app/view/user_profile_screen.dart';
 

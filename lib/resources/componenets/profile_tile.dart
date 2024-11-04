@@ -5,12 +5,9 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 class ProfileTile extends StatelessWidget {
   String image;
   String text;
-  double height;
+  double? height;
   ProfileTile(
-      {super.key,
-      required this.image,
-      required this.text,
-      required this.height});
+      {super.key, required this.image, required this.text, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +28,7 @@ class ProfileTile extends StatelessWidget {
       child: ListTile(
         leading: Image.asset(
           image,
-          height: height,
+          height: height ?? 25.h,
         ),
         title: Content(
           data: text,

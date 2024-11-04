@@ -265,6 +265,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 
 class ChoosePricesScreen extends StatefulWidget {
@@ -298,9 +299,11 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 47.h),
+              Content(data: widget.selectedVideos.toString(), size: 20),
               Text("Choose Prices",
                   style:
                       TextStyle(fontSize: 30.h, fontWeight: FontWeight.w300)),
+              Content(data: LocalData.id, size: 10),
               Text("Choose how much to charge for each video",
                   style: TextStyle(
                       fontFamily: "Nunito",
@@ -337,8 +340,8 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
       Provider.of<InfluencerSelectionViewModel>(context, listen: false)
           .fetchInfluencerPriceData(
         context,
-        price: price,
-        id: id,
+        price: price.toString(),
+        id: id.toString(),
       );
     });
   }

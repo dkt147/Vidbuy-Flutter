@@ -48,7 +48,6 @@ class _TabBarWidgetState extends State<TabBarWidget>
     setState(() {
       selectedVideos = videos;
     });
-    goToNextTab();
   }
 
   void saveCategory(Map<String, dynamic> category) {

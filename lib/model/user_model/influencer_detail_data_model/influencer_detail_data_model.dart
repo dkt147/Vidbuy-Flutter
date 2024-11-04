@@ -2,15 +2,15 @@ import 'package:collection/collection.dart';
 
 import 'result.dart';
 
-class SetPriceDataModel {
+class InfluencerDetailDataModel {
   bool? Isbool;
-  dynamic result;
+  Result? result;
   String? message;
 
-  SetPriceDataModel({this.Isbool, this.result, this.message});
+  InfluencerDetailDataModel({this.Isbool, this.result, this.message});
 
-  factory SetPriceDataModel.fromJson(Map<String, dynamic> json) {
-    return SetPriceDataModel(
+  factory InfluencerDetailDataModel.fromJson(Map<String, dynamic> json) {
+    return InfluencerDetailDataModel(
       Isbool: json['bool'] as bool?,
       result: json['result'] == null
           ? null
@@ -28,7 +28,7 @@ class SetPriceDataModel {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! SetPriceDataModel) return false;
+    if (other is! InfluencerDetailDataModel) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

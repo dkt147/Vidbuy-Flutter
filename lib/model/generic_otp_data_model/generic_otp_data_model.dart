@@ -2,8 +2,7 @@ class GenericOtpDataModel {
   final bool boolValue;
   final int status;
   final String message;
-  final Map<String, dynamic>
-      result; // Ensure this matches the response structure.
+  final dynamic result; // Ensure this matches the response structure.
 
   GenericOtpDataModel(
       {required this.boolValue,

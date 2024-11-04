@@ -9,7 +9,8 @@ import 'package:vidbuy_app/repo/user_home_repo.dart';
 class HomeScreenViewModel with ChangeNotifier {
   UserHomeRepo _userHomeRepo = UserHomeRepo();
 
-  List<Map<String, dynamic>> categories = [];
+  List<Map<String, String?>> _categories = [];
+  List<Map<String, String?>> get categories => _categories;
 
   bool _categoryLoading = false;
   bool get categoryLoading => _categoryLoading;
@@ -37,12 +38,13 @@ class HomeScreenViewModel with ChangeNotifier {
     _userHomeRepo.fetchCategoryList().then((value) {
       setInfluencerCategoryList(ApiResponse.completed(value));
       setCategoryLoading(false);
-      categories = List<Map<String, dynamic>>.from(value.result!.categorylist!
+      _categories = value.result!.categorylist!
           .map((item) => {
-                'id': item.id,
-                'name': item.name,
-                'image': item.image.toString()
-              }));
+                "title": item.name.toString(),
+                "subtitle": item.tagLine.toString(),
+                "image": item.image.toString(), // Fallback image
+              })
+          .toList();
       print(value);
     }).onError((error, stackTrace) {
       setCategoryLoading(false);

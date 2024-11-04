@@ -1,20 +1,23 @@
 import 'package:collection/collection.dart';
 
-import 'influencers_list.dart';
+import 'user.dart';
 
 class Result {
-  InfluencersList? influencersList;
+  User? user;
+  String? image;
 
-  Result({this.influencersList});
+  Result({this.user, this.image});
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        influencersList: json['list'] == null
+        user: json['user'] == null
             ? null
-            : InfluencersList.fromJson(json['list'] as Map<String, dynamic>),
+            : User.fromJson(json['user'] as Map<String, dynamic>),
+        image: json['image'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
-        'list': influencersList?.toJson(),
+        'user': user?.toJson(),
+        'image': image,
       };
 
   @override
@@ -26,5 +29,5 @@ class Result {
   }
 
   @override
-  int get hashCode => influencersList.hashCode;
+  int get hashCode => user.hashCode ^ image.hashCode;
 }

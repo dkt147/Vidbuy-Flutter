@@ -1,10 +1,9 @@
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/data/response/status.dart';
+import 'package:vidbuy_app/resources/componenets/carousel_slider_category.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_card_widget.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_donations_tabbar_widget.dart';
@@ -12,7 +11,6 @@ import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/cancel_screen.dart';
 import 'package:vidbuy_app/view/giveaway_screen.dart';
-import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/notification_screen.dart';
 import 'package:vidbuy_app/view/pending_admin_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/home_screen_view_model.dart';
@@ -269,17 +267,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       case Status.COMPLETED:
                         return Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            // crossAxisAlignment: CrossAxisAlignment.,
-                            children: value.categories.map((category) {
-                              return StyledCarouselSlider(
-                                  // text: category['name'],
-                                  // picture: category[
-                                  //     'image'], // Display image from API
-                                  );
-                            }).toList(),
-                          ),
+                          child: Column(children: [
+                            StyledCarouselSlider(
+                                categories: viewModel.categories)
+                          ]),
                         );
                       case null:
                     }
@@ -354,14 +345,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .map((influencer) {
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => InfluencerProfileScreen(
-                                          // influencer: influencer, // Pass the influencer data to the profile screen
-                                          ),
-                                    ),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => InfluencerProfileScreen(
+                                  //         // influencer: influencer, // Pass the influencer data to the profile screen
+                                  //         ),
+                                  //   ),
+                                  // );
                                 },
                                 child: InfluencerCardWidget(
                                   image: influencer.image
@@ -604,30 +595,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                 size: 18),
                           );
                         case Status.COMPLETED:
+                          final users =
+                              value.recentlyAddedList.data!.result!.users!;
+                          final firstThreeUsers = users.take(3).toList();
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: value
-                                .recentlyAddedList.data!.result!.users!
-                                .map((influencer) {
+                            children: firstThreeUsers.map((influencer) {
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => InfluencerProfileScreen(
-                                          // influencer: influencer, // Pass the influencer data to the profile screen
-                                          ),
-                                    ),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => InfluencerProfileScreen(
+                                  //         // influencer: influencer, // Pass the influencer data to the profile screen
+                                  //         ),
+                                  //   ),
+                                  // );
                                 },
                                 child: InfluencerCardWidget(
                                     image: influencer.image
                                         .toString(), // Assuming 'image' is a URL or asset path
                                     influencerName: influencer.name
                                         .toString(), // Use actual name from API
-                                    categoryName: influencer
-                                        .influencerCategory!.first.name
-                                        .toString() // Or whichever field you need
+                                    categoryName:
+                                        "" // Or whichever field you need
                                     ),
                               );
                             }).toList(),
@@ -759,183 +750,3 @@ class _HomeScreenState extends State<HomeScreen> {
 //     );
 //   }
 // }
-
-class StyledCarouselSlider extends StatefulWidget {
-  @override
-  _StyledCarouselSliderState createState() => _StyledCarouselSliderState();
-}
-
-class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
-  int _currentIndex = 0;
-  String _currentCategory = "TV Shows";
-
-  final Map<String, List<Map<String, String>>> categories = {
-    "TV Shows": [
-      {
-        "title": "Tv Show",
-        // "subtitle": "Walter White's Journey",
-        "image":
-            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
-      },
-      {
-        "title": "Music Podcast",
-        // "subtitle": "Mystery of Hawkins",
-        "image":
-            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
-      },
-    ],
-    "Music": [
-      {
-        "title": "Music",
-        // "subtitle": "Believer",
-        "image":
-            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
-      },
-      {
-        "title": "Music",
-        // "subtitle": "Fix You",
-        "image":
-            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
-      },
-    ],
-    "Podcast": [
-      {
-        "title": "Podcast",
-        // "subtitle": "New York Times",
-        "image":
-            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
-      },
-      {
-        "title": "Tv Show",
-        // "subtitle": "Gimlet Media",
-        "image":
-            "https://media.vanityfair.com/photos/5b8eb6dae96ff00cfa953762/1:1/w_1085,h_1085,c_limit/t-simpsons-oral-history-august-2007.jpg",
-      },
-    ],
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    // ScreenUtil.init(context, designSize: Size(360, 690));
-
-    final items = categories[_currentCategory]!;
-
-    return Column(
-      children: [
-        // Category Selector Row
-        Column(
-          children: [
-            Text(
-              items[_currentIndex]["title"]!,
-              style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: 5.h),
-          ],
-        ),
-        CarouselSlider(
-          items: items.map((item) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5.w),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 5,
-                        spreadRadius: 1,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                    image: DecorationImage(
-                      image: NetworkImage(item["image"]!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Stack(
-                    alignment: Alignment.bottomLeft,
-                    children: [
-                      // Text Overlay on Image
-                      Container(
-                        padding: EdgeInsets.all(10.w),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20.r),
-                            bottomRight: Radius.circular(20.r),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item["title"]!,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 5.h),
-                            Text(
-                              item["subtitle"]!,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          }).toList(),
-          options: CarouselOptions(
-            height: 156.h,
-            enlargeCenterPage: true,
-            enableInfiniteScroll: true,
-            // autoPlay: true,
-            // autoPlayInterval: Duration(seconds: 3),
-            viewportFraction: 0.7,
-            onPageChanged: (index, reason) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-          ),
-        ),
-        SizedBox(height: 20.h),
-        // Text that changes with carousel index
-        // Column(
-        //   children: [
-        //     Text(
-        //       items[_currentIndex]["title"]!,
-        //       style: TextStyle(
-        //         fontSize: 20.sp,
-        //         fontWeight: FontWeight.bold,
-        //         color: Colors.black,
-        //       ),
-        //     ),
-        //     SizedBox(height: 5.h),
-        //     Text(
-        //       items[_currentIndex]["subtitle"]!,
-        //       style: TextStyle(
-        //         fontSize: 16.sp,
-        //         color: Colors.grey,
-        //       ),
-        //     ),
-        //   ],
-        // ),
-      ],
-    );
-  }
-}

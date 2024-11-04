@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/data/response/status.dart';
+import 'package:vidbuy_app/model/user_model/influencer_list_by_catagory_data_model/datum.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/create_order_screen.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/influencer_detail_view_model.dart';
 
 class InfluencerProfileScreen extends StatefulWidget {
-  const InfluencerProfileScreen({
+  Datum data;
+  InfluencerProfileScreen({
+    required this.data,
     super.key,
   });
 
@@ -17,6 +24,9 @@ class InfluencerProfileScreen extends StatefulWidget {
 class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final viewModel =
+        Provider.of<InfluencerDetailViewModel>(context, listen: false);
+    viewModel.fetchinfluencerDetailList(widget.data.id.toString());
     return Scaffold(
       body: Column(
         children: [
@@ -80,7 +90,7 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                       // decoration: BoxDecoration(
                       //   borderRadius: BorderRadius.circular(radius)
                       // ),
-                      child: Image.asset("assets/Vector/influencer.png"),
+                      child: Image.network(widget.data.image.toString()),
                     )),
                 Positioned(
                     left: 246.w,
@@ -124,14 +134,18 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                 Row(
                   children: [
                     Content(
-                      data: "Suson Goph",
+                      data: widget.data.name.toString(),
                       size: 18.h,
                       family: "Nunito",
                       weight: FontWeight.w700,
                     ),
                     GestureDetector(
                       onTap: () {
-                        navigate(context, CreateOrderScreen());
+                        navigate(
+                            context,
+                            CreateOrderScreen(
+                              influencerId: widget.data.id.toString(),
+                            ));
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 130.w),
@@ -153,7 +167,7 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                 Row(
                   children: [
                     Content(
-                      data: "@susan.345",
+                      data: widget.data.email.toString(),
                       size: 12.h,
                       family: "Nunito",
                       weight: FontWeight.w700,
@@ -174,411 +188,440 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
           SizedBox(
             height: 28.h,
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+
+          Consumer<InfluencerDetailViewModel>(
+            // Assume data is in HomeScreenViewModel
+            builder: (context, value, child) {
+              switch (value.influencerDetailList.status) {
+                case Status.INIT:
+                  return Container();
+                case Status.LOADING:
+                  return Center(child: const CircularProgressIndicator());
+                case Status.ERROR:
+                  return Center(
+                    child: Content(
+                        data: value.influencerDetailList.message.toString(),
+                        size: 18),
+                  );
+                case Status.COMPLETED:
+                  return Column(
                     children: [
-                      Content(
-                        data: "Designer, Photographer",
-                        size: 12.h,
-                        family: "Nunito",
-                        weight: FontWeight.w600,
-                      ),
-                      Icon(
-                        Icons.flag,
-                        size: 17.h,
-                      )
+                      DashedBorderContainer(text: 'No videos yet'),
+                      SizedBox(height: 20.h),
+                      DashedBorderContainer(text: 'No reviews yet'),
                     ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 28.w, right: 26.w, top: 15.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Content(
-                              data: "Total Reviews",
-                              size: 12.h,
-                              family: "Nunito",
-                              weight: FontWeight.w400,
-                            ),
-                            Content(
-                              data: "120k",
-                              size: 12.h,
-                              family: "Nunito",
-                              weight: FontWeight.w700,
-                            ),
-                            // Content(
-                            //   data: "Total Request",
-                            //   size: 12.h,
-                            //   family: "Nunito",
-                            //   weight: FontWeight.w400,
-                            // ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Content(
-                              data: "Price Per Video",
-                              size: 12.h,
-                              family: "Nunito",
-                              weight: FontWeight.w400,
-                            ),
-                            Content(
-                              data: "50 to 200",
-                              size: 12.h,
-                              family: "Nunito",
-                              weight: FontWeight.w700,
-                            ),
-                            // Content(
-                            //   data: "55",
-                            //   size: 12.h,
-                            //   family: "Nunito",
-                            //   weight: FontWeight.w400,
-                            // ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Content(
-                              data: "Total Request",
-                              size: 12.h,
-                              family: "Nunito",
-                              weight: FontWeight.w400,
-                            ),
-                            Content(
-                              data: "55",
-                              size: 12.h,
-                              family: "Nunito",
-                              weight: FontWeight.w700,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.asset(
-                            "assets/UI/grouppicture.jpg",
-                            width: 124.w,
-                            height: 110.h,
-                          ),
-                          Image.asset(
-                            "assets/UI/grouppicture.jpg",
-                            width: 124.w,
-                            height: 110.h,
-                          ),
-                          Image.asset(
-                            "assets/UI/grouppicture.jpg",
-                            width: 124.w,
-                            height: 110.h,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 7.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.asset(
-                            "assets/UI/grouppicture.jpg",
-                            width: 124.w,
-                            height: 110.h,
-                          ),
-                          Image.asset(
-                            "assets/UI/grouppicture.jpg",
-                            width: 124.w,
-                            height: 110.h,
-                          ),
-                          Image.asset(
-                            "assets/UI/grouppicture.jpg",
-                            width: 124.w,
-                            height: 110.h,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 28.h,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 19.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Content(
-                              data: "Influencer Reviews",
-                              size: 18.h,
-                              family: "Nunito",
-                              weight: FontWeight.w700,
-                            ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 180.h,
-                                    width: 180.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.r),
-                                        color: Color(0xffDDBFB2)),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Image.asset(
-                                          "assets/Vector/girl.png",
-                                          height: 60.h,
-                                          width: 60.w,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.star,
-                                                color: Colors.yellow,
-                                                size: 16.w),
-                                            Content(
-                                              data: "4.7",
-                                              size: 10.h,
-                                              family: "Nunito",
-                                              weight: FontWeight.w700,
-                                            ),
-                                          ],
-                                        ),
-                                        Content(
-                                          data: "Wade Warren",
-                                          size: 16.h,
-                                          family: "Lato",
-                                          weight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                        Content(
-                                          data:
-                                              "Awesome website and\nfunnel for your business",
-                                          size: 16.h,
-                                          family: "Lato",
-                                          weight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 14.w,
-                                  ),
-                                  Container(
-                                    height: 180.h,
-                                    width: 180.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.r),
-                                        color: Color(0xffDDBFB2)),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Image.asset(
-                                          "assets/Vector/girl.png",
-                                          height: 60.h,
-                                          width: 60.w,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.star,
-                                                color: Colors.yellow,
-                                                size: 16.w),
-                                            Content(
-                                              data: "4.7",
-                                              size: 10.h,
-                                              family: "Nunito",
-                                              weight: FontWeight.w700,
-                                            ),
-                                          ],
-                                        ),
-                                        Content(
-                                          data: "Wade Warren",
-                                          size: 16.h,
-                                          family: "Lato",
-                                          weight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                        Content(
-                                          data:
-                                              "Awesome website and\nfunnel for your business",
-                                          size: 16.h,
-                                          family: "Lato",
-                                          weight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 14.w,
-                                  ),
-                                  Container(
-                                    height: 180.h,
-                                    width: 180.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.r),
-                                        color: Color(0xffDDBFB2)),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Image.asset(
-                                          "assets/Vector/girl.png",
-                                          height: 60.h,
-                                          width: 60.w,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.star,
-                                                color: Colors.yellow,
-                                                size: 16.w),
-                                            Content(
-                                              data: "4.7",
-                                              size: 10.h,
-                                              family: "Nunito",
-                                              weight: FontWeight.w700,
-                                            ),
-                                          ],
-                                        ),
-                                        Content(
-                                          data: "Wade Warren",
-                                          size: 16.h,
-                                          family: "Lato",
-                                          weight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                        Content(
-                                          data:
-                                              "Awesome website and\nfunnel for your business",
-                                          size: 16.h,
-                                          family: "Lato",
-                                          weight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 14.w,
-                                  ),
-                                  Container(
-                                    height: 180.h,
-                                    width: 180.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.r),
-                                        color: Color(0xffDDBFB2)),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Image.asset(
-                                          "assets/Vector/girl.png",
-                                          height: 60.h,
-                                          width: 60.w,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.star,
-                                                color: Colors.yellow,
-                                                size: 16.w),
-                                            Content(
-                                              data: "4.7",
-                                              size: 10.h,
-                                              family: "Nunito",
-                                              weight: FontWeight.w700,
-                                            ),
-                                          ],
-                                        ),
-                                        Content(
-                                          data: "Wade Warren",
-                                          size: 16.h,
-                                          family: "Lato",
-                                          weight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                        Content(
-                                          data:
-                                              "Awesome website and\nfunnel for your business",
-                                          size: 16.h,
-                                          family: "Lato",
-                                          weight: FontWeight.w700,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50.h,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                  );
+
+                case null:
+              }
+              return Container();
+            },
           ),
+          // Expanded(
+          //   child: SingleChildScrollView(
+          //     child: Column(
+          //       children: [
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Content(
+          //               data: "Designer, Photographer",
+          //               size: 12.h,
+          //               family: "Nunito",
+          //               weight: FontWeight.w600,
+          //             ),
+          //             Icon(
+          //               Icons.flag,
+          //               size: 17.h,
+          //             )
+          //           ],
+          //         ),
+          //         Container(
+          //           margin: EdgeInsets.only(left: 28.w, right: 26.w, top: 15.h),
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               Column(
+          //                 children: [
+          //                   Content(
+          //                     data: "Total Reviews",
+          //                     size: 12.h,
+          //                     family: "Nunito",
+          //                     weight: FontWeight.w400,
+          //                   ),
+          //                   Content(
+          //                     data: "120k",
+          //                     size: 12.h,
+          //                     family: "Nunito",
+          //                     weight: FontWeight.w700,
+          //                   ),
+          //                   // Content(
+          //                   //   data: "Total Request",
+          //                   //   size: 12.h,
+          //                   //   family: "Nunito",
+          //                   //   weight: FontWeight.w400,
+          //                   // ),
+          //                 ],
+          //               ),
+          //               Column(
+          //                 children: [
+          //                   Content(
+          //                     data: "Price Per Video",
+          //                     size: 12.h,
+          //                     family: "Nunito",
+          //                     weight: FontWeight.w400,
+          //                   ),
+          //                   Content(
+          //                     data: "50 to 200",
+          //                     size: 12.h,
+          //                     family: "Nunito",
+          //                     weight: FontWeight.w700,
+          //                   ),
+          //                   // Content(
+          //                   //   data: "55",
+          //                   //   size: 12.h,
+          //                   //   family: "Nunito",
+          //                   //   weight: FontWeight.w400,
+          //                   // ),
+          //                 ],
+          //               ),
+          //               Column(
+          //                 children: [
+          //                   Content(
+          //                     data: "Total Request",
+          //                     size: 12.h,
+          //                     family: "Nunito",
+          //                     weight: FontWeight.w400,
+          //                   ),
+          //                   Content(
+          //                     data: "55",
+          //                     size: 12.h,
+          //                     family: "Nunito",
+          //                     weight: FontWeight.w700,
+          //                   ),
+          //                 ],
+          //               )
+          //             ],
+          //           ),
+          //         ),
+          //         SizedBox(
+          //           height: 20.h,
+          //         ),
+          //         Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             Row(
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               children: [
+          //                 Image.asset(
+          //                   "assets/UI/grouppicture.jpg",
+          //                   width: 124.w,
+          //                   height: 110.h,
+          //                 ),
+          //                 Image.asset(
+          //                   "assets/UI/grouppicture.jpg",
+          //                   width: 124.w,
+          //                   height: 110.h,
+          //                 ),
+          //                 Image.asset(
+          //                   "assets/UI/grouppicture.jpg",
+          //                   width: 124.w,
+          //                   height: 110.h,
+          //                 ),
+          //               ],
+          //             ),
+          //             SizedBox(
+          //               height: 7.h,
+          //             ),
+          //             Row(
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               children: [
+          //                 Image.asset(
+          //                   "assets/UI/grouppicture.jpg",
+          //                   width: 124.w,
+          //                   height: 110.h,
+          //                 ),
+          //                 Image.asset(
+          //                   "assets/UI/grouppicture.jpg",
+          //                   width: 124.w,
+          //                   height: 110.h,
+          //                 ),
+          //                 Image.asset(
+          //                   "assets/UI/grouppicture.jpg",
+          //                   width: 124.w,
+          //                   height: 110.h,
+          //                 ),
+          //               ],
+          //             ),
+          //             SizedBox(
+          //               height: 28.h,
+          //             ),
+          //             Container(
+          //               margin: EdgeInsets.only(left: 19.h),
+          //               child: Column(
+          //                 crossAxisAlignment: CrossAxisAlignment.start,
+          //                 children: [
+          //                   Content(
+          //                     data: "Influencer Reviews",
+          //                     size: 18.h,
+          //                     family: "Nunito",
+          //                     weight: FontWeight.w700,
+          //                   ),
+          //                   SizedBox(
+          //                     height: 10.h,
+          //                   ),
+          //                   SingleChildScrollView(
+          //                     scrollDirection: Axis.horizontal,
+          //                     child: Row(
+          //                       children: [
+          //                         Container(
+          //                           height: 180.h,
+          //                           width: 180.w,
+          //                           decoration: BoxDecoration(
+          //                               borderRadius:
+          //                                   BorderRadius.circular(10.r),
+          //                               color: Color(0xffDDBFB2)),
+          //                           child: Column(
+          //                             crossAxisAlignment:
+          //                                 CrossAxisAlignment.center,
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               SizedBox(
+          //                                 height: 10.h,
+          //                               ),
+          //                               Image.asset(
+          //                                 "assets/Vector/girl.png",
+          //                                 height: 60.h,
+          //                                 width: 60.w,
+          //                               ),
+          //                               Row(
+          //                                 mainAxisAlignment:
+          //                                     MainAxisAlignment.center,
+          //                                 crossAxisAlignment:
+          //                                     CrossAxisAlignment.center,
+          //                                 children: [
+          //                                   Icon(Icons.star,
+          //                                       color: Colors.yellow,
+          //                                       size: 16.w),
+          //                                   Content(
+          //                                     data: "4.7",
+          //                                     size: 10.h,
+          //                                     family: "Nunito",
+          //                                     weight: FontWeight.w700,
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                               Content(
+          //                                 data: "Wade Warren",
+          //                                 size: 16.h,
+          //                                 family: "Lato",
+          //                                 weight: FontWeight.w700,
+          //                                 color: Colors.white,
+          //                               ),
+          //                               Content(
+          //                                 data:
+          //                                     "Awesome website and\nfunnel for your business",
+          //                                 size: 16.h,
+          //                                 family: "Lato",
+          //                                 weight: FontWeight.w700,
+          //                                 color: Colors.white,
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         SizedBox(
+          //                           width: 14.w,
+          //                         ),
+          //                         Container(
+          //                           height: 180.h,
+          //                           width: 180.w,
+          //                           decoration: BoxDecoration(
+          //                               borderRadius:
+          //                                   BorderRadius.circular(10.r),
+          //                               color: Color(0xffDDBFB2)),
+          //                           child: Column(
+          //                             crossAxisAlignment:
+          //                                 CrossAxisAlignment.center,
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               SizedBox(
+          //                                 height: 10.h,
+          //                               ),
+          //                               Image.asset(
+          //                                 "assets/Vector/girl.png",
+          //                                 height: 60.h,
+          //                                 width: 60.w,
+          //                               ),
+          //                               Row(
+          //                                 mainAxisAlignment:
+          //                                     MainAxisAlignment.center,
+          //                                 crossAxisAlignment:
+          //                                     CrossAxisAlignment.center,
+          //                                 children: [
+          //                                   Icon(Icons.star,
+          //                                       color: Colors.yellow,
+          //                                       size: 16.w),
+          //                                   Content(
+          //                                     data: "4.7",
+          //                                     size: 10.h,
+          //                                     family: "Nunito",
+          //                                     weight: FontWeight.w700,
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                               Content(
+          //                                 data: "Wade Warren",
+          //                                 size: 16.h,
+          //                                 family: "Lato",
+          //                                 weight: FontWeight.w700,
+          //                                 color: Colors.white,
+          //                               ),
+          //                               Content(
+          //                                 data:
+          //                                     "Awesome website and\nfunnel for your business",
+          //                                 size: 16.h,
+          //                                 family: "Lato",
+          //                                 weight: FontWeight.w700,
+          //                                 color: Colors.white,
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         SizedBox(
+          //                           width: 14.w,
+          //                         ),
+          //                         Container(
+          //                           height: 180.h,
+          //                           width: 180.w,
+          //                           decoration: BoxDecoration(
+          //                               borderRadius:
+          //                                   BorderRadius.circular(10.r),
+          //                               color: Color(0xffDDBFB2)),
+          //                           child: Column(
+          //                             crossAxisAlignment:
+          //                                 CrossAxisAlignment.center,
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               SizedBox(
+          //                                 height: 10.h,
+          //                               ),
+          //                               Image.asset(
+          //                                 "assets/Vector/girl.png",
+          //                                 height: 60.h,
+          //                                 width: 60.w,
+          //                               ),
+          //                               Row(
+          //                                 mainAxisAlignment:
+          //                                     MainAxisAlignment.center,
+          //                                 crossAxisAlignment:
+          //                                     CrossAxisAlignment.center,
+          //                                 children: [
+          //                                   Icon(Icons.star,
+          //                                       color: Colors.yellow,
+          //                                       size: 16.w),
+          //                                   Content(
+          //                                     data: "4.7",
+          //                                     size: 10.h,
+          //                                     family: "Nunito",
+          //                                     weight: FontWeight.w700,
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                               Content(
+          //                                 data: "Wade Warren",
+          //                                 size: 16.h,
+          //                                 family: "Lato",
+          //                                 weight: FontWeight.w700,
+          //                                 color: Colors.white,
+          //                               ),
+          //                               Content(
+          //                                 data:
+          //                                     "Awesome website and\nfunnel for your business",
+          //                                 size: 16.h,
+          //                                 family: "Lato",
+          //                                 weight: FontWeight.w700,
+          //                                 color: Colors.white,
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         SizedBox(
+          //                           width: 14.w,
+          //                         ),
+          //                         Container(
+          //                           height: 180.h,
+          //                           width: 180.w,
+          //                           decoration: BoxDecoration(
+          //                               borderRadius:
+          //                                   BorderRadius.circular(10.r),
+          //                               color: Color(0xffDDBFB2)),
+          //                           child: Column(
+          //                             crossAxisAlignment:
+          //                                 CrossAxisAlignment.center,
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               SizedBox(
+          //                                 height: 10.h,
+          //                               ),
+          //                               Image.asset(
+          //                                 "assets/Vector/girl.png",
+          //                                 height: 60.h,
+          //                                 width: 60.w,
+          //                               ),
+          //                               Row(
+          //                                 mainAxisAlignment:
+          //                                     MainAxisAlignment.center,
+          //                                 crossAxisAlignment:
+          //                                     CrossAxisAlignment.center,
+          //                                 children: [
+          //                                   Icon(Icons.star,
+          //                                       color: Colors.yellow,
+          //                                       size: 16.w),
+          //                                   Content(
+          //                                     data: "4.7",
+          //                                     size: 10.h,
+          //                                     family: "Nunito",
+          //                                     weight: FontWeight.w700,
+          //                                   ),
+          //                                 ],
+          //                               ),
+          //                               Content(
+          //                                 data: "Wade Warren",
+          //                                 size: 16.h,
+          //                                 family: "Lato",
+          //                                 weight: FontWeight.w700,
+          //                                 color: Colors.white,
+          //                               ),
+          //                               Content(
+          //                                 data:
+          //                                     "Awesome website and\nfunnel for your business",
+          //                                 size: 16.h,
+          //                                 family: "Lato",
+          //                                 weight: FontWeight.w700,
+          //                                 color: Colors.white,
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   )
+          //                 ],
+          //               ),
+          //             ),
+          //             SizedBox(
+          //               height: 50.h,
+          //             ),
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -599,4 +642,80 @@ class SubtleRightSideSlantClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class DashedBorderContainer extends StatelessWidget {
+  final String text;
+
+  const DashedBorderContainer({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 250.w,
+      height: 90.h,
+      child: Stack(
+        children: [
+          // Dashed border
+          Positioned.fill(
+            child: DashBorder(),
+          ),
+          // Centered text
+          Center(
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.black54),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DashBorder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Column(
+          children: [
+            // Top dashed border
+            Dash(
+              length: constraints.maxWidth,
+              dashLength: 5,
+              dashColor: Colors.black26,
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  // Left dashed border
+                  Dash(
+                    direction: Axis.vertical,
+                    length: constraints.maxHeight,
+                    dashLength: 5,
+                    dashColor: Colors.black26,
+                  ),
+                  Spacer(),
+                  // Right dashed border
+                  Dash(
+                    direction: Axis.vertical,
+                    length: constraints.maxHeight,
+                    dashLength: 5,
+                    dashColor: Colors.black26,
+                  ),
+                ],
+              ),
+            ),
+            // Bottom dashed border
+            Dash(
+              length: constraints.maxWidth,
+              dashLength: 5,
+              dashColor: Colors.black26,
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

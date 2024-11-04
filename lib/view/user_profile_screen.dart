@@ -197,7 +197,7 @@ class UserProfileScreen extends StatelessWidget {
                       // await _logoutUser(context);
                     },
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         logOut(context, true);
                       },
                       child: ProfileTile(

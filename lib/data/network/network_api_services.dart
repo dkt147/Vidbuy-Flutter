@@ -6,13 +6,43 @@ import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 
 class NetworkApiService implements BaseApiServices {
-    ApiService() {
+  ApiService() {
     initializeToken();
   }
 
   Future<void> initializeToken() async {
-    await LocalData.loadToken(); // Ensure the token is loaded from SharedPreferences
+    await LocalData
+        .loadToken(); // Ensure the token is loaded from SharedPreferences
   }
+
+  // @override
+  // Future<dynamic> getGettApiResponse(String url, dynamic data, dynamic includeToken) async {
+  //   dynamic responseJson;
+  //   try {
+  //     final headers = <String, String>{
+  //       'Content-Type': 'application/json',
+  //     };
+
+  //     // Check if `includeToken` is true and add token if available
+  //     if (includeToken == true && LocalData.token.isNotEmpty) {
+  //       headers[HttpHeaders.authorizationHeader] = 'Bearer ${LocalData.token}';
+  //     }
+
+  //     // final response =
+  //     // await http.get(Uri.parse(url)).timeout(const Duration(seconds: 20));
+
+  //     final response = await http.get(
+  //       Uri.parse(url),
+  //       headers: headers,
+  //       body: jsonEncode(data),
+  //     );
+  //     responseJson = returnResponse(response);
+  //   } on SocketException {
+  //     throw NoInternetException();
+  //   }
+  //   return responseJson;
+  // }
+
   @override
   Future<dynamic> getGetApiResponse(String url, dynamic includeToken) async {
     dynamic responseJson;

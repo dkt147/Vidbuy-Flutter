@@ -13,6 +13,7 @@ import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
 import 'package:vidbuy_app/view/home_screen.dart';
 import 'package:vidbuy_app/view/influencer_profile_screen.dart';
+import 'package:vidbuy_app/view/influencer_unique_profile.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
 import 'package:vidbuy_app/view/user_profile_screen.dart';
@@ -152,8 +153,8 @@ class LoginViewModel with ChangeNotifier {
 
     final Map<int, Widget> roleNavigationMap = {
       1: AdminDashboardScreen(),
-      2: UserProfileScreen(),
-      3: isProfileComplete == 0 ? TabBarWidget() : LoginScreen(),
+      2: NavBarScreen(),
+      3: isProfileComplete == 0 ? TabBarWidget() : InfluencerUniqueProfile(),
     };
 
     if (roleNavigationMap.containsKey(roleId)) {

@@ -147,7 +147,7 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
   bool pushNotifications = true;
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<UserSignupViewModel>(context, listen: false);
+    final viewModel = Provider.of<UserSignupViewModel>(context, listen: true);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -193,7 +193,7 @@ class _CreateUserAccountScreenState extends State<CreateUserAccountScreen> {
                     onTap: () {
                       viewModel.pickProfileImage();
                     },
-                    child: Consumer<InfluencerSignupViewModel>(
+                    child: Consumer<UserSignupViewModel>(
                       builder: (context, viewModel, child) {
                         return Container(
                           height: 89.h,

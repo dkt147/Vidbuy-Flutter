@@ -3,6 +3,7 @@ import 'package:vidbuy_app/data/network/network_api_services.dart';
 import 'package:vidbuy_app/model/generic_otp_data_model/generic_otp_data_model.dart';
 import 'package:vidbuy_app/model/generic_signup_data_model/generic_signup_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/country_list_data_model/country_list_data_model.dart';
+import 'package:vidbuy_app/model/user_model/upload_image_data_model/upload_image_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
 class SignupRepo {
@@ -17,7 +18,7 @@ class SignupRepo {
 
       return GenericSignupDataModel.fromJson(response);
     } catch (e) {
-      throw Exception("Error fetching signup response: $e");
+      throw Exception(e);
     }
   }
 
@@ -29,7 +30,19 @@ class SignupRepo {
 
       return GenericOtpDataModel.fromJson(response);
     } catch (e) {
-      throw Exception("Error fetching signup response: $e");
+      throw Exception(e);
+    }
+  }
+
+  Future<UploadImageDataModel> fetchUploadImageResponse(dynamic data) async {
+    try {
+      dynamic response =
+          await apiServices.getPostApiResponse(AppUrl.uploadImageUrl, data, true);
+      print(response); // Print the raw response
+
+      return UploadImageDataModel.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
     }
   }
 

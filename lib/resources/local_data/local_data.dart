@@ -43,20 +43,20 @@ class LocalData {
   static const String _ktoken = "ktoken";
 
   // Function to set token and save it locally
- static Future<void> setToken(String token) async {
-  print("Setting token: $token");  // Debug print
-  _ltoken = token;
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString(_ktoken, token);
-  print("Token saved in SharedPreferences");
-}
+  static Future<void> setToken(String token) async {
+    print("Setting token: $token"); // Debug print
+    _ltoken = token;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_ktoken, token);
+    print("Token saved in SharedPreferences");
+  }
 
   // Function to load token from shared preferences
   static Future<void> loadToken() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  _ltoken = prefs.getString(_ktoken) ?? "";
-  print("Token loaded: $_ltoken"); // Log loaded token
-}
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _ltoken = prefs.getString(_ktoken) ?? "";
+    print("Token loaded: $_ltoken"); // Log loaded token
+  }
 
   static setlValues(
     String id,

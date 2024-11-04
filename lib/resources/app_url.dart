@@ -4,8 +4,14 @@ class AppUrl {
   static String genericSignupUrl = "$baseUrl/signup-via-email";
   static String verifyOtpUrl = "$baseUrl/verify-signup";
   static String countryListUrl = "$baseUrl/countries/list";
+  static String uploadImageUrl = "$baseUrl/upload-profile-image";
+  static String uploadVideoUrl = "$baseUrl/upload-profile-image";
 
   static String influencerCategoryUrl = "$baseUrl/category/list";
+  static String influencerDetailUrl = "$baseUrl/influencer/detail/by-id/";
+  static String influencerVideoTypeListUrl =
+      "$baseUrl/influencer/video-type/list/";
+
   static String setInfluencerCategoryUrl = "$baseUrl/influencer/category/add";
   static String influencerPriceRangeUrl = "$baseUrl/price-range/list";
   static String influencerAddPriceRangeUrl =
@@ -19,5 +25,8 @@ class AppUrl {
   static String giveAwayUrl = "$baseUrl/giveaway/list";
   static String recentlyAddedUrl = "$baseUrl/dashboard/recently-added";
   static String influencersListUrl = "$baseUrl/influencer/list";
+  static String influencersListByCategoryUrl =
+      "$baseUrl/influencer/list/by/category";
 
+  static String contactUsUrl = "$baseUrl/contact-us/add";
 }

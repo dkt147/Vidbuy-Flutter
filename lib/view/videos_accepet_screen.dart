@@ -167,7 +167,7 @@ class _VideosAcceptScreenState extends State<VideosAcceptScreen> {
                 width: 335.w,
                 height: 50.h,
                 child: ElevatedButton(
-                  onPressed: influencerSelectionViewModel.videoTypeLoading
+                  onPressed: influencerSelectionViewModel.priceTypeLoading
                       ? null // Disable button if loading
                       : () {
                           if (influencerSelectionViewModel.selectedPriceRange !=
@@ -183,11 +183,11 @@ class _VideosAcceptScreenState extends State<VideosAcceptScreen> {
                                     .selectedVideoTypeIds, func: () {
                               List<Map<String, dynamic>> selectedVideosData =
                                   influencerSelectionViewModel
-                                      .selectedVideoTypes
+                                      .influencerVideoTypeData.data!.result!
                                       .map((videoType) {
                                 return {
-                                  'id': videoType['id'],
-                                  'name': videoType['name'],
+                                  'id': videoType.id,
+                                  'name': videoType.name,
                                 };
                               }).toList();
 
@@ -207,7 +207,7 @@ class _VideosAcceptScreenState extends State<VideosAcceptScreen> {
                       borderRadius: BorderRadius.circular(30.r),
                     ),
                   ),
-                  child: influencerSelectionViewModel.priceRangeLoading
+                  child: influencerSelectionViewModel.priceTypeLoading
                       ? CircularProgressIndicator(
                           valueColor:
                               AlwaysStoppedAnimation<Color>(Colors.white),

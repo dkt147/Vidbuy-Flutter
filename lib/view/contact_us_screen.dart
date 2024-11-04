@@ -1,18 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/contact_us_view_model.dart';
 
-class ContactUsScreen extends StatelessWidget {
+class ContactUsScreen extends StatefulWidget {
   ContactUsScreen({super.key});
 
+  @override
+  State<ContactUsScreen> createState() => _ContactUsScreenState();
+}
+
+class _ContactUsScreenState extends State<ContactUsScreen> {
   final TextEditingController _nameController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _messageController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    // Initialize NetworkService
+    // _networkService = NetworkService(
+    //   api: ApiService(),
+    // );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Provider.of<ContactUsViewModel>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -129,41 +158,44 @@ class ContactUsScreen extends StatelessWidget {
               ),
             ),
             Center(
-              child: Container(
-                width: 335.w,
-                height: 50.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // if (_emailController.text.isEmpty) {
-                    //   snackBar("Enter Valid Email", context);
-                    // } else if (_passwordController.text.isEmpty) {
-                    //   snackBar(
-                    //     "Enter Password",
-                    //     context,
-                    //   );
-                    // } else if (_passwordController.text.length < 8) {
-                    //   snackBar(
-                    //       "Enter Minium 8 Characters of Password", context);
-                    // } else {
-                    //   // Navigator.push(
-                    //   //     context,
-                    //   //     MaterialPageRoute(
-                    //   //         builder: (_) => TabBarWidget()));
-                    //   navigate(context, NavBarScreen());
-                    // }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff5271FF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
+              child: Consumer<ContactUsViewModel>(
+                  builder: (context, viewModel, child) {
+                return Container(
+                  width: 335.w,
+                  height: 50.h,
+                  child: ElevatedButton(
+                    onPressed: viewModel.loading
+                        ? null // Disable button if loading
+                        : () {
+                            viewModel.fetchContactUsData(context,
+                                email: _emailController.text.toString(),
+                                username: _nameController.text.toString(),
+                                message: _messageController.text.toString(),
+                                func: () {
+                              _emailController.clear();
+                              _messageController.clear();
+                              _messageController.clear();
+                            });
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff5271FF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
                     ),
+                    child: viewModel.loading
+                        ? CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                        : Text(
+                            "Save",
+                            style:
+                                TextStyle(fontSize: 16.h, color: Colors.white),
+                          ),
                   ),
-                  child: Text(
-                    "Save",
-                    style: TextStyle(fontSize: 16.h, color: Colors.white),
-                  ),
-                ),
-              ),
+                );
+              }),
             ),
           ],
         ),
