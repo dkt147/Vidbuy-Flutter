@@ -3,12 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vidbuy_app/Provider/influencer_navbar_provider.dart';
 import 'package:vidbuy_app/Provider/navbar_provider.dart';
 import 'package:vidbuy_app/resources/componenets/navbar_widget.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/services/nav.service.dart';
 import 'package:vidbuy_app/services/storage.service.dart';
 import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
+import 'package:vidbuy_app/view/influencer_navbar_screen.dart';
 import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/influencer_unique_profile.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => NavbarProvider()),
+          ChangeNotifierProvider(create: (_) => InfluencerNavbarProvider()),
           ChangeNotifierProvider(create: (_) => InfluencerSignupViewModel()),
           ChangeNotifierProvider(create: (_) => UserSignupViewModel()),
           ChangeNotifierProvider(create: (_) => InfluencerSelectionViewModel()),
@@ -89,7 +92,7 @@ class MyApp extends StatelessWidget {
     } else if (LocalData.roleId == "2") {
       return NavBarScreen();
     } else if (LocalData.roleId == "3") {
-      return InfluencerUniqueProfile();
+      return InfluencerNavbarScreen();
     } else {
       return SplashScreen();
     }

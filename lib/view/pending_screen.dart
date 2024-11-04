@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/main.dart';
+import 'package:vidbuy_app/resources/componenets/content.dart';
 
-import '../resources/componenets/content.dart';
-
-class WaitingVideoScreen extends StatelessWidget {
-  const WaitingVideoScreen({super.key});
+class PendingScreen extends StatelessWidget {
+  const PendingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

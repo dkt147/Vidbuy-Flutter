@@ -1,21 +1,20 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/active_history_screen.dart';
 import 'package:vidbuy_app/view/all_orders_screen.dart';
-import 'package:vidbuy_app/view/all_task_scereen.dart';
 import 'package:vidbuy_app/view/orders_details_screen.dart';
-import 'package:vidbuy_app/view/task_details_screen.dart';
+import 'package:vidbuy_app/view/pending_screen.dart';
 import 'package:vidbuy_app/view/video_screen.dart';
+import 'package:vidbuy_app/view/waiting_video_screen.dart';
 
-class InfluencerDonationsTabbarWidget extends StatefulWidget {
+class InfluencerOrderTabbar extends StatefulWidget {
   @override
-  _InfluencerDonationsTabbarWidgetState createState() =>
-      _InfluencerDonationsTabbarWidgetState();
+  _InfluencerOrderTabbarState createState() =>
+      _InfluencerOrderTabbarState();
 }
 
-class _InfluencerDonationsTabbarWidgetState
-    extends State<InfluencerDonationsTabbarWidget>
+class _InfluencerOrderTabbarState extends State<InfluencerOrderTabbar>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -27,7 +26,7 @@ class _InfluencerDonationsTabbarWidgetState
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   void goToNextTab() {
@@ -61,53 +60,51 @@ class _InfluencerDonationsTabbarWidgetState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title: Text("Influencer Setup"),
         backgroundColor: Color(0xffFFFFFF),
+        titleSpacing: 20.h,
+        title: Content(data: "Recent orders ", size: 30.h, weight: FontWeight.w300,),
+        // leading: Content(data: "Recent orders ", size: 30.h, weight: FontWeight.w300,),
         bottom: TabBar(
           isScrollable: false,
           controller: _tabController,
           indicatorColor: Color(0xff5271FF),
           labelColor: Colors.black,
           unselectedLabelColor: Colors.black45,
-          
-          // dragStartBehavior: DragStartBehavior.start,
-          // padding: EdgeInsets.only(right: 30.w),
-          labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
-          // labelPadding: EdgeInsets.only(right: 10.w, left: 10.w),
-          indicatorWeight: 5.w,
+          // indicatorPadding: EdgeInsets.symmetric(horizontal: 10.w),
+          labelPadding: EdgeInsets.symmetric(horizontal: 15.w),
+          // indicatorSize: 10,
+          // indicatorWeight: 3.w,
+
           labelStyle: TextStyle(
             fontFamily: "Lato",
             fontSize: 16.h,
             fontWeight: FontWeight.w500,
           ),
           tabs: [
-            Tab(text: 'All Task'),
+            Tab(text: 'All Orders'),
             // Tab(text: 'Pending', ),
             // Tab(text: 'Waiting Video', ),
             Tab(
-              text: 'Video',
+              text: 'Pending',
             ),
             Tab(
-              text: 'Task Details',
+              text: 'Waiting Video',
             ),
-            Tab(
-              text: 'Active History',
-            ),
+            // Tab(
+            //   text: 'Active History',
+            // ),
           ],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          // AllOrdersScreen(),
-          AllTaskScereen(),
-          // Tab(text: 'Pending', ),
-          // Tab(text: 'Waiting Video', ),
+          AllOrdersScreen(),
           // PendingScreen(),
           // WaitingVideoScreen(),
-          VideoScreen(),
-          TaskDetailsScreen(),
-          ActiveHistoryScreen(),
+          PendingScreen(),
+          WaitingVideoScreen(),
+          // ActiveHistoryScreen(),
           // ChooseCategoryScreen(onSave: saveCategory),
           // VIdeosAcceptScreen(onSave: saveVideos),
           // ChoosePricesScreen(onSave: savePrices),
