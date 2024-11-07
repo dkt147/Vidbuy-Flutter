@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 
-class TopUser {
+class Influencer {
   int? id;
   int? roleId;
   String? name;
@@ -9,8 +9,8 @@ class TopUser {
   String? countryName;
   String? email;
   dynamic emailVerifiedAt;
-  dynamic image;
-  dynamic video;
+  String? image;
+  String? video;
   dynamic priceRange;
   dynamic firebaseToken;
   String? status;
@@ -20,9 +20,8 @@ class TopUser {
   int? isProfileCompleted;
   DateTime? createdAt;
   DateTime? updatedAt;
-  List<dynamic>? influencerCategories;
 
-  TopUser({
+  Influencer({
     this.id,
     this.roleId,
     this.name,
@@ -42,10 +41,9 @@ class TopUser {
     this.isProfileCompleted,
     this.createdAt,
     this.updatedAt,
-    this.influencerCategories,
   });
 
-  factory TopUser.fromJson(Map<String, dynamic> json) => TopUser(
+  factory Influencer.fromJson(Map<String, dynamic> json) => Influencer(
         id: json['id'] as int?,
         roleId: json['role_id'] as int?,
         name: json['name'] as String?,
@@ -54,8 +52,8 @@ class TopUser {
         countryName: json['country_name'] as String?,
         email: json['email'] as String?,
         emailVerifiedAt: json['email_verified_at'] as dynamic,
-        image: json['image'] as dynamic,
-        video: json['video'] as dynamic,
+        image: json['image'] as String?,
+        video: json['video'] as String?,
         priceRange: json['price_range'] as dynamic,
         firebaseToken: json['firebase_token'] as dynamic,
         status: json['status'] as String?,
@@ -69,7 +67,6 @@ class TopUser {
         updatedAt: json['updated_at'] == null
             ? null
             : DateTime.parse(json['updated_at'] as String),
-        influencerCategories: json['influencer_categories'] as List<dynamic>?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -92,13 +89,12 @@ class TopUser {
         'is_profile_completed': isProfileCompleted,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
-        'influencer_categories': influencerCategories,
       };
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! TopUser) return false;
+    if (other is! Influencer) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }
@@ -123,6 +119,5 @@ class TopUser {
       socketId.hashCode ^
       isProfileCompleted.hashCode ^
       createdAt.hashCode ^
-      updatedAt.hashCode ^
-      influencerCategories.hashCode;
+      updatedAt.hashCode;
 }

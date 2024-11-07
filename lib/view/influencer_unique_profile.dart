@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
-import 'package:vidbuy_app/resources/componenets/influencer_donations_tabbar_widget.dart';
+import 'package:vidbuy_app/resources/componenets/influencer_task_detail_tabbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
 import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
 import 'package:vidbuy_app/resources/log_out.dart';
@@ -162,8 +162,8 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                         weight: FontWeight.w600,
                       )),
                   GestureDetector(
-                    onTap: (){
-                      navigate(context, InfluencerDonationsTabbarWidget());
+                    onTap: () {
+                      // navigate(context, InfluencerDonationsTabbarWidget());
                     },
                     child: ProfileTile(
                         image: "assets/Icon/layouticon.png", text: "Tasks"),

@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/payment_confirm_screen.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/create_order_view_model.dart';
 
 import '../Function/navigate.dart';
 
+// ignore: must_be_immutable
 class RequestVideoScree extends StatefulWidget {
-  String from;
-  String to;
-  String videoFor;
-  String description;
-  String videotTypeId;
+  final String influencerId;
+  final String influencerName;
+  final String from;
+  final String to;
+  final String videoFor;
+  final String description;
+  final String videotTypeId;
+  final String videoPrice;
 
   RequestVideoScree(
-      {required this.from,
+      {required this.influencerId,
+      required this.influencerName,
+      required this.from,
       required this.to,
       required this.videoFor,
       required this.description,
       required this.videotTypeId,
+      required this.videoPrice,
       super.key});
 
   @override
@@ -28,10 +38,12 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
   Color _containerColor = Colors.transparent;
   bool isChecked = false;
   int _selectedIndex = -1; // Track the selected index
-   double _deliveryCharge = 0.0; // Track the delivery charge
+  double deliveryCharge = 0.0;
+  String days = "";
+  int? day;
+  // Track the delivery charge
 
-
-   final List<String> texts = [
+  final List<String> texts = [
     "7 Days",
     "3 Days",
     "24 Hours",
@@ -45,7 +57,9 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
 
   @override
   Widget build(BuildContext context) {
-    double basePrice = double.tryParse(widget.videoFor) ?? 0.0;
+    Provider.of<CreateOrderViewModel>(context, listen: false);
+    double basePrice = double.tryParse(widget.videoPrice) ?? 0.0;
+    double serviceCharge = 12.35;
 
     // List of delivery charges based on the converted price
     final List<double> deliveryCharges = [
@@ -113,56 +127,73 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
             height: 39.h,
           ),
 
-      Column(
-          children: List.generate(texts.length, (index) {
-            return Column(
-              children: [
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedIndex = index; // Update selected index
-                        _deliveryCharge = deliveryCharges[index]; // Update delivery charge
-                      });
-                    },
-                    child: Container(
-                      width: 340.w,
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                        color: _selectedIndex == index
-                            ? Color(0xffEAE9F1) // Change to desired color for selected
-                            : Colors.white, // Default color for unselected
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+          Column(
+            children: List.generate(texts.length, (index) {
+              return Column(
+                children: [
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedIndex = index; // Update selected index
+                          deliveryCharge =
+                              deliveryCharges[index]; // Update delivery charge
+
+                          days = texts[index];
+
+                          int? getNumberFromText(String text) {
+                            // Use a regular expression to match only the numeric part
+                            final RegExp regExp = RegExp(r'\d+');
+                            final match = regExp.firstMatch(text);
+                            return match != null
+                                ? int.parse(match.group(0)!)
+                                : null;
+                          }
+
+                          day = getNumberFromText(days);
+                        });
+                      },
                       child: Container(
-                        margin: EdgeInsets.only(left: 28, right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Content(
-                              data: texts[index], // Use text from the list
-                              size: 16,
-                              family: "Lato",
-                              weight: FontWeight.w500,
-                            ),
-                            Content(
-                              data: index == 0 ? "Included" : "€${deliveryCharges[index].toStringAsFixed(2)}",
-                              size: 16,
-                              family: "Lato",
-                              weight: FontWeight.w500,
-                            ),
-                          ],
+                        width: 340.w,
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          color: _selectedIndex == index
+                              ? Color(
+                                  0xffEAE9F1) // Change to desired color for selected
+                              : Colors.white, // Default color for unselected
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.only(left: 28, right: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Content(
+                                data: texts[index], // Use text from the list
+                                size: 16,
+                                family: "Lato",
+                                weight: FontWeight.w500,
+                              ),
+                              Content(
+                                data: index == 0
+                                    ? "Included"
+                                    : "€${deliveryCharges[index].toStringAsFixed(2)}",
+                                size: 16,
+                                family: "Lato",
+                                weight: FontWeight.w500,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-            SizedBox(height: 12.h), // Add spacing between items
-          ],
-        );
-      }),
-    ),
+                  SizedBox(height: 12.h), // Add spacing between items
+                ],
+              );
+            }),
+          ),
           // Center(
           //   child: GestureDetector(
           //     onTap: () {
@@ -300,7 +331,7 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                 ),
                 Expanded(
                   child: Text(
-                    "Hide this video from [Influencer Name] profile",
+                    "Hide this video from ${widget.influencerName} profile",
                     style: TextStyle(
                         color: Colors.black54,
                         fontSize: 14.h,
@@ -355,7 +386,7 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                             weight: FontWeight.w500,
                           ),
                           Content(
-                            data: "€100.00",
+                            data: "€${basePrice}",
                             size: 16.h,
                             family: "Lato",
                             weight: FontWeight.w400,
@@ -372,7 +403,7 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                             weight: FontWeight.w500,
                           ),
                           Content(
-                            data: "€100.00",
+                            data: "€${serviceCharge}",
                             size: 16.h,
                             family: "Lato",
                             weight: FontWeight.w400,
@@ -389,12 +420,15 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                             weight: FontWeight.w500,
                           ),
                           Content(
-                            data: "€${_deliveryCharge.toStringAsFixed(2)}",
+                            data: "€${deliveryCharge}",
                             size: 16.h,
                             family: "Lato",
                             weight: FontWeight.w400,
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: 20.h,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -406,7 +440,8 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                             weight: FontWeight.w500,
                           ),
                           Content(
-                            data: "€100.00",
+                            data:
+                                "€${(basePrice + serviceCharge + deliveryCharge).toStringAsFixed(2)}",
                             size: 16.h,
                             family: "Lato",
                             weight: FontWeight.w400,
@@ -420,44 +455,59 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                   height: 54.h,
                 ),
                 Center(
-                  child: Container(
-                    width: 280.w,
-                    height: 50.h,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // if (_emailController.text.isEmpty) {
-                        //   snackBar("Enter Valid Email", context);
-                        // } else if (_passwordController.text.isEmpty) {
-                        //   snackBar(
-                        //     "Enter Password",
-                        //     context,
-                        //   );
-                        // } else if (_passwordController.text.length < 8) {
-                        //   snackBar(
-                        //       "Enter Minium 8 Characters of Password", context);
-                        // } else {
-                        //   // Navigator.push(
-                        //   //     context,
-                        //   //     MaterialPageRoute(
-                        //   //         builder: (_) => TabBarWidget()));
-                        navigate(context, PaymentConfirmScreen());
-                        // }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xff5271FF),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.r),
+                  child: Consumer<CreateOrderViewModel>(
+                      builder: (context, viewModel, child) {
+                    return Container(
+                      width: 280.w,
+                      height: 50.h,
+                      child: ElevatedButton(
+                        onPressed: viewModel.loading
+                            ? null // Disable button if loading
+                            : () {
+                                if (day == null) {
+                                  Utils.snackBar(
+                                      "Please select delivery type", context);
+                                } else {
+                                  String deliveryday = day.toString();
+                                  viewModel.fetchCreateUserOrderResponse(
+                                      context,
+                                      influencerId:
+                                          widget.influencerId.toString(),
+                                      videoTypeId:
+                                          widget.videotTypeId.toString(),
+                                      videoFor: widget.videoFor.toString(),
+                                      from: widget.from.toString(),
+                                      to: widget.to.toString(),
+                                      description:
+                                          widget.description.toString(),
+                                      requiredDays: deliveryday,
+                                      deliveryCharges:
+                                          deliveryCharge.toString());
+                                }
+
+                                // navigate(context, PaymentConfirmScreen());
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff5271FF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.r),
+                          ),
                         ),
+                        child: viewModel.loading
+                            ? CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              )
+                            : Text(
+                                "Request your Video",
+                                style: TextStyle(
+                                    fontSize: 16.h,
+                                    color: Colors.white,
+                                    fontFamily: "Lato"),
+                              ),
                       ),
-                      child: Text(
-                        "Request your Video",
-                        style: TextStyle(
-                            fontSize: 16.h,
-                            color: Colors.white,
-                            fontFamily: "Lato"),
-                      ),
-                    ),
-                  ),
+                    );
+                  }),
                 ),
               ],
             ),

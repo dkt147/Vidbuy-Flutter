@@ -11,8 +11,10 @@ import 'package:vidbuy_app/view/request_video_scree.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/create_order_view_model.dart';
 
 class CreateOrderScreen extends StatefulWidget {
+  final String influencerName;
   final String influencerId;
-  CreateOrderScreen({required this.influencerId, super.key});
+  CreateOrderScreen(
+      {required this.influencerId, required this.influencerName, super.key});
 
   @override
   State<CreateOrderScreen> createState() => _CreateOrderScreenState();
@@ -41,8 +43,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
       final viewModel =
           Provider.of<CreateOrderViewModel>(context, listen: false);
       // viewModel.fetchVideoTypeList(widget.influencerId.toString());
-      viewModel.fetchVideoTypeList("1");
-
+      viewModel.fetchVideoTypeList(widget.influencerId);
     });
   }
 
@@ -56,7 +57,6 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<CreateOrderViewModel>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -76,12 +76,12 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                       ),
                     );
                   case Status.COMPLETED:
-                    List<Map<String, dynamic>> videoTypeList = viewModel
-                            .influencerVideoTypeList.data!.result
-                            ?.map<Map<String, dynamic>>(
-                                (video) => {'id': video.id, 'name': video.name})
-                            .toList() ??
-                        [];
+                    // List<Map<String, dynamic>> videoTypeList = viewModel
+                    //         .influencerVideoTypeList.data!.result
+                    //         ?.map<Map<String, dynamic>>(
+                    //             (video) => {'id': video.id, 'name': video.name})
+                    //         .toList() ??
+                    // [];
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,8 +90,9 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                         _buildHeader(),
                         SizedBox(height: 30.h),
                         _buildVideoServiceInfo(),
-                        _buildVideoRoleSelection(),
                         SizedBox(height: 13.h),
+                        _buildVideoRoleSelection(),
+                        SizedBox(height: 17.h),
                         Container(
                           margin: EdgeInsets.only(bottom: 9.h, left: 17.w),
                           child: Text(
@@ -103,14 +104,12 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        _buildVideoTypeDropdown(videoTypeList, viewModel),
+                        _buildVideoTypeDropdown(viewModel),
                         SizedBox(height: 13.h),
                         _buildTextField("From", "Enter Name", _fromController),
                         _buildTextField("To", "Enter Name", _toController),
                         _buildDetailsSection(),
                         SizedBox(height: 20.h),
-                        // Content(data: _selectedVideoType.toString(), size: 20),
-                        Content(data: selectedVideoRole.toString(), size: 10),
                         _buildSubmitButton(viewModel),
                       ],
                     );
@@ -202,80 +201,51 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     );
   }
 
-Widget _buildVideoTypeDropdown(
-    List<Map<String, dynamic>> videoTypeList, CreateOrderViewModel viewModel) {
-  // Use an empty map as a fallback instead of null
-  Map<String, dynamic> selectedVideoType = viewModel.selectedVideoTypeDetails != null
-      ? videoTypeList.firstWhere(
-          (item) => item['id'] == viewModel.selectedVideoTypeDetails!['id'],
-          orElse: () => {'id': '', 'name': '', 'price': ''}, // default map
-        )
-      : {'id': '', 'name': '', 'price': ''};
+  Widget _buildVideoTypeDropdown(CreateOrderViewModel viewModel) {
+    final selectedId = viewModel.selectedVideoTypeDetails?['id'];
 
-       final selectedId = viewModel.selectedVideoTypeDetails?['id'];
+    // Debug print
+    print("Selected Video Type Details: ${viewModel.selectedVideoTypeDetails}");
 
-
-  return Column(
-    children: [
-      Center(
-        child: SizedBox(
-          height: 50,
-          width: 335,
-          child: DropdownButtonFormField<String>(
+    return Column(
+      children: [
+        Center(
+          child: SizedBox(
+            height: 50,
+            width: 335,
+            child: DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 labelText: 'Select Video Type',
                 border: OutlineInputBorder(),
               ),
-              value: selectedId,
+              value: selectedId?.toString(),
               onChanged: (String? newValue) {
-                // Find the selected video type by its ID
                 final selectedVideoType = viewModel.videoTypes.firstWhere(
                   (videoType) => videoType['id'].toString() == newValue,
                   orElse: () => {},
                 );
 
                 if (selectedVideoType.isNotEmpty) {
-                  // Update the selected video type details in the ViewModel
                   viewModel.setVideoType(
-                    selectedVideoType['id'],
+                    selectedVideoType['id'].toString(),
                     selectedVideoType['name'],
                     selectedVideoType['price'],
                   );
                 }
               },
-              items: viewModel.videoTypes.map<DropdownMenuItem<String>>((videoType) {
+              items: viewModel.videoTypes
+                  .map<DropdownMenuItem<String>>((videoType) {
                 return DropdownMenuItem<String>(
-                  value: videoType['id'].toString(), // Ensure this is a unique ID
+                  value: videoType['id'].toString(),
                   child: Text(videoType['name']),
                 );
               }).toList(),
             ),
-        ),
-      ),
-      // Display selected video type details below the dropdown
-      if (viewModel.selectedVideoTypeDetails != null)
-        Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
- if (viewModel.selectedVideoTypeDetails != null) ...[
-              Text('Selected Video Type ID: ${viewModel.selectedVideoTypeDetails!['id']}'),
-              Text('Selected Video Type Price: ${viewModel.selectedVideoTypeDetails!['price']}'),
-            ] else ...[
-              Text('No video type selected.'),
-            ],
-            ],
           ),
         ),
-    ],
-  );
-}
-
-
-
-
-
+      ],
+    );
+  }
 
   Widget _buildTextField(
       String label, String hint, TextEditingController controller) {
@@ -350,29 +320,31 @@ Widget _buildVideoTypeDropdown(
             //   //     context,
             //   //     MaterialPageRoute(
             //   //         builder: (_) => TabBarWidget()));
-            if (_fromController.text.isEmpty) {
+            if (selectedVideoRole == "") {
+              Utils.snackBar("Please enter video role", context);
+            } else if (viewModel.selectedVideoTypeDetails!['name'] == "") {
+              Utils.snackBar("Please select video type", context);
+            } else if (_fromController.text.isEmpty) {
               Utils.snackBar("Please enter from details", context);
             } else if (_toController.text.isEmpty) {
-              // navigate(context, RequestVideoScree());
-              Utils.snackBar("Please enter to details", context);
+              Utils.snackBar("Please select to details", context);
             } else if (_detailController.text.isEmpty) {
-              // navigate(context, RequestVideoScree());
-              Utils.snackBar("Please enter details", context);
-            } else if (_selectedVideoType != null) {
-              // navigate(context, RequestVideoScree());
-              Utils.snackBar("Please select video type", context);
-            } else if (selectedVideoRole == "") {
-              // navigate(context, RequestVideoScree());
-              Utils.snackBar("Please enter from video for", context);
+              Utils.snackBar(
+                  "Please enter description about the video", context);
             } else {
               navigate(
                   context,
                   RequestVideoScree(
+                    influencerId: widget.influencerId.toString(),
+                    influencerName: widget.influencerName.toString(),
                     from: _fromController.text.toString(),
                     to: _toController.text.toString(),
                     description: _detailController.text.toString(),
                     videoFor: selectedVideoRole.toString(),
-                    videotTypeId: "_selectedVideoType.toString()",
+                    videotTypeId:
+                        viewModel.selectedVideoTypeDetails!['id'].toString(),
+                    videoPrice:
+                        viewModel.selectedVideoTypeDetails!['price'].toString(),
                   ));
               // Utils.snackBar("all details", context);
             }

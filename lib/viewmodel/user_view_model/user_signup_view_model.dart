@@ -8,7 +8,7 @@ import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/generic_signup_data_model/generic_signup_data_model.dart';
-import 'package:vidbuy_app/model/user_model/upload_image_data_model/upload_image_data_model.dart';
+import 'package:vidbuy_app/model/upload_image_data_model/upload_image_data_model.dart';
 import 'package:vidbuy_app/repo/signup_repo.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/otp_scren.dart';
@@ -184,80 +184,100 @@ class UserSignupViewModel with ChangeNotifier {
 // }
 
   Future<bool> _uploadImage(String base64Image) async {
-  Map<String, dynamic> imageData = {
-    'image': base64Image.toString(),
-  };
-
-  try {
-    setUploadImageResponse(ApiResponse.loading());
-    final value = await _signupRepo.fetchUploadImageResponse(imageData);
-    setUploadImageResponse(ApiResponse.completed(value));
-    print(value);
-    return true;
-  } catch (error) {
-    setUploadImageResponse(ApiResponse.error(error.toString()));
-    return false;
-  }
-}
-
-
-Future<void> fetchSignupData(
-  BuildContext context, {
-  required String name,
-  required String username,
-  required String email,
-  required String password,
-  required String base64Image,
-}) async {
-  if (_validateFields(context, name, username, email, password, base64Image)) {
-    
-    Map<String, dynamic> registrationData = {
-      'name': name,
-      'username': username,
-      'email': email,
-      'password': password,
-      'role_id': '2',
+    Map<String, dynamic> imageData = {
+      'image': base64Image.toString(),
     };
 
-    setLoading(true);
-    setSignupData(ApiResponse.loading());
-
-    _signupRepo.fetchGenericSignupResponse(registrationData).then((value) async {
-      setSignupData(ApiResponse.completed(value));
-
-      // Check if response result is a Map and access data properly
-      if (value.result is Map<String, dynamic>) {
-        String verificationCode = value.result['code'].toString();
-        String token = value.result['token'].toString();
-        print(token);
-
-        await LocalData.setToken(token);
-
-        // Await the result of _uploadImage and navigate based on its success
-        bool imageUploadSuccess = await _uploadImage(base64Image);
-
-        if (imageUploadSuccess) {
-          navigate(context, OtpScren(code: verificationCode, token: token));
-        } else {
-          Utils.snackBar(uploadImageResponse.message.toString(), context);
-        }
-      } 
-
-      setLoading(false);
-      Utils.snackBar(value.message.toString(), context);
-
-      if (kDebugMode) {
-        print(value.toString());
-      }
-    }).onError((error, stackTrace) {
-      setLoading(false);
-      Utils.snackBar(error.toString(), context);
-      if (kDebugMode) {
-        print(error.toString());
-      }
-    });
+    try {
+      setUploadImageResponse(ApiResponse.loading());
+      final value = await _signupRepo.fetchUploadImageResponse(imageData);
+      setUploadImageResponse(ApiResponse.completed(value));
+      // await LocalData.setImage(value.result!.image.toString());
+      print(value);
+      return true;
+    } catch (error) {
+      setUploadImageResponse(ApiResponse.error(error.toString()));
+      return false;
+    }
   }
-}
+
+  // Future<bool> _uploadImage(String base64Image) async {
+  //   Map<String, dynamic> imageData = {
+  //     'image': base64Image.toString(),
+  //   };
+
+  //   try {
+  //     setUploadImageResponse(ApiResponse.loading());
+  //     final value = await _signupRepo.fetchUploadImageResponse(imageData);
+  //     setUploadImageResponse(ApiResponse.completed(value));
+  //     // await LocalData.setImage(value.result!.image.toString());
+  //     print(value);
+  //     return true;
+  //   } catch (error) {
+  //     setUploadImageResponse(ApiResponse.error(error.toString()));
+  //     return false;
+  //   }
+  // }
+
+  Future<void> fetchSignupData(
+    BuildContext context, {
+    required String name,
+    required String username,
+    required String email,
+    required String password,
+    required String base64Image,
+  }) async {
+    if (_validateFields(
+        context, name, username, email, password, base64Image)) {
+      Map<String, dynamic> registrationData = {
+        'name': name,
+        'username': username,
+        'email': email,
+        'password': password,
+        'role_id': '2',
+      };
+
+      setLoading(true);
+      setSignupData(ApiResponse.loading());
+
+      _signupRepo
+          .fetchGenericSignupResponse(registrationData)
+          .then((value) async {
+        setSignupData(ApiResponse.completed(value));
+
+        // Check if response result is a Map and access data properly
+        if (value.result is Map<String, dynamic>) {
+          String verificationCode = value.result['code'].toString();
+          String token = value.result['token'].toString();
+          print(token);
+
+          await LocalData.setToken(token);
+
+          // Await the result of _uploadImage and navigate based on its success
+          bool imageUploadSuccess = await _uploadImage(base64Image);
+
+          if (imageUploadSuccess) {
+            navigate(context, OtpScren(code: verificationCode, token: token));
+          } else {
+            Utils.snackBar(uploadImageResponse.message.toString(), context);
+          }
+        }
+
+        setLoading(false);
+        Utils.snackBar(value.message.toString(), context);
+
+        if (kDebugMode) {
+          print(value.toString());
+        }
+      }).onError((error, stackTrace) {
+        setLoading(false);
+        Utils.snackBar(error.toString(), context);
+        if (kDebugMode) {
+          print(error.toString());
+        }
+      });
+    }
+  }
 
   // ApiResponse<UploadImageDataModel> _uploadImageResponse = ApiResponse.loading();
   // ApiResponse<UploadImageDataModel> get uploadImageResponse =>

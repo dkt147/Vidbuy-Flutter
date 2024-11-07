@@ -51,13 +51,11 @@ import 'package:vidbuy_app/model/generic_signup_data_model/user.dart';
 
 class GenericSignupDataModel {
   final bool boolValue; // Renamed to avoid conflict with Dart's 'bool' keyword
-  final int status;
-  final String message;
   final dynamic result; // Can be a user object or an empty list
+  final String message;
 
   GenericSignupDataModel({
     required this.boolValue,
-    required this.status,
     required this.message,
     this.result,
   });
@@ -65,9 +63,8 @@ class GenericSignupDataModel {
   factory GenericSignupDataModel.fromJson(Map<String, dynamic> json) {
     return GenericSignupDataModel(
       boolValue: json['bool'],
-      status: json['status'],
-      message: json['message'],
       result: json['result'], // Can be a List or Map, handled in subclasses
+      message: json['message'],
     );
   }
 }

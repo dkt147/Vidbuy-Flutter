@@ -7,5 +7,5 @@ abstract class BaseApiServices {
       String url, dynamic data, dynamic includeToken);
 
   Future<dynamic> getPostMultipartResponse(
-      String url, File file, dynamic fields);
+      String url, File file, dynamic fields, dynamic includeToken);
 }

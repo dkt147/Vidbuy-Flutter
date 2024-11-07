@@ -58,6 +58,49 @@ class LocalData {
     print("Token loaded: $_ltoken"); // Log loaded token
   }
 
+  String _kid = "kid";
+  String _kroleId = "kroleId";
+  String _kname = "kname";
+  String _kusername = "kusername";
+  String _kcountryId = "kcountryId";
+  String _kcountryName = "kcountryName";
+  String _kemail = "kemail";
+  String _kimage = "kimage";
+  String _kstatus = "kstatus";
+  String _kisProfileCompleted = "kisProfileCompleted";
+
+// static Future<void> setImage(String image) async {
+//     print("Setting image: $image"); // Debug print
+//     _limage = image;
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     await prefs.setString(_kimage, image);
+//     print("image saved in SharedPreferences");
+//   }
+
+//   static Future<void> loadImage() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     _limage = prefs.getString(_kimage) ?? "";
+//     print("Image loaded: $_limage"); // Log loaded token
+//   }
+
+// static String _lvideo = "";
+//     static String get video => _lvideo;
+
+//   static const String _kvideo = "kvideo";
+// static Future<void> setVideo(String video) async {
+//     print("Setting video: $video"); // Debug print
+//     _lvideo = video;
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     await prefs.setString(_kvideo, video);
+//     print("video saved in SharedPreferences");
+//   }
+
+//     static Future<void> loadVideo() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     _lvideo = prefs.getString(_kvideo) ?? "";
+//     print("video loaded: $_lvideo"); // Log loaded token
+//   }
+
   static setlValues(
     String id,
     String roleId,
@@ -84,16 +127,6 @@ class LocalData {
     // _ltoken = token;
   }
 
-  String _kid = "kid";
-  String _kroleId = "kroleId";
-  String _kname = "kname";
-  String _kusername = "kusername";
-  String _kcountryId = "kcountryId";
-  String _kcountryName = "kcountryName";
-  String _kemail = "kemail";
-  String _kimage = "kimage";
-  String _kstatus = "kstatus";
-  String _kisProfileCompleted = "kisProfileCompleted";
   // String _ktoken = "ktoken";
 
 // Future<void> saveDataLocally(Data? data) async {
@@ -167,3 +200,39 @@ class LocalData {
     );
   }
 }
+
+//     static String _limage = "";
+//     static String get image => _limage;
+
+//   static const String _kimage = "kimage";
+// static Future<void> setImage(String image) async {
+//     print("Setting image: $image"); // Debug print
+//     _limage = image;
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     await prefs.setString(_kimage, image);
+//     print("image saved in SharedPreferences");
+//   }
+
+//   static Future<void> loadImage() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     _limage = prefs.getString(_kimage) ?? "";
+//     print("Image loaded: $_limage"); // Log loaded token
+//   }
+
+//    static String _lvideo = "";
+//     static String get video => _lvideo;
+
+//   static const String _kvideo = "kvideo";
+// static Future<void> setVideo(String video) async {
+//     print("Setting video: $video"); // Debug print
+//     _lvideo = video;
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     await prefs.setString(_kvideo, video);
+//     print("video saved in SharedPreferences");
+//   }
+
+//     static Future<void> loadVideo() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     _lvideo = prefs.getString(_kvideo) ?? "";
+//     print("video loaded: $_lvideo"); // Log loaded token
+//   }

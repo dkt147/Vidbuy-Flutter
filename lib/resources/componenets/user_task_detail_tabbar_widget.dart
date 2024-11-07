@@ -1,21 +1,17 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/view/active_history_screen.dart';
 import 'package:vidbuy_app/view/all_orders_screen.dart';
-import 'package:vidbuy_app/view/all_task_scereen.dart';
 import 'package:vidbuy_app/view/orders_details_screen.dart';
-import 'package:vidbuy_app/view/task_details_screen.dart';
 import 'package:vidbuy_app/view/video_screen.dart';
 
-class InfluencerDonationsTabbarWidget extends StatefulWidget {
+class UserTaskDetailTabBarWidget extends StatefulWidget {
   @override
-  _InfluencerDonationsTabbarWidgetState createState() =>
-      _InfluencerDonationsTabbarWidgetState();
+  _UserTaskDetailTabBarWidgetState createState() =>
+      _UserTaskDetailTabBarWidgetState();
 }
 
-class _InfluencerDonationsTabbarWidgetState
-    extends State<InfluencerDonationsTabbarWidget>
+class _UserTaskDetailTabBarWidgetState extends State<UserTaskDetailTabBarWidget>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -62,33 +58,25 @@ class _InfluencerDonationsTabbarWidgetState
     return Scaffold(
       appBar: AppBar(
         // title: Text("Influencer Setup"),
-        backgroundColor: Color(0xffFFFFFF),
         bottom: TabBar(
-          isScrollable: false,
+          isScrollable: true,
           controller: _tabController,
           indicatorColor: Color(0xff5271FF),
           labelColor: Colors.black,
           unselectedLabelColor: Colors.black45,
-          
-          // dragStartBehavior: DragStartBehavior.start,
-          // padding: EdgeInsets.only(right: 30.w),
-          labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
-          // labelPadding: EdgeInsets.only(right: 10.w, left: 10.w),
-          indicatorWeight: 5.w,
+          // indicatorSize: 10,
+          indicatorWeight: 3.w,
           labelStyle: TextStyle(
             fontFamily: "Lato",
             fontSize: 16.h,
             fontWeight: FontWeight.w500,
           ),
-          tabs: [
-            Tab(text: 'All Task'),
-            // Tab(text: 'Pending', ),
-            // Tab(text: 'Waiting Video', ),
+          tabs: const [
             Tab(
               text: 'Video',
             ),
             Tab(
-              text: 'Task Details',
+              text: 'Orders Details',
             ),
             Tab(
               text: 'Active History',
@@ -99,15 +87,11 @@ class _InfluencerDonationsTabbarWidgetState
       body: TabBarView(
         controller: _tabController,
         children: [
-          // AllOrdersScreen(),
-          AllTaskScereen(),
-          // Tab(text: 'Pending', ),
-          // Tab(text: 'Waiting Video', ),
           // PendingScreen(),
           // WaitingVideoScreen(),
-          VideoScreen(),
-          TaskDetailsScreen(),
-          ActiveHistoryScreen(),
+          // VideoScreen(),
+          // OrdersDetailsScreen(),
+          // ActiveHistoryScreen(),
           // ChooseCategoryScreen(onSave: saveCategory),
           // VIdeosAcceptScreen(onSave: saveVideos),
           // ChoosePricesScreen(onSave: savePrices),

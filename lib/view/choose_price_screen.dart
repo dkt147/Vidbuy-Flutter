@@ -321,6 +321,46 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
                   ),
                 ],
               ],
+
+              SizedBox(
+                height: 200.h,
+              ),
+
+              Container(
+                width: 335.w,
+                height: 50.h,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff5271FF),
+                    // padding:
+                    //     EdgeInsets.symmetric(horizontal: 80.w, vertical: 15.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                  ),
+                  onPressed: () {
+                    widget.onNextTab();
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Review",
+                        style: TextStyle(
+                            fontSize: 20.h,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Lato",
+                            color: Colors.white),
+                      ),
+                      SizedBox(width: 10.w),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               // Other UI elements...
             ],
           ),

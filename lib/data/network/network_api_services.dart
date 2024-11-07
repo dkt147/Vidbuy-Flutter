@@ -109,10 +109,20 @@ class NetworkApiService implements BaseApiServices {
   // }
 
   @override
-  Future getPostMultipartResponse(String url, File file, fields) async {
+  Future getPostMultipartResponse(
+      String url, File file, fields, dynamic includeToken) async {
     dynamic responseJson;
     try {
-      final request = http.MultipartRequest('POST', Uri.parse(url));
+      final headers = <String, String>{
+        'Content-Type': 'application/json',
+      };
+
+      // Check if `includeToken` is true and add token if available
+      if (includeToken == true && LocalData.token.isNotEmpty) {
+        headers[HttpHeaders.authorizationHeader] = 'Bearer ${LocalData.token}';
+      }
+      final request = http.MultipartRequest('POST', Uri.parse(url))
+        ..headers.addAll(headers);
 
       // Add the file to the request
       final filePart =

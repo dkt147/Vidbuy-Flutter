@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vidbuy_app/resources/componenets/user_donations_tabbar_widget.dart';
+import 'package:vidbuy_app/resources/componenets/User_order_tab_bar.dart';
 import 'package:vidbuy_app/view/home_screen.dart';
 import 'package:vidbuy_app/view/search_screen.dart';
 import 'package:vidbuy_app/view/user_profile_screen.dart';
@@ -9,7 +9,7 @@ final screens = [
   //  LoginScreen(),
   SearchScreen(),
   //  OtpScren(),
-  UserDonationsTabBarWidget(),
+  UserOrderTabbar(),
   UserProfileScreen(),
   // InfluencerUniqueProfile()
   //  OtpScren(),

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/utils.dart';
+import 'package:vidbuy_app/model/influencer_model/influencer_all_orders_data_model/datum.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
-class OrdersDetailsScreen extends StatelessWidget {
-  const OrdersDetailsScreen({super.key});
+class OrdersDetailsScreen extends StatefulWidget {
+  Datum data;
+  OrdersDetailsScreen({required this.data, super.key});
 
+  @override
+  State<OrdersDetailsScreen> createState() => _OrdersDetailsScreenState();
+}
+
+class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +31,14 @@ class OrdersDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Content(
-                        data: "Created at: Wed, 5 Sep",
+                        data:
+                            "Created at: ${Utils.dateFormat2(widget.data.createdAt)}",
                         size: 14.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
                       ),
                       Content(
-                        data: "Order ID: 5ts638393",
+                        data: "Order ID: SG^&HH",
                         size: 14.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
@@ -40,13 +49,14 @@ class OrdersDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Content(
-                        data: "Expires: Wed, 12 Sep",
+                        data: "Expires: ",
                         size: 14.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
                       ),
                       Content(
-                        data: "Status: [Status_order]",
+                        data:
+                            "Status: ${widget.data.status == "" ? "Not Assigned" : widget.data.status}",
                         size: 14.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
@@ -80,7 +90,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Content(
-                    data: "Birthday Video",
+                    data: "${widget.data.videoType!.name.toString()} Video",
                     size: 14.h,
                     family: "Lato",
                     weight: FontWeight.w600,
@@ -88,7 +98,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                   Row(
                     children: [
                       Content(
-                        data: "From",
+                        data: "From : ",
                         size: 14.h,
                         family: "Lato",
                         weight: FontWeight.w600,
@@ -97,7 +107,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                         width: 10.w,
                       ),
                       Content(
-                        data: "Kilan bella ",
+                        data: widget.data.from.toString(),
                         size: 12.h,
                         family: "Lato",
                         weight: FontWeight.w400,
@@ -107,7 +117,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                   Row(
                     children: [
                       Content(
-                        data: "To",
+                        data: "To : ",
                         size: 14.h,
                         family: "Lato",
                         weight: FontWeight.w600,
@@ -116,7 +126,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                         width: 10.w,
                       ),
                       Content(
-                        data: "Chaele dento",
+                        data: widget.data.to.toString(),
                         size: 12.h,
                         family: "Lato",
                         weight: FontWeight.w400,
@@ -126,7 +136,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                   Row(
                     children: [
                       Content(
-                        data: "Delivery day",
+                        data: "Delivery day : ",
                         size: 14.h,
                         family: "Lato",
                         weight: FontWeight.w600,
@@ -135,7 +145,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                         width: 10.w,
                       ),
                       Content(
-                        data: "7 day ",
+                        data: widget.data.requiredDays.toString() + " Days",
                         size: 12.h,
                         family: "Lato",
                         weight: FontWeight.w400,
@@ -155,8 +165,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                         height: 10.h,
                       ),
                       Content(
-                        data:
-                            "This video you will make for my friend on\nhis 29th birthday ",
+                        data: widget.data.description.toString(),
                         size: 12.h,
                         family: "Lato",
                         weight: FontWeight.w400,
@@ -193,7 +202,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                     weight: FontWeight.w600,
                   ),
                   Content(
-                    data: "€ 34.56 ",
+                    data: "€ ${widget.data.totalPrice} ",
                     size: 12.h,
                     family: "Lato",
                     weight: FontWeight.w400,
@@ -201,6 +210,66 @@ class OrdersDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
+            if (widget.data.status == "")
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 250),
+                child: Center(
+                  child: SizedBox(
+                    width: 280.w,
+                    height: 50.h,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // viewModel.fetchUploadVideoData(context, file: File(viewModel.videoPath!), requestVideoId: "1");
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff5271FF),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                      ),
+                      child: Text(
+                        "Accept",
+                        style: TextStyle(
+                          fontSize: 16.h,
+                          color: Colors.white,
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            if (widget.data.status == "pending")
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 250),
+                child: Center(
+                  child: SizedBox(
+                    width: 280.w,
+                    height: 50.h,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // viewModel.fetchUploadVideoData(context, file: File(viewModel.videoPath!), requestVideoId: "1");
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff5271FF),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                      ),
+                      child: Text(
+                        "Start Working",
+                        style: TextStyle(
+                          fontSize: 16.h,
+                          color: Colors.white,
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

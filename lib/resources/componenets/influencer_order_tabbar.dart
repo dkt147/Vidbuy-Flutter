@@ -10,8 +10,7 @@ import 'package:vidbuy_app/view/waiting_video_screen.dart';
 
 class InfluencerOrderTabbar extends StatefulWidget {
   @override
-  _InfluencerOrderTabbarState createState() =>
-      _InfluencerOrderTabbarState();
+  _InfluencerOrderTabbarState createState() => _InfluencerOrderTabbarState();
 }
 
 class _InfluencerOrderTabbarState extends State<InfluencerOrderTabbar>
@@ -62,7 +61,11 @@ class _InfluencerOrderTabbarState extends State<InfluencerOrderTabbar>
       appBar: AppBar(
         backgroundColor: Color(0xffFFFFFF),
         titleSpacing: 20.h,
-        title: Content(data: "Recent orders ", size: 30.h, weight: FontWeight.w300,),
+        title: Content(
+          data: "Recent orders ",
+          size: 30.h,
+          weight: FontWeight.w300,
+        ),
         // leading: Content(data: "Recent orders ", size: 30.h, weight: FontWeight.w300,),
         bottom: TabBar(
           isScrollable: false,

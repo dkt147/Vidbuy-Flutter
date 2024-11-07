@@ -23,6 +23,7 @@ class UserHomeRepo {
     try {
       dynamic response = await apiServices.getGetApiResponse(
           AppUrl.trendingInfluencerUrl, true);
+      print(response);
       return response = TrendingInfluencersDataModel.fromJson(response);
     } catch (e) {
       throw e;

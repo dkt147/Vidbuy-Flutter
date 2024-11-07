@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
-import 'package:vidbuy_app/model/influencer_model/influencer_review_data_model/category_data.dart';
-import 'package:vidbuy_app/model/user_model/influencer_list_by_catagory_data_model/influencer_list_by_catagory_data_model.dart';
-import 'package:vidbuy_app/model/user_model/influencers_list_data_model/influencers_list_data_model.dart';
+import 'package:vidbuy_app/model/user_model/influencer_list_by_category_data_model/influencer_list_by_category_data_model.dart';
 import 'package:vidbuy_app/repo/user_search_repo.dart';
 
 class SearchScreenViewModel with ChangeNotifier {
@@ -64,12 +62,12 @@ class SearchScreenViewModel with ChangeNotifier {
     });
   }
 
-  ApiResponse<InfluencerListByCatagoryDataModel> _influencersList =
+  ApiResponse<InfluencerListByCategoryDataModel> _influencersList =
       ApiResponse.loading();
-  ApiResponse<InfluencerListByCatagoryDataModel> get influencersList =>
+  ApiResponse<InfluencerListByCategoryDataModel> get influencersList =>
       _influencersList;
 
-  setInfluencersList(ApiResponse<InfluencerListByCatagoryDataModel> response) {
+  setInfluencersList(ApiResponse<InfluencerListByCategoryDataModel> response) {
     _influencersList = response;
     _influencersList.toString();
     notifyListeners();

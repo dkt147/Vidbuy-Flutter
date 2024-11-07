@@ -18,11 +18,14 @@ import 'package:vidbuy_app/view/splash_screen.dart';
 import 'package:vidbuy_app/view/user_profile_screen.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/influencers_orders_view_model.dart';
 import 'package:vidbuy_app/viewmodel/login_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/contact_us_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/create_order_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/home_screen_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/influencer_detail_view_model.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/user_orders_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_search_screen_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/verify_otp_view_model.dart';
@@ -59,6 +62,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => ContactUsViewModel()),
           ChangeNotifierProvider(create: (_) => InfluencerDetailViewModel()),
           ChangeNotifierProvider(create: (_) => CreateOrderViewModel()),
+          ChangeNotifierProvider(create: (_) => InfluencerOrdersViewModel()),
+          ChangeNotifierProvider(create: (_) => UserOrdersViewModel()),
+          ChangeNotifierProvider(
+              create: (_) => InfluencerTaskDetailViewModel()),
         ],
         child: Builder(builder: (BuildContext context) {
           return ScreenUtilInit(

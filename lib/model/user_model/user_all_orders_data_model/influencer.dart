@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 
-class User {
+class Influencer {
   int? id;
   int? roleId;
   String? name;
@@ -21,7 +21,7 @@ class User {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  User({
+  Influencer({
     this.id,
     this.roleId,
     this.name,
@@ -43,7 +43,7 @@ class User {
     this.updatedAt,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Influencer.fromJson(Map<String, dynamic> json) => Influencer(
         id: json['id'] as int?,
         roleId: json['role_id'] as int?,
         name: json['name'] as String?,
@@ -94,7 +94,7 @@ class User {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! User) return false;
+    if (other is! Influencer) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

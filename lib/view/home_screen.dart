@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/data/response/status.dart';
+import 'package:vidbuy_app/resources/app_url.dart';
 import 'package:vidbuy_app/resources/componenets/carousel_slider_category.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_card_widget.dart';
-import 'package:vidbuy_app/resources/componenets/influencer_donations_tabbar_widget.dart';
+import 'package:vidbuy_app/resources/componenets/influencer_task_detail_tabbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/cancel_screen.dart';
@@ -149,8 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: CircleAvatar(
                       radius: 22.r,
-                      backgroundImage:
-                          const AssetImage("assets/UI/grouppicture.jpg"),
+                      backgroundImage: NetworkImage(LocalData.image),
                     ),
                   ),
                   SizedBox(width: 5.w),
@@ -177,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          navigate(context, InfluencerDonationsTabbarWidget());
+                          // navigate(context, InfluencerDonationsTabbarWidget());
                         },
                         child: Image.asset(
                           "assets/Icon/Hand.png",
@@ -340,8 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         case Status.COMPLETED:
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: value
-                                .trendingInfluencerList.data!.result!.topUsers!
+                            children: value.trendingInfluencerList.data!.result!
                                 .map((influencer) {
                               return GestureDetector(
                                 onTap: () {

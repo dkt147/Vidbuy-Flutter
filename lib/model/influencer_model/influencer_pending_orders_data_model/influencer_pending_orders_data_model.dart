@@ -2,41 +2,37 @@ import 'package:collection/collection.dart';
 
 import 'result.dart';
 
-class UploadImageDataModel {
+class InfluencerPendingOrdersDataModel {
   bool? Isbool;
-  int? status;
-  String? message;
   Result? result;
+  String? message;
 
-  UploadImageDataModel({this.Isbool, this.status, this.message, this.result});
+  InfluencerPendingOrdersDataModel({this.Isbool, this.result, this.message});
 
-  factory UploadImageDataModel.fromJson(Map<String, dynamic> json) {
-    return UploadImageDataModel(
+  factory InfluencerPendingOrdersDataModel.fromJson(Map<String, dynamic> json) {
+    return InfluencerPendingOrdersDataModel(
       Isbool: json['bool'] as bool?,
-      status: json['status'] as int?,
-      message: json['message'] as String?,
       result: json['result'] == null
           ? null
           : Result.fromJson(json['result'] as Map<String, dynamic>),
+      message: json['message'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() => {
         'bool': bool,
-        'status': status,
-        'message': message,
         'result': result?.toJson(),
+        'message': message,
       };
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! UploadImageDataModel) return false;
+    if (other is! InfluencerPendingOrdersDataModel) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }
 
   @override
-  int get hashCode =>
-      Isbool.hashCode ^ status.hashCode ^ message.hashCode ^ result.hashCode;
+  int get hashCode => Isbool.hashCode ^ result.hashCode ^ message.hashCode;
 }

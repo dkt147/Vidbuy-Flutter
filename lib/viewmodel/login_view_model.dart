@@ -7,11 +7,13 @@ import 'package:vidbuy_app/model/login_data_model/login_data_model.dart';
 import 'package:vidbuy_app/model/login_data_model/result.dart';
 import 'package:vidbuy_app/model/login_data_model/user.dart';
 import 'package:vidbuy_app/repo/login_repo.dart';
+import 'package:vidbuy_app/resources/componenets/influencer_navbar.dart';
 import 'package:vidbuy_app/resources/componenets/navbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
 import 'package:vidbuy_app/view/home_screen.dart';
+import 'package:vidbuy_app/view/influencer_navbar_screen.dart';
 import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/influencer_unique_profile.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
@@ -153,8 +155,8 @@ class LoginViewModel with ChangeNotifier {
 
     final Map<int, Widget> roleNavigationMap = {
       1: AdminDashboardScreen(),
-      2: NavBarScreen(),
-      3: isProfileComplete == 0 ? TabBarWidget() : InfluencerUniqueProfile(),
+      2: const NavBarScreen(),
+      3: isProfileComplete == 0 ? TabBarWidget() : InfluencerNavbarScreen(),
     };
 
     if (roleNavigationMap.containsKey(roleId)) {

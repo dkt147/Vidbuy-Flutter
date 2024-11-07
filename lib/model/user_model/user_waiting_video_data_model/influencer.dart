@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 
-class Datum {
+class Influencer {
   int? id;
   int? roleId;
   String? name;
@@ -9,8 +9,8 @@ class Datum {
   String? countryName;
   String? email;
   dynamic emailVerifiedAt;
-  dynamic image;
-  dynamic video;
+  String? image;
+  String? video;
   dynamic priceRange;
   dynamic firebaseToken;
   String? status;
@@ -21,7 +21,7 @@ class Datum {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  Datum({
+  Influencer({
     this.id,
     this.roleId,
     this.name,
@@ -43,7 +43,7 @@ class Datum {
     this.updatedAt,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Influencer.fromJson(Map<String, dynamic> json) => Influencer(
         id: json['id'] as int?,
         roleId: json['role_id'] as int?,
         name: json['name'] as String?,
@@ -52,8 +52,8 @@ class Datum {
         countryName: json['country_name'] as String?,
         email: json['email'] as String?,
         emailVerifiedAt: json['email_verified_at'] as dynamic,
-        image: json['image'] as dynamic,
-        video: json['video'] as dynamic,
+        image: json['image'] as String?,
+        video: json['video'] as String?,
         priceRange: json['price_range'] as dynamic,
         firebaseToken: json['firebase_token'] as dynamic,
         status: json['status'] as String?,
@@ -94,7 +94,7 @@ class Datum {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Datum) return false;
+    if (other is! Influencer) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

@@ -61,7 +61,7 @@ class InfluencerSelectionRepo {
 
       return SetCategoryDataModel.fromJson(response);
     } catch (e) {
-      throw Exception("Error fetching signup response: $e");
+      throw Exception(e);
     }
   }
 
@@ -73,7 +73,7 @@ class InfluencerSelectionRepo {
 
       return SetVideoTypeDataModel.fromJson(response);
     } catch (e) {
-      throw Exception("Error fetching signup response: $e");
+      throw Exception(e);
     }
   }
 
@@ -86,7 +86,7 @@ class InfluencerSelectionRepo {
 
       return SetPriceRangeDataModel.fromJson(response);
     } catch (e) {
-      throw Exception("Error fetching signup response: $e");
+      throw Exception(e);
     }
   }
 
@@ -99,7 +99,7 @@ class InfluencerSelectionRepo {
 
       return SetPriceDataModel.fromJson(response);
     } catch (e) {
-      throw Exception("Error fetching signup response: $e");
+      throw Exception(e);
     }
   }
 }

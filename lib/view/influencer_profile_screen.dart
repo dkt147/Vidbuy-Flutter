@@ -4,15 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/data/response/status.dart';
-import 'package:vidbuy_app/model/user_model/influencer_list_by_catagory_data_model/datum.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/create_order_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/influencer_detail_view_model.dart';
 
 class InfluencerProfileScreen extends StatefulWidget {
-  Datum data;
+  String influencerId;
   InfluencerProfileScreen({
-    required this.data,
+    required this.influencerId,
     super.key,
   });
 
@@ -26,169 +25,10 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
   Widget build(BuildContext context) {
     final viewModel =
         Provider.of<InfluencerDetailViewModel>(context, listen: false);
-    viewModel.fetchinfluencerDetailList(widget.data.id.toString());
+    viewModel.fetchinfluencerDetailList(widget.influencerId.toString());
     return Scaffold(
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.only(top: 55.h, left: 21.w),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset(
-                    "assets/Icon/backarrow.png",
-                    height: 25.h,
-                  ),
-                ),
-                SizedBox(
-                  width: 5.w,
-                ),
-                Content(
-                  data: "Influencer",
-                  size: 14.h,
-                  weight: FontWeight.w600,
-                  family: "Nunito",
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 30.h,
-          ),
-          Container(
-            width: 383.w, // Width scaling
-            height: 353.h, // Height scaling
-            // margin: EdgeInsets.all(10.w),
-            decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.only(bottomLeft: Radius.circular(10.r))),
-            child: Stack(
-              children: [
-                // Background Image with a cut shape
-                ClipPath(
-                  clipper: SubtleRightSideSlantClipper(),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            'assets/Vector/Cover.png'), // Replace with your image
-                        // fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-
-                Positioned(
-                    left: 15.w,
-                    top: 250.h,
-                    child: Container(
-                      width: 106.w,
-                      height: 106.h,
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.circular(radius)
-                      // ),
-                      child: Image.network(widget.data.image.toString()),
-                    )),
-                Positioned(
-                    left: 246.w,
-                    top: 220.h,
-                    child: Container(
-                        width: 118.w,
-                        height: 36.h,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            color: Color(0xffFFFFFF).withOpacity(0.8)),
-                        child: Container(
-                          child: Center(
-                              child: Content(
-                            data: "Entertainer",
-                            size: 18.h,
-                            weight: FontWeight.w700,
-                            family: "Nunito",
-                            color: Color(0xff7E7C7C),
-                          )),
-                        ))),
-
-                // Name, Username, and Rating
-
-                Positioned(
-                    right: 15.w,
-                    bottom: 30.h,
-                    child: Image.asset(
-                      "assets/Icon/Hand.png",
-                      height: 30.h,
-                    )),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              left: 18.w,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Content(
-                      data: widget.data.name.toString(),
-                      size: 18.h,
-                      family: "Nunito",
-                      weight: FontWeight.w700,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        navigate(
-                            context,
-                            CreateOrderScreen(
-                              influencerId: widget.data.id.toString(),
-                            ));
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 130.w),
-                        height: 33.h,
-                        width: 107.h,
-                        color: Color(0xff161436),
-                        child: Center(
-                            child: Content(
-                          data: "Book Me",
-                          size: 16.h,
-                          family: "Nunito",
-                          weight: FontWeight.w700,
-                          color: Colors.white,
-                        )),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Content(
-                      data: widget.data.email.toString(),
-                      size: 12.h,
-                      family: "Nunito",
-                      weight: FontWeight.w700,
-                    ),
-                    SizedBox(width: 7.w),
-                    Icon(Icons.star, color: Colors.yellow, size: 16.w),
-                    Content(
-                      data: "4.7",
-                      size: 10.h,
-                      family: "Nunito",
-                      weight: FontWeight.w700,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 28.h,
-          ),
-
           Consumer<InfluencerDetailViewModel>(
             // Assume data is in HomeScreenViewModel
             builder: (context, value, child) {
@@ -196,7 +36,17 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                 case Status.INIT:
                   return Container();
                 case Status.LOADING:
-                  return Center(child: const CircularProgressIndicator());
+                  return const Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ],
+                    ),
+                  );
                 case Status.ERROR:
                   return Center(
                     child: Content(
@@ -206,6 +56,169 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                 case Status.COMPLETED:
                   return Column(
                     children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 55.h, left: 21.w),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Image.asset(
+                                "assets/Icon/backarrow.png",
+                                height: 25.h,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            Content(
+                              data: "Influencer",
+                              size: 14.h,
+                              weight: FontWeight.w600,
+                              family: "Nunito",
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      Container(
+                        width: 383.w, // Width scaling
+                        height: 353.h, // Height scaling
+                        // margin: EdgeInsets.all(10.w),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10.r))),
+                        child: Stack(
+                          children: [
+                            // Background Image with a cut shape
+                            ClipPath(
+                              clipper: SubtleRightSideSlantClipper(),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/Vector/Cover.png'), // Replace with your image
+                                    // fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Positioned(
+                                left: 15.w,
+                                top: 250.h,
+                                child: Container(
+                                  width: 106.w,
+                                  height: 106.h,
+                                  // decoration: BoxDecoration(
+                                  //   borderRadius: BorderRadius.circular(radius)
+                                  // ),
+                                  child: Image.network(
+                                      "widget.data.image.toString()"),
+                                )),
+                            Positioned(
+                                left: 246.w,
+                                top: 220.h,
+                                child: Container(
+                                    width: 118.w,
+                                    height: 36.h,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        color:
+                                            Color(0xffFFFFFF).withOpacity(0.8)),
+                                    child: Container(
+                                      child: Center(
+                                          child: Content(
+                                        data: "Entertainer",
+                                        size: 18.h,
+                                        weight: FontWeight.w700,
+                                        family: "Nunito",
+                                        color: Color(0xff7E7C7C),
+                                      )),
+                                    ))),
+
+                            // Name, Username, and Rating
+
+                            Positioned(
+                                right: 15.w,
+                                bottom: 30.h,
+                                child: Image.asset(
+                                  "assets/Icon/Hand.png",
+                                  height: 30.h,
+                                )),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 18.w,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Content(
+                                  data: "widget..name.toString()",
+                                  size: 18.h,
+                                  family: "Nunito",
+                                  weight: FontWeight.w700,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    // navigate(
+                                    //     context,
+                                    // CreateOrderScreen(
+                                    //   influencerName: widget.data.name.toString(),
+                                    //   influencerId: widget.data.id.toString(),
+                                    // ));
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 130.w),
+                                    height: 33.h,
+                                    width: 107.h,
+                                    color: Color(0xff161436),
+                                    child: Center(
+                                        child: Content(
+                                      data: "Book Me",
+                                      size: 16.h,
+                                      family: "Nunito",
+                                      weight: FontWeight.w700,
+                                      color: Colors.white,
+                                    )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Content(
+                                  data: "widget.data.email.toString()",
+                                  size: 12.h,
+                                  family: "Nunito",
+                                  weight: FontWeight.w700,
+                                ),
+                                SizedBox(width: 7.w),
+                                Icon(Icons.star,
+                                    color: Colors.yellow, size: 16.w),
+                                Content(
+                                  data: "4.7",
+                                  size: 10.h,
+                                  family: "Nunito",
+                                  weight: FontWeight.w700,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 28.h,
+                      ),
                       DashedBorderContainer(text: 'No videos yet'),
                       SizedBox(height: 20.h),
                       DashedBorderContainer(text: 'No reviews yet'),

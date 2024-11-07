@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/status.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
+import 'package:video_player/video_player.dart';
 
 class CreateInfluencerAccountScreen extends StatefulWidget {
   const CreateInfluencerAccountScreen({super.key});
@@ -241,17 +243,29 @@ class _CreateInfluencerAccountScreenState
                           Container(
                             height: 89.h,
                             width: 87.w,
-                            child: CircleAvatar(
-                              radius: 40.r,
-                              backgroundColor: Colors.grey[200],
-                              backgroundImage: viewModel.introVideo != null
-                                  ? FileImage(viewModel.introVideo!)
-                                  : null,
-                              child: viewModel.introVideo == null
-                                  ? Icon(Icons.camera_alt,
-                                      size: 26, color: Colors.grey)
-                                  : null,
-                            ),
+                            child: viewModel.introVideo != null &&
+                                    viewModel.videoPlayerController != null &&
+                                    viewModel.videoPlayerController!.value
+                                        .isInitialized
+                                ? ClipOval(
+                                    child: AspectRatio(
+                                      aspectRatio: viewModel
+                                          .videoPlayerController!
+                                          .value
+                                          .aspectRatio,
+                                      child: VideoPlayer(
+                                          viewModel.videoPlayerController!),
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    radius: 40.r,
+                                    backgroundColor: Colors.grey[200],
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      size: 26,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
                           ),
                           Content(
                             data: "Intro Video",
@@ -333,94 +347,94 @@ class _CreateInfluencerAccountScreenState
             //   keyboardType: TextInputType.text,
             // ),
 
-            Container(
-                margin: EdgeInsets.only(bottom: 9.h, left: 25.w),
-                child: Text(
-                  "Country",
-                  style: TextStyle(
-                      fontSize: 16.h,
-                      color: Colors.black,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.w500),
-                )),
-            Center(
-              child: Consumer<InfluencerSignupViewModel>(
-                builder: (context, value, child) {
-                  switch (value.countryList.status) {
-                    case Status.INIT:
-                      return Container();
-                    case Status.LOADING:
-                      return const CircularProgressIndicator();
-                    case Status.ERROR:
-                      return Center(
-                        child: Content(
-                            data: value.countryList.message.toString(),
-                            size: 18),
-                      );
-                    case Status.COMPLETED:
-                      List countries =
-                          viewModel.countryList.data?.result?.list!.data ?? [];
+            // Container(
+            //     margin: EdgeInsets.only(bottom: 9.h, left: 25.w),
+            //     child: Text(
+            //       "Country",
+            //       style: TextStyle(
+            //           fontSize: 16.h,
+            //           color: Colors.black,
+            //           fontFamily: "Lato",
+            //           fontWeight: FontWeight.w500),
+            //     )),
+            // Center(
+            //   child: Consumer<InfluencerSignupViewModel>(
+            //     builder: (context, value, child) {
+            //       switch (value.countryList.status) {
+            //         case Status.INIT:
+            //           return Container();
+            //         case Status.LOADING:
+            //           return const CircularProgressIndicator();
+            //         case Status.ERROR:
+            //           return Center(
+            //             child: Content(
+            //                 data: value.countryList.message.toString(),
+            //                 size: 18),
+            //           );
+            //         case Status.COMPLETED:
+            //           List countries =
+            //               viewModel.countryList.data?.result?.list!.data ?? [];
 
-                      return Container(
-                        child: SizedBox(
-                          height: 50.h,
-                          width: 335.w,
-                          child: DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30.r),
-                                borderSide: BorderSide(
-                                    color: Color(0xff908B8B), width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30.r),
-                                borderSide: BorderSide(
-                                    color: Color(0xff908B8B), width: 2.0),
-                              ),
-                            ),
-                            hint: Text(
-                              "Select your country",
-                              style: TextStyle(
-                                fontSize: 16.h,
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            value: _selectedCountry,
-                            icon: Image.asset("assets/Icon/dropdown.png"),
-                            items: countries.map((country) {
-                              return DropdownMenuItem<String>(
-                                value: country.name,
-                                child: Text(
-                                  country.name,
-                                  style: TextStyle(
-                                    fontSize: 16.h,
-                                    color: Colors.black,
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedCountry = newValue!;
-                              });
-                            },
-                          ),
-                        ),
-                      );
-                    case null:
-                  }
-                  return Container();
+            //           return Container(
+            //             child: SizedBox(
+            //               height: 50.h,
+            //               width: 335.w,
+            //               child: DropdownButtonFormField<String>(
+            //                 decoration: InputDecoration(
+            //                   contentPadding: EdgeInsets.symmetric(
+            //                       horizontal: 20, vertical: 0),
+            //                   focusedBorder: OutlineInputBorder(
+            //                     borderRadius: BorderRadius.circular(30.r),
+            //                     borderSide: BorderSide(
+            //                         color: Color(0xff908B8B), width: 2.0),
+            //                   ),
+            //                   enabledBorder: OutlineInputBorder(
+            //                     borderRadius: BorderRadius.circular(30.r),
+            //                     borderSide: BorderSide(
+            //                         color: Color(0xff908B8B), width: 2.0),
+            //                   ),
+            //                 ),
+            //                 hint: Text(
+            //                   "Select your country",
+            //                   style: TextStyle(
+            //                     fontSize: 16.h,
+            //                     color: Colors.black,
+            //                     fontFamily: "Lato",
+            //                     fontWeight: FontWeight.w500,
+            //                   ),
+            //                 ),
+            //                 value: _selectedCountry,
+            //                 icon: Image.asset("assets/Icon/dropdown.png"),
+            //                 items: countries.map((country) {
+            //                   return DropdownMenuItem<String>(
+            //                     value: country.name,
+            //                     child: Text(
+            //                       country.name,
+            //                       style: TextStyle(
+            //                         fontSize: 16.h,
+            //                         color: Colors.black,
+            //                         fontFamily: "Lato",
+            //                         fontWeight: FontWeight.w500,
+            //                       ),
+            //                     ),
+            //                   );
+            //                 }).toList(),
+            //                 onChanged: (String? newValue) {
+            //                   setState(() {
+            //                     _selectedCountry = newValue!;
+            //                   });
+            //                 },
+            //               ),
+            //             ),
+            //           );
+            //         case null:
+            //       }
+            //       return Container();
 
-                  // Return an empty container if no data
-                },
-              ),
-            ),
+            //       // Return an empty container if no data
+            //     },
+            //   ),
+            // ),
             SizedBox(height: 20.h),
             Center(
               child: Consumer<InfluencerSignupViewModel>(
@@ -432,15 +446,21 @@ class _CreateInfluencerAccountScreenState
                       onPressed: viewModel.loading
                           ? null // Disable button if loading
                           : () {
-                              viewModel.fetchInfluencerSignupData(context,
-                                  name: _nameController.text.toString(),
-                                  username: _usernameController.text.toString(),
-                                  email: _emailController.text.toString(),
-                                  password: _passwordController.text.toString(),
-                                  country: _countryController.text.toString(),
-                                  base64Image: viewModel.base64Image.toString(),
-                                  base64Video:
-                                      viewModel.introVideoBase64.toString());
+                              if (viewModel.introVideo != null) {
+                                viewModel.fetchInfluencerSignupData(context,
+                                    name: _nameController.text.toString(),
+                                    username:
+                                        _usernameController.text.toString(),
+                                    email: _emailController.text.toString(),
+                                    password:
+                                        _passwordController.text.toString(),
+                                    country: _countryController.text.toString(),
+                                    base64Image:
+                                        viewModel.base64Image.toString(),
+                                    introVideo: viewModel.introVideo!);
+                              } else {
+                                Utils.snackBar("Please select video", context);
+                              }
                             },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xff5271FF),

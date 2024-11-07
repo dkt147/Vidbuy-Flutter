@@ -1,56 +1,276 @@
+// import 'package:flutter/material.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:vidbuy_app/Function/navigate.dart';
+// import 'package:vidbuy_app/view/feedback_screen.dart';
+// import 'package:vidbuy_app/view/order_cancel_screen.dart';
+
+// class VideoScreen extends StatefulWidget {
+//   String status;
+//   VideoScreen({required this.status ,super.key});
+
+//   @override
+//   State<VideoScreen> createState() => _VideoScreenState();
+// }
+
+// class _VideoScreenState extends State<VideoScreen> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return  widget.status == "" ?
+
+//     Scaffold(
+//       body: SingleChildScrollView(
+//         child: Column(
+//           children: [
+//             SizedBox(
+//               height: 15.h,
+//             ),
+//             Image.asset(
+//               "assets/Vector/boy.png",
+//               width: 305.w,
+//               height: 400.h,
+//             ),
+//             SizedBox(
+//               height: 20.h,
+//             ),
+//             Container(
+//               width: 280.w,
+//               height: 50.h,
+//               child: ElevatedButton(
+//                 onPressed: () {
+//                   navigate(context, FeedbackScreen());
+//                  // }
+//                 },
+//                 style: ElevatedButton.styleFrom(
+//                   backgroundColor: Color(0xff5271FF),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(30.r),
+//                   ),
+//                 ),
+//                 child: Text(
+//                   "Accepet",
+//                   style: TextStyle(
+//                       fontSize: 16.h,
+//                       color: Colors.white,
+//                       fontFamily: "Lato",
+//                       fontWeight: FontWeight.w700),
+//                 ),
+//               ),
+//             ),
+//             SizedBox(
+//               height: 8.h,
+//             ),
+//             Center(
+//               child: Container(
+//                 width: 280.w,
+//                 height: 50.h,
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(30.r),
+//                   border: Border.all(color: Colors.black),
+//                 ),
+//                 child: Center(
+//                   child: Text(
+//                     "Something is not right",
+//                     style: TextStyle(
+//                         fontSize: 16.h,
+//                         color: Colors.black,
+//                         fontFamily: "Lato",
+//                         fontWeight: FontWeight.w700),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+import 'dart:async';
+import 'dart:io';
+
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vidbuy_app/Function/navigate.dart';
-import 'package:vidbuy_app/view/feedback_screen.dart';
-import 'package:vidbuy_app/view/order_cancel_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoScreen extends StatefulWidget {
-  const VideoScreen({super.key});
+  final String status;
+
+  const VideoScreen({Key? key, required this.status}) : super(key: key);
 
   @override
-  State<VideoScreen> createState() => _VideoScreenState();
+  _VideoScreenState createState() => _VideoScreenState();
 }
 
 class _VideoScreenState extends State<VideoScreen> {
+  VideoPlayerController? _controller;
+  ChewieController? _chewieController;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    final viewModel = Provider.of<InfluencerTaskDetailViewModel>(context);
+
+    if (widget.status == "") {
+      return _buildNotSelectedUI();
+    } else if (widget.status == "pending") {
+      return _buildPendingUI();
+    } else if (widget.status == "completed") {
+      return _buildCompletedUI(viewModel);
+    } else {
+      return Center(child: Text("Unknown status"));
+    }
+  }
+
+  Widget _buildNotSelectedUI() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/Logo/logo.png',
+            height: 177.h,
+            width: 128.w,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "Your video will appear here",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPendingUI() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/Logo/logo.png',
+            height: 177.h,
+            width: 128.w,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "Start working so you can upload video",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCompletedUI(InfluencerTaskDetailViewModel viewModel) {
+    if (viewModel.isVideoUploaded && viewModel.videoPath != null) {
+      _controller = VideoPlayerController.file(
+        File(viewModel.videoPath!),
+      );
+
+      _chewieController = ChewieController(
+        videoPlayerController: _controller!,
+        autoPlay: true,
+        looping: true,
+        showControls: true, // Show controls like play/pause, seek bar, etc.
+        showControlsOnInitialize: false, // Controls are hidden initially
+      );
+
+      return Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 15.h,
-            ),
-            Image.asset(
-              "assets/Vector/boy.png",
               width: 305.w,
               height: 400.h,
+              child: Chewie(
+                controller: _chewieController!,
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: SizedBox(
+                width: 280.w,
+                height: 50.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    viewModel.uploadVideo();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff5271FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                  ),
+                  child: Text(
+                    "Change Video",
+                    style: TextStyle(
+                      fontSize: 16.h,
+                      color: Colors.white,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
             ),
             SizedBox(
-              height: 20.h,
+              width: 280.w,
+              height: 50.h,
+              child: ElevatedButton(
+                onPressed: viewModel.loading
+                    ? null // Disable button if loading
+                    : () {
+                        // viewModel.fetchUploadVideoData(context, file: File(viewModel.videoPath!), requestVideoId: "1");
+                      },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff5271FF),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.r),
+                  ),
+                ),
+                child: viewModel.loading
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
+                    : Text(
+                        "Upload Video",
+                        style: TextStyle(
+                          fontSize: 16.h,
+                          color: Colors.white,
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+              ),
             ),
-            Container(
+          ],
+        ),
+      );
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/Logo/logo.png',
+            height: 177.h,
+            width: 128.w,
+          ),
+          SizedBox(height: 16),
+          const Text(
+            "Your Uploaded Video will appear here",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            child: SizedBox(
               width: 280.w,
               height: 50.h,
               child: ElevatedButton(
                 onPressed: () {
-                  // if (_emailController.text.isEmpty) {
-                  //   snackBar("Enter Valid Email", context);
-                  // } else if (_passwordController.text.isEmpty) {
-                  //   snackBar(
-                  //     "Enter Password",
-                  //     context,
-                  //   );
-                  // } else if (_passwordController.text.length < 8) {
-                  //   snackBar(
-                  //       "Enter Minium 8 Characters of Password", context);
-                  // } else {
-                  //   // Navigator.push(
-                  //   //     context,
-                  //   //     MaterialPageRoute(
-                  //   //         builder: (_) => TabBarWidget()));
-                  navigate(context, FeedbackScreen());
-                  // }
+                  viewModel.uploadVideo();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff5271FF),
@@ -59,41 +279,114 @@ class _VideoScreenState extends State<VideoScreen> {
                   ),
                 ),
                 child: Text(
-                  "Accepet",
+                  "Upload Video",
                   style: TextStyle(
-                      fontSize: 16.h,
-                      color: Colors.white,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8.h,
-            ),
-            Center(
-              child: Container(
-                width: 280.w,
-                height: 50.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.r),
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Center(
-                  child: Text(
-                    "Something is not right",
-                    style: TextStyle(
-                        fontSize: 16.h,
-                        color: Colors.black,
-                        fontFamily: "Lato",
-                        fontWeight: FontWeight.w700),
+                    fontSize: 16.h,
+                    color: Colors.white,
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ],
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    _chewieController?.dispose();
+    super.dispose();
   }
 }
+
+// class VideoPlayerWidget extends StatefulWidget {
+//   final VideoPlayerController controller;
+
+//   const VideoPlayerWidget({Key? key, required this.controller}) : super(key: key);
+
+//   @override
+//   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+// }
+
+// class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+//   bool _isPlaying = false;
+//   bool _isIconVisible = true;
+//   late Timer _timer;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _timer = Timer(Duration(seconds: 5), () {}); // Initialize the timer
+//     widget.controller.addListener(_videoPlayerListener);
+//   }
+
+//   @override
+//   void dispose() {
+//     widget.controller.removeListener(_videoPlayerListener);
+//     _timer.cancel();  // Cancel the timer when the widget is disposed
+//     super.dispose();
+//   }
+
+//   // Listen to the video player state to detect play/pause
+//   void _videoPlayerListener() {
+//     if (widget.controller.value.isPlaying != _isPlaying) {
+//       setState(() {
+//         _isPlaying = widget.controller.value.isPlaying;
+//         if (_isPlaying) {
+//           // Hide the play/pause icon after 5 seconds of playing
+//           _startHideIconTimer();
+//         } else {
+//           // Keep the icon visible if the video is paused
+//           _isIconVisible = true;
+//         }
+//       });
+//     }
+//   }
+
+//   // Timer to hide the play/pause icon after 5 seconds of video playing
+//   void _startHideIconTimer() {
+//     if (_timer.isActive) _timer.cancel();
+//     _timer = Timer(Duration(seconds: 5), () {
+//       setState(() {
+//         _isIconVisible = false;
+//       });
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       alignment: Alignment.center,
+//       children: [
+//         // Video player
+//         SizedBox(
+//           width: 305.w,
+//           height: 400.h,
+//           child: VideoPlayer(widget.controller),
+//         ),
+//         // Play/Pause icon, centered (Optional, if required)
+//         if (_isIconVisible)
+//           IconButton(
+//             icon: Icon(
+//               _isPlaying ? Icons.pause : Icons.play_arrow,
+//               size: 50,
+//               color: Colors.white,
+//             ),
+//             onPressed: () {
+//               setState(() {
+//                 if (_isPlaying) {
+//                   widget.controller.pause();
+//                 } else {
+//                   widget.controller.play();
+//                 }
+//               });
+//             },
+//           ),
+//       ],
+//     );
+//   }
+// }

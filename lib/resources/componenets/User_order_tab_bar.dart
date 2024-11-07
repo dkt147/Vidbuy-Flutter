@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vidbuy_app/view/active_history_screen.dart';
-import 'package:vidbuy_app/view/all_orders_screen.dart';
-import 'package:vidbuy_app/view/orders_details_screen.dart';
-import 'package:vidbuy_app/view/video_screen.dart';
+import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/view/user_all_order_screen.dart';
+import 'package:vidbuy_app/view/user_pending_screen.dart';
+import 'package:vidbuy_app/view/user_waiting_video_screen.dart';
+import 'package:vidbuy_app/view/waiting_video_screen.dart';
 
-class UserDonationsTabBarWidget extends StatefulWidget {
+class UserOrderTabbar extends StatefulWidget {
   @override
-  _UserDonationsTabBarWidgetState createState() =>
-      _UserDonationsTabBarWidgetState();
+  _UserOrderTabbarState createState() => _UserOrderTabbarState();
 }
 
-class _UserDonationsTabBarWidgetState extends State<UserDonationsTabBarWidget>
+class _UserOrderTabbarState extends State<UserOrderTabbar>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -23,7 +23,7 @@ class _UserDonationsTabBarWidgetState extends State<UserDonationsTabBarWidget>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   void goToNextTab() {
@@ -57,15 +57,25 @@ class _UserDonationsTabBarWidgetState extends State<UserDonationsTabBarWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title: Text("Influencer Setup"),
+        backgroundColor: Color(0xffFFFFFF),
+        titleSpacing: 20.h,
+        title: Content(
+          data: "Recent orders ",
+          size: 30.h,
+          weight: FontWeight.w300,
+        ),
+        // leading: Content(data: "Recent orders ", size: 30.h, weight: FontWeight.w300,),
         bottom: TabBar(
-          isScrollable: true,
+          isScrollable: false,
           controller: _tabController,
           indicatorColor: Color(0xff5271FF),
           labelColor: Colors.black,
           unselectedLabelColor: Colors.black45,
+          // indicatorPadding: EdgeInsets.symmetric(horizontal: 10.w),
+          labelPadding: EdgeInsets.symmetric(horizontal: 15.w),
           // indicatorSize: 10,
-          indicatorWeight: 3.w,
+          // indicatorWeight: 3.w,
+
           labelStyle: TextStyle(
             fontFamily: "Lato",
             fontSize: 16.h,
@@ -76,26 +86,26 @@ class _UserDonationsTabBarWidgetState extends State<UserDonationsTabBarWidget>
             // Tab(text: 'Pending', ),
             // Tab(text: 'Waiting Video', ),
             Tab(
-              text: 'Video',
+              text: 'Pending',
             ),
             Tab(
-              text: 'Orders Details',
+              text: 'Waiting Video',
             ),
-            Tab(
-              text: 'Active History',
-            ),
+            // Tab(
+            //   text: 'Active History',
+            // ),
           ],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          AllOrdersScreen(),
+          UserAllOrdersScreen(),
           // PendingScreen(),
           // WaitingVideoScreen(),
-          VideoScreen(),
-          OrdersDetailsScreen(),
-          ActiveHistoryScreen(),
+          UserPendingScreen(),
+          UserWaitingVideoScreen(),
+          // ActiveHistoryScreen(),
           // ChooseCategoryScreen(onSave: saveCategory),
           // VIdeosAcceptScreen(onSave: saveVideos),
           // ChoosePricesScreen(onSave: savePrices),

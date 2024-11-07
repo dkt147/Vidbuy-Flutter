@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Provider/influencer_navbar_provider.dart';
 
 class InfluencerNavbar extends StatelessWidget {
-   InfluencerNavbar({super.key});
+  InfluencerNavbar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,8 @@ class InfluencerNavbar extends StatelessWidget {
             //     borderRadius: BorderRadius.only(
             //         topLeft: Radius.circular(20),
             //         topRight: Radius.circular(20))),
-            child: Consumer<InfluencerNavbarProvider>(builder: (context, value, child) {
+            child: Consumer<InfluencerNavbarProvider>(
+                builder: (context, value, child) {
               return Container(
                 padding: EdgeInsets.only(left: 63.w, right: 63.w),
                 color: Colors.white,

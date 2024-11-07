@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/data/network/network_api_services.dart';
 import 'package:vidbuy_app/model/generic_otp_data_model/generic_otp_data_model.dart';
 import 'package:vidbuy_app/model/generic_signup_data_model/generic_signup_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/country_list_data_model/country_list_data_model.dart';
-import 'package:vidbuy_app/model/user_model/upload_image_data_model/upload_image_data_model.dart';
+import 'package:vidbuy_app/model/upload_image_data_model/upload_image_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
 class SignupRepo {
@@ -36,10 +38,22 @@ class SignupRepo {
 
   Future<UploadImageDataModel> fetchUploadImageResponse(dynamic data) async {
     try {
-      dynamic response =
-          await apiServices.getPostApiResponse(AppUrl.uploadImageUrl, data, true);
+      dynamic response = await apiServices.getPostApiResponse(
+          AppUrl.uploadImageUrl, data, true);
       print(response); // Print the raw response
 
+      return UploadImageDataModel.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<UploadImageDataModel> fetchUploadVideoResponse(
+      dynamic data, File file) async {
+    try {
+      dynamic response = await apiServices.getPostMultipartResponse(
+          AppUrl.uploadImageUrl, file, data, true);
+      print(response); // Print the raw response
       return UploadImageDataModel.fromJson(response);
     } catch (e) {
       throw Exception(e);

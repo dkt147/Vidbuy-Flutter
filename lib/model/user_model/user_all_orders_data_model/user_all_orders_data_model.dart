@@ -2,16 +2,15 @@ import 'package:collection/collection.dart';
 
 import 'result.dart';
 
-class InfluencerListByCatagoryDataModel {
+class UserAllOrdersDataModel {
   bool? Isbool;
   Result? result;
   String? message;
 
-  InfluencerListByCatagoryDataModel({this.Isbool, this.result, this.message});
+  UserAllOrdersDataModel({this.Isbool, this.result, this.message});
 
-  factory InfluencerListByCatagoryDataModel.fromJson(
-      Map<String, dynamic> json) {
-    return InfluencerListByCatagoryDataModel(
+  factory UserAllOrdersDataModel.fromJson(Map<String, dynamic> json) {
+    return UserAllOrdersDataModel(
       Isbool: json['bool'] as bool?,
       result: json['result'] == null
           ? null
@@ -29,7 +28,7 @@ class InfluencerListByCatagoryDataModel {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! InfluencerListByCatagoryDataModel) return false;
+    if (other is! UserAllOrdersDataModel) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

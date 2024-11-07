@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Utils {
   // static const String _loginIdKey = 'loginId';
@@ -33,6 +34,16 @@ class Utils {
   static snackBar(String message, BuildContext context) {
     return ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  static dateFormat1(value) {
+    //Output: 01/Jan/23
+    return DateFormat('dd/MMM/yy').format(DateTime.parse(value.toString()));
+  }
+
+  static dateFormat2(value) {
+    // Output: Sun, 01 Jan 23
+    return DateFormat('E, dd MMM yy').format(DateTime.parse(value.toString()));
   }
 
   static errorSnackBar(String message, BuildContext context) {

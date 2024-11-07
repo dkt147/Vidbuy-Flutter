@@ -11,7 +11,7 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json['id'] as int?,
-        name: json['name'] as String?,
+        name: json['video_type_name'] as String?,
         price: json['price'] as String?,
         createdAt: json['created_at'] == null
             ? null
@@ -23,7 +23,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'name': name,
+        'video_type_name': name,
         'price': price,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),

@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
 class AllTaskTile extends StatelessWidget {
-  const AllTaskTile({super.key});
+  final String price;
+  final String category;
+  final String date;
+
+  AllTaskTile(
+      {required this.price,
+      required this.category,
+      required this.date,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +32,14 @@ class AllTaskTile extends StatelessWidget {
                   Row(
                     children: [
                       Content(
-                        data: "€ 1234.56",
+                        data: "€${price}",
                         size: 16.h,
                         weight: FontWeight.w500,
                         family: "Lato",
                       ),
                       SizedBox(width: 8),
                       Content(
-                        data: "[Category]",
+                        data: category,
                         size: 16.h,
                         weight: FontWeight.w500,
                         family: "Lato",
@@ -48,7 +57,7 @@ class AllTaskTile extends StatelessWidget {
                       ),
                       SizedBox(width: 8),
                       Content(
-                        data: "MMMEd",
+                        data: Utils.dateFormat1(date.toString()),
                         size: 16.h,
                         weight: FontWeight.w500,
                         family: "Lato",
@@ -68,7 +77,7 @@ class AllTaskTile extends StatelessWidget {
                 ),
                 child: Center(
                     child: Content(
-                  data: "status order",
+                  data: "Task Details",
                   size: 18.h,
                   color: Colors.white,
                   weight: FontWeight.w300,

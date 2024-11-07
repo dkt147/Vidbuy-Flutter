@@ -289,16 +289,17 @@ class _SearchScreenState extends State<SearchScreen> {
                           childAspectRatio:
                               1, // Adjust the aspect ratio as needed
                         ),
-                        itemCount: value.influencersList.data!.result!.data!.length , // Assuming you have a data list
+                        itemCount: value.influencersList.data!.result!
+                            .length, // Assuming you have a data list
                         itemBuilder: (context, index) {
                           final influencer =
-                              value.influencersList.data!.result!.data![index];
+                              value.influencersList.data!.result![index];
                           return GestureDetector(
                             onTap: () {
                               navigate(
                                   context,
                                   InfluencerProfileScreen(
-                                    data: influencer,
+                                    influencerId: "1",
                                   ));
                             },
                             child: InfluencerCardWidget2(
@@ -306,7 +307,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   .toString(), // Use actual data from the API
                               influencerName: influencer.name.toString(),
                               categoryName: influencer.countryName.toString(),
-                              price: influencer.priceRange.toString(),
+                              price: "100",
                               rating: influencer.reviewCount.toString(),
                             ),
                           );

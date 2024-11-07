@@ -9,9 +9,11 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/generic_signup_data_model/generic_signup_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/country_list_data_model/country_list_data_model.dart';
+import 'package:vidbuy_app/model/upload_image_data_model/upload_image_data_model.dart';
 import 'package:vidbuy_app/repo/signup_repo.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/otp_scren.dart';
+import 'package:video_player/video_player.dart';
 
 class InfluencerSignupViewModel extends ChangeNotifier {
   SignupRepo _signupRepo = SignupRepo();
@@ -59,19 +61,73 @@ class InfluencerSignupViewModel extends ChangeNotifier {
 
   String? _introVideoBase64;
   String? get introVideoBase64 => _introVideoBase64;
+  VideoPlayerController? _videoPlayerController;
+  VideoPlayerController? get videoPlayerController => _videoPlayerController;
 
+  // Function to pick a video (only .mp4, .mov, .avi)
   Future<void> pickIntroVideo() async {
+    // Existing code to pick the video file
     try {
       final ImagePicker _picker = ImagePicker();
-      final XFile? video = await _picker.pickImage(source: ImageSource.gallery);
+      final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
 
       if (video != null) {
-        _introVideo = File(video.path);
-        _introVideoBase64 = base64Encode(_introVideo!.readAsBytesSync());
-        notifyListeners(); // Notify listeners after updating the image
+        final file = File(video.path);
+        final extension = file.path.split('.').last.toLowerCase();
+
+        if (['mp4', 'mov', 'avi'].contains(extension)) {
+          _introVideo = file;
+          _videoPlayerController = VideoPlayerController.file(_introVideo!)
+            ..initialize().then((_) {
+              notifyListeners();
+            });
+        } else {
+          print(
+              'Unsupported video format. Please select an mp4, mov, or avi file.');
+        }
       }
     } catch (e) {
-      print('Error picking image: $e');
+      print('Error picking video: $e');
+    }
+  }
+
+  ApiResponse<UploadImageDataModel> _uploadImageResponse =
+      ApiResponse.loading();
+  ApiResponse<UploadImageDataModel> get uploadImageResponse =>
+      _uploadImageResponse;
+
+  setUploadImageResponse(ApiResponse<UploadImageDataModel> response) {
+    _uploadImageResponse = response;
+    _uploadImageResponse.toString();
+    notifyListeners();
+  }
+
+  ApiResponse<UploadImageDataModel> _uploadVideoResponse =
+      ApiResponse.loading();
+  ApiResponse<UploadImageDataModel> get uploadVideoResponse =>
+      _uploadVideoResponse;
+
+  setUploadVideoResponse(ApiResponse<UploadImageDataModel> response) {
+    _uploadVideoResponse = response;
+    _uploadVideoResponse.toString();
+    notifyListeners();
+  }
+
+  Future<bool> _uploadImage(String base64Image) async {
+    Map<String, dynamic> imageData = {
+      'image': base64Image.toString(),
+    };
+
+    try {
+      setUploadImageResponse(ApiResponse.loading());
+      final value = await _signupRepo.fetchUploadImageResponse(imageData);
+      setUploadImageResponse(ApiResponse.completed(value));
+      // await LocalData.setImage(value.result!.image.toString());
+      print(value);
+      return true;
+    } catch (error) {
+      setUploadImageResponse(ApiResponse.error(error.toString()));
+      return false;
     }
   }
 
@@ -81,10 +137,10 @@ class InfluencerSignupViewModel extends ChangeNotifier {
       required String email,
       required String password,
       required String country,
-      required String? base64Image,
-      required String? base64Video}) async {
+      required String base64Image,
+      required File introVideo}) async {
     if (_validateFields(
-        context, name, username, email, password, base64Image, base64Video)) {
+        context, name, username, email, password, base64Image, introVideo)) {
       // Return early if validation fails
 
       Map<String, dynamic> registrationData = {
@@ -110,7 +166,14 @@ class InfluencerSignupViewModel extends ChangeNotifier {
           String token = value.result['token'].toString();
           print(token);
           await LocalData.setToken(token);
-          navigate(context, OtpScren(code: verificationCode, token: token));
+
+          bool imageUploadSuccess = await _uploadImage(base64Image);
+
+          if (imageUploadSuccess) {
+            navigate(context, OtpScren(code: verificationCode, token: token));
+          } else {
+            Utils.snackBar(uploadImageResponse.message.toString(), context);
+          }
         }
         // else {
         //   // Handle unexpected result structure
@@ -191,14 +254,8 @@ class InfluencerSignupViewModel extends ChangeNotifier {
 
   // }
 
-  bool _validateFields(
-      BuildContext context,
-      String name,
-      String username,
-      String email,
-      String password,
-      String? base64Image,
-      String? videoBase64Image) {
+  bool _validateFields(BuildContext context, String name, String username,
+      String email, String password, String base64Image, File introVideo) {
     if (name.isEmpty) {
       Utils.snackBar('Please enter your name', context);
       return false;
@@ -215,11 +272,11 @@ class InfluencerSignupViewModel extends ChangeNotifier {
       Utils.snackBar('Password must be at least 8 characters long', context);
       return false;
     }
-    if (base64Image == null) {
+    if (base64Image == "null") {
       Utils.snackBar('Please select a profile image', context);
       return false;
     }
-    if (videoBase64Image == null) {
+    if (introVideo == null) {
       Utils.snackBar('Please select a intro video', context);
       return false;
     }

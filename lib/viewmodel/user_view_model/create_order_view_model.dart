@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
+import 'package:vidbuy_app/model/user_model/create_user_order_data_model/create_user_order_data_model.dart';
 import 'package:vidbuy_app/model/user_model/influencer_video_type_data_model/influencer_video_type_data_model.dart';
 import 'package:vidbuy_app/repo/create_order_user_repo.dart';
+import 'package:vidbuy_app/view/nav_bar.dart';
+import 'package:vidbuy_app/view/search_screen.dart';
 
 class CreateOrderViewModel extends ChangeNotifier {
   UserCreateOrderRepo _userCreateOrderRepo = UserCreateOrderRepo();
@@ -49,10 +54,7 @@ class CreateOrderViewModel extends ChangeNotifier {
     notifyListeners(); // Notify listeners to update UI
   }
 
-
-
-
-    Map<String, dynamic>? selectedVideoTypeDetails;
+  Map<String, dynamic>? selectedVideoTypeDetails;
 
   void setVideoType(String id, String name, String price) {
     selectedVideoTypeDetails = {'id': id, 'name': name, 'price': price};
@@ -60,30 +62,108 @@ class CreateOrderViewModel extends ChangeNotifier {
   }
 
   Future<void> fetchVideoTypeList(String influencerId) async {
-  setInfluencerVideoTypeList(ApiResponse.loading());
-  
-  _userCreateOrderRepo.fetchInfluencerVideoType(influencerId).then((value) {
-    if (value.result != null && value.result!.isNotEmpty) {
-      // Populate the list if result is non-null and contains items
-      setInfluencerVideoTypeList(ApiResponse.completed(value));
-      videoTypes = List<Map<String, dynamic>>.from(value.result!.map((item) => {
-            'id': item.id,
-            'name': item.name,
-            'price': item.price
-          }));
-      print("Video type list fetched successfully.");
-    } else {
-      // Handle case where result is empty or null
-      setInfluencerVideoTypeList(ApiResponse.error("No video types available."));
-      print("No video types available.");
-    }
-  }).onError((error, stackTrace) {
-    setInfluencerVideoTypeList(ApiResponse.error(error.toString()));
-    print("Error fetching video types: $error");
-  });
-}
+    setInfluencerVideoTypeList(ApiResponse.loading());
 
- // This is just a placeholder for your actual fetch method
+    _userCreateOrderRepo.fetchInfluencerVideoType(influencerId).then((value) {
+      if (value.result != null && value.result!.isNotEmpty) {
+        // Populate the list if result is non-null and contains items
+        setInfluencerVideoTypeList(ApiResponse.completed(value));
+        videoTypes = List<Map<String, dynamic>>.from(value.result!.map(
+            (item) => {'id': item.id, 'name': item.name, 'price': item.price}));
+        print("Video type list fetched successfully.");
+      } else {
+        // Handle case where result is empty or null
+        setInfluencerVideoTypeList(
+            ApiResponse.error("No video types available."));
+        print("No video types available.");
+      }
+    }).onError((error, stackTrace) {
+      setInfluencerVideoTypeList(ApiResponse.error(error.toString()));
+      print("Error fetching video types: $error");
+    });
+  }
+
+  bool _loading = false;
+  bool get loading => _loading;
+
+  setLoading(bool value) {
+    _loading = value;
+    print(_loading);
+    notifyListeners();
+  }
+
+  ApiResponse<CreateUserOrderDataModel> _createUserOrderResponse =
+      ApiResponse.loading();
+  ApiResponse<CreateUserOrderDataModel> get createUserOrderResponse =>
+      _createUserOrderResponse;
+
+  void setCreateUserOrderResponse(
+      ApiResponse<CreateUserOrderDataModel> response) {
+    _createUserOrderResponse = response;
+    notifyListeners();
+  }
+
+  Future<void> fetchCreateUserOrderResponse(
+    BuildContext context, {
+    required String influencerId,
+    required String videoTypeId,
+    required String videoFor,
+    required String from,
+    required String to,
+    required String description,
+    required String requiredDays,
+    required String deliveryCharges,
+  }) async {
+    Map<String, dynamic> createOrderData = {
+      'influencer_id': influencerId,
+      'video_type_id': videoTypeId,
+      'video_for': videoFor,
+      'from': from,
+      'to': to,
+      'description': description,
+      'required_days': requiredDays,
+      'delivery_charges': deliveryCharges,
+    };
+
+    setLoading(true);
+    setCreateUserOrderResponse(ApiResponse.loading());
+    _userCreateOrderRepo
+        .fetchRequestOrderResponse(createOrderData)
+        .then((value) async {
+      setCreateUserOrderResponse(ApiResponse.completed(value));
+
+      if (value.boolValue) {
+        Utils.snackBar(value.message.toString(), context);
+        navigate(context, NavBarScreen());
+      } else {
+        Utils.snackBar(value.message.toString(), context);
+      }
+
+      setLoading(false);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      Utils.snackBar(error.toString(), context);
+    });
+  }
+
+  // bool _validateFields(
+  //     BuildContext context, String email, String username, String msg) {
+  //   if (email.isEmpty) {
+  //     Utils.snackBar('Please enter a valid email', context);
+  //     return false;
+  //   }
+  //   if (username.isEmpty) {
+  //     Utils.snackBar('Please enter username!', context);
+  //     return false;
+  //   }
+  //   if (msg.isEmpty) {
+  //     Utils.snackBar('Please enter message', context);
+  //     return false;
+  //   }
+  //   return true;
+  // }
+
+  // This is just a placeholder for your actual fetch method
 //   Future<void> fetchVideoTypeList() async {
 //     // Example data fetch; replace with your API call
 //     videoTypes = [
@@ -93,7 +173,6 @@ class CreateOrderViewModel extends ChangeNotifier {
 //     notifyListeners();
 //   }
 // }
-
 
   // Future<void> fetchInfluencerSignupData(BuildContext context,
   //     {required String name,
