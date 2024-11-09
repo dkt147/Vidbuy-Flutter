@@ -1,20 +1,12 @@
 // class CreateUserAccountScreen extends StatelessWidget {
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
-import 'package:vidbuy_app/services/api.service.dart';
-import 'package:vidbuy_app/services/network.service.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
-import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_signup_view_model.dart';
 
 class CreateUserAccountScreen extends StatefulWidget {

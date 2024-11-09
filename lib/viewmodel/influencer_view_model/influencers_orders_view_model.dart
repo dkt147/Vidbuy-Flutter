@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_all_orders_data_model/influencer_all_orders_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_pending_orders_data_model/influencer_pending_orders_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/influencer_waiting_video_list_data_model/influencer_waiting_video_list_data_model.dart';
 import 'package:vidbuy_app/repo/influencer_orders_repo.dart';
 
 class InfluencerOrdersViewModel with ChangeNotifier {
@@ -74,13 +75,13 @@ class InfluencerOrdersViewModel with ChangeNotifier {
     });
   }
 
-  ApiResponse<InfluencerAllOrdersDataModel> _influencerWaitingVideoList =
+  ApiResponse<InfluencerWaitingVideoListDataModel> _influencerWaitingVideoList =
       ApiResponse.loading();
-  ApiResponse<InfluencerAllOrdersDataModel> get influencerWaitingVideoList =>
-      _influencerWaitingVideoList;
+  ApiResponse<InfluencerWaitingVideoListDataModel>
+      get influencerWaitingVideoList => _influencerWaitingVideoList;
 
   setInfluencerWaitingVideoList(
-      ApiResponse<InfluencerAllOrdersDataModel> response) {
+      ApiResponse<InfluencerWaitingVideoListDataModel> response) {
     _influencerWaitingVideoList = response;
     _influencerWaitingVideoList.toString();
     notifyListeners();

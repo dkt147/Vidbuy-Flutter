@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 
 import 'influencer.dart';
+import 'video_type.dart';
 
 class Datum {
   int? id;
@@ -23,6 +24,7 @@ class Datum {
   DateTime? updatedAt;
   String? expiresAt;
   Influencer? influencer;
+  VideoType? videoType;
 
   Datum({
     this.id,
@@ -45,6 +47,7 @@ class Datum {
     this.updatedAt,
     this.expiresAt,
     this.influencer,
+    this.videoType,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -74,6 +77,9 @@ class Datum {
         influencer: json['influencer'] == null
             ? null
             : Influencer.fromJson(json['influencer'] as Map<String, dynamic>),
+        videoType: json['video_type'] == null
+            ? null
+            : VideoType.fromJson(json['video_type'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
@@ -97,6 +103,7 @@ class Datum {
         'updated_at': updatedAt?.toIso8601String(),
         'expires_at': expiresAt,
         'influencer': influencer?.toJson(),
+        'video_type': videoType?.toJson(),
       };
 
   @override
@@ -128,5 +135,6 @@ class Datum {
       createdAt.hashCode ^
       updatedAt.hashCode ^
       expiresAt.hashCode ^
-      influencer.hashCode;
+      influencer.hashCode ^
+      videoType.hashCode;
 }

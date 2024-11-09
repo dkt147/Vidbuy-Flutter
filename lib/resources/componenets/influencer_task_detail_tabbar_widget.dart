@@ -7,9 +7,33 @@ import 'package:vidbuy_app/view/video_screen.dart';
 
 // ignore: must_be_immutable
 class InfluencerTaskDetailTabBarWidget extends StatefulWidget {
-  Datum? data;
+  String videoTypeId;
+  String createdAt;
+  String orderId;
+  String expiresAt;
+  String status;
+  String videoTypeName;
+  String from;
+  String to;
+  String requiredDays;
+  String description;
+  String totalPrice;
+  String? videoUrl;
 
-  InfluencerTaskDetailTabBarWidget({this.data, super.key});
+  InfluencerTaskDetailTabBarWidget(
+      {required this.videoTypeId,
+      required this.createdAt,
+      required this.orderId,
+      required this.expiresAt,
+      required this.status,
+      required this.videoTypeName,
+      required this.from,
+      required this.to,
+      required this.requiredDays,
+      required this.description,
+      required this.totalPrice,
+      this.videoUrl,
+      super.key});
 
   @override
   _InfluencerTaskDetailTabBarWidgetState createState() =>
@@ -60,13 +84,26 @@ class _InfluencerTaskDetailTabBarWidgetState
         controller: _tabController,
         children: [
           VideoScreen(
-            status: widget.data!.status.toString(),
+            status: widget.status.toString(),
+            videoTypeId: widget.videoTypeId.toString(),
+            videoUrl: widget.videoUrl.toString(),
             // "completed",
           ),
           OrdersDetailsScreen(
-            data: widget.data!,
+              videoTypeId: widget.videoTypeId.toString(),
+              createdAt: widget.createdAt.toString(),
+              orderId: widget.orderId.toString(),
+              expiresAt: widget.expiresAt.toString(),
+              status: widget.status.toString(),
+              videoTypeName: widget.videoTypeName.toString(),
+              from: widget.from.toString(),
+              to: widget.to.toString(),
+              requiredDays: widget.requiredDays.toString(),
+              description: widget.description.toString(),
+              totalPrice: widget.totalPrice.toString()),
+          ActiveHistoryScreen(
+            videoTypeId: widget.videoTypeId.toString(),
           ),
-          const ActiveHistoryScreen(),
         ],
       ),
     );

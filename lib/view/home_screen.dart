@@ -358,7 +358,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .toString(), // Assuming 'image' is a URL or asset path
                                   influencerName: influencer.name
                                       .toString(), // Use actual name from API
-                                  categoryName: influencer.email
+                                  categoryName: influencer
+                                      .influencerCategory!.first.name
                                       .toString(), // Or whichever field you need
                                 ),
                               );
@@ -616,8 +617,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .toString(), // Assuming 'image' is a URL or asset path
                                     influencerName: influencer.name
                                         .toString(), // Use actual name from API
-                                    categoryName:
-                                        "" // Or whichever field you need
+                                    categoryName: influencer
+                                        .influencerCategory!.first.name
+                                        .toString() // Or whichever field you need
                                     ),
                               );
                             }).toList(),

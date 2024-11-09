@@ -299,11 +299,9 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 47.h),
-              Content(data: widget.selectedVideos.toString(), size: 20),
               Text("Choose Prices",
                   style:
                       TextStyle(fontSize: 30.h, fontWeight: FontWeight.w300)),
-              Content(data: LocalData.id, size: 10),
               Text("Choose how much to charge for each video",
                   style: TextStyle(
                       fontFamily: "Nunito",

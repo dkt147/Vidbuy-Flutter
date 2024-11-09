@@ -1,27 +1,24 @@
 import 'package:collection/collection.dart';
 
-class Category {
+class VideoType {
   int? id;
   String? name;
-  String? image;
-  String? tagLine;
+  String? price;
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  Category({
+  VideoType({
     this.id,
     this.name,
-    this.image,
-    this.tagLine,
+    this.price,
     this.createdAt,
     this.updatedAt,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory VideoType.fromJson(Map<String, dynamic> json) => VideoType(
         id: json['id'] as int?,
         name: json['name'] as String?,
-        image: json['image'] as String?,
-        tagLine: json['tag_line'] as String?,
+        price: json['price'] as String?,
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at'] as String),
@@ -33,8 +30,7 @@ class Category {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'image': image,
-        'tag_line': tagLine,
+        'price': price,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };
@@ -42,7 +38,7 @@ class Category {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Category) return false;
+    if (other is! VideoType) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }
@@ -51,8 +47,7 @@ class Category {
   int get hashCode =>
       id.hashCode ^
       name.hashCode ^
-      image.hashCode ^
-      tagLine.hashCode ^
+      price.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode;
 }

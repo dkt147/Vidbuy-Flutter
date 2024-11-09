@@ -54,6 +54,8 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                         size: 18),
                   );
                 case Status.COMPLETED:
+                  var influencer =
+                      value.influencerDetailList.data!.result!.user;
                   return Column(
                     children: [
                       Container(
@@ -117,7 +119,8 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                   //   borderRadius: BorderRadius.circular(radius)
                                   // ),
                                   child: Image.network(
-                                      "widget.data.image.toString()"),
+                                      fit: BoxFit.cover,
+                                      influencer!.image.toString()),
                                 )),
                             Positioned(
                                 left: 246.w,
@@ -133,8 +136,10 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                     child: Container(
                                       child: Center(
                                           child: Content(
-                                        data: "Entertainer",
-                                        size: 18.h,
+                                        data: influencer
+                                            .influencerCategories!.first.name
+                                            .toString(),
+                                        size: 17.h,
                                         weight: FontWeight.w700,
                                         family: "Nunito",
                                         color: Color(0xff7E7C7C),
@@ -161,21 +166,24 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Content(
-                                  data: "widget..name.toString()",
+                                  data: influencer.name.toString(),
                                   size: 18.h,
                                   family: "Nunito",
                                   weight: FontWeight.w700,
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // navigate(
-                                    //     context,
-                                    // CreateOrderScreen(
-                                    //   influencerName: widget.data.name.toString(),
-                                    //   influencerId: widget.data.id.toString(),
-                                    // ));
+                                    navigate(
+                                        context,
+                                        CreateOrderScreen(
+                                          influencerName:
+                                              influencer.name.toString(),
+                                          influencerId:
+                                              influencer.id.toString(),
+                                        ));
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 130.w),
@@ -197,7 +205,7 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                             Row(
                               children: [
                                 Content(
-                                  data: "widget.data.email.toString()",
+                                  data: influencer.email.toString(),
                                   size: 12.h,
                                   family: "Nunito",
                                   weight: FontWeight.w700,

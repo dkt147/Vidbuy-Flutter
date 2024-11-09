@@ -4,13 +4,11 @@ import 'result.dart';
 
 class InfluencerCategoryDataModel {
   bool? boool;
-  int? status;
   String? message;
   Result? result;
 
   InfluencerCategoryDataModel({
     this.boool,
-    this.status,
     this.message,
     this.result,
   });
@@ -18,7 +16,6 @@ class InfluencerCategoryDataModel {
   factory InfluencerCategoryDataModel.fromJson(Map<String, dynamic> json) {
     return InfluencerCategoryDataModel(
       boool: json['bool'] as bool?,
-      status: json['status'] as int?,
       message: json['message'] as String?,
       result: json['result'] == null
           ? null
@@ -28,7 +25,6 @@ class InfluencerCategoryDataModel {
 
   Map<String, dynamic> toJson() => {
         'bool': bool,
-        'status': status,
         'message': message,
         'result': result?.toJson(),
       };
@@ -42,6 +38,5 @@ class InfluencerCategoryDataModel {
   }
 
   @override
-  int get hashCode =>
-      boool.hashCode ^ status.hashCode ^ message.hashCode ^ result.hashCode;
+  int get hashCode => boool.hashCode ^ message.hashCode ^ result.hashCode;
 }

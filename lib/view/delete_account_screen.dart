@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
-import 'package:vidbuy_app/view/delete_confirm_account_screen.dart';
-import 'package:vidbuy_app/view/nav_bar.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/user_profile_view_model.dart';
 
+// ignore: must_be_immutable
 class DeleteAccountScreen extends StatelessWidget {
   DeleteAccountScreen({super.key});
   TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<UserProfileViewModel>(context, listen: false);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -68,40 +69,41 @@ class DeleteAccountScreen extends StatelessWidget {
             height: 31.h,
           ),
           Center(
-            child: Container(
-              width: 335.w,
-              height: 50.h,
-              child: ElevatedButton(
-                onPressed: () {
-                  // if (_emailController.text.isEmpty) {
-                  //   snackBar("Enter Valid Email", context);
-                  // } else if (_passwordController.text.isEmpty) {
-                  //   snackBar(
-                  //     "Enter Password",
-                  //     context,
-                  //   );
-                  // } else if (_passwordController.text.length < 8) {
-                  //   snackBar(
-                  //       "Enter Minium 8 Characters of Password", context);
-                  // } else {
-                  //   // Navigator.push(
-                  //   //     context,
-                  //   //     MaterialPageRoute(
-                  //   //         builder: (_) => TabBarWidget()));
-                  navigate(context, DeleteConfirmAccountScreen());
-                  // }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff5271FF),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.r),
+            child: Consumer<UserProfileViewModel>(
+              builder: (context, viewModel, child) {
+                return Container(
+                  width: 280.w,
+                  height: 50.h,
+                  child: ElevatedButton(
+                    onPressed: viewModel.loading
+                        ? null // Disable button if loading
+                        : () {
+                            viewModel.fetchVerifyPasswordResponse(context,
+                                password: _passwordController.text.toString());
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff5271FF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                    ),
+                    child: viewModel.loading
+                        ? CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                        : Text(
+                            "Log In",
+                            style: TextStyle(
+                              fontSize: 20.h,
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
                   ),
-                ),
-                child: Text(
-                  "Continue",
-                  style: TextStyle(fontSize: 16.h, color: Colors.white),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],

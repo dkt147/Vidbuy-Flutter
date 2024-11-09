@@ -58,12 +58,13 @@ class UserProfileScreen extends StatelessWidget {
                   width: 98.w,
                   height: 99.h,
                   margin: EdgeInsets.only(left: 21.w),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                  ),
-                  child: Image.network(
-                    LocalData.image,
-                    fit: BoxFit.scaleDown,
+                    image: DecorationImage(
+                      image: NetworkImage(LocalData.image.toString()),
+                      fit: BoxFit
+                          .cover, // Ensures the image covers the entire circle
+                    ),
                   ),
                 ),
                 SizedBox(

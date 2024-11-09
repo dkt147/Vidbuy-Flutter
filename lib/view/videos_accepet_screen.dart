@@ -178,7 +178,7 @@ class _VideosAcceptScreenState extends State<VideosAcceptScreen> {
                             influencerSelectionViewModel.fetchInfluencerData(
                                 context,
                                 priceRangeId: influencerSelectionViewModel
-                                    .selectedCategory!['id'],
+                                    .selectedPriceRange!['id'],
                                 videoTypes: influencerSelectionViewModel
                                     .selectedVideoTypeIds, func: () {
                               List<Map<String, dynamic>> selectedVideosData =

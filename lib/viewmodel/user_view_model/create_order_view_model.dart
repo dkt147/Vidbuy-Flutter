@@ -5,6 +5,7 @@ import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/user_model/create_user_order_data_model/create_user_order_data_model.dart';
 import 'package:vidbuy_app/model/user_model/influencer_video_type_data_model/influencer_video_type_data_model.dart';
 import 'package:vidbuy_app/repo/create_order_user_repo.dart';
+import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/view/search_screen.dart';
 
@@ -111,7 +112,7 @@ class CreateOrderViewModel extends ChangeNotifier {
     required String from,
     required String to,
     required String description,
-    required String requiredDays,
+    required int requiredDays,
     required String deliveryCharges,
   }) async {
     Map<String, dynamic> createOrderData = {
@@ -134,7 +135,8 @@ class CreateOrderViewModel extends ChangeNotifier {
 
       if (value.boolValue) {
         Utils.snackBar(value.message.toString(), context);
-        navigate(context, NavBarScreen());
+        navigatePushReplace(
+            context, InfluencerProfileScreen(influencerId: influencerId));
       } else {
         Utils.snackBar(value.message.toString(), context);
       }

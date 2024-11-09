@@ -2,23 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
-import 'package:vidbuy_app/resources/componenets/influencer_task_detail_tabbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
-import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/resources/log_out.dart';
-import 'package:vidbuy_app/view/all_task_scereen.dart';
 import 'package:vidbuy_app/view/balance_screen.dart';
-import 'package:vidbuy_app/view/choose_category_screen.dart.dart';
-import 'package:vidbuy_app/view/choose_price_screen.dart';
 import 'package:vidbuy_app/view/contact_us_screen.dart';
 import 'package:vidbuy_app/view/delete_account_screen.dart';
 import 'package:vidbuy_app/view/influencer_edit_profile_screen.dart';
 import 'package:vidbuy_app/view/language_screen.dart';
 import 'package:vidbuy_app/view/notification_setting_screen.dart';
 import 'package:vidbuy_app/view/policies_screen.dart';
-import 'package:vidbuy_app/view/review_selection_screen.dart';
-import 'package:vidbuy_app/view/user_edit_profile_screen.dart';
-import 'package:vidbuy_app/view/videos_accepet_screen.dart';
+import 'package:vidbuy_app/view/update_category_screen.dart';
 
 class InfluencerUniqueProfile extends StatefulWidget {
   const InfluencerUniqueProfile({super.key});
@@ -101,8 +95,12 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                   margin: EdgeInsets.only(left: 21.w),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: NetworkImage(LocalData.image.toString()),
+                      fit: BoxFit
+                          .cover, // Ensures the image covers the entire circle
+                    ),
                   ),
-                  child: Image.asset("assets/Vector/girl.png"),
                 ),
                 SizedBox(
                   width: 17.w,
@@ -115,13 +113,13 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                       height: 39.h,
                     ),
                     Content(
-                      data: "Benji hovl",
+                      data: LocalData.name.toString(),
                       size: 18.h,
                       family: "Lato",
                       weight: FontWeight.w700,
                     ),
                     Content(
-                      data: "Benji@gmail.com",
+                      data: LocalData.email.toString(),
                       size: 18.h,
                       family: "Lato",
                       weight: FontWeight.w700,
@@ -132,7 +130,7 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                       color: Color(0xffD9D9D9),
                       child: Center(
                         child: Content(
-                          data: "1234567",
+                          data: LocalData.id.toString(),
                           size: 12.h,
                           family: "Lato",
                           weight: FontWeight.w700,
@@ -157,10 +155,14 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                       margin: EdgeInsets.only(right: 260.w),
                       child: Content(
                         data: "Account",
-                        size: 18.h,
+                        size: 20.h,
                         family: "Lato",
                         weight: FontWeight.w600,
                       )),
+
+                  SizedBox(
+                    height: 20.h,
+                  ),
                   GestureDetector(
                     onTap: () {
                       // navigate(context, InfluencerDonationsTabbarWidget());
@@ -196,22 +198,18 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                     },
                     child: ProfileTile(
                         image: "assets/Icon/layouticon.png",
-                        text: "Update Videos & prices"),
+                        text: "Update Video Price"),
                   ),
                   SizedBox(
                     height: 17.h,
                   ),
                   GestureDetector(
                     onTap: () {
-                      // navigate(
-                      //     context,
-                      //     ChooseCategoryScreen(
-                      //       onSave: saveCategory,
-                      //     ));
+                      navigate(context, UpdateCategoryScreen());
                     },
                     child: ProfileTile(
                         image: "assets/Icon/layouticon.png",
-                        text: "Update Categorie"),
+                        text: "Update Category"),
                   ),
                   SizedBox(
                     height: 17.h,

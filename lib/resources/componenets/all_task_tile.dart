@@ -50,7 +50,7 @@ class AllTaskTile extends StatelessWidget {
                   Row(
                     children: [
                       Content(
-                        data: "Expires",
+                        data: "Expires:",
                         size: 16.h,
                         weight: FontWeight.w500,
                         family: "Lato",

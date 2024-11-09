@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -145,9 +146,14 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                             // Use a regular expression to match only the numeric part
                             final RegExp regExp = RegExp(r'\d+');
                             final match = regExp.firstMatch(text);
-                            return match != null
-                                ? int.parse(match.group(0)!)
-                                : null;
+
+                            if (match != null) {
+                              int number = int.parse(match.group(0)!);
+                              // Check if the number is 24, then set it to 1
+                              return number == 24 ? 1 : number;
+                            }
+
+                            return null; // Return null if no number is found
                           }
 
                           day = getNumberFromText(days);
@@ -468,7 +474,8 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                                   Utils.snackBar(
                                       "Please select delivery type", context);
                                 } else {
-                                  String deliveryday = day.toString();
+                                  int deliveryday = day!;
+
                                   viewModel.fetchCreateUserOrderResponse(
                                       context,
                                       influencerId:

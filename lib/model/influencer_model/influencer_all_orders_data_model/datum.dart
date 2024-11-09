@@ -17,10 +17,13 @@ class Datum {
   String? serviceCharges;
   String? totalPrice;
   String? status;
+  String? orderId;
   dynamic paymentStatus;
   dynamic reason;
   DateTime? createdAt;
   DateTime? updatedAt;
+  DateTime? expiresAt;
+
   User? user;
   VideoType? videoType;
 
@@ -38,10 +41,12 @@ class Datum {
     this.serviceCharges,
     this.totalPrice,
     this.status,
+    this.orderId,
     this.paymentStatus,
     this.reason,
     this.createdAt,
     this.updatedAt,
+    this.expiresAt,
     this.user,
     this.videoType,
   });
@@ -60,6 +65,7 @@ class Datum {
         serviceCharges: json['service_charges'] as String?,
         totalPrice: json['total_price'] as String?,
         status: json['status'] as String?,
+        orderId: json['order_id'] as String?,
         paymentStatus: json['payment_status'] as dynamic,
         reason: json['reason'] as dynamic,
         createdAt: json['created_at'] == null
@@ -68,6 +74,9 @@ class Datum {
         updatedAt: json['updated_at'] == null
             ? null
             : DateTime.parse(json['updated_at'] as String),
+        expiresAt: json['expires_at'] == null
+            ? null
+            : DateTime.parse(json['expires_at'] as String),
         user: json['user'] == null
             ? null
             : User.fromJson(json['user'] as Map<String, dynamic>),
@@ -90,10 +99,12 @@ class Datum {
         'service_charges': serviceCharges,
         'total_price': totalPrice,
         'status': status,
+        'order_id': orderId,
         'payment_status': paymentStatus,
         'reason': reason,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
+        'expires_at': updatedAt?.toIso8601String(),
         'user': user?.toJson(),
         'video_type': videoType?.toJson(),
       };
@@ -121,10 +132,12 @@ class Datum {
       serviceCharges.hashCode ^
       totalPrice.hashCode ^
       status.hashCode ^
+      orderId.hashCode ^
       paymentStatus.hashCode ^
       reason.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
+      expiresAt.hashCode ^
       user.hashCode ^
       videoType.hashCode;
 }

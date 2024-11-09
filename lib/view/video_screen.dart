@@ -93,13 +93,23 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/Function/utils.dart';
+import 'package:vidbuy_app/resources/componenets/influencer_order_tabbar.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoScreen extends StatefulWidget {
   final String status;
+  final String videoTypeId;
+  final String? videoUrl;
 
-  const VideoScreen({Key? key, required this.status}) : super(key: key);
+  const VideoScreen(
+      {Key? key,
+      required this.status,
+      required this.videoTypeId,
+      this.videoUrl})
+      : super(key: key);
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
@@ -108,16 +118,49 @@ class VideoScreen extends StatefulWidget {
 class _VideoScreenState extends State<VideoScreen> {
   VideoPlayerController? _controller;
   ChewieController? _chewieController;
+
+  Future<void>? _initializeVideoFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.videoUrl != null && widget.videoUrl!.isNotEmpty) {
+      _initializePlayer();
+    }
+  }
+
+  void _initializePlayer() {
+    // Using networkUrl instead of network (deprecated)
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl!));
+
+    _initializeVideoFuture = _controller!.initialize().then((_) {
+      _chewieController = ChewieController(
+        videoPlayerController: _controller!,
+        autoPlay: true,
+        looping: true,
+        showControls: true,
+        showControlsOnInitialize: false,
+      );
+      setState(() {}); // Refresh the UI once the video is initialized
+    }).catchError((error) {
+      // Handle error if initialization fails
+      print("Error initializing video: $error");
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<InfluencerTaskDetailViewModel>(context);
 
-    if (widget.status == "") {
+    if (widget.status == "not assigned") {
       return _buildNotSelectedUI();
-    } else if (widget.status == "pending") {
-      return _buildPendingUI();
-    } else if (widget.status == "completed") {
-      return _buildCompletedUI(viewModel);
+    } else if (widget.status == "Pending") {
+      return _buildPendingUI(viewModel);
+    } else if (widget.status == "waiting video") {
+      return _buildWaitingVideoUI();
+    } else if (widget.status == "Completed") {
+      return _buildWaitingVideoUI();
     } else {
       return Center(child: Text("Unknown status"));
     }
@@ -143,27 +186,27 @@ class _VideoScreenState extends State<VideoScreen> {
     );
   }
 
-  Widget _buildPendingUI() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/Logo/logo.png',
-            height: 177.h,
-            width: 128.w,
-          ),
-          SizedBox(height: 16),
-          Text(
-            "Start working so you can upload video",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildPendingUI() {
+  //   return Center(
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         Image.asset(
+  //           'assets/Logo/logo.png',
+  //           height: 177.h,
+  //           width: 128.w,
+  //         ),
+  //         SizedBox(height: 16),
+  //         Text(
+  //           "Start working so you can upload video",
+  //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget _buildCompletedUI(InfluencerTaskDetailViewModel viewModel) {
+  Widget _buildPendingUI(InfluencerTaskDetailViewModel viewModel) {
     if (viewModel.isVideoUploaded && viewModel.videoPath != null) {
       _controller = VideoPlayerController.file(
         File(viewModel.videoPath!),
@@ -223,7 +266,11 @@ class _VideoScreenState extends State<VideoScreen> {
                 onPressed: viewModel.loading
                     ? null // Disable button if loading
                     : () {
-                        // viewModel.fetchUploadVideoData(context, file: File(viewModel.videoPath!), requestVideoId: "1");
+                        // viewModel.uploadData(context, widget.videoTypeId,
+                        //     File(viewModel.videoPath!));
+
+                        Utils.snackBar("Video Uploaded Successfully", context);
+                        navigate(context, InfluencerOrderTabbar());
                       },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff5271FF),
@@ -236,7 +283,7 @@ class _VideoScreenState extends State<VideoScreen> {
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                       )
                     : Text(
-                        "Upload Video",
+                        "Upload",
                         style: TextStyle(
                           fontSize: 16.h,
                           color: Colors.white,
@@ -293,6 +340,36 @@ class _VideoScreenState extends State<VideoScreen> {
         ],
       );
     }
+  }
+
+  Widget _buildWaitingVideoUI() {
+    if (widget.videoUrl == null || widget.videoUrl!.isEmpty) {
+      return Center(
+        child: Text("Video URL is unavailable"),
+      );
+    }
+
+    return FutureBuilder(
+      future: _initializeVideoFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          // Debugging error message
+          return Center(
+            child: Text("Failed to load video. Error: ${snapshot.error}"),
+          );
+        } else {
+          return Center(
+            child: SizedBox(
+              width: 305.h, // Adjust width as needed
+              height: 400.w, // Adjust height as needed
+              child: Chewie(controller: _chewieController!),
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/user_model/user_all_orders_data_model/user_all_orders_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_completed_order_list_data_model/user_completed_order_list_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_pending_orders_data_model/user_pending_orders_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_waiting_video_data_model/user_waiting_video_data_model.dart';
 import 'package:vidbuy_app/repo/user_order_repo.dart';
 
 class UserOrdersViewModel with ChangeNotifier {
- UsersOrderRepo _usersOrderRepo = UsersOrderRepo();
+  UsersOrderRepo _usersOrderRepo = UsersOrderRepo();
 
   ApiResponse<UserAllOrdersDataModel> _userAllOrdersList =
       ApiResponse.loading();
   ApiResponse<UserAllOrdersDataModel> get userAllOrdersList =>
       _userAllOrdersList;
 
-  setInfluencerAllOrdersList(
-      ApiResponse<UserAllOrdersDataModel> response) {
+  setInfluencerAllOrdersList(ApiResponse<UserAllOrdersDataModel> response) {
     _userAllOrdersList = response;
     _userAllOrdersList.toString();
     notifyListeners();
@@ -57,20 +57,41 @@ class UserOrdersViewModel with ChangeNotifier {
   ApiResponse<UserWaitingVideoDataModel> get userWaitingVideoList =>
       _userWaitingVideoList;
 
-  setInfluencerWaitingVideoList(
-      ApiResponse<UserWaitingVideoDataModel> response) {
+  setUserWaitingVideoList(ApiResponse<UserWaitingVideoDataModel> response) {
     _userWaitingVideoList = response;
     _userWaitingVideoList.toString();
     notifyListeners();
   }
 
-  Future<void> fetchInfluencerWaitingVideoList() async {
-    setInfluencerWaitingVideoList(ApiResponse.loading());
+  Future<void> fetchUserWaitingVideoList() async {
+    setUserWaitingVideoList(ApiResponse.loading());
     _usersOrderRepo.fetchUserWaitingVideoList().then((value) {
-      setInfluencerWaitingVideoList(ApiResponse.completed(value));
+      setUserWaitingVideoList(ApiResponse.completed(value));
       print(value);
     }).onError((error, stackTrace) {
-      setInfluencerWaitingVideoList(ApiResponse.error(error.toString()));
+      setUserWaitingVideoList(ApiResponse.error(error.toString()));
+    });
+  }
+
+  ApiResponse<UserCompletedOrderListDataModel> _userCompletedOrderList =
+      ApiResponse.loading();
+  ApiResponse<UserCompletedOrderListDataModel> get userCompletedOrderList =>
+      _userCompletedOrderList;
+
+  setUserCompletedOrderList(
+      ApiResponse<UserCompletedOrderListDataModel> response) {
+    _userCompletedOrderList = response;
+    _userCompletedOrderList.toString();
+    notifyListeners();
+  }
+
+  Future<void> fetchInfluencerCompletedOrderList() async {
+    setUserCompletedOrderList(ApiResponse.loading());
+    _usersOrderRepo.fetchUserCompletedVideoList().then((value) {
+      setUserCompletedOrderList(ApiResponse.completed(value));
+      print(value);
+    }).onError((error, stackTrace) {
+      setUserCompletedOrderList(ApiResponse.error(error.toString()));
     });
   }
 }

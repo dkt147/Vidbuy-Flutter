@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 
+import 'user.dart';
 import 'video_type.dart';
 
 class Datum {
@@ -16,13 +17,13 @@ class Datum {
   dynamic serviceCharges;
   String? totalPrice;
   String? status;
-  dynamic orderId;
+  String? orderId;
   dynamic paymentStatus;
   dynamic reason;
   DateTime? createdAt;
   DateTime? updatedAt;
   String? expiresAt;
-  dynamic user;
+  User? user;
   VideoType? videoType;
 
   Datum({
@@ -63,7 +64,7 @@ class Datum {
         serviceCharges: json['service_charges'] as dynamic,
         totalPrice: json['total_price'] as String?,
         status: json['status'] as String?,
-        orderId: json['order_id'] as dynamic,
+        orderId: json['order_id'] as String?,
         paymentStatus: json['payment_status'] as dynamic,
         reason: json['reason'] as dynamic,
         createdAt: json['created_at'] == null
@@ -73,7 +74,9 @@ class Datum {
             ? null
             : DateTime.parse(json['updated_at'] as String),
         expiresAt: json['expires_at'] as String?,
-        user: json['user'] as dynamic,
+        user: json['user'] == null
+            ? null
+            : User.fromJson(json['user'] as Map<String, dynamic>),
         videoType: json['video_type'] == null
             ? null
             : VideoType.fromJson(json['video_type'] as Map<String, dynamic>),
@@ -99,7 +102,7 @@ class Datum {
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
         'expires_at': expiresAt,
-        'user': user,
+        'user': user?.toJson(),
         'video_type': videoType?.toJson(),
       };
 

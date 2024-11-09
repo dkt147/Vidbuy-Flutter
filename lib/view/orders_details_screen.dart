@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_all_orders_data_model/datum.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
 
+// ignore: must_be_immutable
 class OrdersDetailsScreen extends StatefulWidget {
-  Datum data;
-  OrdersDetailsScreen({required this.data, super.key});
+  String videoTypeId;
+  String createdAt;
+  String orderId;
+  String expiresAt;
+  String status;
+  String videoTypeName;
+  String from;
+  String to;
+  String requiredDays;
+  String description;
+  String totalPrice;
+
+  OrdersDetailsScreen(
+      {required this.videoTypeId,
+      required this.createdAt,
+      required this.orderId,
+      required this.expiresAt,
+      required this.status,
+      required this.videoTypeName,
+      required this.from,
+      required this.to,
+      required this.requiredDays,
+      required this.description,
+      required this.totalPrice,
+      super.key});
 
   @override
   State<OrdersDetailsScreen> createState() => _OrdersDetailsScreenState();
@@ -15,6 +41,7 @@ class OrdersDetailsScreen extends StatefulWidget {
 class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    Provider.of<InfluencerTaskDetailViewModel>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -32,14 +59,14 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     children: [
                       Content(
                         data:
-                            "Created at: ${Utils.dateFormat2(widget.data.createdAt)}",
+                            "Created at: ${Utils.dateFormat2(widget.createdAt)}",
                         size: 14.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
                       ),
                       Content(
-                        data: "Order ID: SG^&HH",
-                        size: 14.h,
+                        data: "Order ID: ${widget.orderId.toString()}",
+                        size: 12.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
                       ),
@@ -49,14 +76,15 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Content(
-                        data: "Expires: ",
+                        data:
+                            "Expires:  ${Utils.dateFormat2(widget.expiresAt.toString())}",
                         size: 14.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
                       ),
                       Content(
                         data:
-                            "Status: ${widget.data.status == "" ? "Not Assigned" : widget.data.status}",
+                            "Status: ${widget.status == "not assigned" ? "Not Assigned" : widget.status}",
                         size: 14.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
@@ -90,7 +118,7 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Content(
-                    data: "${widget.data.videoType!.name.toString()} Video",
+                    data: "${widget.videoTypeName.toString()} Video",
                     size: 14.h,
                     family: "Lato",
                     weight: FontWeight.w600,
@@ -107,7 +135,7 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         width: 10.w,
                       ),
                       Content(
-                        data: widget.data.from.toString(),
+                        data: widget.from.toString(),
                         size: 12.h,
                         family: "Lato",
                         weight: FontWeight.w400,
@@ -126,7 +154,7 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         width: 10.w,
                       ),
                       Content(
-                        data: widget.data.to.toString(),
+                        data: widget.to.toString(),
                         size: 12.h,
                         family: "Lato",
                         weight: FontWeight.w400,
@@ -145,7 +173,7 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         width: 10.w,
                       ),
                       Content(
-                        data: widget.data.requiredDays.toString() + " Days",
+                        data: widget.requiredDays.toString() + " Days",
                         size: 12.h,
                         family: "Lato",
                         weight: FontWeight.w400,
@@ -165,7 +193,7 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         height: 10.h,
                       ),
                       Content(
-                        data: widget.data.description.toString(),
+                        data: widget.description.toString(),
                         size: 12.h,
                         family: "Lato",
                         weight: FontWeight.w400,
@@ -202,7 +230,7 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     weight: FontWeight.w600,
                   ),
                   Content(
-                    data: "€ ${widget.data.totalPrice} ",
+                    data: "€ ${widget.totalPrice} ",
                     size: 12.h,
                     family: "Lato",
                     weight: FontWeight.w400,
@@ -210,65 +238,106 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 ],
               ),
             ),
-            if (widget.data.status == "")
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 250),
-                child: Center(
-                  child: SizedBox(
-                    width: 280.w,
-                    height: 50.h,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // viewModel.fetchUploadVideoData(context, file: File(viewModel.videoPath!), requestVideoId: "1");
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xff5271FF),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.r),
+            if (widget.status == "not assigned")
+              Column(
+                children: [
+                  Consumer<InfluencerTaskDetailViewModel>(
+                    builder: (context, viewModel, child) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 200, bottom: 20),
+                        child: Container(
+                          width: 280.w,
+                          height: 50.h,
+                          child: ElevatedButton(
+                            onPressed: viewModel.loading
+                                ? null // Disable button if loading
+                                : () {
+                                    viewModel.fetchUploadStatusData(context,
+                                        videoTypeId:
+                                            widget.videoTypeId.toString());
+                                  },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xff5271FF),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.r),
+                              ),
+                            ),
+                            child: viewModel.loading
+                                ? CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
+                                  )
+                                : Text(
+                                    "Accept",
+                                    style: TextStyle(
+                                      fontSize: 20.h,
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        "Accept",
-                        style: TextStyle(
-                          fontSize: 16.h,
-                          color: Colors.white,
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.w700,
+                      );
+                    },
+                  ),
+
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 200, bottom: 20),
+                  //   child: Center(
+                  //     child: SizedBox(
+                  //       width: 280.w,
+                  //       height: 50.h,
+                  //       child: ElevatedButton(
+                  //         onPressed: () {
+                  //           // viewModel.fetchUploadVideoData(context, file: File(viewModel.videoPath!), requestVideoId: "1");
+                  //         },
+                  //         style: ElevatedButton.styleFrom(
+                  //           backgroundColor: Color(0xff5271FF),
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(30.r),
+                  //           ),
+                  //         ),
+                  //         child: Text(
+                  //           "Accept",
+                  //           style: TextStyle(
+                  //             fontSize: 16.h,
+                  //             color: Colors.white,
+                  //             fontFamily: "Lato",
+                  //             fontWeight: FontWeight.w700,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  Center(
+                    child: SizedBox(
+                      width: 280.w,
+                      height: 50.h,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // viewModel.fetchUploadVideoData(context, file: File(viewModel.videoPath!), requestVideoId: "1");
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff5271FF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.r),
+                          ),
+                        ),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(
+                            fontSize: 20.h,
+                            color: Colors.white,
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            if (widget.data.status == "pending")
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 250),
-                child: Center(
-                  child: SizedBox(
-                    width: 280.w,
-                    height: 50.h,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // viewModel.fetchUploadVideoData(context, file: File(viewModel.videoPath!), requestVideoId: "1");
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xff5271FF),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.r),
-                        ),
-                      ),
-                      child: Text(
-                        "Start Working",
-                        style: TextStyle(
-                          fontSize: 16.h,
-                          color: Colors.white,
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                ],
               ),
           ],
         ),

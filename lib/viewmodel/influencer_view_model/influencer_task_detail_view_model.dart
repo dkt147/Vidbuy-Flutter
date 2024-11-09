@@ -1,16 +1,37 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
+import 'package:vidbuy_app/model/influencer_model/active_history_data_model/active_history_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/update_status_data_model/update_status_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/upload_video_data_model/upload_video_data_model.dart';
 import 'package:vidbuy_app/repo/influencer_orders_repo.dart';
+import 'package:vidbuy_app/resources/componenets/influencer_order_tabbar.dart';
+import 'package:http/http.dart' as http;
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 
 class InfluencerTaskDetailViewModel extends ChangeNotifier {
   InfleuncersOrderRepo _infleuncersOrderRepo = InfleuncersOrderRepo();
 
   bool isVideoUploaded = false;
   String? videoPath;
+
+//   final _flutterVideoCompress = FlutterVideoCompress();
+
+// Future<File?> compressVideo(File videoFile) async {
+//   final info = await _flutterVideoCompress.compressVideo(
+//     videoFile.path,
+//     quality: VideoQuality.MediumQuality, // Adjust quality as needed
+//     deleteOrigin: false, // If you want to keep the original file
+//   );
+
+//   return info?.file;
+// }
 
   // Function to upload video
   Future<void> uploadVideo() async {
@@ -51,13 +72,54 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-//   ApiResponse<ContactUsDataModel> _uploadVideoData = ApiResponse.loading();
-//   ApiResponse<uploadVideoDataModel> get uploadVideoData => _uploadVideoData;
+  ApiResponse<UploadVideoDataModel> _uploadVideoData = ApiResponse.loading();
+  ApiResponse<UploadVideoDataModel> get uploadVideoData => _uploadVideoData;
 
-//   void setUploadVideoData(ApiResponse<uploadVideoDataModel> response) {
-//     _uploadVideoData = response;
-//     notifyListeners();
-//   }
+  void setUploadVideoData(ApiResponse<UploadVideoDataModel> response) {
+    _uploadVideoData = response;
+    notifyListeners();
+  }
+
+  Future<void> uploadData(
+      BuildContext context, String requestVideoId, File videoFile) async {
+    Map<String, dynamic> videoData = {
+      'request_video_id': requestVideoId,
+    };
+    final uri =
+        Uri.parse("http://influenzers.duckdns.org/api/upload-video-request");
+    final request = http.MultipartRequest('POST', uri)
+      ..headers['Authorization'] = 'Bearer ${LocalData.token}'
+      ..fields.addAll(
+          videoData.map((key, value) => MapEntry(key, value.toString())))
+      ..files.add(await http.MultipartFile.fromPath('video', videoFile.path));
+
+    try {
+      setLoading(true);
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        // Parse the response body to get the `msg` key
+        final responseData = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseData);
+
+        if (jsonResponse.containsKey("message") ==
+            "Requested Video uploaded successfully.") {
+          print("Success message: ${jsonResponse['msg']}");
+          Utils.snackBar("${jsonResponse['msg']}", context);
+          navigate(context, InfluencerOrderTabbar());
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      } else {
+        print("Failed to upload: ${response.statusCode}");
+      }
+    } catch (e) {
+      Utils.snackBar(e.toString(), context);
+      print("Exception caught: $e");
+      setLoading(false);
+    }
+  }
 
 //   Future<void> fetchUploadVideoData(BuildContext context,
 //       {required File file,
@@ -75,6 +137,7 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
 //         if (value.Isbool!) {
 //           setUploadVideoData(ApiResponse.completed(value));
 //           Utils.snackBar(value.message.toString(), context);
+//           navigate(context, InfluencerOrderTabbar());
 //           // func.call();
 //         } else {
 //           Utils.snackBar(value.message.toString(), context);
@@ -87,6 +150,73 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
 //       });
 
 //   }
+
+  bool _influencerStatusloading = false;
+  bool get influencerStatusloading => _influencerStatusloading;
+
+  setInfluencerStatusloading(bool value) {
+    _influencerStatusloading = value;
+    print(_influencerStatusloading);
+    notifyListeners();
+  }
+
+  ApiResponse<UpdateStatusDataModel> _influencerStatusData =
+      ApiResponse.loading();
+  ApiResponse<UpdateStatusDataModel> get influencerStatusData =>
+      _influencerStatusData;
+
+  void setinfluencerStatusData(ApiResponse<UpdateStatusDataModel> response) {
+    _influencerStatusData = response;
+    notifyListeners();
+  }
+
+  Future<void> fetchUploadStatusData(BuildContext context,
+      {required String videoTypeId}) async {
+    Map<String, dynamic> uploadStatusData = {
+      'status': "Pending",
+    };
+
+    setLoading(true);
+    setinfluencerStatusData(ApiResponse.loading());
+    _infleuncersOrderRepo
+        .fetchUploadStatusResponse(uploadStatusData, videoTypeId)
+        .then((value) async {
+      if (value.Isbool!) {
+        setinfluencerStatusData(ApiResponse.completed(value));
+        Utils.snackBar(value.message.toString(), context);
+        navigate(context, InfluencerOrderTabbar());
+      } else {
+        Utils.snackBar(value.message.toString(), context);
+      }
+      setLoading(false);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      Utils.snackBar(error.toString(), context);
+    });
+  }
+
+  ApiResponse<ActiveHistoryDataModel> _influencerActiveHistoryData =
+      ApiResponse.loading();
+  ApiResponse<ActiveHistoryDataModel> get influencerActiveHistoryData =>
+      _influencerActiveHistoryData;
+
+  setInfluencerActiveHistoryData(ApiResponse<ActiveHistoryDataModel> response) {
+    _influencerActiveHistoryData = response;
+    _influencerActiveHistoryData.toString();
+    notifyListeners();
+  }
+
+  Future<void> fetchInfluencerActiveHistoryData(String videoTypeId) async {
+    setInfluencerActiveHistoryData(ApiResponse.loading());
+    _infleuncersOrderRepo
+        .fetchInfluencerActiveHistoryData(videoTypeId)
+        .then((value) {
+      setInfluencerActiveHistoryData(ApiResponse.completed(value));
+      print(value);
+    }).onError((error, stackTrace) {
+      setInfluencerActiveHistoryData(ApiResponse.error(error.toString()));
+    });
+  }
 
 //   ApiResponse<ContactUsDataModel> _influencerActivityHistoryData = ApiResponse.loading();
 //   ApiResponse<uploadVideoDataModel> get uploadVideoData => _influencerActivityHistoryData;

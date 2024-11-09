@@ -273,46 +273,48 @@ class _SearchScreenState extends State<SearchScreen> {
                           size: 18),
                     );
                   case Status.COMPLETED:
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 35.w), // Padding if needed
-                      child: GridView.builder(
-                        shrinkWrap:
-                            true, // Ensure GridView doesn't take up extra space
-                        physics:
-                            NeverScrollableScrollPhysics(), // Prevent internal scrolling
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, // 2 items per row
-                          crossAxisSpacing:
-                              26.w, // Horizontal space between items
-                          mainAxisSpacing: 14.h, // Vertical space between rows
-                          childAspectRatio:
-                              1, // Adjust the aspect ratio as needed
-                        ),
-                        itemCount: value.influencersList.data!.result!
-                            .length, // Assuming you have a data list
-                        itemBuilder: (context, index) {
-                          final influencer =
-                              value.influencersList.data!.result![index];
-                          return GestureDetector(
+                    return GridView.builder(
+                      shrinkWrap:
+                          true, // Ensure GridView doesn't take up extra space
+                      physics: ScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+
+                        // 2 items per row
+                        // crossAxisSpacing:
+                        //     26.w, // Horizontal space between items
+                        mainAxisSpacing: 30.h, // Vertical space between rows
+                        // childAspectRatio:
+                        //     2, // Adjust the aspect ratio as needed
+                      ),
+                      itemCount: value.influencersList.data!.result!
+                          .length, // Assuming you have a data list
+                      itemBuilder: (context, index) {
+                        final influencer =
+                            value.influencersList.data!.result![index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: GestureDetector(
                             onTap: () {
                               navigate(
                                   context,
                                   InfluencerProfileScreen(
-                                    influencerId: "1",
+                                    influencerId: influencer.id.toString(),
                                   ));
                             },
                             child: InfluencerCardWidget2(
                               image: influencer.image
                                   .toString(), // Use actual data from the API
                               influencerName: influencer.name.toString(),
-                              categoryName: influencer.countryName.toString(),
-                              price: "100",
+                              categoryName: influencer
+                                  .influencerCategories!.first.name
+                                  .toString(),
+                              price: "€5673",
                               rating: influencer.reviewCount.toString(),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     );
 
                   case null:

@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vidbuy_app/view/active_history_screen.dart';
-import 'package:vidbuy_app/view/all_orders_screen.dart';
-import 'package:vidbuy_app/view/orders_details_screen.dart';
-import 'package:vidbuy_app/view/video_screen.dart';
+import 'package:vidbuy_app/view/user_active_history_screen.dart';
+import 'package:vidbuy_app/view/user_order_detail_screen.dart';
+import 'package:vidbuy_app/view/user_video_screen.dart';
 
 class UserTaskDetailTabBarWidget extends StatefulWidget {
+  String videoTypeId;
+  String createdAt;
+  String orderId;
+  String expiresAt;
+  String status;
+  String videoTypeName;
+  String from;
+  String to;
+  String requiredDays;
+  String description;
+  String totalPrice;
+  String? videoUrl;
+
+  UserTaskDetailTabBarWidget(
+      {required this.videoTypeId,
+      required this.createdAt,
+      required this.orderId,
+      required this.expiresAt,
+      required this.status,
+      required this.videoTypeName,
+      required this.from,
+      required this.to,
+      required this.requiredDays,
+      required this.description,
+      required this.totalPrice,
+      this.videoUrl,
+      super.key});
+
   @override
   _UserTaskDetailTabBarWidgetState createState() =>
       _UserTaskDetailTabBarWidgetState();
@@ -89,17 +116,26 @@ class _UserTaskDetailTabBarWidgetState extends State<UserTaskDetailTabBarWidget>
         children: [
           // PendingScreen(),
           // WaitingVideoScreen(),
-          // VideoScreen(),
-          // OrdersDetailsScreen(),
-          // ActiveHistoryScreen(),
-          // ChooseCategoryScreen(onSave: saveCategory),
-          // VIdeosAcceptScreen(onSave: saveVideos),
-          // ChoosePricesScreen(onSave: savePrices),
-          // ReviewSelectionScreen(
-          //   selectedCategory: selectedCategory,
-          //   selectedVideos: selectedVideos,
-          //   prices: prices,
-          // ),
+          UserVideoScreen(
+            status: widget.status.toString(),
+            videoTypeId: widget.videoTypeId.toString(),
+            videoUrl: widget.videoUrl.toString(),
+          ),
+          UserOrdersDetailsScreen(
+              videoTypeId: widget.videoTypeId.toString(),
+              createdAt: widget.createdAt.toString(),
+              orderId: widget.orderId.toString(),
+              expiresAt: widget.expiresAt.toString(),
+              status: widget.status.toString(),
+              videoTypeName: widget.videoTypeName.toString(),
+              from: widget.from.toString(),
+              to: widget.to.toString(),
+              requiredDays: widget.requiredDays.toString(),
+              description: widget.description.toString(),
+              totalPrice: widget.totalPrice.toString()),
+          UserActiveHistoryScreen(
+            videoTypeId: widget.videoTypeId.toString(),
+          ),
         ],
       ),
     );

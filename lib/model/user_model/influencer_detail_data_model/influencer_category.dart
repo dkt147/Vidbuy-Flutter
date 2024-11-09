@@ -1,48 +1,44 @@
 import 'package:collection/collection.dart';
 
-import 'category.dart';
-
 class InfluencerCategory {
   int? id;
-  int? userId;
-  int? categoryId;
+  String? name;
+  String? image;
+  String? tagLine;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Category? category;
 
   InfluencerCategory({
     this.id,
-    this.userId,
-    this.categoryId,
+    this.name,
+    this.image,
+    this.tagLine,
     this.createdAt,
     this.updatedAt,
-    this.category,
   });
 
   factory InfluencerCategory.fromJson(Map<String, dynamic> json) {
     return InfluencerCategory(
       id: json['id'] as int?,
-      userId: json['user_id'] as int?,
-      categoryId: json['category_id'] as int?,
+      name: json['name'] as String?,
+      image: json['image'] as String?,
+      tagLine: json['tag_line'] as String?,
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
-      category: json['category'] == null
-          ? null
-          : Category.fromJson(json['category'] as Map<String, dynamic>),
     );
   }
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'user_id': userId,
-        'category_id': categoryId,
+        'name': name,
+        'image': image,
+        'tag_line': tagLine,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
-        'category': category?.toJson(),
       };
 
   @override
@@ -56,9 +52,9 @@ class InfluencerCategory {
   @override
   int get hashCode =>
       id.hashCode ^
-      userId.hashCode ^
-      categoryId.hashCode ^
+      name.hashCode ^
+      image.hashCode ^
+      tagLine.hashCode ^
       createdAt.hashCode ^
-      updatedAt.hashCode ^
-      category.hashCode;
+      updatedAt.hashCode;
 }

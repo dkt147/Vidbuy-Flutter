@@ -3,27 +3,29 @@ import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/status.dart';
-import 'package:vidbuy_app/resources/componenets/all_task_tile.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
-import 'package:vidbuy_app/resources/componenets/influencer_task_detail_tabbar_widget.dart';
 import 'package:vidbuy_app/view/influencer_donations_screen.dart';
-import 'package:vidbuy_app/viewmodel/influencer_view_model/influencers_orders_view_model.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
 
+// ignore: must_be_immutable
 class ActiveHistoryScreen extends StatefulWidget {
-  const ActiveHistoryScreen({super.key});
+  String videoTypeId;
+  ActiveHistoryScreen({super.key, required this.videoTypeId});
 
   @override
   State<ActiveHistoryScreen> createState() => _ActiveHistoryScreenState();
 }
 
 class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
-  InfluencerOrdersViewModel influencersOrdersViewModel =
-      InfluencerOrdersViewModel();
+  InfluencerTaskDetailViewModel influencerTaskDetailViewModel =
+      InfluencerTaskDetailViewModel();
 
   @override
   void initState() {
-    influencersOrdersViewModel.fetchInfluencerWaitingVideoList();
+    influencerTaskDetailViewModel
+        .fetchInfluencerActiveHistoryData(widget.videoTypeId.toString());
     super.initState();
   }
 
@@ -34,10 +36,10 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ChangeNotifierProvider(
-            create: (BuildContext context) => influencersOrdersViewModel,
-            child: Consumer<InfluencerOrdersViewModel>(
+            create: (BuildContext context) => influencerTaskDetailViewModel,
+            child: Consumer<InfluencerTaskDetailViewModel>(
                 builder: (context, value, child) {
-              switch (value.influencerWaitingVideoList.status) {
+              switch (value.influencerActiveHistoryData.status) {
                 case Status.INIT:
                   return Container();
                 case Status.LOADING:
@@ -55,11 +57,13 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                 case Status.ERROR:
                   return Center(
                     child: Content(
-                        data:
-                            value.influencerWaitingVideoList.message.toString(),
+                        data: value.influencerActiveHistoryData.message
+                            .toString(),
                         size: 18),
                   );
                 case Status.COMPLETED:
+                  var data = value
+                      .influencerActiveHistoryData.data!.result!.requestVideo;
                   return Column(
                     children: [
                       Container(
@@ -80,7 +84,8 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                                   width: 10.w,
                                 ),
                                 Content(
-                                  data: "Price:  €1234.56",
+                                  data:
+                                      "Price:  €${data!.totalPrice.toString()}",
                                   size: 14.h,
                                   family: "Nunito",
                                   weight: FontWeight.w700,
@@ -91,7 +96,8 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Content(
-                                  data: "Created at::Wed, 5 Sep",
+                                  data:
+                                      "Created at: ${Utils.dateFormat2(data.createdAt.toString())}",
                                   size: 14.h,
                                   family: "Nunito",
                                   weight: FontWeight.w400,
@@ -100,8 +106,8 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                                   width: 10.w,
                                 ),
                                 Content(
-                                  data: "Order ID: 5ts638393",
-                                  size: 14.h,
+                                  data: "Order ID: ${data.orderId.toString()}",
+                                  size: 12.h,
                                   family: "Nunito",
                                   weight: FontWeight.w400,
                                 ),
@@ -111,7 +117,8 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Content(
-                                  data: "Expires::Wed, 12 Sep",
+                                  data:
+                                      "Expires: ${Utils.dateFormat2(data.expiresAt.toString())}",
                                   size: 14.h,
                                   family: "Nunito",
                                   weight: FontWeight.w400,
@@ -120,7 +127,7 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                                   width: 10.w,
                                 ),
                                 Content(
-                                  data: "Status: [Status_order]",
+                                  data: "Status: ${data.status.toString()}",
                                   size: 14.h,
                                   family: "Nunito",
                                   weight: FontWeight.w400,
@@ -153,101 +160,17 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                       SizedBox(
                         height: 50.h,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          navigate(context, InfluencerDonationsScreen());
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 21.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Content(
-                                data: "History",
-                                size: 16.h,
-                                family: "Nunito",
-                                weight: FontWeight.w700,
-                              ),
-                              SizedBox(
-                                height: 17.h,
-                              ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.grade_rounded,
-                                    size: 10.h,
-                                    color: Colors.green,
-                                  ),
-                                  Icon(
-                                    Icons.missed_video_call_outlined,
-                                    size: 33.h,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Content(
-                                        data: "Accepted / Rejected",
-                                        size: 13.h,
-                                        family: "Nunito",
-                                        weight: FontWeight.w600,
-                                      ),
-                                      // SizedBox(
-                                      //   height: 8.h,
-                                      // ),
-                                      Content(
-                                        data:
-                                            "[influencer_name] accepted / rejected video\nrequest.",
-                                        size: 12.h,
-                                        family: "Nunito",
-                                        weight: FontWeight.w300,
-                                      ),
-                                    ],
-                                  ),
-                                  // SizedBox(
-                                  //   width: 130.h,
-                                  // ),
-                                  // Content(data: "11:00", size:12.h, family: "Nunito",weight: FontWeight.w300, ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   crossAxisAlignment: CrossAxisAlignment.end,
-                                  //   children: [
-                                  //     Content(
-                                  //       data: "History",
-                                  //       size: 16.h,
-                                  //       family: "Nunito",
-                                  //       weight: FontWeight.w700,
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                ],
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 5.w),
-                                child: Dash(
-                                  direction: Axis.vertical,
-                                  length: 50.w,
-                                  dashLength: 10.w,
-                                  dashGap: 5.w,
-                                  dashColor: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
                       Container(
                         margin: EdgeInsets.only(left: 21.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Content(
-                            //   data: "History",
-                            //   size: 16.h,
-                            //   family: "Nunito",
-                            //   weight: FontWeight.w700,
-                            // ),
+                            Content(
+                              data: "History",
+                              size: 16.h,
+                              family: "Nunito",
+                              weight: FontWeight.w700,
+                            ),
                             SizedBox(
                               height: 17.h,
                             ),
@@ -267,7 +190,7 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Content(
-                                      data: "Accepted / Rejected",
+                                      data: data.status.toString(),
                                       size: 13.h,
                                       family: "Nunito",
                                       weight: FontWeight.w600,
@@ -277,7 +200,7 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                                     // ),
                                     Content(
                                       data:
-                                          "[influencer_name] accepted / rejected video\nrequest.",
+                                          "${data.from.toString()} ${data.status} video request.",
                                       size: 12.h,
                                       family: "Nunito",
                                       weight: FontWeight.w300,
@@ -315,111 +238,123 @@ class _ActiveHistoryScreenState extends State<ActiveHistoryScreen> {
                           ],
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 21.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Content(
-                            //   data: "History",
-                            //   size: 16.h,
-                            //   family: "Nunito",
-                            //   weight: FontWeight.w700,
-                            // ),
-                            SizedBox(
-                              height: 17.h,
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.grade_rounded,
-                                  size: 10.h,
-                                  color: Colors.green,
-                                ),
-                                Icon(
-                                  Icons.missed_video_call_outlined,
-                                  size: 33.h,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Content(
-                                      data: "Accepted / Rejected",
-                                      size: 13.h,
-                                      family: "Nunito",
-                                      weight: FontWeight.w600,
-                                    ),
-                                    // SizedBox(
-                                    //   height: 8.h,
-                                    // ),
-                                    Content(
-                                      data:
-                                          "[influencer_name] accepted / rejected video\nrequest.",
-                                      size: 12.h,
-                                      family: "Nunito",
-                                      weight: FontWeight.w300,
-                                    ),
-                                  ],
-                                ),
-                                // SizedBox(
-                                //   width: 130.h,
-                                // ),
-                                // Content(data: "11:00", size:12.h, family: "Nunito",weight: FontWeight.w300, ),
-                                // Row(
-                                //   mainAxisAlignment: MainAxisAlignment.end,
-                                //   crossAxisAlignment: CrossAxisAlignment.end,
-                                //   children: [
-                                //     Content(
-                                //       data: "History",
-                                //       size: 16.h,
-                                //       family: "Nunito",
-                                //       weight: FontWeight.w700,
-                                //     ),
-                                //   ],
-                                // ),
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 5.w),
-                              child: Dash(
-                                direction: Axis.vertical,
-                                length: 50.w,
-                                dashLength: 10.w,
-                                dashGap: 5.w,
-                                dashColor: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // ListTile(
-                      //   leading: Icon(
-                      //           Icons.grade_rounded,
-                      //           size: 10.h,
-                      //           color: Colors.green,
-                      //         ),
-                      //       //   title:    Dash(
-                      //       //   direction: Axis.horizontal,
-                      //       //   length: 50.w,
-                      //       //   dashLength: 10.w,
-                      //       //   dashGap: 5.w,
-                      //       //   dashColor: Colors.black,
+                      // Container(
+                      //   margin: EdgeInsets.only(left: 21.w),
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       // Content(
+                      //       //   data: "History",
+                      //       //   size: 16.h,
+                      //       //   family: "Nunito",
+                      //       //   weight: FontWeight.w700,
                       //       // ),
-
-                      //         title: Icon(
-                      //           Icons.missed_video_call_outlined,
-                      //           size: 33.h,
+                      //       SizedBox(
+                      //         height: 17.h,
+                      //       ),
+                      //       Row(
+                      //         children: [
+                      //           Icon(
+                      //             Icons.grade_rounded,
+                      //             size: 10.h,
+                      //             color: Colors.green,
+                      //           ),
+                      //           Icon(
+                      //             Icons.missed_video_call_outlined,
+                      //             size: 33.h,
+                      //           ),
+                      //           Column(
+                      //             mainAxisAlignment: MainAxisAlignment.start,
+                      //             crossAxisAlignment: CrossAxisAlignment.start,
+                      //             children: [
+                      //               Content(
+                      //                 data: "Accepted / Rejected",
+                      //                 size: 13.h,
+                      //                 family: "Nunito",
+                      //                 weight: FontWeight.w600,
+                      //               ),
+                      //               // SizedBox(
+                      //               //   height: 8.h,
+                      //               // ),
+                      //               Content(
+                      //                 data:
+                      //                     "[influencer_name] accepted / rejected video\nrequest.",
+                      //                 size: 12.h,
+                      //                 family: "Nunito",
+                      //                 weight: FontWeight.w300,
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       Container(
+                      //         margin: EdgeInsets.only(left: 5.w),
+                      //         child: Dash(
+                      //           direction: Axis.vertical,
+                      //           length: 50.w,
+                      //           dashLength: 10.w,
+                      //           dashGap: 5.w,
+                      //           dashColor: Colors.black,
                       //         ),
-
-                      //         // subtitle:
-
-                      //       trailing: Content(
-                      //               data: "History",
-                      //               size: 16.h,
-                      //               family: "Nunito",
-                      //               weight: FontWeight.w700,
-                      //             ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Container(
+                      //   margin: EdgeInsets.only(left: 21.w),
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       SizedBox(
+                      //         height: 17.h,
+                      //       ),
+                      // Row(
+                      //   children: [
+                      //     Icon(
+                      //       Icons.grade_rounded,
+                      //       size: 10.h,
+                      //       color: Colors.green,
+                      //     ),
+                      //     Icon(
+                      //       Icons.missed_video_call_outlined,
+                      //       size: 33.h,
+                      //     ),
+                      //     Column(
+                      //       mainAxisAlignment: MainAxisAlignment.start,
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Content(
+                      //           data: "Accepted / Rejected",
+                      //           size: 13.h,
+                      //           family: "Nunito",
+                      //           weight: FontWeight.w600,
+                      //         ),
+                      //         // SizedBox(
+                      //         //   height: 8.h,
+                      //         // ),
+                      //         Content(
+                      //           data:
+                      //               "[influencer_name] accepted / rejected video\nrequest.",
+                      //           size: 12.h,
+                      //           family: "Nunito",
+                      //           weight: FontWeight.w300,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // ),
+                      //       Container(
+                      //         margin: EdgeInsets.only(left: 5.w),
+                      //         child: Dash(
+                      //           direction: Axis.vertical,
+                      //           length: 50.w,
+                      //           dashLength: 10.w,
+                      //           dashGap: 5.w,
+                      //           dashColor: Colors.black,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
                       // ),
                     ],
                   );

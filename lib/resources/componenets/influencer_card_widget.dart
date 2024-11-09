@@ -158,6 +158,7 @@ class InfluencerCardWidget2 extends StatelessWidget {
         Container(
           // margin: EdgeInsets.only(left: 35.w, right: 27.w),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Content(
                 data: price,
@@ -168,15 +169,19 @@ class InfluencerCardWidget2 extends StatelessWidget {
               SizedBox(
                 width: 14.w,
               ),
-              Image.asset(
-                "assets/Icon/star.png",
-                height: 15.h,
-              ),
-              Content(
-                data: rating,
-                size: 12.h,
-                family: "Lato",
-                weight: FontWeight.w500,
+              Row(
+                children: [
+                  Image.asset(
+                    "assets/Icon/star.png",
+                    height: 15.h,
+                  ),
+                  Content(
+                    data: "1467",
+                    size: 12.h,
+                    family: "Lato",
+                    weight: FontWeight.w500,
+                  ),
+                ],
               ),
             ],
           ),

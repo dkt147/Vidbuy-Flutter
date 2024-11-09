@@ -7,6 +7,9 @@ class AppUrl {
   static String uploadImageUrl = "$baseUrl/upload-profile-image";
   static String uploadVideoUrl = "$baseUrl/upload-profile-image";
   static String influencerCategoryUrl = "$baseUrl/category/list";
+  static String updateInfluencerCategoryUrl =
+      "$baseUrl/influencer/category/update";
+
   static String influencerDetailUrl = "$baseUrl/influencer/detail/by-id/";
   static String influencerVideoTypeListUrl =
       "$baseUrl/influencer/video-type/list/";
@@ -31,14 +34,32 @@ class AppUrl {
   static String influencersListByCategoryUrl =
       "$baseUrl/influencer/list/by/category";
   static String contactUsUrl = "$baseUrl/contact-us/add";
+  static String verifyPasswordUrl = "$baseUrl/verify-password";
+  static String deleteAccountUrl = "$baseUrl/delete/account";
+
   static String userAddOrderUrl = "$baseUrl/video-request/add";
   static String influencerWaitingvideoUrl =
-      "$baseUrl/video-request/list/influencer/inprogress";
+      "$baseUrl/video-request/list/influencer/waiting-video";
 
-  static String userWaitingvideoUrl = "$baseUrl/get/waiting-video/request-video/from-user";
+  static String userWaitingvideoUrl =
+      "$baseUrl/get/waiting-video/request-video/from-user";
 
   static String userAllOrdersListUrl = "$baseUrl/get/request-video/from-user";
-  static String userPendingOrdersListUrl = "$baseUrl/get/pending/request-video/from-user";
-  static String userAcceptOrderUrl = "$baseUrl/requested-video/update-status/";
+  static String userCompletedOrdersListUrl =
+      "$baseUrl/get/completed/request-video/from-user";
 
+  static String userPendingOrdersListUrl =
+      "$baseUrl/get/pending/request-video/from-user";
+  // static String userAcceptOrderUrl = "$baseUrl/requested-video/update-status/";
+  static String influencerAcceptOrderUrl =
+      "$baseUrl/video-request/update-status/";
+  static String influencerActiveHistoryUrl =
+      "$baseUrl/video-request/list/influencer/activity-history/";
+  static String userActiveHistoryUrl =
+      "$baseUrl/get/activity-history/request-video/from-user/";
+
+  static String influencerUploadUserVideoUrl = "$baseUrl/upload-video-request";
+
+  static String userAcceptVideoOrderUrl =
+      "$baseUrl/requested-video/update-status/";
 }

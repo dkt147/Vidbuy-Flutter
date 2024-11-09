@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 import 'influencer_category.dart';
 
 class Result {
+  int? id;
   String? name;
   String? username;
   String? email;
@@ -20,6 +21,7 @@ class Result {
   List<InfluencerCategory>? influencerCategories;
 
   Result({
+    this.id,
     this.name,
     this.username,
     this.email,
@@ -38,6 +40,7 @@ class Result {
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
+        id: json['id'] as int?,
         name: json['name'] as String?,
         username: json['username'] as String?,
         email: json['email'] as String?,
@@ -62,6 +65,7 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'name': name,
         'username': username,
         'email': email,
@@ -90,6 +94,7 @@ class Result {
 
   @override
   int get hashCode =>
+      id.hashCode ^
       name.hashCode ^
       username.hashCode ^
       email.hashCode ^
