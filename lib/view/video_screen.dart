@@ -266,11 +266,11 @@ class _VideoScreenState extends State<VideoScreen> {
                 onPressed: viewModel.loading
                     ? null // Disable button if loading
                     : () {
-                        // viewModel.uploadData(context, widget.videoTypeId,
-                        //     File(viewModel.videoPath!));
+                        viewModel.uploadData(context, widget.videoTypeId,
+                            File(viewModel.videoPath!));
 
-                        Utils.snackBar("Video Uploaded Successfully", context);
-                        navigate(context, InfluencerOrderTabbar());
+                        // Utils.snackBar("Video Uploaded Successfully", context);
+                        // navigate(context, InfluencerOrderTabbar());
                       },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff5271FF),

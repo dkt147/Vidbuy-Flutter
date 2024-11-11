@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/data/response/status.dart';
@@ -24,6 +25,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+   final TextEditingController _searchController = TextEditingController();
+
   // final Logger _logger = Logger();
   // late NetworkService _networkService;
 
@@ -89,6 +92,19 @@ class _HomeScreenState extends State<HomeScreen> {
   //     });
   //   }
   // }
+
+  HomeScreenViewModel _homesScreenViewModell = HomeScreenViewModel();
+
+  Future<List<String>> _getSuggestions(String query) async {
+    // Replace this with your API call to fetch data
+    // Here it's just simulating a network call
+    await Future.delayed(Duration(milliseconds: 300));
+    return _homesScreenViewModell.searchInfluencerList.data
+        .where((suggestion) =>
+            suggestion.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+  }
+
 
   String getGreeting() {
     int hour = DateTime.now().hour;
@@ -200,38 +216,54 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 23.h),
-            Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                decoration: BoxDecoration(
-                  color: const Color(0xff4B4A51),
-                  borderRadius: BorderRadius.circular(30.r),
-                ),
-                width: 349,
-                height: 48.h,
-                child: Row(
-                  children: [
-                    Image.asset("assets/Icon/searchIcon.png", height: 18.h),
-                    SizedBox(width: 10.w),
-                    Expanded(
-                      child: TextField(
-                        style: const TextStyle(
-                            color: Colors.white, fontFamily: "Nunito"),
-                        decoration: InputDecoration(
-                          hintText: 'Discover celebrities...',
-                          hintStyle: TextStyle(
-                            fontFamily: "Nunito",
-                            fontSize: 14.h,
-                            color: const Color(0xff8E8E8E),
-                          ),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+       Center(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: const Color(0xff4B4A51),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        width: 349,
+        child: TypeAheadField<String>(
+          textFieldConfiguration: TextFieldConfiguration(
+            controller: _searchController,
+            style: const TextStyle(color: Colors.white, fontFamily: "Nunito"),
+            decoration: InputDecoration(
+              hintText: 'Discover celebrities...',
+              hintStyle: TextStyle(
+                fontFamily: "Nunito",
+                fontSize: 14,
+                color: const Color(0xff8E8E8E),
               ),
+              border: InputBorder.none,
             ),
+          ),
+          suggestionsCallback: _getSuggestions,
+          itemBuilder: (context, suggestion) {
+            return ListTile(
+              title: Text(
+                suggestion,
+                style: TextStyle(color: Colors.black),
+              ),
+            );
+          },
+          onSuggestionSelected: (suggestion) {
+            _searchController.text = suggestion;
+          },
+          noItemsFoundBuilder: (context) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'No results found',
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
+          loadingBuilder: (context) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      ),
+    ),
             SizedBox(height: 13.h),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

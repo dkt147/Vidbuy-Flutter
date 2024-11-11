@@ -4,6 +4,7 @@ import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model
 import 'package:vidbuy_app/model/user_model/give_away_data_model/give_away_data_model.dart';
 import 'package:vidbuy_app/model/user_model/recently_added_data_model/recently_added_data_model.dart';
 import 'package:vidbuy_app/model/user_model/trending_influencers_data_model/trending_influencers_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_search_data_model/user_search_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
 class UserHomeRepo {
@@ -45,6 +46,16 @@ class UserHomeRepo {
       dynamic response =
           await apiServices.getGetApiResponse(AppUrl.recentlyAddedUrl, true);
       return response = RecentlyAddedDataModel.fromJson(response);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+    Future<UserSearchDataModel> fetchSearchInfluencerList(dynamic data) async {
+    try {
+      dynamic response =
+          await apiServices.getPostApiResponse(AppUrl.searchInfluencerUrl, data ,true);
+      return response = UserSearchDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }

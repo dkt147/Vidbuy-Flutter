@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/resources/componenets/User_order_tab_bar.dart';
 
 void bottomSheetWidget(BuildContext context) {
   TextEditingController phoneController = TextEditingController();
@@ -134,7 +136,9 @@ void bottomSheetWidget(BuildContext context) {
                                 borderRadius: BorderRadius.circular(30.r),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              navigatePushReplace(context, UserOrderTabbar());
+                            },
                             child: Text(
                               "Donate",
                               style: TextStyle(

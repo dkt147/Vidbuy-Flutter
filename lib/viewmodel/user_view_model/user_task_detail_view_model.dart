@@ -6,6 +6,7 @@ import 'package:vidbuy_app/model/user_model/update_user_video_status_data_model/
 import 'package:vidbuy_app/model/user_model/user_activity_history_data_model/user_activity_history_data_model.dart';
 import 'package:vidbuy_app/repo/user_order_repo.dart';
 import 'package:vidbuy_app/resources/componenets/User_order_tab_bar.dart';
+import 'package:vidbuy_app/view/success_payment_screen.dart';
 
 class UserTaskDetailViewModel extends ChangeNotifier {
   UsersOrderRepo _userOrderRepo = UsersOrderRepo();
@@ -33,9 +34,10 @@ class UserTaskDetailViewModel extends ChangeNotifier {
   }
 
   Future<void> fetchUploadUserStatusData(BuildContext context,
-      {required String videoTypeId}) async {
+      {required String videoTypeId, required String feedback}) async {
     Map<String, dynamic> uploadStatusData = {
       'status': "Completed",
+      // 'feedback' :
     };
 
     setUserStatusloading(true);
@@ -46,7 +48,7 @@ class UserTaskDetailViewModel extends ChangeNotifier {
       if (value.Isbool!) {
         setUserStatusData(ApiResponse.completed(value));
         Utils.snackBar(value.message.toString(), context);
-        navigate(context, UserOrderTabbar());
+        navigate(context, SuccessPaymentScreen());
       } else {
         Utils.snackBar(value.message.toString(), context);
       }

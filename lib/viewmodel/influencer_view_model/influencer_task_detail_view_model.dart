@@ -104,8 +104,8 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
 
         if (jsonResponse.containsKey("message") ==
             "Requested Video uploaded successfully.") {
-          print("Success message: ${jsonResponse['msg']}");
-          Utils.snackBar("${jsonResponse['msg']}", context);
+          print("Success message: ${jsonResponse['message']}");
+          Utils.snackBar("${jsonResponse['message']}", context);
           navigate(context, InfluencerOrderTabbar());
           setLoading(false);
         } else {

@@ -34,7 +34,7 @@ class _SuccessPaymentScreenState extends State<SuccessPaymentScreen> {
           ),
           Center(
               child: Content(
-            data: "Payment Confirmed !",
+            data: "Order Completed !",
             size: 30.h,
             weight: FontWeight.w500,
             family: "Nunito",
@@ -44,7 +44,7 @@ class _SuccessPaymentScreenState extends State<SuccessPaymentScreen> {
           ),
           Center(
               child: Content(
-            data: "Congratulations, your payment has been confirmed.",
+            data: "Congratulations, you have completed the order!",
             size: 14.h,
             weight: FontWeight.w400,
             family: "Nunito",
@@ -64,7 +64,7 @@ class _SuccessPaymentScreenState extends State<SuccessPaymentScreen> {
                 Row(
                   children: [
                     Content(
-                      data: "Want to say thankyou with a donation?",
+                      data: "Want to say thank you with a donation?",
                       size: 14.h,
                       weight: FontWeight.w400,
                       family: "Nunito",

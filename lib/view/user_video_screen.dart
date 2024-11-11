@@ -2,6 +2,9 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/view/feedback_screen.dart';
+import 'package:vidbuy_app/view/stream_video_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_task_detail_view_model.dart';
 import 'package:video_player/video_player.dart';
 
@@ -146,32 +149,61 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
                 width: 280.w,
                 height: 50.h,
                 child: ElevatedButton(
-                  onPressed: viewModel.userStatusloading
-                      ? null // Disable button if loading
-                      : () {
-                          viewModel.fetchUploadUserStatusData(context,
-                              videoTypeId: widget.videoTypeId.toString());
-                        },
+                  onPressed: () {
+                    // viewModel.fetchUploadUserStatusData(context,
+                    //     videoTypeId: widget.videoTypeId.toString());
+                    navigate(
+                        context,
+                        FeedbackScreen(
+                          videoTypeId: widget.videoTypeId.toString(),
+                        ));
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff5271FF),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.r),
                     ),
                   ),
-                  child: viewModel.userStatusloading
-                      ? CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        )
-                      : Text(
-                          "Accept",
-                          style: TextStyle(
-                            fontSize: 16.h,
-                            color: Colors.white,
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                  child: Text(
+                    "Accept",
+                    style: TextStyle(
+                      fontSize: 16.h,
+                      color: Colors.white,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                width: 280.w,
+                height: 50.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // viewModel.fetchUploadUserStatusData(context,
+                    //     videoTypeId: widget.videoTypeId.toString());
+                    navigate(
+                        context,
+                        FeedbackScreen(
+                          videoTypeId: widget.videoTypeId.toString(),
+                        ));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff5271FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                  ),
+                  child: Text(
+                    "Reject",
+                    style: TextStyle(
+                      fontSize: 16.h,
+                      color: Colors.white,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ),
               //  SizedBox(

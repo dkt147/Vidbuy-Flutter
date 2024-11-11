@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
 import 'package:vidbuy_app/model/user_model/give_away_data_model/give_away_data_model.dart';
 import 'package:vidbuy_app/model/user_model/recently_added_data_model/recently_added_data_model.dart';
 import 'package:vidbuy_app/model/user_model/trending_influencers_data_model/trending_influencers_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_search_data_model/user_search_data_model.dart';
 import 'package:vidbuy_app/repo/user_home_repo.dart';
 
 class HomeScreenViewModel with ChangeNotifier {
@@ -152,6 +155,57 @@ class HomeScreenViewModel with ChangeNotifier {
       print(value);
     }).onError((error, stackTrace) {
       setRecentlyAddedList(ApiResponse.error(error.toString()));
+    });
+  }
+
+
+  Timer? _debounce;
+
+
+ bool _searchInfluencerLoading = false;
+  bool get searchInfluencerLoading => _searchInfluencerLoading;
+
+  setSearchInfluencerLoading(bool value) {
+    _searchInfluencerLoading = value;
+    print(_searchInfluencerLoading);
+    notifyListeners();
+  }
+
+
+  ApiResponse<UserSearchDataModel> _searchInfluencerList =
+      ApiResponse.loading();
+  ApiResponse<UserSearchDataModel> get searchInfluencerList =>
+      _searchInfluencerList;
+
+  setSearchInfluencerList(ApiResponse<UserSearchDataModel> response) {
+    _searchInfluencerList = response;
+    _searchInfluencerList.toString();
+    notifyListeners();
+  }
+
+
+  Future<void> fetchSearchInfluencerList(String search ) async {
+       Map<String, dynamic> searchData = {
+        'search': search,
+      };
+    setSearchInfluencerLoading(true);
+    setSearchInfluencerList(ApiResponse.loading());
+    _userHomeRepo.fetchSearchInfluencerList(searchData).then((value) {
+      setSearchInfluencerList(ApiResponse.completed(value));
+      setSearchInfluencerLoading(false);
+      // categories = List<Map<String, dynamic>>.from(value.result!.topUsers!.map(
+      //     (item) => {'id': item.id, 'name': item.name, 'image': item.image}));
+      print(value);
+    }).onError((error, stackTrace) {
+      setSearchInfluencerList(ApiResponse.error(error.toString()));
+    });
+  }
+
+    void onSearchTextChanged(String searchText) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      // After 500 ms, fetch search results
+      fetchSearchInfluencerList(searchText);
     });
   }
 }

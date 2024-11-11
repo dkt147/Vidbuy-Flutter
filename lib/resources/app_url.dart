@@ -7,8 +7,9 @@ class AppUrl {
   static String uploadImageUrl = "$baseUrl/upload-profile-image";
   static String uploadVideoUrl = "$baseUrl/upload-profile-image";
   static String influencerCategoryUrl = "$baseUrl/category/list";
-  static String updateInfluencerCategoryUrl =
-      "$baseUrl/influencer/category/update";
+  static String updateInfluencerCategoryUrl = "$baseUrl/influencer/category/update";
+  static String searchInfluencerUrl = "$baseUrl/search-influencers";
+
 
   static String influencerDetailUrl = "$baseUrl/influencer/detail/by-id/";
   static String influencerVideoTypeListUrl =
