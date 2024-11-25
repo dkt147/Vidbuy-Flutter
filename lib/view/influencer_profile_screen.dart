@@ -242,7 +242,7 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                             ));
                                       },
                                       child: Container(
-                                        margin: EdgeInsets.only(left: 130.w),
+                                        margin: EdgeInsets.only(right: 30.w),
                                         height: 33.h,
                                         width: 107.h,
                                         color: Color(0xff161436),
@@ -1126,6 +1126,7 @@ class SubtleRightSideSlantClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
+
 class DashedBorderContainer extends StatelessWidget {
   final String text;
 
@@ -1133,23 +1134,28 @@ class DashedBorderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 250.w,
-      height: 90.h,
-      child: Stack(
-        children: [
-          // Dashed border
-          Positioned.fill(
-            child: DashBorder(),
+    return Padding(
+      padding: EdgeInsets.all(2.0), // Adds slight padding to avoid overflow
+      child: ClipRRect(
+        child: Container(
+          width: 250, // Adjusted to fit better, you may need to change
+          height: 90, // Adjusted to fit better, you may need to change
+          child: Stack(
+            children: [
+              // Dashed border
+              Positioned.fill(
+                child: DashBorder(),
+              ),
+              // Centered text
+              Center(
+                child: Text(
+                  text,
+                  style: TextStyle(color: Colors.black54),
+                ),
+              ),
+            ],
           ),
-          // Centered text
-          Center(
-            child: Text(
-              text,
-              style: TextStyle(color: Colors.black54),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -1201,6 +1207,38 @@ class DashBorder extends StatelessWidget {
     );
   }
 }
+
+class Dash extends StatelessWidget {
+  final double length;
+  final Axis direction;
+  final double dashLength;
+  final Color dashColor;
+
+  const Dash({
+    this.direction = Axis.horizontal,
+    required this.length,
+    required this.dashLength,
+    required this.dashColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Flex(
+      direction: direction,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: List.generate((length / (2 * dashLength)).floor(), (index) {
+        return SizedBox(
+          width: direction == Axis.horizontal ? dashLength : 1,
+          height: direction == Axis.vertical ? dashLength : 1,
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: dashColor),
+          ),
+        );
+      }),
+    );
+  }
+}
+
 
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;

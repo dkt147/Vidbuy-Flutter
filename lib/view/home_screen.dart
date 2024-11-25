@@ -12,6 +12,7 @@ import 'package:vidbuy_app/view/giveaway_screen.dart';
 import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/notification_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/home_screen_view_model.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -130,10 +131,45 @@ class _HomeScreenState extends State<HomeScreen>
                       onTap: () {
                         navigate(context, const NotificationScreen());
                       },
-                      child: Image.asset(
+                      child: badges.Badge(
+      position: badges.BadgePosition.topEnd(top: -10, end: -12),
+      showBadge: true,
+      // ignorePointer: false,
+      onTap: () {},
+      badgeContent:
+          Content(data: "3", size: 10.h),
+      badgeAnimation: badges.BadgeAnimation.rotation(
+        animationDuration: Duration(seconds: 1),
+        colorChangeAnimationDuration: Duration(seconds: 1),
+        loopAnimation: false,
+        curve: Curves.fastOutSlowIn,
+        colorChangeAnimationCurve: Curves.easeInCubic,
+      ),
+      // badgeStyle: badges.BadgeStyle(
+      //   // shape: badges.BadgeShape.square,
+      //   badgeColor: Colors.black,
+      //   padding: EdgeInsets.all(5.h),
+      //   // borderRadius: BorderRadius.circular(4),
+      //   borderSide: BorderSide(color: Colors.white, width: 2),
+      //   // borderGradient: badges.BadgeGradient.linear(
+      //   //     colors: [Colors.red, Colors.black]),
+      //   // badgeGradient: badges.BadgeGradient.linear(
+      //   //     colors: [Colors.blue, Colors.yellow],
+      //   //     begin: Alignment.topCenter,
+      //   //     end: Alignment.bottomCenter,
+      //   // ),
+      //   elevation: 0,
+      // ),
+      child: Image.asset(
                         "assets/Icon/Notification.png",
                         height: 25.h,
                       ),
+    ),
+                      
+                      // Image.asset(
+                      //   "assets/Icon/Notification.png",
+                      //   height: 25.h,
+                      // ),
                     ),
                   ],
                 ),

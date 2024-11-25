@@ -215,15 +215,42 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     print("Selected Video Type Details: ${viewModel.selectedVideoTypeDetails}");
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Container(
+                margin: EdgeInsets.only(bottom: 9.h, left: 18.w),
+                child: Text(
+                  "Select Video Type",
+                  style: TextStyle(
+                      fontSize: 16.h,
+                      color: Colors.black,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w500),
+                )),
         Center(
           child: SizedBox(
-            height: 50,
-            width: 335,
+            height: 50.h,
+            width: 335.w,
             child: DropdownButtonFormField<String>(
               decoration: InputDecoration(
-                labelText: 'Select Video Type',
-                border: OutlineInputBorder(),
+                // labelText: 'Select Video Type',
+                 contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30.r),
+                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30.r),
+                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30.r),
+                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30.r),
+                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+              ),
               ),
               value: selectedId?.toString(),
               onChanged: (String? newValue) {
@@ -295,8 +322,27 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               maxLines: 5,
               decoration: InputDecoration(
                 hintText: 'Description of what is going on..',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r)),
+                hintStyle: TextStyle(
+                  fontFamily: "Lato",
+                  fontSize: 14.h,
+                  fontWeight: FontWeight.w500,
+                ),
+                 focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.r),
+                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.r),
+                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.r),
+                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.r),
+                borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+              ),
               ),
             ),
           ),

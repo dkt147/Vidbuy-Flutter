@@ -192,7 +192,7 @@ class _SearchScreenState extends State<SearchScreen>
                                         data: value
                                             .influencerCategoryList.message
                                             .toString(),
-                                        size: 18))
+                                        size: 18.h))
                                 : value.influencerCategoryList.status ==
                                         Status.COMPLETED
                                     ? StyledCarouselSlider(
@@ -464,7 +464,7 @@ class _SearchScreenState extends State<SearchScreen>
   }
 }
 
-class StyledCarouselSlider extends StatelessWidget {
+class StyledCarouselSlider extends StatefulWidget {
   final List<Map<String, String?>> categories;
   final ValueChanged<String?> onChanged; // Update callback to pass the Id
 
@@ -474,18 +474,73 @@ class StyledCarouselSlider extends StatelessWidget {
   });
 
   @override
+  State<StyledCarouselSlider> createState() => _StyledCarouselSliderState();
+}
+
+class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
+int _currentIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Left text (previous item)
+            Expanded(
+              child: Text(
+                widget.categories[
+                        (_currentIndex - 1 + widget.categories.length) %
+                            widget.categories.length]["title"] ??
+                    "",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            // Center text (current item)
+            Expanded(
+              child: Text(
+                widget.categories[_currentIndex]["title"] ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            // Right text (next item)
+            Expanded(
+              child: Text(
+                widget.categories[
+                        (_currentIndex + 1) % widget.categories.length]["title"] ??
+                    "",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ],
+        ),
+        // SizedBox(height: 10.h),
+        SizedBox(height: 10.h),
         CarouselSlider(
-          items: categories.map((item) {
+          items: widget.categories.map((item) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
-                  width: 250,
-                  margin: EdgeInsets.symmetric(horizontal: 8),
+                  width: 250.w,
+                  margin: EdgeInsets.symmetric(horizontal: 8.w),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26,
@@ -503,12 +558,13 @@ class StyledCarouselSlider extends StatelessWidget {
                     alignment: Alignment.bottomLeft,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(10),
+                        width: 250.w,
+                        padding: EdgeInsets.all(10.h),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.6),
                           borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(20.r),
+                            bottomRight: Radius.circular(20.r),
                           ),
                         ),
                         child: Column(
@@ -519,7 +575,7 @@ class StyledCarouselSlider extends StatelessWidget {
                               item["title"] ?? "No Title",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: 16.h,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -528,7 +584,7 @@ class StyledCarouselSlider extends StatelessWidget {
                               item["subtitle"] ?? "No Subtitle",
                               style: TextStyle(
                                 color: Colors.white70,
-                                fontSize: 14,
+                                fontSize: 14.h,
                               ),
                             ),
                           ],
@@ -541,14 +597,14 @@ class StyledCarouselSlider extends StatelessWidget {
             );
           }).toList(),
           options: CarouselOptions(
-            height: 150,
+            height: 150.h,
             enlargeCenterPage: true,
             enableInfiniteScroll: true,
             viewportFraction: 0.6,
             onPageChanged: (index, reason) {
               final itemId =
-                  categories[index]["id"]; // Get the Id of the current item
-              onChanged(itemId); // Pass the Id to the onChanged callback
+                  widget.categories[index]["id"]; // Get the Id of the current item
+              widget.onChanged(itemId); // Pass the Id to the onChanged callback
             },
           ),
         ),

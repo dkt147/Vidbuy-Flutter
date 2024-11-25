@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/main.dart';
 
 class StyledCarouselSlider extends StatelessWidget {
   final List<Map<String, String?>> categories;
@@ -16,10 +18,10 @@ class StyledCarouselSlider extends StatelessWidget {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
-                  width: 250,
-                  margin: EdgeInsets.symmetric(horizontal: 8),
+                  width: 250.w,
+                  margin: EdgeInsets.symmetric(horizontal: 8.w),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26,
@@ -37,12 +39,13 @@ class StyledCarouselSlider extends StatelessWidget {
                     alignment: Alignment.bottomLeft,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(10),
+                        width: 250.w,
+                        padding: EdgeInsets.all(10.h),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.6),
                           borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(20.r),
+                            bottomRight: Radius.circular(20.r),
                           ),
                         ),
                         child: Column(
@@ -53,16 +56,16 @@ class StyledCarouselSlider extends StatelessWidget {
                               item["title"] ?? "No Title",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: 16.h,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 2),
+                            SizedBox(height: 2.h),
                             Text(
                               item["subtitle"] ?? "No Subtitle",
                               style: TextStyle(
                                 color: Colors.white70,
-                                fontSize: 14,
+                                fontSize: 14.h,
                               ),
                             ),
                           ],
@@ -75,7 +78,7 @@ class StyledCarouselSlider extends StatelessWidget {
             );
           }).toList(),
           options: CarouselOptions(
-            height: 150,
+            height: 150.h,
             enlargeCenterPage: true,
             enableInfiniteScroll: true,
             viewportFraction: 0.6,
