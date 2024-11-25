@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_all_orders_data_model/influencer_all_orders_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/influencer_completed_order_list_data_model/influencer_completed_order_list_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_pending_orders_data_model/influencer_pending_orders_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/influencer_rejected_order_list_data_model/influencer_rejected_order_list_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_waiting_video_list_data_model/influencer_waiting_video_list_data_model.dart';
 import 'package:vidbuy_app/repo/influencer_orders_repo.dart';
 
 class InfluencerOrdersViewModel with ChangeNotifier {
   InfleuncersOrderRepo _influencersOrderRepo = InfleuncersOrderRepo();
+
+  bool _influencerAllOrdersListLoading = false;
+  bool get influencerAllOrdersListLoading => _influencerAllOrdersListLoading;
+
+  setInfluencerAllOrdersListLoading(bool value) {
+    _influencerAllOrdersListLoading = value;
+    print(_influencerAllOrdersListLoading);
+    notifyListeners();
+  }
 
   ApiResponse<InfluencerAllOrdersDataModel> _influencerAllOrdersList =
       ApiResponse.loading();
@@ -20,21 +31,18 @@ class InfluencerOrdersViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _influencerAllOrdersListLoading = false;
-  bool get influencerAllOrdersListLoading => _influencerAllOrdersListLoading;
-
-  setInfluencerAllOrdersListLoading(bool value) {
-    _influencerAllOrdersListLoading = value;
-    print(_influencerAllOrdersListLoading);
-    notifyListeners();
-  }
-
-  Future<void> fetchInfluencerAllOrdersList() async {
-    setInfluencerAllOrdersListLoading(true);
+  Future<void> fetchInfluencerAllOrdersList(String? date) async {
+    String queryParam = "";
+    if (date != null && date.isNotEmpty) {
+      queryParam = '?date=$date'; // Add the date as a query parameter
+    } else {
+      queryParam = "";
+    }
     setInfluencerAllOrdersList(ApiResponse.loading());
-    _influencersOrderRepo.fetchInfluencersAllOrdersList().then((value) {
+    _influencersOrderRepo
+        .fetchInfluencersAllOrdersList(queryParam)
+        .then((value) {
       setInfluencerAllOrdersList(ApiResponse.completed(value));
-      setInfluencerAllOrdersListLoading(false);
       print(value);
     }).onError((error, stackTrace) {
       setInfluencerAllOrdersList(ApiResponse.error(error.toString()));
@@ -63,10 +71,18 @@ class InfluencerOrdersViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchInfluencerPendingOrdersList() async {
+  Future<void> fetchInfluencerPendingOrdersList(String? date) async {
+    String queryParam = "";
+    if (date != null && date.isNotEmpty) {
+      queryParam = '?date=$date'; // Add the date as a query parameter
+    } else {
+      queryParam = "";
+    }
     setInfluencerPendingOrdersListLoading(true);
     setInfluencerPendingOrdersList(ApiResponse.loading());
-    _influencersOrderRepo.fetchInfluencerPendingOrdersList().then((value) {
+    _influencersOrderRepo
+        .fetchInfluencerPendingOrdersList(queryParam)
+        .then((value) {
       setInfluencerPendingOrdersList(ApiResponse.completed(value));
       setInfluencerPendingOrdersListLoading(false);
       print(value);
@@ -97,15 +113,95 @@ class InfluencerOrdersViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchInfluencerWaitingVideoList() async {
+  Future<void> fetchInfluencerWaitingVideoList(String? date) async {
+    String queryParam = "";
+    if (date != null && date.isNotEmpty) {
+      queryParam = '?date=$date'; // Add the date as a query parameter
+    } else {
+      queryParam = "";
+    }
     setInfluencerWaitingVideoListLoading(true);
     setInfluencerWaitingVideoList(ApiResponse.loading());
-    _influencersOrderRepo.fetchInfluencersWaitingVideoList().then((value) {
+    _influencersOrderRepo
+        .fetchInfluencersWaitingVideoList(queryParam)
+        .then((value) {
       setInfluencerWaitingVideoList(ApiResponse.completed(value));
       setInfluencerWaitingVideoListLoading(false);
       print(value);
     }).onError((error, stackTrace) {
       setInfluencerWaitingVideoList(ApiResponse.error(error.toString()));
+    });
+  }
+
+  ApiResponse<InfluencerCompletedOrderListDataModel>
+      _influencerCompletedVideoList = ApiResponse.loading();
+  ApiResponse<InfluencerCompletedOrderListDataModel>
+      get influencerCompletedVideoList => _influencerCompletedVideoList;
+
+  setInfluencerCompletedVideoList(
+      ApiResponse<InfluencerCompletedOrderListDataModel> response) {
+    _influencerCompletedVideoList = response;
+    _influencerCompletedVideoList.toString();
+    notifyListeners();
+  }
+
+  // bool _influencerCompletedVideoListLoading = false;
+  // bool get influencerCompletedVideoListLoading =>
+  //     _influencerCompletedVideoListLoading;
+
+  // setInfluencerCompletedVideoListLoading(bool value) {
+  //   _influencerCompletedVideoListLoading = value;
+  //   print(_influencerCompletedVideoListLoading);
+  //   notifyListeners();
+  // }
+
+  Future<void> fetchInfluencerCompletedVideoList(String? date) async {
+    String queryParam = "";
+    if (date != null && date.isNotEmpty) {
+      queryParam = '?date=$date'; // Add the date as a query parameter
+    } else {
+      queryParam = "";
+    }
+    // setInfluencerWaitingVideoListLoading(true);
+    setInfluencerCompletedVideoList(ApiResponse.loading());
+    _influencersOrderRepo
+        .fetchInfluencersCompletedVideoList(queryParam)
+        .then((value) {
+      setInfluencerCompletedVideoList(ApiResponse.completed(value));
+      // setInfluencerCompletedVideoListLoading(false);
+      print(value);
+    }).onError((error, stackTrace) {
+      setInfluencerCompletedVideoList(ApiResponse.error(error.toString()));
+    });
+  }
+
+  ApiResponse<InfluencerRejectedOrderListDataModel>
+      _influencerRejectedVideoList = ApiResponse.loading();
+  ApiResponse<InfluencerRejectedOrderListDataModel>
+      get influencerRejectedVideoList => _influencerRejectedVideoList;
+
+  setInfluencerRejectedVideoList(
+      ApiResponse<InfluencerRejectedOrderListDataModel> response) {
+    _influencerRejectedVideoList = response;
+    _influencerRejectedVideoList.toString();
+    notifyListeners();
+  }
+
+  Future<void> fetchInfluencerRejectedVideoList(String? date) async {
+    String queryParam = "";
+    if (date != null && date.isNotEmpty) {
+      queryParam = '?date=$date'; // Add the date as a query parameter
+    } else {
+      queryParam = "";
+    }
+    setInfluencerRejectedVideoList(ApiResponse.loading());
+    _influencersOrderRepo
+        .fetchInfluencersRejectedVideoList(queryParam)
+        .then((value) {
+      setInfluencerRejectedVideoList(ApiResponse.completed(value));
+      print(value);
+    }).onError((error, stackTrace) {
+      setInfluencerRejectedVideoList(ApiResponse.error(error.toString()));
     });
   }
 }

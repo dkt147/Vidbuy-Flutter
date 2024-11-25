@@ -5,6 +5,8 @@ import 'package:vidbuy_app/model/user_model/user_activity_history_data_model/use
 import 'package:vidbuy_app/model/user_model/user_all_orders_data_model/user_all_orders_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_completed_order_list_data_model/user_completed_order_list_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_pending_orders_data_model/user_pending_orders_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_rejected_orders_data_model/user_rejected_orders_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_review_data_model/user_review_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_waiting_video_data_model/user_waiting_video_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
@@ -15,6 +17,7 @@ class UsersOrderRepo {
     try {
       dynamic response = await apiServices.getGetApiResponse(
           AppUrl.userAllOrdersListUrl, true);
+      print(response);
       return response = UserAllOrdersDataModel.fromJson(response);
     } catch (e) {
       throw e;
@@ -51,11 +54,22 @@ class UsersOrderRepo {
     }
   }
 
+  Future<UserRejectedOrdersDataModel> fetchUserRejectedVideoList() async {
+    try {
+      dynamic response = await apiServices.getGetApiResponse(
+          AppUrl.userRejectedOrdersListUrl, true);
+      return response = UserRejectedOrdersDataModel.fromJson(response);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<UserActivityHistoryDataModel> fetchUserActiveHistoryData(
       String videoTypeId) async {
     try {
       dynamic response = await apiServices.getGetApiResponse(
           AppUrl.userActiveHistoryUrl + videoTypeId, true);
+      print(response);
       return response = UserActivityHistoryDataModel.fromJson(response);
     } catch (e) {
       throw e;
@@ -72,6 +86,18 @@ class UsersOrderRepo {
       return UpdateUserVideoStatusDataModel.fromJson(response);
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Future<UserReviewDataModel> fetchUserReviewResponse(dynamic data) async {
+    try {
+      dynamic response = await apiServices.getPostApiResponse(
+          AppUrl.userReviewUrl, data, true);
+      print(response); // Print the raw response
+
+      return UserReviewDataModel.fromJson(response);
+    } catch (e) {
+      throw e;
     }
   }
 }

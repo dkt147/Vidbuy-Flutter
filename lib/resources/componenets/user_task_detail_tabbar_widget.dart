@@ -6,6 +6,7 @@ import 'package:vidbuy_app/view/user_video_screen.dart';
 
 class UserTaskDetailTabBarWidget extends StatefulWidget {
   String videoTypeId;
+  String influencerId;
   String createdAt;
   String orderId;
   String expiresAt;
@@ -17,9 +18,12 @@ class UserTaskDetailTabBarWidget extends StatefulWidget {
   String description;
   String totalPrice;
   String? videoUrl;
+  String? reason;
+  String? videoUploadId;
 
   UserTaskDetailTabBarWidget(
       {required this.videoTypeId,
+      required this.influencerId,
       required this.createdAt,
       required this.orderId,
       required this.expiresAt,
@@ -31,6 +35,8 @@ class UserTaskDetailTabBarWidget extends StatefulWidget {
       required this.description,
       required this.totalPrice,
       this.videoUrl,
+      this.videoUploadId,
+      this.reason,
       super.key});
 
   @override
@@ -50,7 +56,7 @@ class _UserTaskDetailTabBarWidgetState extends State<UserTaskDetailTabBarWidget>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   void goToNextTab() {
@@ -118,22 +124,27 @@ class _UserTaskDetailTabBarWidgetState extends State<UserTaskDetailTabBarWidget>
           // WaitingVideoScreen(),
           UserVideoScreen(
             status: widget.status.toString(),
-            videoTypeId: widget.videoTypeId.toString(),
+            videoTypeId: widget.videoUploadId.toString(),
             videoUrl: widget.videoUrl.toString(),
+            influencerId: widget.influencerId.toString(),
           ),
           UserOrdersDetailsScreen(
-              videoTypeId: widget.videoTypeId.toString(),
-              createdAt: widget.createdAt.toString(),
-              orderId: widget.orderId.toString(),
-              expiresAt: widget.expiresAt.toString(),
-              status: widget.status.toString(),
-              videoTypeName: widget.videoTypeName.toString(),
-              from: widget.from.toString(),
-              to: widget.to.toString(),
-              requiredDays: widget.requiredDays.toString(),
-              description: widget.description.toString(),
-              totalPrice: widget.totalPrice.toString()),
+            videoTypeId: widget.videoTypeId.toString(),
+            createdAt: widget.createdAt.toString(),
+            orderId: widget.orderId.toString(),
+            expiresAt: widget.expiresAt.toString(),
+            status: widget.status.toString(),
+            videoTypeName: widget.videoTypeName.toString(),
+            from: widget.from.toString(),
+            to: widget.to.toString(),
+            requiredDays: widget.requiredDays.toString(),
+            description: widget.description.toString(),
+            totalPrice: widget.totalPrice.toString(),
+            reason: widget.reason.toString(),
+          ),
+
           UserActiveHistoryScreen(
+            status: widget.status,
             videoTypeId: widget.videoTypeId.toString(),
           ),
         ],

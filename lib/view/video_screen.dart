@@ -88,14 +88,10 @@
 
 import 'dart:async';
 import 'dart:io';
-
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:vidbuy_app/Function/navigate.dart';
-import 'package:vidbuy_app/Function/utils.dart';
-import 'package:vidbuy_app/resources/componenets/influencer_order_tabbar.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
 import 'package:video_player/video_player.dart';
 
@@ -153,14 +149,18 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<InfluencerTaskDetailViewModel>(context);
 
-    if (widget.status == "not assigned") {
+    if (widget.status == "Order Created") {
       return _buildNotSelectedUI();
-    } else if (widget.status == "Pending") {
+    } else if (widget.status == "Accepted by influencer") {
       return _buildPendingUI(viewModel);
     } else if (widget.status == "waiting video") {
       return _buildWaitingVideoUI();
     } else if (widget.status == "Completed") {
       return _buildWaitingVideoUI();
+    } else if (widget.status == "Rejected by influencer") {
+      return _buildRejectedByInfluencerUI();
+    } else if (widget.status == "Rejected by user") {
+      return _buildRejectedByUserUI();
     } else {
       return Center(child: Text("Unknown status"));
     }
@@ -178,7 +178,47 @@ class _VideoScreenState extends State<VideoScreen> {
           ),
           SizedBox(height: 16),
           Text(
-            "Your video will appear here",
+            "You video will appear here",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRejectedByInfluencerUI() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/Logo/logo.png',
+            height: 177.h,
+            width: 128.w,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "You rejected this video request.",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRejectedByUserUI() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/Logo/logo.png',
+            height: 177.h,
+            width: 128.w,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "The user rejected this video request.",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ],
@@ -215,7 +255,7 @@ class _VideoScreenState extends State<VideoScreen> {
       _chewieController = ChewieController(
         videoPlayerController: _controller!,
         autoPlay: true,
-        looping: true,
+        looping: false,
         showControls: true, // Show controls like play/pause, seek bar, etc.
         showControlsOnInitialize: false, // Controls are hidden initially
       );
@@ -356,6 +396,76 @@ class _VideoScreenState extends State<VideoScreen> {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           // Debugging error message
+          return Center(
+            child: Text("Failed to load video. Error: ${snapshot.error}"),
+          );
+        } else {
+          return Center(
+            child: SizedBox(
+              width: 305.h, // Adjust width as needed
+              height: 400.w, // Adjust height as needed
+              child: Chewie(controller: _chewieController!),
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    _chewieController?.dispose();
+    super.dispose();
+  }
+}
+
+class VideoPlayerWidget extends StatefulWidget {
+  final String? videoUrl;
+
+  const VideoPlayerWidget({Key? key, this.videoUrl}) : super(key: key);
+
+  @override
+  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+}
+
+class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+  late Future<void> _initializeVideoFuture;
+  VideoPlayerController? _controller;
+  ChewieController? _chewieController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.videoUrl != null && widget.videoUrl!.isNotEmpty) {
+      _controller = VideoPlayerController.network(widget.videoUrl!);
+      _initializeVideoFuture = _controller!.initialize().then((_) {
+        _chewieController = ChewieController(
+          videoPlayerController: _controller!,
+          aspectRatio: _controller!.value.aspectRatio,
+          autoPlay: true,
+          looping: false,
+        );
+        setState(() {}); // Trigger a rebuild to display the video.
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.videoUrl == null || widget.videoUrl!.isEmpty) {
+      return Center(
+        child: const Text("Video URL is unavailable"),
+      );
+    }
+
+    return FutureBuilder(
+      future: _initializeVideoFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
           return Center(
             child: Text("Failed to load video. Error: ${snapshot.error}"),
           );

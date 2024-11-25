@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/language_tile.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vidbuy_app/viewmodel/change_language_view_model.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -10,8 +14,10 @@ class LanguageScreen extends StatefulWidget {
   State<LanguageScreen> createState() => _LanguageScreenState();
 }
 
+enum Language { english, portugese }
+
 class _LanguageScreenState extends State<LanguageScreen> {
-  bool isChecked = false;
+  int selectedLanguageIndex = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +42,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   width: 5.w,
                 ),
                 Content(
-                  data: "Language",
+                  data: AppLocalizations.of(context)!.language,
                   size: 14.h,
                   weight: FontWeight.w600,
                   family: "Nunito",
@@ -47,15 +53,51 @@ class _LanguageScreenState extends State<LanguageScreen> {
           SizedBox(
             height: 30.h,
           ),
-          LanguageTile(),
+          Consumer<LanguageChangeViewModel>(
+              builder: (context, provider, child) {
+            return Column(
+              children: [
+                LanguageTile(
+                  index: 0,
+                  selectedIndex: selectedLanguageIndex,
+                  language: "English",
+                  onChanged: (index) {
+                    setState(() {
+                      selectedLanguageIndex = index;
+                      provider.changeLanguage(Locale('en'));
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                LanguageTile(
+                  index: 1,
+                  selectedIndex: selectedLanguageIndex,
+                  language: "Portugues",
+                  onChanged: (index) {
+                    setState(() {
+                      selectedLanguageIndex = index;
+                      provider.changeLanguage(Locale('pt'));
+                    });
+                  },
+                ),
+              ],
+            );
+          }),
+
           SizedBox(
             height: 12.h,
           ),
-          LanguageTile(),
-          SizedBox(
-            height: 12.h,
-          ),
-          LanguageTile(),
+          // LanguageTile(
+          //   index: 2,
+          //   selectedIndex: selectedLanguageIndex,
+          //   onChanged: (index) {
+          //     setState(() {
+          //       selectedLanguageIndex = index;
+          //     });
+          //   },
+          // ),
         ],
       ),
     );

@@ -1,12 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/model/user_model/change_password_data_model.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
-import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
+import 'package:vidbuy_app/view/change_password_screen.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/user_profile_view_model.dart';
 
 class UserEditProfileScreen extends StatefulWidget {
   const UserEditProfileScreen({super.key});
@@ -39,25 +40,9 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
     super.dispose();
   }
 
-  File? _image;
-
-  Future<void> _pickImage() async {
-    try {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-
-      if (image != null) {
-        setState(() {
-          _image = File(image.path);
-        });
-      }
-    } catch (e) {
-      print('Error picking image: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<UserProfileViewModel>(context, listen: true);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -100,25 +85,37 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
             ),
 
             SizedBox(height: 30.h),
-            Center(
-              child: GestureDetector(
-                onTap: _pickImage,
-                child: Container(
-                  height: 89.h,
-                  width: 87.w,
-                  child: CircleAvatar(
-                    radius: 40.r,
-                    backgroundColor: Colors.grey[200],
-                    backgroundImage: _image != null ? FileImage(_image!) : null,
-                    child: _image == null
-                        ? Icon(
-                            Icons.camera_alt,
-                            size: 26,
-                            color: Colors.grey,
-                          )
-                        : null,
+            Container(
+              margin: EdgeInsets.only(left: 20.w, right: 20.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      viewModel.pickProfileImage();
+                    },
+                    child: Consumer<UserProfileViewModel>(
+                      builder: (context, viewModel, child) {
+                        return Container(
+                          height: 89.h,
+                          width: 87.w,
+                          child: CircleAvatar(
+                            radius: 40.r,
+                            backgroundColor: Colors.grey[200],
+                            backgroundImage: viewModel.profileImage != null
+                                ? FileImage(viewModel.profileImage!)
+                                : null,
+                            child: viewModel.profileImage == null
+                                ? Icon(Icons.camera_alt,
+                                    size: 26, color: Colors.grey)
+                                : null,
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             SizedBox(height: 30.h),
@@ -171,56 +168,25 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     ],
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  // SizedBox(height: 10.h),
-                  // ContentFieldPassword(
-                  //     label: "Your Password",
-                  //     hint: "Password",
-                  //     index: 1,
-                  //     // textInput: TextInputType.text,
-                  //     controller: _passwordController,
-                  //     inputFormat: <TextInputFormatter>[
-                  //       FilteringTextInputFormatter.singleLineFormatter
-                  //     ]),
                 ],
               ),
             ),
 
-            // SizedBox(height: 20.h),
-            // Row(
-            //   children: [
-            //     Checkbox(
-            //       value: true,
-            //       onChanged: (value) {
-            //         // Handle checkbox change
-            //       },
-            //     ),
-            //     Expanded(
-            //       child: Text(
-            //         "I want to receive news and information via email",
-            //         style: TextStyle(
-            //           color: Colors.black54,
-            //           fontSize: 14.sp,
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
             Container(
               margin: EdgeInsets.only(left: 25.w),
               child: TextButton(
-                onPressed: () {
-                  // Handle login redirect
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => LoginScreen()),
-                  // );
-                },
-                child: RichText(
-                  text: TextSpan(
-                    text: "Change Password?",
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                onPressed: () {},
+                child: GestureDetector(
+                  onTap: () {
+                    navigate(context, ChangePasswordScreen());
+                  },
+                  child: RichText(
+                    text: TextSpan(
+                      text: "Change Password?",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -228,63 +194,51 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
             ),
             SizedBox(height: 70.h),
             Center(
-              child: Container(
-                width: 280.w,
-                height: 50.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Handle account creation
-                    // if (_nameController.text.isEmpty) {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     SnackBar(
-                    //       behavior: SnackBarBehavior.floating,
-                    //       duration: Duration(microseconds: 1),
-                    //       backgroundColor: Colors.red.shade500,
-                    //       content: Text(
-                    //         'Please Enter Email',
-                    //         style: TextStyle(color: Colors.red.shade50),
-                    //       ),
-                    //     ),
-                    //   );
-                    //   // }
-                    //   // else if (_emailController.text.length < 9 ||
-                    //   //     _passwordController.text.length < 6) {
-                    //   //   Utils.snackBar("Wrong Credentials", context);
-                    // } else if (_usernameController.text.isEmpty) {
-                    //   snackBar("Please enter username", context);
-                    // } else if (_emailController.text.isEmpty) {
-                    //   snackBar("Please enter valid Email", context);
-                    // } else if (_passwordController.text.isEmpty) {
-                    //   snackBar("Please Enter Password", context);
-                    // } else if (_passwordController.text.length < 8) {
-                    //   snackBar("Please Enter 8 Digit Password", context);
-                    // } else {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(builder: (context) => OtpScren()),
-                    //   );
-                    // }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    // padding: EdgeInsets.symmetric(
-                    //   horizontal: 120.w,
-                    //   vertical: 15.h,
-                    // ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
+              child: Consumer<UserProfileViewModel>(
+                builder: (context, viewModel, child) {
+                  return Container(
+                    width: 280.w,
+                    height: 50.h,
+                    child: ElevatedButton(
+                      onPressed: viewModel.userEditProfileLoading
+                          ? null // Disable button if loading
+                          : () {
+                              viewModel.fetchEditProfileResponse(
+                                  context,
+                                  _nameController.text.toString(),
+                                  _usernameController.text.toString(),
+                                  _emailController.text.toString(),
+                                  viewModel.base64Image.toString(), () {
+                                _nameController.clear();
+                                _usernameController.clear();
+                                _emailController.clear();
+                                _passwordController.clear();
+                                viewModel.clearProfileImage();
+                              });
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff5271FF),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                      ),
+                      child: viewModel.userEditProfileLoading
+                          ? CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            )
+                          : Text(
+                              "Create Account",
+                              style: TextStyle(
+                                fontSize: 20.h,
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
                     ),
-                  ),
-                  child: Text(
-                    "Save",
-                    style: TextStyle(
-                      fontSize: 20.h,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
             // SizedBox(height: 20.h),

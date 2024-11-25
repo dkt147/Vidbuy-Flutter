@@ -93,7 +93,7 @@ class DeleteAccountScreen extends StatelessWidget {
                                 AlwaysStoppedAnimation<Color>(Colors.white),
                           )
                         : Text(
-                            "Log In",
+                            "Verify",
                             style: TextStyle(
                               fontSize: 20.h,
                               fontFamily: "Lato",

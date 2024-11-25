@@ -312,7 +312,7 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
                 if (!samePriceForAll) ...[
                   priceInputField(
                     "Choose Price for ${video['name']}",
-                    0.0,
+                    0,
                     (value) {
                       _onPriceChanged(value.toString(), video['id'].toString());
                     },
@@ -321,7 +321,7 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
               ],
 
               SizedBox(
-                height: 200.h,
+                height: 100.h,
               ),
 
               Container(
@@ -373,7 +373,7 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     // Set a new debounce timer
-    _debounce = Timer(const Duration(milliseconds: 500), () {
+    _debounce = Timer(const Duration(seconds: 2), () {
       // Call your ViewModel function to send the price data after user stops typing
       Provider.of<InfluencerSelectionViewModel>(context, listen: false)
           .fetchInfluencerPriceData(
@@ -384,8 +384,7 @@ class _ChoosePricesScreenState extends State<ChoosePricesScreen> {
     });
   }
 
-  Widget priceInputField(
-      String label, double price, Function(double) onChanged) {
+  Widget priceInputField(String label, int price, Function(double) onChanged) {
     return Padding(
       padding: EdgeInsets.only(top: 17.h, right: 22.w),
       child: Row(

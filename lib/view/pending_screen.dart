@@ -9,7 +9,8 @@ import 'package:vidbuy_app/resources/componenets/influencer_task_detail_tabbar_w
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencers_orders_view_model.dart';
 
 class PendingScreen extends StatefulWidget {
-  const PendingScreen({super.key});
+  String? date;
+  PendingScreen({super.key, required this.date});
 
   @override
   State<PendingScreen> createState() => _PendingScreenState();
@@ -21,8 +22,19 @@ class _PendingScreenState extends State<PendingScreen> {
 
   @override
   void initState() {
-    influencersOrdersViewModel.fetchInfluencerPendingOrdersList();
     super.initState();
+    // influencersOrdersViewModel = Provider.of<InfluencerOrdersViewModel>(context, listen: false);
+    // Initial API call
+    influencersOrdersViewModel.fetchInfluencerPendingOrdersList(widget.date);
+  }
+
+  @override
+  void didUpdateWidget(covariant PendingScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Check if the date has changed
+    if (oldWidget.date != widget.date) {
+      influencersOrdersViewModel.fetchInfluencerPendingOrdersList(widget.date);
+    }
   }
 
   @override
@@ -103,6 +115,9 @@ class _PendingScreenState extends State<PendingScreen> {
                                         InfluencerTaskDetailTabBarWidget(
                                             videoTypeId:
                                                 influencer.id.toString(),
+                                            influencerId: influencer
+                                                .influencerId
+                                                .toString(),
                                             createdAt:
                                                 influencer.createdAt.toString(),
                                             orderId:
@@ -137,7 +152,8 @@ class _PendingScreenState extends State<PendingScreen> {
               }
               return Container();
             }),
-          )
+          ),
+                    SizedBox(height: 70.h,)
           // SizedBox(
           //   height: 20.h,
           // ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_all_orders_data_model/datum.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/view/influencer_order_cancel_screen.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
 
 // ignore: must_be_immutable
@@ -19,6 +21,7 @@ class OrdersDetailsScreen extends StatefulWidget {
   String requiredDays;
   String description;
   String totalPrice;
+  String? reason;
 
   OrdersDetailsScreen(
       {required this.videoTypeId,
@@ -32,6 +35,7 @@ class OrdersDetailsScreen extends StatefulWidget {
       required this.requiredDays,
       required this.description,
       required this.totalPrice,
+      this.reason,
       super.key});
 
   @override
@@ -50,9 +54,10 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             SizedBox(
               height: 10.h,
             ),
-            Container(
-              margin: EdgeInsets.only(left: 20.w, right: 20.w),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,9 +88,8 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         weight: FontWeight.w400,
                       ),
                       Content(
-                        data:
-                            "Status: ${widget.status == "not assigned" ? "Not Assigned" : widget.status}",
-                        size: 14.h,
+                        data: "Status: ${widget.status}",
+                        size: 12.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
                       ),
@@ -94,9 +98,9 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 47.h,
-            ),
+            // SizedBox(
+            //   height: 47.h,
+            // ),
             Container(
               width: 375.w,
               height: 31.h,
@@ -104,108 +108,119 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
               padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
               child: Content(
                 data: "Video details",
-                size: 12.h,
+                size: 18.h,
                 family: "Nunito",
                 weight: FontWeight.w700,
               ),
             ),
-            SizedBox(
-              height: 7.h,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 30.h),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Content(
-                    data: "${widget.videoTypeName.toString()} Video",
-                    size: 14.h,
-                    family: "Lato",
-                    weight: FontWeight.w600,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Content(
+                      data: "${widget.videoTypeName.toString()} Video",
+                      size: 14.h,
+                      family: "Lato",
+                      weight: FontWeight.w600,
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Content(
-                        data: "From : ",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Content(
-                        data: widget.from.toString(),
-                        size: 12.h,
-                        family: "Lato",
-                        weight: FontWeight.w400,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      children: [
+                        Content(
+                          data: "From: ",
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w600,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Content(
+                          data: widget.from.toString(),
+                          size: 12.h,
+                          family: "Lato",
+                          weight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Content(
-                        data: "To : ",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Content(
-                        data: widget.to.toString(),
-                        size: 12.h,
-                        family: "Lato",
-                        weight: FontWeight.w400,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      children: [
+                        Content(
+                          data: "To: ",
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w600,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Content(
+                          data: widget.to.toString(),
+                          size: 12.h,
+                          family: "Lato",
+                          weight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Content(
-                        data: "Delivery day : ",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Content(
-                        data: widget.requiredDays.toString() + " Days",
-                        size: 12.h,
-                        family: "Lato",
-                        weight: FontWeight.w400,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      children: [
+                        Content(
+                          data: "Delivery day: ",
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w600,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Content(
+                          data: widget.requiredDays.toString() + " Days",
+                          size: 12.h,
+                          family: "Lato",
+                          weight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Content(
-                        data: "Description",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                        height: 10.h,
-                      ),
-                      Content(
-                        data: widget.description.toString(),
-                        size: 12.h,
-                        family: "Lato",
-                        weight: FontWeight.w400,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      children: [
+                        Content(
+                          data: "Description: ",
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w600,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                          height: 10.h,
+                        ),
+                        Content(
+                          data: widget.description.toString(),
+                          size: 12.h,
+                          family: "Lato",
+                          weight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 41.h,
-            ),
+
             Container(
               width: 375.w,
               height: 31.h,
@@ -213,13 +228,13 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
               padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
               child: Content(
                 data: "Price Detail",
-                size: 12.h,
+                size: 18.h,
                 family: "Nunito",
                 weight: FontWeight.w700,
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 30.w, right: 29.w, top: 15.h),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -238,7 +253,23 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 ],
               ),
             ),
-            if (widget.status == "not assigned")
+            if (widget.reason != "null")
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Content(
+                      data: "Reason : ${widget.reason.toString()}",
+                      size: 14.h,
+                      family: "Lato",
+                      weight: FontWeight.w600,
+                    ),
+                  ],
+                ),
+              ),
+            if (widget.status == "Order Created")
               Column(
                 children: [
                   Consumer<InfluencerTaskDetailViewModel>(
@@ -317,6 +348,10 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       height: 50.h,
                       child: ElevatedButton(
                         onPressed: () {
+                          navigate(
+                              context,
+                              InfluencerOrderCancelScreen(
+                                  videoTypeId: widget.videoTypeId));
                           // viewModel.fetchUploadVideoData(context, file: File(viewModel.videoPath!), requestVideoId: "1");
                         },
                         style: ElevatedButton.styleFrom(

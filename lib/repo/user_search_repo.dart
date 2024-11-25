@@ -1,7 +1,7 @@
 import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/data/network/network_api_services.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
-import 'package:vidbuy_app/model/user_model/influencer_list_by_category_data_model/influencer_list_by_category_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_search_data_model/user_search_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
 class UserSearchRepo {
@@ -17,15 +17,12 @@ class UserSearchRepo {
     }
   }
 
-  Future<InfluencerListByCategoryDataModel> fetchInfluencerByCategory(
-      String categoryId) async {
+  Future<UserSearchDataModel> fetchInfluencerByCategory(dynamic data) async {
     try {
-      final String url =
-          "${AppUrl.influencersListByCategoryUrl}?category_id=$categoryId";
-      dynamic response = await apiServices.getGetApiResponse(url, true);
+      dynamic response = await apiServices.getPostApiResponse(
+          AppUrl.searchInfluencerUrl, data, true);
       print(response); // Print the raw response
-
-      return InfluencerListByCategoryDataModel.fromJson(response);
+      return UserSearchDataModel.fromJson(response);
     } catch (e) {
       throw Exception(e);
     }

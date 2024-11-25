@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/view/success_payment_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_task_detail_view_model.dart';
 
 class FeedbackScreen extends StatefulWidget {
-  final String videoTypeId;
+  String influencerId;
 
-  const FeedbackScreen({
-    Key? key,
-    required this.videoTypeId,
-  }) : super(key: key);
+  FeedbackScreen({Key? key, required this.influencerId}) : super(key: key);
 
   @override
   State<FeedbackScreen> createState() => _FeedbackScreenState();
@@ -20,7 +20,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   String selectedEmoji = ''; // To store the selected emoji
 
   // List of emoji feedback options
-  final List<String> emojis = ['😊', '😐', '😢', '😍', '😡'];
+  final List<String> emojis = [
+    '😡',
+    '😢',
+    '😐',
+    '😊',
+    '😍',
+  ];
+  int selectedEmojiIndex = 0;
   TextEditingController _messageController = TextEditingController();
 
   @override
@@ -40,7 +47,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      navigate(context, SuccessPaymentScreen());
                     },
                     child: Icon(
                       Icons.cancel,
@@ -65,27 +72,31 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: emojis.map((emoji) {
-                bool isSelected =
-                    selectedEmoji == emoji; // Check if the emoji is selected
+              children: emojis.asMap().entries.map((entry) {
+                int index = entry.key;
+                String emoji = entry.value;
+                bool isSelected = selectedEmojiIndex ==
+                    index + 1; // Check if emoji is selected
+
                 return GestureDetector(
                   onTap: () {
                     setState(() {
-                      selectedEmoji = emoji; // Set selected emoji
+                      selectedEmojiIndex =
+                          index + 1; // Set selected index (1-based)
                     });
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Container(
-                      padding: EdgeInsets.all(
-                          8), // Add some padding around the emoji
+                      padding:
+                          EdgeInsets.all(8), // Add padding around the emoji
                       decoration: BoxDecoration(
                         color: isSelected
                             ? Colors.grey
                             : Colors
                                 .transparent, // Grey background when selected
-                        borderRadius: BorderRadius.circular(
-                            50), // Make the container circular
+                        borderRadius:
+                            BorderRadius.circular(50), // Circular container
                         border: Border.all(
                           color: isSelected
                               ? Colors.grey
@@ -98,8 +109,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         emoji,
                         style: TextStyle(
                           fontSize: isSelected
-                              ? 35.h
-                              : 20.h, // Increase size when selected
+                              ? 35
+                              : 20, // Increase size when selected
                         ),
                       ),
                     ),
@@ -131,12 +142,21 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               width: 335.w,
               height: 50.h,
               child: ElevatedButton(
-                onPressed: viewModel.userStatusloading
+                onPressed: viewModel.userReviewloading
                     ? null
                     : () {
-                        viewModel.fetchUploadUserStatusData(context,
-                            videoTypeId: widget.videoTypeId.toString(),
-                            feedback: _messageController.text.toString());
+                        if (selectedEmojiIndex == 0) {
+                          Utils.snackBar(
+                              "Please select emoji so that we can help with your feedback",
+                              context);
+                        } else if (_messageController.text.isEmpty) {
+                          Utils.snackBar("Please enter message", context);
+                        } else {
+                          viewModel.fetchUploadReview(context,
+                              influencerId: widget.influencerId.toString(),
+                              rating: selectedEmojiIndex.toString(),
+                              message: _messageController.text.toString());
+                        }
                         // navigate(context, FeedbackScreen());
                       },
                 style: ElevatedButton.styleFrom(
@@ -145,7 +165,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     borderRadius: BorderRadius.circular(30.r),
                   ),
                 ),
-                child: viewModel.userStatusloading
+                child: viewModel.userReviewloading
                     ? CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                       )

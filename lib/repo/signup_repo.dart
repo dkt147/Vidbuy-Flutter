@@ -60,14 +60,16 @@ class SignupRepo {
     }
   }
 
-  Future<CountryListDataModel> fetchCountryList() async {
+  Future<dynamic> fetchCountryList({int page = 1}) async {
     try {
-      dynamic response =
-          await apiServices.getGetApiResponse(AppUrl.countryListUrl, true);
-      print(response);
-      return response = CountryListDataModel.fromJson(response);
+      // Include page number in the API request
+      final response = await apiServices.getGetApiResponse(
+        AppUrl.countryListUrl + "?page=$page",
+        false,
+      );
+      return response; // Returns the data as expected
     } catch (e) {
-      throw e;
+      throw e; // Error handling
     }
   }
 

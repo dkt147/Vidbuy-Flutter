@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/bottom_sheet_widget.dart';
+import 'package:vidbuy_app/view/nav_bar.dart';
 
 class SuccessPaymentScreen extends StatefulWidget {
   const SuccessPaymentScreen({super.key});
@@ -111,6 +112,8 @@ class _SuccessPaymentScreenState extends State<SuccessPaymentScreen> {
                   //   //         builder: (_) => TabBarWidget()));
                   // navigate(context, DonationBottomSheetWidget());
                   bottomSheetWidget(context);
+
+                  navigatePushReplace(context, NavBarScreen());
 
                   // }
                 },

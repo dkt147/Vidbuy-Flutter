@@ -1,0 +1,22 @@
+ {
+    "language" : "Language",
+    "account" : "Account",
+    "task"  :  "Task",
+    "donation" : "Donations",
+    "updateVideoPrice" : "Update Video Price",
+    "updateCategory" : "Update Category",
+    "balance" : "Balance",
+    "editProfile" : "Edit Profile",
+    "vacationMode" : "Vacation Mode",
+    "notificationSettings" : "Notification Settings",
+    "orders" : "Orders",
+    "general" : "General",
+    "language" : "Language",
+    "support" : "Support" ,
+    "policies" :"Policies",
+    "logOut" : "Log Out",
+    "influencers" : "Influencers",
+    "doYouWantToDelete" : "Do you want to delete the account?",
+    "delete" : "Delete"
+
+}

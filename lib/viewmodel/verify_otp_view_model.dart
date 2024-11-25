@@ -1,22 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/generic_otp_data_model/generic_otp_data_model.dart';
-import 'package:vidbuy_app/model/login_data_model/result.dart';
 import 'package:vidbuy_app/model/login_data_model/user.dart';
 import 'package:vidbuy_app/repo/signup_repo.dart';
-import 'package:vidbuy_app/resources/componenets/navbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
-import 'package:vidbuy_app/view/home_screen.dart';
-import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/influencer_unique_profile.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
-import 'package:vidbuy_app/view/otp_scren.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
-import 'package:vidbuy_app/view/user_profile_screen.dart';
 
 class OtpVerificationViewModel extends ChangeNotifier {
   SignupRepo _signupRepo = SignupRepo();

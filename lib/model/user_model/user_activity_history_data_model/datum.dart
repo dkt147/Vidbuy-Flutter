@@ -1,114 +1,67 @@
 import 'package:collection/collection.dart';
 
-import 'influencer.dart';
-import 'video_type.dart';
+import 'request_video.dart';
 
 class Datum {
   int? id;
-  int? userId;
-  int? influencerId;
-  String? videoFor;
-  int? videoTypeId;
-  String? from;
-  String? to;
-  String? description;
-  String? requiredDays;
-  String? deliveryCharges;
-  dynamic serviceCharges;
-  String? totalPrice;
+  String? requestVideoId;
   String? status;
+  String? date;
+  String? expiryAt;
   String? orderId;
-  dynamic paymentStatus;
-  dynamic reason;
+  String? currentStaus;
   DateTime? createdAt;
   DateTime? updatedAt;
-  String? expiresAt;
-  Influencer? influencer;
-  List<dynamic>? influencerRequestVideos;
-  VideoType? videoType;
+  int? totalPrice;
+  RequestVideo? requestVideo;
 
   Datum({
     this.id,
-    this.userId,
-    this.influencerId,
-    this.videoFor,
-    this.videoTypeId,
-    this.from,
-    this.to,
-    this.description,
-    this.requiredDays,
-    this.deliveryCharges,
-    this.serviceCharges,
-    this.totalPrice,
+    this.requestVideoId,
     this.status,
+    this.date,
+    this.expiryAt,
     this.orderId,
-    this.paymentStatus,
-    this.reason,
+    this.currentStaus,
     this.createdAt,
     this.updatedAt,
-    this.expiresAt,
-    this.influencer,
-    this.influencerRequestVideos,
-    this.videoType,
+    this.totalPrice,
+    this.requestVideo,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json['id'] as int?,
-        userId: json['user_id'] as int?,
-        influencerId: json['influencer_id'] as int?,
-        videoFor: json['video_for'] as String?,
-        videoTypeId: json['video_type_id'] as int?,
-        from: json['from'] as String?,
-        to: json['to'] as String?,
-        description: json['description'] as String?,
-        requiredDays: json['required_days'] as String?,
-        deliveryCharges: json['delivery_charges'] as String?,
-        serviceCharges: json['service_charges'] as dynamic,
-        totalPrice: json['total_price'] as String?,
+        requestVideoId: json['request_video_id'] as String?,
         status: json['status'] as String?,
+        date: json['date'] as String?,
+        expiryAt: json['expiry_at'] as String?,
         orderId: json['order_id'] as String?,
-        paymentStatus: json['payment_status'] as dynamic,
-        reason: json['reason'] as dynamic,
+        currentStaus: json['current_staus'] as String?,
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at'] as String),
         updatedAt: json['updated_at'] == null
             ? null
             : DateTime.parse(json['updated_at'] as String),
-        expiresAt: json['expires_at'] as String?,
-        influencer: json['influencer'] == null
+        totalPrice: json['total_price'] as int?,
+        requestVideo: json['request_video'] == null
             ? null
-            : Influencer.fromJson(json['influencer'] as Map<String, dynamic>),
-        influencerRequestVideos:
-            json['influencer_request_videos'] as List<dynamic>?,
-        videoType: json['video_type'] == null
-            ? null
-            : VideoType.fromJson(json['video_type'] as Map<String, dynamic>),
+            : RequestVideo.fromJson(
+                json['request_video'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'user_id': userId,
-        'influencer_id': influencerId,
-        'video_for': videoFor,
-        'video_type_id': videoTypeId,
-        'from': from,
-        'to': to,
-        'description': description,
-        'required_days': requiredDays,
-        'delivery_charges': deliveryCharges,
-        'service_charges': serviceCharges,
-        'total_price': totalPrice,
+        'request_video_id': requestVideoId,
         'status': status,
+        'date': date,
+        'expiry_at': expiryAt,
         'order_id': orderId,
-        'payment_status': paymentStatus,
-        'reason': reason,
+        'current_staus': currentStaus,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
-        'expires_at': expiresAt,
-        'influencer': influencer?.toJson(),
-        'influencer_request_videos': influencerRequestVideos,
-        'video_type': videoType?.toJson(),
+        'total_price': totalPrice,
+        'request_video': requestVideo?.toJson(),
       };
 
   @override
@@ -122,25 +75,14 @@ class Datum {
   @override
   int get hashCode =>
       id.hashCode ^
-      userId.hashCode ^
-      influencerId.hashCode ^
-      videoFor.hashCode ^
-      videoTypeId.hashCode ^
-      from.hashCode ^
-      to.hashCode ^
-      description.hashCode ^
-      requiredDays.hashCode ^
-      deliveryCharges.hashCode ^
-      serviceCharges.hashCode ^
-      totalPrice.hashCode ^
+      requestVideoId.hashCode ^
       status.hashCode ^
+      date.hashCode ^
+      expiryAt.hashCode ^
       orderId.hashCode ^
-      paymentStatus.hashCode ^
-      reason.hashCode ^
+      currentStaus.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
-      expiresAt.hashCode ^
-      influencer.hashCode ^
-      influencerRequestVideos.hashCode ^
-      videoType.hashCode;
+      totalPrice.hashCode ^
+      requestVideo.hashCode;
 }

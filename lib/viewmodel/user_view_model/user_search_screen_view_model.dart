@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
-import 'package:vidbuy_app/model/user_model/influencer_list_by_category_data_model/influencer_list_by_category_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_search_data_model/user_search_data_model.dart';
 import 'package:vidbuy_app/repo/user_search_repo.dart';
 
 class SearchScreenViewModel with ChangeNotifier {
@@ -62,26 +64,51 @@ class SearchScreenViewModel with ChangeNotifier {
     });
   }
 
-  ApiResponse<InfluencerListByCategoryDataModel> _influencersList =
-      ApiResponse.loading();
-  ApiResponse<InfluencerListByCategoryDataModel> get influencersList =>
-      _influencersList;
+  ApiResponse<UserSearchDataModel> _influencersList = ApiResponse.loading();
+  ApiResponse<UserSearchDataModel> get influencersList => _influencersList;
 
-  setInfluencersList(ApiResponse<InfluencerListByCategoryDataModel> response) {
+  setInfluencersList(ApiResponse<UserSearchDataModel> response) {
     _influencersList = response;
     _influencersList.toString();
     notifyListeners();
   }
 
-  Future<void> fetchInfluencerList(String categoryId) async {
+  Future<void> fetchInfluencerList(
+      {String? categoryId,
+      String? search,
+      String? sortBy,
+      double? maxPrice}) async {
+    if (maxPrice == 0) {
+      maxPrice = null;
+    }
+
+    Map<String, dynamic> searchData = {
+      'search': search!.isEmpty ? null : search,
+      // //    "page": 3,
+      "category_id": categoryId!.isEmpty ? null : categoryId,
+      // // //  "per_page": 6
+      "max_price": maxPrice,
+      "sort_by": sortBy
+    };
     setInfluencerLoading(true);
     setInfluencersList(ApiResponse.loading());
-    _userSearchRepo.fetchInfluencerByCategory(categoryId).then((value) {
+    _userSearchRepo.fetchInfluencerByCategory(searchData).then((value) {
       setInfluencersList(ApiResponse.completed(value));
       setInfluencerLoading(false);
       print(value);
     }).onError((error, stackTrace) {
       setInfluencersList(ApiResponse.error(error.toString()));
+    });
+  }
+
+  Timer? _debounce;
+  void onSearchTextChanged(String searchQuery) {
+    // Cancel the previous debounce timer if still active
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+    // Set up a new timer
+    _debounce = Timer(Duration(milliseconds: 500), () {
+      fetchInfluencerList(search: searchQuery); // Trigger search with new input
     });
   }
 }

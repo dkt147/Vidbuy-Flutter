@@ -1,28 +1,25 @@
 import 'package:collection/collection.dart';
 
-import 'result.dart';
+import 'datum.dart';
 
 class UserActivityHistoryDataModel {
-  bool? Isbool;
-  Result? result;
   String? message;
+  List<Datum>? data;
 
-  UserActivityHistoryDataModel({this.Isbool, this.result, this.message});
+  UserActivityHistoryDataModel({this.message, this.data});
 
   factory UserActivityHistoryDataModel.fromJson(Map<String, dynamic> json) {
     return UserActivityHistoryDataModel(
-      Isbool: json['bool'] as bool?,
-      result: json['result'] == null
-          ? null
-          : Result.fromJson(json['result'] as Map<String, dynamic>),
       message: json['message'] as String?,
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'bool': bool,
-        'result': result?.toJson(),
         'message': message,
+        'data': data?.map((e) => e.toJson()).toList(),
       };
 
   @override
@@ -34,5 +31,5 @@ class UserActivityHistoryDataModel {
   }
 
   @override
-  int get hashCode => Isbool.hashCode ^ result.hashCode ^ message.hashCode;
+  int get hashCode => message.hashCode ^ data.hashCode;
 }

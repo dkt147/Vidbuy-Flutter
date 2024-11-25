@@ -1,8 +1,7 @@
 import 'package:collection/collection.dart';
 
-import 'influencer_request_video.dart';
+import 'influencer.dart';
 import 'user.dart';
-import 'video_type.dart';
 
 class RequestVideo {
   int? id;
@@ -15,18 +14,18 @@ class RequestVideo {
   String? description;
   String? requiredDays;
   String? deliveryCharges;
-  dynamic serviceCharges;
+  String? serviceCharges;
   String? totalPrice;
   String? status;
   String? orderId;
   dynamic paymentStatus;
   dynamic reason;
+  int? hideInProfile;
   DateTime? createdAt;
   DateTime? updatedAt;
   String? expiresAt;
   User? user;
-  VideoType? videoType;
-  List<InfluencerRequestVideo>? influencerRequestVideos;
+  Influencer? influencer;
 
   RequestVideo({
     this.id,
@@ -45,12 +44,12 @@ class RequestVideo {
     this.orderId,
     this.paymentStatus,
     this.reason,
+    this.hideInProfile,
     this.createdAt,
     this.updatedAt,
     this.expiresAt,
     this.user,
-    this.videoType,
-    this.influencerRequestVideos,
+    this.influencer,
   });
 
   factory RequestVideo.fromJson(Map<String, dynamic> json) => RequestVideo(
@@ -64,12 +63,13 @@ class RequestVideo {
         description: json['description'] as String?,
         requiredDays: json['required_days'] as String?,
         deliveryCharges: json['delivery_charges'] as String?,
-        serviceCharges: json['service_charges'] as dynamic,
+        serviceCharges: json['service_charges'] as String?,
         totalPrice: json['total_price'] as String?,
         status: json['status'] as String?,
         orderId: json['order_id'] as String?,
         paymentStatus: json['payment_status'] as dynamic,
         reason: json['reason'] as dynamic,
+        hideInProfile: json['hide_in_profile'] as int?,
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at'] as String),
@@ -80,14 +80,9 @@ class RequestVideo {
         user: json['user'] == null
             ? null
             : User.fromJson(json['user'] as Map<String, dynamic>),
-        videoType: json['video_type'] == null
+        influencer: json['influencer'] == null
             ? null
-            : VideoType.fromJson(json['video_type'] as Map<String, dynamic>),
-        influencerRequestVideos:
-            (json['influencer_request_videos'] as List<dynamic>?)
-                ?.map((e) =>
-                    InfluencerRequestVideo.fromJson(e as Map<String, dynamic>))
-                .toList(),
+            : Influencer.fromJson(json['influencer'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
@@ -107,13 +102,12 @@ class RequestVideo {
         'order_id': orderId,
         'payment_status': paymentStatus,
         'reason': reason,
+        'hide_in_profile': hideInProfile,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
         'expires_at': expiresAt,
         'user': user?.toJson(),
-        'video_type': videoType?.toJson(),
-        'influencer_request_videos':
-            influencerRequestVideos?.map((e) => e.toJson()).toList(),
+        'influencer': influencer?.toJson(),
       };
 
   @override
@@ -142,10 +136,10 @@ class RequestVideo {
       orderId.hashCode ^
       paymentStatus.hashCode ^
       reason.hashCode ^
+      hideInProfile.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
       expiresAt.hashCode ^
       user.hashCode ^
-      videoType.hashCode ^
-      influencerRequestVideos.hashCode;
+      influencer.hashCode;
 }

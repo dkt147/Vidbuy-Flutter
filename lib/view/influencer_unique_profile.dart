@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/resources/componenets/influencer_order_tabbar.dart';
+import 'package:vidbuy_app/resources/componenets/influencer_video_price_tab_bar.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/resources/log_out.dart';
 import 'package:vidbuy_app/view/balance_screen.dart';
 import 'package:vidbuy_app/view/contact_us_screen.dart';
 import 'package:vidbuy_app/view/delete_account_screen.dart';
+import 'package:vidbuy_app/view/influencer_donations_sent_screen.dart';
 import 'package:vidbuy_app/view/influencer_edit_profile_screen.dart';
 import 'package:vidbuy_app/view/language_screen.dart';
 import 'package:vidbuy_app/view/notification_setting_screen.dart';
 import 'package:vidbuy_app/view/policies_screen.dart';
 import 'package:vidbuy_app/view/update_category_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/user_profile_view_model.dart';
 
 class InfluencerUniqueProfile extends StatefulWidget {
   const InfluencerUniqueProfile({super.key});
@@ -56,6 +62,7 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
 
   @override
   Widget build(BuildContext context) {
+     Provider.of<UserProfileViewModel>(context, listen: false);
     return Scaffold(
       body: Column(
         children: [
@@ -146,7 +153,7 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
             child: SingleChildScrollView(
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 22.h,
@@ -154,7 +161,7 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                   Container(
                       margin: EdgeInsets.only(right: 260.w),
                       child: Content(
-                        data: "Account",
+                        data: AppLocalizations.of(context)!.account,
                         size: 20.h,
                         family: "Lato",
                         weight: FontWeight.w600,
@@ -165,40 +172,33 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // navigate(context, InfluencerDonationsTabbarWidget());
+                      navigate(context, InfluencerOrderTabbar());
                     },
                     child: ProfileTile(
-                        image: "assets/Icon/layouticon.png", text: "Tasks"),
+                        image: "assets/Icon/layouticon.png",
+                        text: AppLocalizations.of(context)!.task),
                   ),
-                  SizedBox(
-                    height: 17.h,
-                  ),
-                  ProfileTile(
-                      image: "assets/Icon/layouticon.png", text: "Donations"),
                   SizedBox(
                     height: 17.h,
                   ),
                   GestureDetector(
                     onTap: () {
-                      // navigate(context, VIdeosAcceptScreen(onSave: saveVideos));
-                      // navigate(
-                      //     context,
-                      //     TabBarWidget(screens: [
-                      //       VIdeosAcceptScreen(onSave: saveVideos),
-                      //       ChoosePricesScreen(onSave: savePrices),
-                      //       ReviewSelectionScreen(
-                      //           selectedCategory: selectedCategory,
-                      //           selectedVideos: selectedVideos,
-                      //           prices: prices),
-                      //     ], tabTitles: [
-                      //       'Videos',
-                      //       'Prices',
-                      //       'Review'
-                      //     ]));
+                      navigate(context, InfluencerDonationsSentScreen());
                     },
                     child: ProfileTile(
                         image: "assets/Icon/layouticon.png",
-                        text: "Update Video Price"),
+                        text: AppLocalizations.of(context)!.donation),
+                  ),
+                  SizedBox(
+                    height: 17.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context, InfluencerVideoPriceTabBarWidget());
+                    },
+                    child: ProfileTile(
+                        image: "assets/Icon/layouticon.png",
+                        text: AppLocalizations.of(context)!.updateVideoPrice),
                   ),
                   SizedBox(
                     height: 17.h,
@@ -209,7 +209,7 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                     },
                     child: ProfileTile(
                         image: "assets/Icon/layouticon.png",
-                        text: "Update Category"),
+                        text: AppLocalizations.of(context)!.updateCategory),
                   ),
                   SizedBox(
                     height: 17.h,
@@ -225,13 +225,14 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                   // SizedBox(
                   //   height: 11.h,
                   // ),
+                  // Text(LocalData.image.toString()),
                   GestureDetector(
                       onTap: () {
                         navigate(context, BalanceScreen());
                       },
                       child: ProfileTile(
                           image: "assets/Icon/layouticon.png",
-                          text: "Balance")),
+                          text: AppLocalizations.of(context)!.balance)),
                   SizedBox(
                     height: 17.h,
                   ),
@@ -241,18 +242,18 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                     },
                     child: ProfileTile(
                         image: "assets/Icon/layouticon.png",
-                        text: "Edit Profile"),
+                        text: AppLocalizations.of(context)!.editProfile),
                   ),
                   SizedBox(
                     height: 17.h,
                   ),
                   GestureDetector(
                     onTap: () {
-                      navigate(context, PoliciesScreen());
+                      // navigate(context, PoliciesScreen());
                     },
                     child: ProfileTile(
                         image: "assets/Icon/layouticon.png",
-                        text: "Vacation Mode"),
+                        text: AppLocalizations.of(context)!.vacationMode),
                   ),
                   SizedBox(
                     height: 17.h,
@@ -263,12 +264,19 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                       },
                       child: ProfileTile(
                           image: "assets/Icon/layouticon.png",
-                          text: "Notification Settings")),
+                          text: AppLocalizations.of(context)!
+                              .notificationSettings)),
                   SizedBox(
                     height: 17.h,
                   ),
-                  ProfileTile(
-                      image: "assets/Icon/layouticon.png", text: "Orders"),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context, InfluencerOrderTabbar());
+                    },
+                    child: ProfileTile(
+                        image: "assets/Icon/layouticon.png",
+                        text: AppLocalizations.of(context)!.orders),
+                  ),
                   // SizedBox(
                   //   height: 17.h,
                   // ),
@@ -278,7 +286,7 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                   Container(
                       margin: EdgeInsets.only(right: 260.w),
                       child: Content(
-                        data: "General",
+                        data: AppLocalizations.of(context)!.general,
                         size: 18.h,
                         family: "Lato",
                         weight: FontWeight.w600,
@@ -291,7 +299,8 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                       navigate(context, LanguageScreen());
                     },
                     child: ProfileTile(
-                        image: "assets/Icon/layouticon.png", text: "Language"),
+                        image: "assets/Icon/layouticon.png",
+                        text: AppLocalizations.of(context)!.language),
                   ),
                   SizedBox(
                     height: 11.h,
@@ -301,22 +310,34 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                       navigate(context, ContactUsScreen());
                     },
                     child: ProfileTile(
-                        image: "assets/Icon/layouticon.png", text: "Support"),
+                        image: "assets/Icon/layouticon.png",
+                        text: AppLocalizations.of(context)!.support),
                   ),
-                  SizedBox(
-                    height: 11.h,
-                  ),
-                  ProfileTile(
-                      image: "assets/Icon/layouticon.png", text: "Plicies"),
                   SizedBox(
                     height: 11.h,
                   ),
                   GestureDetector(
                     onTap: () {
-                      logOut(context, false);
+                      navigate(context, PoliciesScreen());
                     },
                     child: ProfileTile(
-                        image: "assets/Icon/layouticon.png", text: "Logout"),
+                        image: "assets/Icon/layouticon.png",
+                        text: AppLocalizations.of(context)!.policies),
+                  ),
+                  SizedBox(
+                    height: 11.h,
+                  ),
+                Consumer<UserProfileViewModel>(
+              builder: (context, viewModel, child) {
+                return GestureDetector(
+                      onTap: () {
+                      viewModel.fetchLogOutAccountResponse(context);
+                      },
+                      child: ProfileTile(
+                          image: "assets/Icon/layouticon.png",
+                          text: AppLocalizations.of(context)!.logOut),
+                    );
+              }
                   ),
                   SizedBox(
                     height: 11.h,
@@ -330,7 +351,8 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                     },
                     child: Center(
                         child: Content(
-                            data: "Do you want to delete the account? Delete",
+                            data:
+                                "${AppLocalizations.of(context)!.doYouWantToDelete} ${AppLocalizations.of(context)!.delete}",
                             size: 12.h,
                             weight: FontWeight.w300)),
                   ),

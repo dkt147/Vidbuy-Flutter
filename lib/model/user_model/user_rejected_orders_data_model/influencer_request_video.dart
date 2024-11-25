@@ -7,7 +7,7 @@ class InfluencerRequestVideo {
   String? video;
   dynamic slug;
   String? status;
-  dynamic reason;
+  String? reason;
   DateTime? createdAt;
   DateTime? updatedAt;
   String? videoUrl;
@@ -33,7 +33,7 @@ class InfluencerRequestVideo {
       video: json['video'] as String?,
       slug: json['slug'] as dynamic,
       status: json['status'] as String?,
-      reason: json['reason'] as dynamic,
+      reason: json['reason'] as String?,
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),

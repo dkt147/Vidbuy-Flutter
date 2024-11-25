@@ -1,15 +1,14 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:vidbuy_app/Function/utils.dart';
+import 'package:provider/provider.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/data/response/status.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
-import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
-import 'package:vidbuy_app/view/otp_scren.dart';
-import 'package:vidbuy_app/view/user_login_screen.dart';
+import 'package:vidbuy_app/view/change_password_screen.dart';
+import 'package:vidbuy_app/viewmodel/influencer_view_model/setting_view_model.dart';
+import 'package:video_player/video_player.dart';
 
 class InfluencerEditProfileScreen extends StatefulWidget {
   const InfluencerEditProfileScreen({super.key});
@@ -21,14 +20,25 @@ class InfluencerEditProfileScreen extends StatefulWidget {
 
 class _InfluencerEditProfileScreenState
     extends State<InfluencerEditProfileScreen> {
+  // SettingViewModel viewModel = SettingViewModel();
   late TextEditingController _nameController;
   late TextEditingController _usernameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  //  final ScrollController _scrollController = ScrollController();
+  // String? _selectedCountry;
 
   @override
   void initState() {
     super.initState();
+    // viewModel.fetchCountryList();
+    // Listen to scroll events for pagination
+    // _scrollController.addListener(() {
+    //   if (_scrollController.position.pixels ==
+    //       _scrollController.position.maxScrollExtent) {
+    //    viewModel.fetchCountryList(loadMore: true);
+    //   }
+    // });
     _nameController = TextEditingController();
     _usernameController = TextEditingController();
     _emailController = TextEditingController();
@@ -41,57 +51,59 @@ class _InfluencerEditProfileScreenState
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    // _scrollController.dispose();
     super.dispose();
   }
 
-  File? _image;
+  // File? _image;
 
-  Future<void> _pickImage() async {
-    try {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  // Future<void> _pickImage() async {
+  //   try {
+  //     final ImagePicker _picker = ImagePicker();
+  //     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
-      if (image != null) {
-        setState(() {
-          _image = File(image.path);
-        });
-      }
-    } catch (e) {
-      print('Error picking image: $e');
-    }
-  }
+  //     if (image != null) {
+  //       setState(() {
+  //         _image = File(image.path);
+  //       });
+  //     }
+  //   } catch (e) {
+  //     print('Error picking image: $e');
+  //   }
+  // }
 
-  File? _media;
-  final ImagePicker _picker = ImagePicker();
-  bool _isImage = true;
+  // File? _media;
+  // final ImagePicker _picker = ImagePicker();
+  // bool _isImage = true;
 
-  Future<void> _pickMedia() async {
-    final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 100,
-    );
+  // Future<void> _pickMedia() async {
+  //   final XFile? pickedFile = await _picker.pickImage(
+  //     source: ImageSource.gallery,
+  //     imageQuality: 100,
+  //   );
 
-    if (pickedFile == null) {
-      // If no image is selected, try to pick a video
-      final XFile? pickedVideo =
-          await _picker.pickVideo(source: ImageSource.gallery);
-      if (pickedVideo != null) {
-        setState(() {
-          _media = File(pickedVideo.path);
-          _isImage = false; // Mark as video
-        });
-      }
-    } else {
-      setState(() {
-        _media = File(pickedFile.path);
-        _isImage = true; // Mark as image
-      });
-    }
-  }
+  //   if (pickedFile == null) {
+  //     // If no image is selected, try to pick a video
+  //     final XFile? pickedVideo =
+  //         await _picker.pickVideo(source: ImageSource.gallery);
+  //     if (pickedVideo != null) {
+  //       setState(() {
+  //         _media = File(pickedVideo.path);
+  //         _isImage = false; // Mark as video
+  //       });
+  //     }
+  //   } else {
+  //     setState(() {
+  //       _media = File(pickedFile.path);
+  //       _isImage = true; // Mark as image
+  //     });
+  //   }
+  // }
 
-  bool isChecked = false;
+  // bool isChecked = false;
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<SettingViewModel>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -155,50 +167,62 @@ class _InfluencerEditProfileScreenState
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: _pickImage,
-                    child: Container(
-                      height: 89.h,
-                      width: 87.w,
-                      child: CircleAvatar(
-                        radius: 40.r,
-                        backgroundColor: Colors.grey[200],
-                        backgroundImage:
-                            _image != null ? FileImage(_image!) : null,
-                        child: _image == null
-                            ? Icon(
-                                Icons.camera_alt,
-                                size: 26,
-                                color: Colors.grey,
-                              )
-                            : null,
-                      ),
-                    ),
+                    onTap: () {
+                      viewModel.pickProfileImage();
+                    },
+                    child: Consumer<SettingViewModel>(
+                        builder: (context, viewModel, child) {
+                      return SizedBox(
+                        height: 89.h,
+                        width: 87.w,
+                        child: CircleAvatar(
+                          radius: 40.r,
+                          backgroundColor: Colors.grey[200],
+                          backgroundImage: viewModel.profileImage != null
+                              ? FileImage(viewModel.profileImage!)
+                              : null,
+                          child: viewModel.profileImage == null
+                              ? const Icon(Icons.camera_alt,
+                                  size: 26, color: Colors.grey)
+                              : null,
+                        ),
+                      );
+                    }),
                   ),
                   GestureDetector(
-                    onTap: _pickMedia,
-                    child: Container(
-                      height: 89.h,
-                      width: 87.w,
-                      child: CircleAvatar(
-                        radius: 40.r,
-                        backgroundColor: Colors.grey[200],
-                        backgroundImage: _isImage
-                            ? (_media != null ? FileImage(_media!) : null)
-                            : null,
-                        child: _media == null
-                            ? Icon(
-                                Icons.camera_alt,
-                                size: 26,
-                                color: Colors.grey,
-                              )
-                            : _isImage
-                                ? null
-                                : Icon(
-                                    Icons.video_library,
+                    onTap: () {
+                      viewModel.pickIntroVideo();
+                    },
+                    child: Consumer<SettingViewModel>(
+                      builder: (context, viewModel, child) {
+                        return SizedBox(
+                          height: 89.h,
+                          width: 87.w,
+                          child: viewModel.introVideo != null &&
+                                  viewModel.videoPlayerController != null &&
+                                  viewModel.videoPlayerController!.value
+                                      .isInitialized
+                              ? ClipOval(
+                                  child: AspectRatio(
+                                    aspectRatio: viewModel
+                                        .videoPlayerController!
+                                        .value
+                                        .aspectRatio,
+                                    child: VideoPlayer(
+                                        viewModel.videoPlayerController!),
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  radius: 40.r,
+                                  backgroundColor: Colors.grey[200],
+                                  child: const Icon(
+                                    Icons.camera_alt,
                                     size: 26,
                                     color: Colors.grey,
                                   ),
-                      ),
+                                ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -275,35 +299,117 @@ class _InfluencerEditProfileScreenState
                     keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 10.h),
-                  ContentField(
-                    label: "Your category",
-                    hint: "[CATEGORY]",
-                    colorr: Colors.transparent,
-                    // prefixIcon: Icon(Icons.email),
-                    suffixIcon: Image.asset(
-                      "assets/Icon/down.png",
-                    ),
-                    controller: _emailController,
-                    inputFormat: <TextInputFormatter>[
-                      FilteringTextInputFormatter.singleLineFormatter
-                    ],
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  SizedBox(height: 10.h),
-                  ContentField(
-                    label: "Your Country",
-                    hint: "[Country]",
-                    colorr: Colors.transparent,
-                    // prefixIcon: Icon(Icons.email),
-                    suffixIcon: Image.asset(
-                      "assets/Icon/down.png",
-                    ),
-                    controller: _emailController,
-                    inputFormat: <TextInputFormatter>[
-                      FilteringTextInputFormatter.singleLineFormatter
-                    ],
-                    keyboardType: TextInputType.emailAddress,
-                  ),
+                  // ContentField(
+                  //   label: "Your category",
+                  //   hint: "[CATEGORY]",
+                  //   colorr: Colors.transparent,
+                  //   // prefixIcon: Icon(Icons.email),
+                  //   suffixIcon: Image.asset(
+                  //     "assets/Icon/down.png",
+                  //   ),
+                  //   controller: _emailController,
+                  //   inputFormat: <TextInputFormatter>[
+                  //     FilteringTextInputFormatter.singleLineFormatter
+                  //   ],
+                  //   keyboardType: TextInputType.emailAddress,
+                  // ),
+                  // SizedBox(height: 10.h),
+                  // ContentField(
+                  //   label: "Your Country",
+                  //   hint: "[Country]",
+                  //   colorr: Colors.transparent,
+                  //   // prefixIcon: Icon(Icons.email),
+                  //   suffixIcon: Image.asset(
+                  //     "assets/Icon/down.png",
+                  //   ),
+                  //   controller: _emailController,
+                  //   inputFormat: <TextInputFormatter>[
+                  //     FilteringTextInputFormatter.singleLineFormatter
+                  //   ],
+                  //   keyboardType: TextInputType.emailAddress,
+                  // ),
+
+                  // ContentField(
+                  //   label: "Your Country",
+                  //   hint: "Enter Your Country",
+                  //   colorr: Colors.transparent,
+                  //   controller: _countryController,
+                  //   inputFormat: <TextInputFormatter>[
+                  //     FilteringTextInputFormatter.singleLineFormatter
+                  //   ],
+                  //   keyboardType: TextInputType.text,
+                  // ),
+
+                  //              ChangeNotifierProvider.value(
+                  //   value: viewModel,
+                  //   child: Consumer<SettingViewModel>(
+                  //     builder: (context, viewModel, child) {
+                  //       switch (viewModel.countryList.status) {
+                  //         case Status.LOADING:
+                  //           return const CircularProgressIndicator();
+                  //         case Status.COMPLETED:
+                  //           return Container(
+                  //             height: 50.h,
+                  //             width: 335.w,
+                  //             child: DropdownButtonFormField<String>(
+                  //               decoration: InputDecoration(
+                  //                 contentPadding:
+                  //                     const EdgeInsets.symmetric(horizontal: 20),
+                  //                 focusedBorder: OutlineInputBorder(
+                  //                   borderRadius: BorderRadius.circular(30.r),
+                  //                   borderSide: const BorderSide(
+                  //                       color: Color(0xff908B8B), width: 2.0),
+                  //                 ),
+                  //                 enabledBorder: OutlineInputBorder(
+                  //                   borderRadius: BorderRadius.circular(30.r),
+                  //                   borderSide: const BorderSide(
+                  //                       color: Color(0xff908B8B), width: 2.0),
+                  //                 ),
+                  //               ),
+                  //               hint: Text(
+                  //                 "Select your country",
+                  //                 style: TextStyle(
+                  //                   fontSize: 16.h,
+                  //                   color: Colors.black,
+                  //                   fontFamily: "Lato",
+                  //                   fontWeight: FontWeight.w500,
+                  //                 ),
+                  //               ),
+                  //               value: _selectedCountry,
+                  //               icon: Image.asset("assets/Icon/dropdown.png"),
+                  //               items: viewModel.countries.map((country) {
+                  //                 return DropdownMenuItem<String>(
+                  //                   value: country.name,
+                  //                   child: Text(
+                  //                     country.name!,
+                  //                     style: TextStyle(
+                  //                       fontSize: 16.h,
+                  //                       color: Colors.black,
+                  //                       fontFamily: "Lato",
+                  //                       fontWeight: FontWeight.w500,
+                  //                     ),
+                  //                   ),
+                  //                 );
+                  //               }).toList(),
+                  //               onChanged: (String? newValue) {
+                  //                 setState(() {
+                  //                   _selectedCountry = newValue!;
+                  //                 });
+                  //               },
+                  //               menuMaxHeight: 200.0,
+                  //             ),
+                  //           );
+                  //         case Status.ERROR:
+                  //           return Center(
+                  //             child: Text(viewModel.countryList.message ?? 'Error'),
+                  //           );
+                  //         default:
+                  //           return Container();
+                  //       }
+                  //     },
+                  //   ),
+                  // ),
+                  // Text(_selectedCountry ?? ""),
                   SizedBox(height: 10.h),
                   ContentField(
                     label: "The email associated with this account is:",
@@ -322,52 +428,56 @@ class _InfluencerEditProfileScreenState
             ),
 
             // SizedBox(height: 20.h),
-            Container(
-              margin: EdgeInsets.only(left: 27.w),
-              child: Text(
-                "Change Password?",
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 14.h,
+            GestureDetector(
+              onTap: () {
+                navigate(context, ChangePasswordScreen());
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 27.w),
+                child: Text(
+                  "Change Password?",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 14.h,
+                  ),
                 ),
               ),
             ),
+            // Container(
+            //     margin: EdgeInsets.only(bottom: 9.h),
+            //     child: Text(
+            //       "Country",
+            //       style: TextStyle(
+            //           fontSize: 16.h,
+            //           color: Colors.black,
+            //           fontFamily: "Lato",
+            //           fontWeight: FontWeight.w500),
+            //     )),
+            // CountryDropdownWidget(),
             SizedBox(height: 20.h),
-            Center(
-              child: Container(
+            Center(child: Consumer<SettingViewModel>(
+                builder: (context, viewModel, child) {
+              return Container(
                 width: 335.w,
                 height: 50.h,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Handle account creation
-                    if (_nameController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(microseconds: 1),
-                          backgroundColor: Colors.black,
-                          content: Text(
-                            'Please Enter Email',
-                            style: TextStyle(color: Colors.red.shade50),
-                          ),
-                        ),
-                      );
-                      // }
-                      // else if (_emailController.text.length < 9 ||
-                      //     _passwordController.text.length < 6) {
-                      //   Utils.snackBar("Wrong Credentials", context);
-                    } else if (_usernameController.text.isEmpty) {
-                      snackBar("Please enter username", context);
-                    } else if (_emailController.text.isEmpty) {
-                      snackBar("Please enter valid Email", context);
-                    } else if (_passwordController.text.isEmpty) {
-                      snackBar("Please Enter Password", context);
-                    } else if (_passwordController.text.length < 8) {
-                      snackBar("Please Enter 8 Digit Password", context);
-                    } else {
-                      Navigator.pop(context);
-                    }
-                  },
+                  onPressed: viewModel.influencerEditProfileLoading
+                      ? null // Disable button if loading
+                      : () {
+                          // Handle account creation
+                          viewModel.fetchEditProfileResponse(
+                              context,
+                              _nameController.text.toString(),
+                              _usernameController.text.toString(),
+                              _emailController.text.toString(),
+                              viewModel.base64Image.toString(), () {
+                            _nameController.clear();
+                            _usernameController.clear();
+                            _emailController.clear();
+                            viewModel.clearProfileImage();
+                            viewModel.clearIntroVideo();
+                          });
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff5271FF),
                     // padding: EdgeInsets.symmetric(
@@ -378,18 +488,23 @@ class _InfluencerEditProfileScreenState
                       borderRadius: BorderRadius.circular(30.r),
                     ),
                   ),
-                  child: Text(
-                    "Save",
-                    style: TextStyle(
-                      fontSize: 20.h,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: viewModel.influencerEditProfileLoading
+                      ? CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        )
+                      : Text(
+                          "Save",
+                          style: TextStyle(
+                            fontSize: 20.h,
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
-              ),
-            ),
+              );
+            })),
             SizedBox(
               height: 15.h,
             ),
@@ -399,3 +514,258 @@ class _InfluencerEditProfileScreenState
     );
   }
 }
+
+class CountryDropdownWidget extends StatefulWidget {
+  @override
+  _CountryDropdownWidgetState createState() => _CountryDropdownWidgetState();
+}
+
+class _CountryDropdownWidgetState extends State<CountryDropdownWidget> {
+  String? _selectedCountry;
+  SettingViewModel viewModel = SettingViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.fetchCountryList(); // Initial fetch
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => viewModel,
+      child: Column(
+        children: [
+          Consumer<SettingViewModel>(
+            builder: (context, value, child) {
+              List<DropdownMenuItem<String>> countryItems = [];
+
+              // Add countries to dropdown if available
+              if (value.countryList.status == Status.COMPLETED) {
+                var countries =
+                    value.countryList.data?.result!.countryList!.data ?? [];
+                countryItems = countries.map((country) {
+                  return DropdownMenuItem<String>(
+                    value: country.name,
+                    child: Text(country.name!),
+                  );
+                }).toList();
+              }
+
+              // Add loading indicator and pagination controls to the dropdown
+              if (value.countryLoading) {
+                countryItems.add(DropdownMenuItem<String>(
+                  enabled: false,
+                  child: Center(child: CircularProgressIndicator()),
+                ));
+              } else {
+                // Add pagination control as the last item in the dropdown
+                countryItems.add(DropdownMenuItem<String>(
+                  enabled: false, // Make this non-selectable
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_left),
+                        onPressed: () {
+                          value.decrementPage(); // Decrement page
+                        },
+                      ),
+                      Text("Page ${value.currentPage}",
+                          style: TextStyle(fontSize: 16.h)),
+                      IconButton(
+                        icon: Icon(Icons.arrow_right),
+                        onPressed: () {
+                          value.incrementPage(); // Increment page
+                        },
+                      ),
+                    ],
+                  ),
+                ));
+              }
+
+              return SizedBox(
+                height: 50.h,
+                width: 335.w,
+                child: DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                      borderSide:
+                          BorderSide(color: Color(0xff908B8B), width: 2.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                      borderSide:
+                          BorderSide(color: Color(0xff908B8B), width: 2.0),
+                    ),
+                  ),
+                  hint: Text(
+                    "Select your country",
+                    style: TextStyle(
+                      fontSize: 16.h,
+                      color: Colors.black,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  value: _selectedCountry,
+                  icon: Image.asset("assets/Icon/dropdown.png"),
+                  items: countryItems,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedCountry = newValue!;
+                    });
+                  },
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// class CountryDropdownWidget extends StatefulWidget {
+//   @override
+//   _CountryDropdownWidgetState createState() => _CountryDropdownWidgetState();
+// }
+
+// class _CountryDropdownWidgetState extends State<CountryDropdownWidget> {
+//   String? _selectedCountry;
+//   bool _isLoading = false;  // To track if loading is in progress for pagination
+//   SettingViewModel viewModel = SettingViewModel();
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     viewModel.fetchCountryList(); // Initial fetch
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ChangeNotifierProvider(
+//       create: (context) => viewModel,
+//       child: Column(
+//         children: [
+//           // Dropdown for Country List
+//           Consumer<SettingViewModel>(
+//             builder: (context, value, child) {
+//               if (_isLoading) {
+//                 // Show loading spinner inside the dropdown when data is being fetched
+//                 return SizedBox(
+//                   height: 50.h,
+//                   width: 335.w,
+//                   child: DropdownButtonFormField<String>(
+//                     decoration: InputDecoration(
+//                       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+//                       focusedBorder: OutlineInputBorder(
+//                         borderRadius: BorderRadius.circular(30.r),
+//                         borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+//                       ),
+//                       enabledBorder: OutlineInputBorder(
+//                         borderRadius: BorderRadius.circular(30.r),
+//                         borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+//                       ),
+//                     ),
+//                     hint: Text("Loading countries..."),
+//                     value: _selectedCountry,
+//                     icon: Image.asset("assets/Icon/dropdown.png"),
+//                     items: [],  // Empty items while loading
+//                     onChanged: (String? newValue) {},
+//                   ),
+//                 );
+//               } else if (value.countryList.status == Status.LOADING) {
+//                 return const CircularProgressIndicator();
+//               } else if (value.countryList.status == Status.ERROR) {
+//                 return Center(
+//                   child: Text("Error: ${value.countryList.message}"),
+//                 );
+//               } else if (value.countryList.status == Status.COMPLETED) {
+//                 var countries = value.countryList.data?.result!.countryList!.data ?? [];
+//                 return SizedBox(
+//                   height: 50.h,
+//                   width: 335.w,
+//                   child: DropdownButtonFormField<String>(
+//                     decoration: InputDecoration(
+//                       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+//                       focusedBorder: OutlineInputBorder(
+//                         borderRadius: BorderRadius.circular(30.r),
+//                         borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+//                       ),
+//                       enabledBorder: OutlineInputBorder(
+//                         borderRadius: BorderRadius.circular(30.r),
+//                         borderSide: BorderSide(color: Color(0xff908B8B), width: 2.0),
+//                       ),
+//                     ),
+//                     hint: Text("Select your country"),
+//                     value: _selectedCountry,
+//                     icon: Image.asset("assets/Icon/dropdown.png"),
+//                     items: countries.map((country) {
+//                       return DropdownMenuItem<String>(
+//                         value: country.name,
+//                         child: Text(country.name!),
+//                       );
+//                     }).toList(),
+//                     onChanged: (String? newValue) {
+//                       setState(() {
+//                         _selectedCountry = newValue!;
+//                       });
+//                     },
+//                   ),
+//                 );
+//               } else {
+//                 return Container();
+//               }
+//             },
+//           ),
+
+//           // Pagination Controls
+//           PaginationControls(viewModel: viewModel, onPageChange: () {
+//             setState(() {
+//               _isLoading = true; // Set loading flag to true when page changes
+//             });
+//           }),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class PaginationControls extends StatelessWidget {
+//   final SettingViewModel viewModel;
+//   final VoidCallback onPageChange;
+
+//   PaginationControls({required this.viewModel, required this.onPageChange});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<SettingViewModel>(
+//       builder: (context, value, child) {
+//         return Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             IconButton(
+//               icon: Icon(Icons.arrow_left),
+//               onPressed: () {
+//                 onPageChange(); // Trigger loading inside dropdown
+//                 viewModel.decrementPage(); // Decrement page
+//               },
+//             ),
+//             Text("Page ${value.currentPage}"),
+//             IconButton(
+//               icon: Icon(Icons.arrow_right),
+//               onPressed: () {
+//                 onPageChange(); // Trigger loading inside dropdown
+//                 viewModel.incrementPage(); // Increment page
+//               },
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+// }

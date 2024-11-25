@@ -3,11 +3,11 @@ import 'package:collection/collection.dart';
 class Influencer {
   int? id;
   int? userId;
-  dynamic languageId;
+  int? languageId;
   int? pushNotification;
   int? emailNotification;
-  dynamic priceRangeId;
-  dynamic priceRange;
+  int? priceRangeId;
+  String? priceRange;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -26,11 +26,11 @@ class Influencer {
   factory Influencer.fromJson(Map<String, dynamic> json) => Influencer(
         id: json['id'] as int?,
         userId: json['user_id'] as int?,
-        languageId: json['language_id'] as dynamic,
+        languageId: json['language_id'] as int?,
         pushNotification: json['push_notification'] as int?,
         emailNotification: json['email_notification'] as int?,
-        priceRangeId: json['price_range_id'] as dynamic,
-        priceRange: json['price_range'] as dynamic,
+        priceRangeId: json['price_range_id'] as int?,
+        priceRange: json['price_range'] as String?,
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at'] as String),

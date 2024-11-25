@@ -4,7 +4,7 @@ import 'result.dart';
 
 class UploadVideoDataModel {
   bool? Isbool;
-  Result? result;
+  dynamic result;
   String? message;
 
   UploadVideoDataModel({this.Isbool, this.result, this.message});
@@ -12,9 +12,7 @@ class UploadVideoDataModel {
   factory UploadVideoDataModel.fromJson(Map<String, dynamic> json) {
     return UploadVideoDataModel(
       Isbool: json['bool'] as bool?,
-      result: json['result'] == null
-          ? null
-          : Result.fromJson(json['result'] as Map<String, dynamic>),
+      result: json['result'],
       message: json['message'] as String?,
     );
   }

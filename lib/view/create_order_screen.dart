@@ -67,7 +67,14 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                   case Status.INIT:
                     return Container();
                   case Status.LOADING:
-                    return const Center(child: CircularProgressIndicator());
+                    return SizedBox(
+                      height: MediaQuery.of(context)
+                          .size
+                          .height, // Full screen height
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
                   case Status.ERROR:
                     return Center(
                       child: Text(
@@ -332,7 +339,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               Utils.snackBar(
                   "Please enter description about the video", context);
             } else {
-              navigate(
+              navigatePushReplace(
                   context,
                   RequestVideoScree(
                     influencerId: widget.influencerId.toString(),

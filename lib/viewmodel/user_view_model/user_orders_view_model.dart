@@ -3,6 +3,7 @@ import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/user_model/user_all_orders_data_model/user_all_orders_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_completed_order_list_data_model/user_completed_order_list_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_pending_orders_data_model/user_pending_orders_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_rejected_orders_data_model/user_rejected_orders_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_waiting_video_data_model/user_waiting_video_data_model.dart';
 import 'package:vidbuy_app/repo/user_order_repo.dart';
 
@@ -92,6 +93,27 @@ class UserOrdersViewModel with ChangeNotifier {
       print(value);
     }).onError((error, stackTrace) {
       setUserCompletedOrderList(ApiResponse.error(error.toString()));
+    });
+  }
+
+  ApiResponse<UserRejectedOrdersDataModel> _userRejectedOrderList =
+      ApiResponse.loading();
+  ApiResponse<UserRejectedOrdersDataModel> get userRejectedOrderList =>
+      _userRejectedOrderList;
+
+  setUserRejectedOrderList(ApiResponse<UserRejectedOrdersDataModel> response) {
+    _userRejectedOrderList = response;
+    _userRejectedOrderList.toString();
+    notifyListeners();
+  }
+
+  Future<void> fetchInfluencerRejectedOrderList() async {
+    setUserRejectedOrderList(ApiResponse.loading());
+    _usersOrderRepo.fetchUserRejectedVideoList().then((value) {
+      setUserRejectedOrderList(ApiResponse.completed(value));
+      print(value);
+    }).onError((error, stackTrace) {
+      setUserRejectedOrderList(ApiResponse.error(error.toString()));
     });
   }
 }

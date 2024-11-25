@@ -32,7 +32,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _nameController.dispose();
     _emailController.dispose();
     _messageController.dispose();
 
@@ -173,7 +173,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 message: _messageController.text.toString(),
                                 func: () {
                               _emailController.clear();
-                              _messageController.clear();
+                              _nameController.clear();
                               _messageController.clear();
                             });
                           },

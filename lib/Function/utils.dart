@@ -46,6 +46,11 @@ class Utils {
     return DateFormat('E, dd MMM yy').format(DateTime.parse(value.toString()));
   }
 
+  static String formatToTimeOnly(String value) {
+    // Parse the timestamp and format it to 'HH:mm'
+    return DateFormat('HH:mm').format(DateTime.parse(value));
+  }
+
   static errorSnackBar(String message, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

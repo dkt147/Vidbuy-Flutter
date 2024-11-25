@@ -8,6 +8,7 @@ import 'package:vidbuy_app/view/video_screen.dart';
 // ignore: must_be_immutable
 class InfluencerTaskDetailTabBarWidget extends StatefulWidget {
   String videoTypeId;
+  String influencerId;
   String createdAt;
   String orderId;
   String expiresAt;
@@ -19,9 +20,11 @@ class InfluencerTaskDetailTabBarWidget extends StatefulWidget {
   String description;
   String totalPrice;
   String? videoUrl;
+  String? reason;
 
   InfluencerTaskDetailTabBarWidget(
       {required this.videoTypeId,
+      required this.influencerId,
       required this.createdAt,
       required this.orderId,
       required this.expiresAt,
@@ -33,6 +36,7 @@ class InfluencerTaskDetailTabBarWidget extends StatefulWidget {
       required this.description,
       required this.totalPrice,
       this.videoUrl,
+      this.reason,
       super.key});
 
   @override
@@ -100,7 +104,8 @@ class _InfluencerTaskDetailTabBarWidgetState
               to: widget.to.toString(),
               requiredDays: widget.requiredDays.toString(),
               description: widget.description.toString(),
-              totalPrice: widget.totalPrice.toString()),
+              totalPrice: widget.totalPrice.toString(),
+              reason: widget.reason.toString()),
           ActiveHistoryScreen(
             videoTypeId: widget.videoTypeId.toString(),
           ),

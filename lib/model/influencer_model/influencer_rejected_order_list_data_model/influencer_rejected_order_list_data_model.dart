@@ -2,15 +2,20 @@ import 'package:collection/collection.dart';
 
 import 'result.dart';
 
-class ActiveHistoryDataModel {
+class InfluencerRejectedOrderListDataModel {
   bool? Isbool;
   Result? result;
   String? message;
 
-  ActiveHistoryDataModel({this.Isbool, this.result, this.message});
+  InfluencerRejectedOrderListDataModel({
+    this.Isbool,
+    this.result,
+    this.message,
+  });
 
-  factory ActiveHistoryDataModel.fromJson(Map<String, dynamic> json) {
-    return ActiveHistoryDataModel(
+  factory InfluencerRejectedOrderListDataModel.fromJson(
+      Map<String, dynamic> json) {
+    return InfluencerRejectedOrderListDataModel(
       Isbool: json['bool'] as bool?,
       result: json['result'] == null
           ? null
@@ -28,7 +33,7 @@ class ActiveHistoryDataModel {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! ActiveHistoryDataModel) return false;
+    if (other is! InfluencerRejectedOrderListDataModel) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

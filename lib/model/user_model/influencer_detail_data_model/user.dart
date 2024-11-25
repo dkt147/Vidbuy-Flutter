@@ -7,13 +7,13 @@ class User {
   String? name;
   String? username;
   String? email;
-  dynamic countryId;
-  dynamic countryName;
+  int? countryId;
+  String? countryName;
   int? roleId;
   String? status;
   String? image;
-  dynamic video;
-  dynamic avgRating;
+  String? video;
+  String? avgRating;
   int? reviewCount;
   int? isProfileCompleted;
   DateTime? createdAt;
@@ -44,13 +44,13 @@ class User {
         name: json['name'] as String?,
         username: json['username'] as String?,
         email: json['email'] as String?,
-        countryId: json['country_id'] as dynamic,
-        countryName: json['country_name'] as dynamic,
+        countryId: json['country_id'] as int?,
+        countryName: json['country_name'] as String?,
         roleId: json['role_id'] as int?,
         status: json['status'] as String?,
         image: json['image'] as String?,
-        video: json['video'] as dynamic,
-        avgRating: json['avg_rating'] as dynamic,
+        video: json['video'] as String?,
+        avgRating: json['avg_rating'] as String?,
         reviewCount: json['review_count'] as int?,
         isProfileCompleted: json['is_profile_completed'] as int?,
         createdAt: json['created_at'] == null

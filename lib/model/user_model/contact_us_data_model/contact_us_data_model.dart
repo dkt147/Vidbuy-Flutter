@@ -4,7 +4,7 @@ import 'result.dart';
 
 class ContactUsDataModel {
   bool? Isbool;
-  Result? result;
+  dynamic result;
   String? message;
 
   ContactUsDataModel({this.Isbool, this.result, this.message});
@@ -12,9 +12,7 @@ class ContactUsDataModel {
   factory ContactUsDataModel.fromJson(Map<String, dynamic> json) {
     return ContactUsDataModel(
       Isbool: json['bool'] as bool?,
-      result: json['result'] == null
-          ? null
-          : Result.fromJson(json['result'] as Map<String, dynamic>),
+      result: json['result'],
       message: json['message'] as String?,
     );
   }

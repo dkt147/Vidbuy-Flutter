@@ -1,21 +1,20 @@
 import 'package:collection/collection.dart';
 
-import 'request_video.dart';
+import 'user.dart';
 
 class Result {
-  RequestVideo? requestVideo;
+  User? user;
 
-  Result({this.requestVideo});
+  Result({this.user});
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        requestVideo: json['requestVideo'] == null
+        user: json['user'] == null
             ? null
-            : RequestVideo.fromJson(
-                json['requestVideo'] as Map<String, dynamic>),
+            : User.fromJson(json['user'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
-        'requestVideo': requestVideo?.toJson(),
+        'user': user?.toJson(),
       };
 
   @override
@@ -27,5 +26,5 @@ class Result {
   }
 
   @override
-  int get hashCode => requestVideo.hashCode;
+  int get hashCode => user.hashCode;
 }

@@ -7,13 +7,14 @@ import 'package:http_parser/http_parser.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
-import 'package:vidbuy_app/model/influencer_model/active_history_data_model/active_history_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/update_status_data_model/update_status_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/upload_video_data_model/upload_video_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_activity_history_data_model/user_activity_history_data_model.dart';
 import 'package:vidbuy_app/repo/influencer_orders_repo.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_order_tabbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
+import 'package:vidbuy_app/view/influencer_navbar_screen.dart';
 
 class InfluencerTaskDetailViewModel extends ChangeNotifier {
   InfleuncersOrderRepo _infleuncersOrderRepo = InfleuncersOrderRepo();
@@ -63,12 +64,8 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
     }
   }
 
-  bool _loading = false;
-  bool get loading => _loading;
-
-  setLoading(bool value) {
-    _loading = value;
-    print(_loading);
+  void clearVideo() {
+    videoPath = null;
     notifyListeners();
   }
 
@@ -80,13 +77,22 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _loading = false;
+  bool get loading => _loading;
+
+  setLoading(bool value) {
+    _loading = value;
+    print(_loading);
+    notifyListeners();
+  }
+
   Future<void> uploadData(
       BuildContext context, String requestVideoId, File videoFile) async {
     Map<String, dynamic> videoData = {
       'request_video_id': requestVideoId,
     };
-    final uri =
-        Uri.parse("http://influenzers.duckdns.org/api/upload-video-request");
+    final uri = Uri.parse(
+        "http://influenzers.waapsdeveloper.co/api/upload-video-request");
     final request = http.MultipartRequest('POST', uri)
       ..headers['Authorization'] = 'Bearer ${LocalData.token}'
       ..fields.addAll(
@@ -98,18 +104,17 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
       final response = await request.send();
 
       if (response.statusCode == 200) {
-        // Parse the response body to get the `msg` key
         final responseData = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseData);
 
-        if (jsonResponse.containsKey("message") ==
-            "Requested Video uploaded successfully.") {
-          print("Success message: ${jsonResponse['message']}");
-          Utils.snackBar("${jsonResponse['message']}", context);
-          navigate(context, InfluencerOrderTabbar());
-          setLoading(false);
+        // Check if the response contains the boolean key and it's true
+        if (jsonResponse['bool'] == true) {
+          Utils.snackBar(jsonResponse['message'], context);
+
+          Navigator.pop(context);
+          clearVideo();
         } else {
-          setLoading(false);
+          Utils.snackBar(jsonResponse['message'], context);
         }
       } else {
         print("Failed to upload: ${response.statusCode}");
@@ -117,6 +122,7 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
     } catch (e) {
       Utils.snackBar(e.toString(), context);
       print("Exception caught: $e");
+    } finally {
       setLoading(false);
     }
   }
@@ -137,7 +143,7 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
 //         if (value.Isbool!) {
 //           setUploadVideoData(ApiResponse.completed(value));
 //           Utils.snackBar(value.message.toString(), context);
-//           navigate(context, InfluencerOrderTabbar());
+//           navigatePushReplace(context, InfluencerOrderTabbar());
 //           // func.call();
 //         } else {
 //           Utils.snackBar(value.message.toString(), context);
@@ -173,7 +179,7 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
   Future<void> fetchUploadStatusData(BuildContext context,
       {required String videoTypeId}) async {
     Map<String, dynamic> uploadStatusData = {
-      'status': "Pending",
+      'status': "Accepted by influencer",
     };
 
     setLoading(true);
@@ -184,7 +190,7 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
       if (value.Isbool!) {
         setinfluencerStatusData(ApiResponse.completed(value));
         Utils.snackBar(value.message.toString(), context);
-        navigate(context, InfluencerOrderTabbar());
+        Navigator.pop(context);
       } else {
         Utils.snackBar(value.message.toString(), context);
       }
@@ -195,12 +201,52 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
     });
   }
 
-  ApiResponse<ActiveHistoryDataModel> _influencerActiveHistoryData =
+  bool _influencerRejectStatusloading = false;
+  bool get influencerRejectStatusloading => _influencerRejectStatusloading;
+
+  setInfluencerRejectStatusloading(bool value) {
+    _influencerRejectStatusloading = value;
+    print(_influencerRejectStatusloading);
+    notifyListeners();
+  }
+
+  Future<void> fetchRejectStatusData(
+    BuildContext context, {
+    required String videoTypeId,
+    required String reason,
+  }) async {
+    Map<String, dynamic> uploadStatusData = {
+      'status': "Rejected by influencer",
+      "reason": reason
+    };
+
+    setInfluencerRejectStatusloading(true);
+    setinfluencerStatusData(ApiResponse.loading());
+    _infleuncersOrderRepo
+        .fetchUploadStatusResponse(uploadStatusData, videoTypeId)
+        .then((value) async {
+      if (value.Isbool!) {
+        setinfluencerStatusData(ApiResponse.completed(value));
+        Utils.snackBar(value.message.toString(), context);
+        Navigator.pop(context);
+        navigatePushReplace(context, InfluencerNavbarScreen());
+      } else {
+        Utils.snackBar(value.message.toString(), context);
+      }
+      setInfluencerRejectStatusloading(false);
+    }).onError((error, stackTrace) {
+      setInfluencerRejectStatusloading(false);
+      Utils.snackBar(error.toString(), context);
+    });
+  }
+
+  ApiResponse<UserActivityHistoryDataModel> _influencerActiveHistoryData =
       ApiResponse.loading();
-  ApiResponse<ActiveHistoryDataModel> get influencerActiveHistoryData =>
+  ApiResponse<UserActivityHistoryDataModel> get influencerActiveHistoryData =>
       _influencerActiveHistoryData;
 
-  setInfluencerActiveHistoryData(ApiResponse<ActiveHistoryDataModel> response) {
+  setInfluencerActiveHistoryData(
+      ApiResponse<UserActivityHistoryDataModel> response) {
     _influencerActiveHistoryData = response;
     _influencerActiveHistoryData.toString();
     notifyListeners();

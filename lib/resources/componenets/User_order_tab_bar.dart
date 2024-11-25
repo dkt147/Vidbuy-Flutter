@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/user_all_order_screen.dart';
 import 'package:vidbuy_app/view/user_completed_order_screen.dart';
+import 'package:vidbuy_app/view/user_order_rejected_screen.dart';
 import 'package:vidbuy_app/view/user_pending_screen.dart';
 import 'package:vidbuy_app/view/user_waiting_video_screen.dart';
 import 'package:vidbuy_app/view/waiting_video_screen.dart';
@@ -24,7 +25,7 @@ class _UserOrderTabbarState extends State<UserOrderTabbar>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
   }
 
   void goToNextTab() {
@@ -95,16 +96,20 @@ class _UserOrderTabbarState extends State<UserOrderTabbar>
             Tab(
               text: 'Completed',
             ),
+            Tab(
+              text: 'Rejected',
+            ),
           ],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
+        children: const [
           UserAllOrdersScreen(),
           UserPendingScreen(),
           UserWaitingVideoScreen(),
-          UserCompletedOrderScreen()
+          UserCompletedOrderScreen(),
+          UserRejectedScreen(),
         ],
       ),
     );

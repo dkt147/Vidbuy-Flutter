@@ -1,20 +1,20 @@
 import 'package:collection/collection.dart';
 
-import 'list.dart';
+import 'country_list.dart';
 
 class Result {
-  CountryList? list;
+  CountryList? countryList;
 
-  Result({this.list});
+  Result({this.countryList});
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        list: json['list'] == null
+        countryList: json['list'] == null
             ? null
             : CountryList.fromJson(json['list'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
-        'list': list?.toJson(),
+        'list': countryList?.toJson(),
       };
 
   @override
@@ -26,5 +26,5 @@ class Result {
   }
 
   @override
-  int get hashCode => list.hashCode;
+  int get hashCode => countryList.hashCode;
 }

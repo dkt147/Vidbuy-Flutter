@@ -1,6 +1,7 @@
 import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/data/network/network_api_services.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/influencer_edit_profile_view_model/influencer_edit_profile_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/set_category_data_model/set_category_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
@@ -24,6 +25,19 @@ class SettingRepo {
       print(response); // Print the raw response
 
       return SetCategoryDataModel.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<InfluencerEditProfileDataModel> fetchInfluencerEditProfileResponse(
+      dynamic data) async {
+    try {
+      dynamic response = await apiServices.getPostApiResponse(
+          AppUrl.editInfluencerProfileUrl, data, true);
+      print(response); // Print the raw response
+
+      return InfluencerEditProfileDataModel.fromJson(response);
     } catch (e) {
       throw Exception(e);
     }

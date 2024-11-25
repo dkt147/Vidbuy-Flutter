@@ -37,6 +37,7 @@ class RequestVideoScree extends StatefulWidget {
 
 class _RequestVideoScreeState extends State<RequestVideoScree> {
   Color _containerColor = Colors.transparent;
+  int hide = 0;
   bool isChecked = false;
   int _selectedIndex = -1; // Track the selected index
   double deliveryCharge = 0.0;
@@ -328,10 +329,13 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
             child: Row(
               children: [
                 Checkbox(
-                  value: isChecked,
+                  value: isChecked, // Assuming isChecked is a boolean variable
                   onChanged: (value) {
                     setState(() {
-                      isChecked = value ?? false;
+                      isChecked = value ?? false; // Update the boolean value
+                      hide = isChecked
+                          ? 1
+                          : 0; // Save the value as 1 if true, 0 if false
                     });
                   },
                 ),
@@ -489,7 +493,8 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                                           widget.description.toString(),
                                       requiredDays: deliveryday,
                                       deliveryCharges:
-                                          deliveryCharge.toString());
+                                          deliveryCharge.toString(),
+                                      hide: hide.toString());
                                 }
 
                                 // navigate(context, PaymentConfirmScreen());

@@ -10,7 +10,8 @@ import 'package:vidbuy_app/viewmodel/influencer_view_model/influencers_orders_vi
 import '../resources/componenets/content.dart';
 
 class WaitingVideoScreen extends StatefulWidget {
-  const WaitingVideoScreen({super.key});
+  String? date;
+  WaitingVideoScreen({super.key, required this.date});
 
   @override
   State<WaitingVideoScreen> createState() => _WaitingVideoScreenState();
@@ -22,8 +23,19 @@ class _WaitingVideoScreenState extends State<WaitingVideoScreen> {
 
   @override
   void initState() {
-    influencersOrdersViewModel.fetchInfluencerWaitingVideoList();
     super.initState();
+    // influencersOrdersViewModel = Provider.of<InfluencerOrdersViewModel>(context, listen: false);
+    // Initial API call
+    influencersOrdersViewModel.fetchInfluencerWaitingVideoList(widget.date);
+  }
+
+  @override
+  void didUpdateWidget(covariant WaitingVideoScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Check if the date has changed
+    if (oldWidget.date != widget.date) {
+      influencersOrdersViewModel.fetchInfluencerWaitingVideoList(widget.date);
+    }
   }
 
   @override
@@ -97,6 +109,8 @@ class _WaitingVideoScreenState extends State<WaitingVideoScreen> {
                                       context,
                                       InfluencerTaskDetailTabBarWidget(
                                           videoTypeId: influencer.id.toString(),
+                                          influencerId: influencer.influencerId
+                                              .toString(),
                                           createdAt:
                                               influencer.createdAt.toString(),
                                           orderId:
@@ -134,7 +148,8 @@ class _WaitingVideoScreenState extends State<WaitingVideoScreen> {
             }
             return Container();
           }),
-        )
+        ),
+                  SizedBox(height: 70.h,)
       ],
     );
   }

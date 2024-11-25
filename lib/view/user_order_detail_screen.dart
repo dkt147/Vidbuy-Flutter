@@ -18,6 +18,7 @@ class UserOrdersDetailsScreen extends StatefulWidget {
   String requiredDays;
   String description;
   String totalPrice;
+  String? reason;
 
   UserOrdersDetailsScreen(
       {required this.videoTypeId,
@@ -31,6 +32,7 @@ class UserOrdersDetailsScreen extends StatefulWidget {
       required this.requiredDays,
       required this.description,
       required this.totalPrice,
+      this.reason,
       super.key});
 
   @override
@@ -50,9 +52,10 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
             SizedBox(
               height: 10.h,
             ),
-            Container(
-              margin: EdgeInsets.only(left: 20.w, right: 20.w),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,15 +80,14 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                     children: [
                       Content(
                         data:
-                            "Expires:  ${Utils.dateFormat2(widget.expiresAt.toString())}",
+                            "Expires: ${Utils.dateFormat2(widget.expiresAt.toString())}",
                         size: 14.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
                       ),
                       Content(
-                        data:
-                            "Status: ${widget.status == "not assigned" ? "Not Assigned" : widget.status}",
-                        size: 14.h,
+                        data: "Status: ${widget.status}",
+                        size: 12.h,
                         family: "Nunito",
                         weight: FontWeight.w400,
                       ),
@@ -94,117 +96,114 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 47.h,
-            ),
+            // SizedBox(
+            //   height: 47.h,
+            // ),
             Container(
               width: 375.w,
               height: 31.h,
               color: Color(0xff5271FF).withOpacity(0.3),
               padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
               child: Content(
-                data: "Video details",
-                size: 12.h,
+                data: "Video Details",
+                size: 18.h,
                 family: "Nunito",
                 weight: FontWeight.w700,
               ),
             ),
-            SizedBox(
-              height: 7.h,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 30.h),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Content(
-                    data: "${widget.videoTypeName.toString()} Video",
-                    size: 14.h,
-                    family: "Lato",
-                    weight: FontWeight.w600,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Content(
+                      data: "${widget.videoTypeName.toString()} Video",
+                      size: 14.h,
+                      family: "Lato",
+                      weight: FontWeight.w600,
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Content(
-                        data: "From : ",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Content(
-                        data: widget.from.toString(),
-                        size: 12.h,
-                        family: "Lato",
-                        weight: FontWeight.w400,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      children: [
+                        Content(
+                          data: "From: ",
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w600,
+                        ),
+                        Content(
+                          data: widget.from.toString(),
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Content(
-                        data: "To : ",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Content(
-                        data: widget.to.toString(),
-                        size: 12.h,
-                        family: "Lato",
-                        weight: FontWeight.w400,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      children: [
+                        Content(
+                          data: "To: ",
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w600,
+                        ),
+                        Content(
+                          data: widget.to.toString(),
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Content(
-                        data: "Delivery day : ",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Content(
-                        data: widget.requiredDays.toString() + " Days",
-                        size: 12.h,
-                        family: "Lato",
-                        weight: FontWeight.w400,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      children: [
+                        Content(
+                          data: "Delivery day: ",
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w600,
+                        ),
+                        Content(
+                          data: widget.requiredDays.toString() + " Days",
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Content(
-                        data: "Description",
-                        size: 14.h,
-                        family: "Lato",
-                        weight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                        height: 10.h,
-                      ),
-                      Content(
-                        data: widget.description.toString(),
-                        size: 12.h,
-                        family: "Lato",
-                        weight: FontWeight.w400,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      children: [
+                        Content(
+                          data: "Description: ",
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w600,
+                        ),
+                        Content(
+                          data: widget.description.toString(),
+                          size: 14.h,
+                          family: "Lato",
+                          weight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 41.h,
             ),
             Container(
               width: 375.w,
@@ -213,13 +212,13 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
               padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
               child: Content(
                 data: "Price Detail",
-                size: 12.h,
+                size: 18.h,
                 family: "Nunito",
                 weight: FontWeight.w700,
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 30.w, right: 29.w, top: 15.h),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -231,13 +230,29 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                   ),
                   Content(
                     data: "€ ${widget.totalPrice} ",
-                    size: 12.h,
+                    size: 14.h,
                     family: "Lato",
                     weight: FontWeight.w400,
                   ),
                 ],
               ),
             ),
+            if (widget.reason != "null")
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Content(
+                      data: "Reason : ${widget.reason.toString()}",
+                      size: 14.h,
+                      family: "Lato",
+                      weight: FontWeight.w600,
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

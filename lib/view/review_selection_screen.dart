@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/view/Proof_identity_screen.dart';
 import 'package:vidbuy_app/view/influencer_navbar_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
@@ -203,7 +204,7 @@ class _ReviewSelectionScreenState extends State<ReviewSelectionScreen> {
                       ),
                     ),
                     onPressed: () {
-                      navigate(context, InfluencerNavbarScreen());
+                      navigate(context, ProofIdentityScreen());
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,

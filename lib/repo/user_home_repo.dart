@@ -51,10 +51,10 @@ class UserHomeRepo {
     }
   }
 
-    Future<UserSearchDataModel> fetchSearchInfluencerList(dynamic data) async {
+  Future<UserSearchDataModel> fetchSearchInfluencerList(dynamic data) async {
     try {
-      dynamic response =
-          await apiServices.getPostApiResponse(AppUrl.searchInfluencerUrl, data ,true);
+      dynamic response = await apiServices.getPostApiResponse(
+          AppUrl.searchInfluencerUrl, data, true);
       return response = UserSearchDataModel.fromJson(response);
     } catch (e) {
       throw e;

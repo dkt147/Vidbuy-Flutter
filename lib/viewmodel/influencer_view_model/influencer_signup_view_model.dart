@@ -8,7 +8,7 @@ import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/generic_signup_data_model/generic_signup_data_model.dart';
-import 'package:vidbuy_app/model/influencer_model/country_list_data_model/country_list_data_model.dart';
+import 'package:http/http.dart' as http;
 import 'package:vidbuy_app/model/upload_image_data_model/upload_image_data_model.dart';
 import 'package:vidbuy_app/repo/signup_repo.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
@@ -113,6 +113,106 @@ class InfluencerSignupViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  //  bool _loading = false;
+  // bool get loading => _loading;
+
+  // setLoading(bool value) {
+  //   _loading = value;
+  //   print(_loading);
+  //   notifyListeners();
+  // }
+  Future<void> fetchInfluencerSignupData(
+    BuildContext context, {
+    required String name,
+    required String username,
+    required String email,
+    required String password,
+    required String country,
+    required String base64Image,
+    required File introVideo,
+  }) async {
+    if (_validateFields(
+        context, name, username, email, password, base64Image, introVideo)) {
+      Map<String, dynamic> registrationData = {
+        'name': name,
+        'username': username,
+        'email': email,
+        'password': password,
+        'country_id': '5',
+        'role_id': '3',
+      };
+
+      try {
+        setLoading(true);
+        setInfluencerSignupData(ApiResponse.loading());
+
+        // Step 1: Signup API Call
+        final signupResponse =
+            await _signupRepo.fetchGenericSignupResponse(registrationData);
+        setInfluencerSignupData(ApiResponse.completed(signupResponse));
+
+        if (signupResponse.result is! Map<String, dynamic>) {
+          Utils.snackBar(
+              "Unexpected response structure during signup.", context);
+          return;
+        }
+
+        String verificationCode = signupResponse.result['code'].toString();
+        String token = signupResponse.result['token'].toString();
+        await LocalData.setToken(token);
+
+        // Step 2: Image Upload API Call
+        bool imageUploadSuccess = await _uploadImage(base64Image);
+        if (!imageUploadSuccess) {
+          Utils.snackBar("Image upload failed.", context);
+          return;
+        }
+
+        // Step 3: Video Upload API Call
+        bool videoUploadSuccess = await _uploadIntroVideo(context, introVideo);
+        if (!videoUploadSuccess) {
+          Utils.snackBar("Video upload failed.", context);
+          return;
+        }
+
+        // If all steps succeed, navigate to OTP screen
+        Utils.snackBar("Influencer created successfully!", context);
+        navigate(context, OtpScren(code: verificationCode, token: token));
+      } catch (error) {
+        Utils.snackBar(error.toString(), context);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }
+
+  Future<bool> _uploadIntroVideo(BuildContext context, File videoFile) async {
+    final uri = Uri.parse(
+        "http://influenzers.waapsdeveloper.co/api/upload-intro-video");
+    final request = http.MultipartRequest('POST', uri)
+      ..headers['Authorization'] = 'Bearer ${LocalData.token}'
+      ..files.add(await http.MultipartFile.fromPath('video', videoFile.path));
+
+    try {
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        final responseData = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseData);
+
+        if (jsonResponse['bool'] == true) {
+          return true; // Video upload successful
+        } else {
+          print("Video upload failed: ${jsonResponse['message']}");
+        }
+      } else {
+        print("Failed to upload video: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Exception caught during video upload: $e");
+    }
+    return false; // Default to failure
+  }
+
   Future<bool> _uploadImage(String base64Image) async {
     Map<String, dynamic> imageData = {
       'image': base64Image.toString(),
@@ -131,89 +231,89 @@ class InfluencerSignupViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchInfluencerSignupData(BuildContext context,
-      {required String name,
-      required String username,
-      required String email,
-      required String password,
-      required String country,
-      required String base64Image,
-      required File introVideo}) async {
-    if (_validateFields(
-        context, name, username, email, password, base64Image, introVideo)) {
-      // Return early if validation fails
+  // Future<void> fetchInfluencerSignupData(BuildContext context,
+  //     {required String name,
+  //     required String username,
+  //     required String email,
+  //     required String password,
+  //     required String country,
+  //     required String base64Image,
+  //     required File introVideo}) async {
+  //   if (_validateFields(
+  //       context, name, username, email, password, base64Image, introVideo)) {
+  //     // Return early if validation fails
 
-      Map<String, dynamic> registrationData = {
-        'name': name,
-        'username': username,
-        'email': email,
-        'password': password,
-        'country_id': '5',
-        // 'profile_image': base64Image,
-        'role_id': '3',
-      };
+  //     Map<String, dynamic> registrationData = {
+  //       'name': name,
+  //       'username': username,
+  //       'email': email,
+  //       'password': password,
+  //       'country_id': '5',
+  //       // 'profile_image': base64Image,
+  //       'role_id': '3',
+  //     };
 
-      setLoading(true);
-      setInfluencerSignupData(ApiResponse.loading());
-      _signupRepo
-          .fetchGenericSignupResponse(registrationData)
-          .then((value) async {
-        setInfluencerSignupData(ApiResponse.completed(value));
+  //     setLoading(true);
+  //     setInfluencerSignupData(ApiResponse.loading());
+  //     _signupRepo
+  //         .fetchGenericSignupResponse(registrationData)
+  //         .then((value) async {
+  //       setInfluencerSignupData(ApiResponse.completed(value));
 
-        // Check if value.result is a Map and access code properly
-        if (value.result is Map<String, dynamic>) {
-          String verificationCode = value.result['code'].toString();
-          String token = value.result['token'].toString();
-          print(token);
-          await LocalData.setToken(token);
+  //       // Check if value.result is a Map and access code properly
+  //       if (value.result is Map<String, dynamic>) {
+  //         String verificationCode = value.result['code'].toString();
+  //         String token = value.result['token'].toString();
+  //         print(token);
+  //         await LocalData.setToken(token);
 
-          bool imageUploadSuccess = await _uploadImage(base64Image);
+  //         bool imageUploadSuccess = await _uploadImage(base64Image);
 
-          if (imageUploadSuccess) {
-            navigate(context, OtpScren(code: verificationCode, token: token));
-          } else {
-            Utils.snackBar(uploadImageResponse.message.toString(), context);
-          }
-        }
-        // else {
-        //   // Handle unexpected result structure
-        //   Utils.snackBar("Unexpected response structure.", context);
-        // }
+  //         if (imageUploadSuccess) {
+  //           navigate(context, OtpScren(code: verificationCode, token: token));
+  //         } else {
+  //           Utils.snackBar(uploadImageResponse.message.toString(), context);
+  //         }
+  //       }
+  //       // else {
+  //       //   // Handle unexpected result structure
+  //       //   Utils.snackBar("Unexpected response structure.", context);
+  //       // }
 
-        setLoading(false);
-        Utils.snackBar(value.message.toString(), context);
+  //       setLoading(false);
+  //       Utils.snackBar(value.message.toString(), context);
 
-        if (kDebugMode) {
-          print(value.toString());
-        }
-      }).onError((error, stackTrace) {
-        setLoading(false);
-        Utils.snackBar(error.toString(), context);
-        if (kDebugMode) {
-          print(error.toString());
-        }
-      });
-    }
-  }
+  //       if (kDebugMode) {
+  //         print(value.toString());
+  //       }
+  //     }).onError((error, stackTrace) {
+  //       setLoading(false);
+  //       Utils.snackBar(error.toString(), context);
+  //       if (kDebugMode) {
+  //         print(error.toString());
+  //       }
+  //     });
+  //   }
+  // }
 
-  ApiResponse<CountryListDataModel> _countryList = ApiResponse.loading();
-  ApiResponse<CountryListDataModel> get countryList => _countryList;
+  // ApiResponse<CountryListDataModel> _countryList = ApiResponse.loading();
+  // ApiResponse<CountryListDataModel> get countryList => _countryList;
 
-  setCountryList(ApiResponse<CountryListDataModel> response) {
-    _countryList = response;
-    _countryList.toString();
-    notifyListeners();
-  }
+  // setCountryList(ApiResponse<CountryListDataModel> response) {
+  //   _countryList = response;
+  //   _countryList.toString();
+  //   notifyListeners();
+  // }
 
-  Future<void> fetchCountryList() async {
-    setCountryList(ApiResponse.loading());
-    _signupRepo.fetchCountryList().then((value) {
-      setCountryList(ApiResponse.completed(value));
-      print("country list fetched");
-    }).onError((error, stackTrace) {
-      setCountryList(ApiResponse.error(error.toString()));
-    });
-  }
+  // Future<void> fetchCountryList() async {
+  //   setCountryList(ApiResponse.loading());
+  //   _signupRepo.fetchCountryList().then((value) {
+  //     setCountryList(ApiResponse.completed(value));
+  //     print("country list fetched");
+  //   }).onError((error, stackTrace) {
+  //     setCountryList(ApiResponse.error(error.toString()));
+  //   });
+  // }
 
   // Future<bool> fetchInfluencerSignupData(
   //   BuildContext context, {

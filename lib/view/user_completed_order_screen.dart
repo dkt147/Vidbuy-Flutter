@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/data/response/status.dart';
-import 'package:vidbuy_app/resources/componenets/all_task_tile.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/resources/componenets/user_order_tile.dart';
 import 'package:vidbuy_app/resources/componenets/user_task_detail_tabbar_widget.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_orders_view_model.dart';
 
@@ -72,7 +72,7 @@ class _UserCompletedOrderScreenState extends State<UserCompletedOrderScreen> {
                                 ),
                               ),
                               SizedBox(height: 16),
-                              Center(
+                              const Center(
                                 child: Text(
                                   "No Orders Currently",
                                   style: TextStyle(
@@ -84,50 +84,75 @@ class _UserCompletedOrderScreenState extends State<UserCompletedOrderScreen> {
                           ),
                         )
                       : Expanded(
-                          child: ListView.builder(
-                            itemCount: value.userCompletedOrderList.data!
-                                .result!.data!.length,
-                            itemBuilder: (context, index) {
-                              final influencer = value.userCompletedOrderList
-                                  .data!.result!.data![index];
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 70),
+                            child: ListView.builder(
+                              itemCount: value.userCompletedOrderList.data!
+                                  .result!.data!.length,
+                              itemBuilder: (context, index) {
+                                final influencer = value.userCompletedOrderList
+                                    .data!.result!.data![index];
 
-                              return GestureDetector(
-                                  onTap: () {
-                                    navigate(
-                                        context,
-                                        UserTaskDetailTabBarWidget(
-                                          videoTypeId: influencer.id.toString(),
-                                          createdAt:
-                                              influencer.createdAt.toString(),
-                                          orderId:
-                                              influencer.orderId.toString(),
-                                          expiresAt:
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        navigate(
+                                            context,
+                                            UserTaskDetailTabBarWidget(
+                                              videoTypeId:
+                                                  influencer.id.toString(),
+                                              influencerId: influencer
+                                                  .influencerId
+                                                  .toString(),
+                                              createdAt: influencer.createdAt
+                                                  .toString(),
+                                              orderId:
+                                                  influencer.orderId.toString(),
+                                              expiresAt: influencer.expiresAt
+                                                  .toString(),
+                                              status:
+                                                  influencer.status.toString(),
+                                              videoTypeName: influencer
+                                                  .videoType!.name
+                                                  .toString(),
+                                              from: influencer.from.toString(),
+                                              to: influencer.to.toString(),
+                                              requiredDays: influencer
+                                                  .requiredDays
+                                                  .toString(),
+                                              description: influencer
+                                                  .description
+                                                  .toString(),
+                                              totalPrice: influencer.totalPrice
+                                                  .toString(),
+                                              videoUrl: influencer
+                                                  .influencerRequestVideos!
+                                                  .first
+                                                  .videoUrl,
+                                            ));
+                                      },
+                                      child: UserOrderTile(
+                                          order: influencer.orderId.toString(),
+                                          influencerName: influencer
+                                              .influencer!.name
+                                              .toString(),
+                                          expiryDate:
                                               influencer.expiresAt.toString(),
-                                          status: influencer.status.toString(),
-                                          videoTypeName: influencer
-                                              .videoType!.name
-                                              .toString(),
-                                          from: influencer.from.toString(),
-                                          to: influencer.to.toString(),
-                                          requiredDays: influencer.requiredDays
-                                              .toString(),
-                                          description:
-                                              influencer.description.toString(),
-                                          totalPrice:
+                                          price:
                                               influencer.totalPrice.toString(),
-                                          videoUrl: influencer
-                                              .influencerRequestVideos!
-                                              .first
-                                              .videoUrl,
-                                        ));
-                                  },
-                                  child: AllTaskTile(
-                                    category:
-                                        influencer.videoType!.name.toString(),
-                                    price: influencer.totalPrice.toString(),
-                                    date: influencer.createdAt.toString(),
-                                  ));
-                            },
+                                          orderStatus:
+                                              influencer.status.toString())),
+                                );
+                                // AllTaskTile(
+                                //   category:
+                                //       influencer.videoType!.name.toString(),
+                                //   price: influencer.totalPrice.toString(),
+                                //   date: influencer.createdAt.toString(),
+                                // ));
+                              },
+                            ),
                           ),
                         );
                 case null:

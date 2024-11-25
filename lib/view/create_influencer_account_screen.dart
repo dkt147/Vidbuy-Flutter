@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/utils.dart';
+import 'package:vidbuy_app/data/response/status.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
@@ -39,7 +40,7 @@ class _CreateInfluencerAccountScreenState
 
   @override
   void initState() {
-    influencerSignupViewModel.fetchCountryList();
+    // influencerSignupViewModel.fetchCountryList();
     super.initState();
     // _networkService = NetworkService(api: ApiService());
 
@@ -334,7 +335,7 @@ class _CreateInfluencerAccountScreenState
                 keyboardType: TextInputType.text,
               ),
             ),
-            SizedBox(height: 10.h),
+            // SizedBox(height: 10.h),
             // ContentField(
             //   label: "Your Country",
             //   hint: "Enter Your Country",
@@ -372,7 +373,7 @@ class _CreateInfluencerAccountScreenState
             //           );
             //         case Status.COMPLETED:
             //           List countries =
-            //               viewModel.countryList.data?.result?.list!.data ?? [];
+            //               viewModel.countryList.data?.result?.countryList!.data ?? [];
 
             //           return Container(
             //             child: SizedBox(

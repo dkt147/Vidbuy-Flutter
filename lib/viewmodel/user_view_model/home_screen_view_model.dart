@@ -158,11 +158,9 @@ class HomeScreenViewModel with ChangeNotifier {
     });
   }
 
-
   Timer? _debounce;
 
-
- bool _searchInfluencerLoading = false;
+  bool _searchInfluencerLoading = false;
   bool get searchInfluencerLoading => _searchInfluencerLoading;
 
   setSearchInfluencerLoading(bool value) {
@@ -170,7 +168,6 @@ class HomeScreenViewModel with ChangeNotifier {
     print(_searchInfluencerLoading);
     notifyListeners();
   }
-
 
   ApiResponse<UserSearchDataModel> _searchInfluencerList =
       ApiResponse.loading();
@@ -183,11 +180,10 @@ class HomeScreenViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-
-  Future<void> fetchSearchInfluencerList(String search ) async {
-       Map<String, dynamic> searchData = {
-        'search': search,
-      };
+  Future<void> fetchSearchInfluencerList(String search) async {
+    Map<String, dynamic> searchData = {
+      'search': search.isEmpty ? null : search
+    };
     setSearchInfluencerLoading(true);
     setSearchInfluencerList(ApiResponse.loading());
     _userHomeRepo.fetchSearchInfluencerList(searchData).then((value) {
@@ -201,9 +197,9 @@ class HomeScreenViewModel with ChangeNotifier {
     });
   }
 
-    void onSearchTextChanged(String searchText) {
+  void onSearchTextChanged(String searchText) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
+    _debounce = Timer(const Duration(seconds: 1), () {
       // After 500 ms, fetch search results
       fetchSearchInfluencerList(searchText);
     });

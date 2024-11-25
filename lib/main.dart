@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +12,7 @@ import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
 import 'package:vidbuy_app/view/influencer_navbar_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
+import 'package:vidbuy_app/viewmodel/change_language_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
@@ -32,16 +35,20 @@ late SharedPreferences pref;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensures proper initialization
   pref = await SharedPreferences.getInstance(); // Initialize SharedPreferences
+  final String languageCode = pref.getString("langauge_code") ?? "";
 
   LocalData ld = LocalData();
   await LocalData.loadToken();
   await ld.getTokenLocally();
 
-  runApp(const MyApp());
+  runApp(MyApp(
+    locale: languageCode,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String? locale;
+  MyApp({super.key, this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +68,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => CreateOrderViewModel()),
           ChangeNotifierProvider(create: (_) => InfluencerOrdersViewModel()),
           ChangeNotifierProvider(create: (_) => UserOrdersViewModel()),
+          ChangeNotifierProvider(create: (_) => LanguageChangeViewModel()),
           ChangeNotifierProvider(
               create: (_) => InfluencerTaskDetailViewModel()),
           ChangeNotifierProvider(create: (_) => SettingViewModel()),
@@ -74,20 +82,34 @@ class MyApp extends StatelessWidget {
             // minTextAdapt: true,
             // splitScreenMode: true,
             builder: (context, child) {
-              return GetMaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  // title: 'First Method',
-                  // You can use the library anywhere in the app even in theme
-                  theme: ThemeData(
-                    fontFamily: "LondrinaSolid",
-                    scaffoldBackgroundColor: const Color(0xffFFFFFF),
-                    scrollbarTheme: ScrollbarThemeData(
-                      trackColor:
-                          WidgetStateProperty.all(const Color(0xffFFFFFF)),
+              return Consumer<LanguageChangeViewModel>(
+                  builder: (context, provider, child) {
+                if (locale!.isEmpty) {
+                  provider.changeLanguage(Locale('en'));
+                }
+                return GetMaterialApp(
+                    locale: provider.appLocale,
+                    localizationsDelegates: const [
+                      AppLocalizations.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate
+                    ],
+                    supportedLocales: const [Locale('en'), Locale("pt")],
+                    debugShowCheckedModeBanner: false,
+                    // title: 'First Method',
+                    // You can use the library anywhere in the app even in theme
+                    theme: ThemeData(
+                      fontFamily: "LondrinaSolid",
+                      scaffoldBackgroundColor: const Color(0xffFFFFFF),
+                      scrollbarTheme: ScrollbarThemeData(
+                        trackColor:
+                            WidgetStateProperty.all(const Color(0xffFFFFFF)),
+                      ),
+                      useMaterial3: true,
                     ),
-                    useMaterial3: true,
-                  ),
-                  home: _getInitialScreen());
+                    home: _getInitialScreen());
+              });
             },
           );
         }));

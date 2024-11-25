@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,26 +18,44 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
-  TextEditingController _searchController = TextEditingController();
-  String selectedValue = 'Sort by';
+class _SearchScreenState extends State<SearchScreen>
+    with AutomaticKeepAliveClientMixin {
+  final TextEditingController _searchcontroller = TextEditingController();
+  String enteredText = '';
   String selectedCategoryId = "1"; // Default category ID
 
-  List<String> sortOptions = [
-    'Sort by',
-    'Price: Low to High',
-    'Price: High to Low',
-    'Newest',
-    'Oldest'
-  ];
-  double _sliderValue = 25;
+  String? selectedValue;
+  String? selectedSortKey;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  Map<String, String> sortOptions = {
+    'Price: Low to High': 'lowtohigh',
+    'Price: High to Low': 'hightolow',
+    'Newest': 'newest',
+    'Oldest': 'oldest',
+  };
+  double _sliderValue = 0;
+
+  Timer? _debounce;
+
+  void _fetchInfluencerListDebounced() {
+    if (_debounce?.isActive ?? false)
+      _debounce?.cancel(); // Cancel any ongoing debounce
+
+    // Set a debounce duration (e.g., 500 milliseconds)
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      _fetchInfluencerList();
+    });
+  }
+
+  SearchScreenViewModel viewModel = SearchScreenViewModel();
 
   @override
   void initState() {
     super.initState();
-    final viewModel =
-        Provider.of<SearchScreenViewModel>(context, listen: false);
-    viewModel.fetchInfluencerList(selectedCategoryId);
+    _fetchInfluencerList();
     viewModel.fetchCategoryList();
   }
 
@@ -43,293 +63,404 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
       selectedCategoryId = categoryId;
     });
-    _fetchInfluencerList();
+
+    _fetchInfluencerListDebounced();
+  }
+
+  void _onSortOptionSelected(String? sortKey) {
+    if (selectedSortKey != sortKey) {
+      setState(() {
+        selectedSortKey = sortKey;
+      });
+      _fetchInfluencerListDebounced();
+    }
+  }
+
+  void _onPriceChanged(double value) {
+    if (_sliderValue != value) {
+      setState(() {
+        _sliderValue = value;
+      });
+      // _fetchInfluencerList();
+    }
   }
 
   void _fetchInfluencerList() {
-    final viewModel =
-        Provider.of<SearchScreenViewModel>(context, listen: false);
     viewModel.fetchInfluencerList(
-        selectedCategoryId); // Call fetch with updated values
+      search: enteredText,
+      categoryId: selectedCategoryId,
+      sortBy: selectedSortKey,
+      maxPrice: _sliderValue,
+    );
+    // });
+  }
+
+  @override
+  void dispose() {
+    _searchcontroller.dispose();
+    _debounce?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final viewModel =
-        Provider.of<SearchScreenViewModel>(context, listen: false);
-    // viewModel.fetchInfluencerList("1");
-    // viewModel.fetchCategoryList();
-
+    super.build(context);
     return Scaffold(
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 62.h,
-            ),
-            Center(
-              child: Container(
-                width: 335.w,
-                height: 50.h,
-                child: TextField(
-                  style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
-                  decoration: InputDecoration(
-                    hintText: 'Discover celebrities...',
-                    suffixIcon: Image.asset(
-                      "assets/Icon/cancel.png",
-                      height: 20.h,
-                    ),
-                    prefixIcon: Image.asset(
-                      "assets/Icon/searchIcon.png",
-                      height: 18.h,
-                    ),
-                    hintStyle: TextStyle(
-                      fontFamily: "Nunito",
-                      fontSize: 14.h,
-                      // color: Color(0xff8E8E8E), // Placeholder text color
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                      borderSide:
-                          BorderSide(color: Color(0xff908B8B), width: 2.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                      borderSide:
-                          BorderSide(color: Color(0xff908B8B), width: 2.0),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                      borderSide:
-                          BorderSide(color: Color(0xff908B8B), width: 2.0),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                      borderSide:
-                          BorderSide(color: Color(0xff908B8B), width: 2.0),
-                    ),
-                    // border: InputBorder.none, // No border
-                  ),
-                ),
+        body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(children: [
+              SizedBox(
+                height: 62.h,
               ),
-            ),
-
-            SizedBox(
-              height: 22.h,
-            ),
-
-            Consumer<SearchScreenViewModel>(
-              builder: (context, value, child) {
-                switch (value.influencerCategoryList.status) {
-                  case Status.INIT:
-                    return Container();
-                  case Status.LOADING:
-                    return Center(child: const CircularProgressIndicator());
-                  case Status.ERROR:
-                    return Center(
-                      child: Content(
-                          data: value.influencerCategoryList.message.toString(),
-                          size: 18),
-                    );
-                  case Status.COMPLETED:
-                    return Center(
-                      child: Column(children: [
-                        StyledCarouselSlider(
-                          categories: viewModel.categories,
-                          onChanged: (value) =>
-                              onCategorySelected(value.toString()),
-                        )
-                      ]),
-                    );
-                  case null:
-                }
-                return Container();
-
-                // Return an empty container if no data
-              },
-            ),
-            SizedBox(
-              height: 22.h,
-            ),
-            Content(data: selectedCategoryId, size: 10),
-            Container(
-              margin: EdgeInsets.only(left: 20.w, top: 22.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Content(data: "data", size: 15.h),
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-                    width: 169.w,
-                    height: 38.h,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                    child: DropdownButton<String>(
-                      value: selectedValue,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 24.h,
-                      underline: SizedBox(),
-                      isExpanded: true,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16.h,
-                        fontFamily: "Lato",
-                      ),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedValue = newValue!;
-                        });
-                      },
-                      items: sortOptions
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start, // Align text to start
-                    children: [
-                      Stack(
-                        children: [
-                          SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              activeTrackColor: Colors.black,
-                              inactiveTrackColor: Colors.grey.withOpacity(0.5),
-                              thumbColor: Colors.black,
-                              trackHeight: 3.0,
-                              thumbShape: RoundSliderThumbShape(
-                                  enabledThumbRadius: 10.0),
-                            ),
-                            child: Slider(
-                              value: _sliderValue,
-                              min: 0,
-                              max: 100,
-                              onChanged: (double value) {
+              ChangeNotifierProvider(
+                  create: (BuildContext context) =>
+                      viewModel, // Assuming viewModel is an instance of HomeScreenViewModel
+                  child: Consumer<SearchScreenViewModel>(
+                      builder: (context, value, child) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 23.h),
+                        Center(
+                          child: Container(
+                            width: 335.w,
+                            height: 50.h,
+                            child: TextField(
+                              controller: _searchcontroller,
+                              onChanged: (text) {
                                 setState(() {
-                                  _sliderValue = value;
+                                  enteredText =
+                                      text; // Update the entered text whenever it's changed
                                 });
+                                _fetchInfluencerList();
                               },
+                              style: TextStyle(
+                                  color: Colors.black, fontFamily: "Nunito"),
+                              decoration: InputDecoration(
+                                hintText: 'Discover celebrities...',
+                                suffixIcon: Image.asset(
+                                  "assets/Icon/cancel.png",
+                                  height: 20.h,
+                                ),
+                                prefixIcon: Image.asset(
+                                  "assets/Icon/searchIcon.png",
+                                  height: 18.h,
+                                ),
+                                hintStyle: TextStyle(
+                                  fontFamily: "Nunito",
+                                  fontSize: 14.h,
+                                  // color: Color(0xff8E8E8E), // Placeholder text color
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  borderSide: BorderSide(
+                                      color: Color(0xff908B8B), width: 2.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  borderSide: BorderSide(
+                                      color: Color(0xff908B8B), width: 2.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  borderSide: BorderSide(
+                                      color: Color(0xff908B8B), width: 2.0),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  borderSide: BorderSide(
+                                      color: Color(0xff908B8B), width: 2.0),
+                                ),
+                                // border: InputBorder.none, // No border
+                              ),
                             ),
                           ),
-                          // Positioned price label to the right of the slider
-                          Positioned(
-                            right: 25.w,
-                            top: 0,
-                            // left: 0.w, // Align with the slider's thumb vertically
-                            child: Content(
-                              data: '€${_sliderValue.toInt()}',
-                              size: 12.h,
-                              family: "Lato",
-                              weight: FontWeight.w500,
-                            ),
+                        ),
+
+                        SizedBox(
+                          height: 22.h,
+                        ),
+
+                        value.influencerCategoryList.status == Status.LOADING
+                            ? Center(child: CircularProgressIndicator())
+                            : value.influencerCategoryList.status ==
+                                    Status.ERROR
+                                ? Center(
+                                    child: Content(
+                                        data: value
+                                            .influencerCategoryList.message
+                                            .toString(),
+                                        size: 18))
+                                : value.influencerCategoryList.status ==
+                                        Status.COMPLETED
+                                    ? StyledCarouselSlider(
+                                        categories: value.categories,
+                                        onChanged: (value) =>
+                                            onCategorySelected(
+                                                value.toString()))
+                                    : Container(),
+
+                        SizedBox(
+                          height: 22.h,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20.w, top: 22.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Content(data: "data", size: 15.h),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w, vertical: 8.h),
+                                width: 169.w,
+                                height: 38.h,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(30.r),
+                                ),
+                                child: DropdownButton<String>(
+                                  value: selectedValue,
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  iconSize: 24.h,
+                                  underline: SizedBox(),
+                                  isExpanded: true,
+                                  hint: Text(
+                                    'Sort by',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16.h,
+                                      fontFamily: "Lato",
+                                    ),
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16.h,
+                                    fontFamily: "Lato",
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    if (newValue != null &&
+                                        newValue != selectedValue) {
+                                      setState(() {
+                                        selectedValue = newValue;
+                                        selectedSortKey = sortOptions[newValue];
+                                      });
+                                    }
+                                    _fetchInfluencerListDebounced();
+                                  },
+                                  items: sortOptions.keys
+                                      .map<DropdownMenuItem<String>>(
+                                          (String label) {
+                                    return DropdownMenuItem<String>(
+                                      value: label,
+                                      child: Text(label),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment
+                                    .start, // Align text to start
+                                children: [
+                                  Stack(
+                                    children: [
+                                      SliderTheme(
+                                        data: SliderTheme.of(context).copyWith(
+                                          activeTrackColor: Colors.black,
+                                          inactiveTrackColor:
+                                              Colors.grey.withOpacity(0.5),
+                                          thumbColor: Colors.black,
+                                          trackHeight: 3.0,
+                                          thumbShape: RoundSliderThumbShape(
+                                              enabledThumbRadius: 10.0),
+                                        ),
+                                        child: Slider(
+                                          value: _sliderValue,
+                                          min: 0,
+                                          max: 500,
+                                          onChanged: (double value) {
+                                            setState(() {
+                                              _sliderValue = value;
+                                            });
+                                            _fetchInfluencerListDebounced();
+                                          },
+                                        ),
+                                      ),
+                                      // Positioned price label to the right of the slider
+                                      Positioned(
+                                        right: 25.w,
+                                        top: 0,
+                                        // left: 0.w, // Align with the slider's thumb vertically
+                                        child: Content(
+                                          data: '€${_sliderValue.toInt()}',
+                                          size: 12.h,
+                                          family: "Lato",
+                                          weight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 25.w,
+                                        top: 25.h,
+                                        child: Content(
+                                          data: 'Max Price',
+                                          size: 12.h,
+                                          family: "Lato",
+                                          weight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          Positioned(
-                            right: 25.w,
-                            top: 25.h,
-                            child: Content(
-                              data: 'Max Price',
-                              size: 12.h,
-                              family: "Lato",
-                              weight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // Max price label just below the slider
-                    ],
-                  ),
-                ],
+                        ),
+
+                        SizedBox(
+                          height: 31.h,
+                        ),
+
+                        value.influencersList.status == Status.LOADING
+                            ? Center(child: CircularProgressIndicator())
+                            : value.influencersList.status == Status.ERROR
+                                ? Center(
+                                    child: Content(
+                                        data: value.influencersList.message
+                                            .toString(),
+                                        size: 18))
+                                : value.influencersList.status ==
+                                        Status.COMPLETED
+                                    ? GridView.builder(
+                                        shrinkWrap:
+                                            true, // Ensure GridView doesn't take up extra space
+                                        physics: ScrollPhysics(),
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          // 2 items per row
+                                          crossAxisSpacing: 5
+                                              .w, // Horizontal space between items
+                                          mainAxisSpacing: 30
+                                              .h, // Vertical space between rows
+                                          // childAspectRatio:
+                                          //     2, // Adjust the aspect ratio as needed
+                                        ),
+                                        itemCount: value
+                                            .influencersList
+                                            .data!
+                                            .data!
+                                            .length, // Assuming you have a data list
+                                        itemBuilder: (context, index) {
+                                          final influencer = value
+                                              .influencersList
+                                              .data!
+                                              .data![index];
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 25),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                navigate(
+                                                    context,
+                                                    InfluencerProfileScreen(
+                                                      influencerId: influencer
+                                                          .id
+                                                          .toString(),
+                                                    ));
+                                              },
+                                              child: InfluencerCardWidget2(
+                                                image: influencer.image
+                                                    .toString(), // Use actual data from the API
+                                                influencerName:
+                                                    influencer.name.toString(),
+                                                categoryName: influencer
+                                                    .influencerCategories!
+                                                    .first
+                                                    .name
+                                                    .toString(),
+                                                price: "€5673",
+                                                rating: influencer.reviewCount
+                                                    .toString(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    : Container(),
+
+                        //               ChangeNotifierProvider(
+                        //   create: (BuildContext context) => viewModel,
+                        //   child: Consumer<SearchScreenViewModel>(
+                        //     builder: (context, value, child) {
+                        //       switch (value.influencersList.status) {
+                        //         case Status.INIT:
+                        //           return Container();
+                        //         case Status.LOADING:
+                        //           return const Center(child: CircularProgressIndicator());
+                        //         case Status.ERROR:
+                        //           return Center(
+                        //             child: Content(
+                        //                 data: value.influencersList.message.toString(),
+                        //                 size: 18),
+                        //           );
+                        //         case Status.COMPLETED:
+                        //           return GridView.builder(
+                        //             shrinkWrap:
+                        //                 true, // Ensure GridView doesn't take up extra space
+                        //             physics: ScrollPhysics(),
+                        //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        //               crossAxisCount: 2,
+                        //               // 2 items per row
+                        //               crossAxisSpacing:
+                        //                   5.w, // Horizontal space between items
+                        //               mainAxisSpacing: 30.h, // Vertical space between rows
+                        //               // childAspectRatio:
+                        //               //     2, // Adjust the aspect ratio as needed
+                        //             ),
+                        //             itemCount: value.influencersList.data!.data!
+                        //                 .length, // Assuming you have a data list
+                        //             itemBuilder: (context, index) {
+                        //               final influencer =
+                        //                   value.influencersList.data!.data![index];
+                        //               return Padding(
+                        //                 padding: const EdgeInsets.symmetric(horizontal: 25),
+                        //                 child: GestureDetector(
+                        //                   onTap: () {
+                        //                     navigate(
+                        //                         context,
+                        //                         InfluencerProfileScreen(
+                        //                           influencerId: influencer.id.toString(),
+                        //                         ));
+                        //                   },
+                        //                   child: InfluencerCardWidget2(
+                        //                     image: influencer.image
+                        //                         .toString(), // Use actual data from the API
+                        //                     influencerName: influencer.name.toString(),
+                        //                     categoryName: influencer
+                        //                         .influencerCategories!.first.name
+                        //                         .toString(),
+                        //                     price: "€5673",
+                        //                     rating: influencer.reviewCount.toString(),
+                        //                   ),
+                        //                 ),
+                        //               );
+                        //             },
+                        //           );
+
+                        //         case null:
+                        //       }
+                        //       return Container();
+                        //     },
+                        //   ),
+                        // ),
+                      ],
+                    );
+                  })),
+              SizedBox(
+                height: 70.h,
               ),
-            ),
-            //   ],
-            // )
-
-            SizedBox(
-              height: 31.h,
-            ),
-
-            Consumer<SearchScreenViewModel>(
-              // Assume data is in HomeScreenViewModel
-              builder: (context, value, child) {
-                switch (value.influencersList.status) {
-                  case Status.INIT:
-                    return Container();
-                  case Status.LOADING:
-                    return Center(child: const CircularProgressIndicator());
-                  case Status.ERROR:
-                    return Center(
-                      child: Content(
-                          data: value.influencersList.message.toString(),
-                          size: 18),
-                    );
-                  case Status.COMPLETED:
-                    return GridView.builder(
-                      shrinkWrap:
-                          true, // Ensure GridView doesn't take up extra space
-                      physics: ScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-
-                        // 2 items per row
-                        // crossAxisSpacing:
-                        //     26.w, // Horizontal space between items
-                        mainAxisSpacing: 30.h, // Vertical space between rows
-                        // childAspectRatio:
-                        //     2, // Adjust the aspect ratio as needed
-                      ),
-                      itemCount: value.influencersList.data!.result!
-                          .length, // Assuming you have a data list
-                      itemBuilder: (context, index) {
-                        final influencer =
-                            value.influencersList.data!.result![index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25),
-                          child: GestureDetector(
-                            onTap: () {
-                              navigate(
-                                  context,
-                                  InfluencerProfileScreen(
-                                    influencerId: influencer.id.toString(),
-                                  ));
-                            },
-                            child: InfluencerCardWidget2(
-                              image: influencer.image
-                                  .toString(), // Use actual data from the API
-                              influencerName: influencer.name.toString(),
-                              categoryName: influencer
-                                  .influencerCategories!.first.name
-                                  .toString(),
-                              price: "€5673",
-                              rating: influencer.reviewCount.toString(),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-
-                  case null:
-                }
-                return Container();
-              },
-            ),
-
-            SizedBox(
-              height: 70.h,
-            ),
-          ],
-        ),
-      ),
-    );
+            ])));
   }
 }
 

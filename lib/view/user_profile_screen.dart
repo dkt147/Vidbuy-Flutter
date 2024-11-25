@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/resources/componenets/User_order_tab_bar.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/resources/log_out.dart';
-import 'package:vidbuy_app/services/nav.service.dart';
-import 'package:vidbuy_app/services/storage.service.dart';
 import 'package:vidbuy_app/view/contact_us_screen.dart';
 import 'package:vidbuy_app/view/delete_account_screen.dart';
+import 'package:vidbuy_app/view/influencer_donations_screen.dart';
 import 'package:vidbuy_app/view/language_screen.dart';
+import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/view/notification_setting_screen.dart';
 import 'package:vidbuy_app/view/policies_screen.dart';
-import 'package:vidbuy_app/view/search_screen.dart';
 import 'package:vidbuy_app/view/user_edit_profile_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
@@ -91,7 +92,7 @@ class UserProfileScreen extends StatelessWidget {
                   Container(
                       margin: EdgeInsets.only(right: 260.w),
                       child: Content(
-                        data: "Account",
+                        data: AppLocalizations.of(context)!.account,
                         size: 18.h,
                         family: "Lato",
                         weight: FontWeight.w600,
@@ -101,27 +102,38 @@ class UserProfileScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      navigate(context, SearchScreen());
+                      navigate(context, NavBarScreen());
+                    },
+                    child: ProfileTile(
+                      height: 18.h,
+                      image: "assets/Icon/layouticon.png",
+                      text: AppLocalizations.of(context)!.influencers,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 17.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context, UserOrderTabbar());
                     },
                     child: ProfileTile(
                         height: 18.h,
                         image: "assets/Icon/layouticon.png",
-                        text: "Influencers"),
+                        text: AppLocalizations.of(context)!.orders),
                   ),
                   SizedBox(
                     height: 17.h,
                   ),
-                  ProfileTile(
-                      height: 18.h,
-                      image: "assets/Icon/layouticon.png",
-                      text: "Orders"),
-                  SizedBox(
-                    height: 17.h,
+                  GestureDetector(
+                    onTap: () {
+                      navigate(context, InfluencerDonationsScreen());
+                    },
+                    child: ProfileTile(
+                        height: 20.h,
+                        image: "assets/Icon/simpleheart.png",
+                        text: AppLocalizations.of(context)!.donation),
                   ),
-                  ProfileTile(
-                      height: 20.h,
-                      image: "assets/Icon/simpleheart.png",
-                      text: "Donations"),
                   SizedBox(
                     height: 17.h,
                   ),
@@ -132,7 +144,8 @@ class UserProfileScreen extends StatelessWidget {
                     child: ProfileTile(
                         height: 25.h,
                         image: "assets/Icon/bell.png",
-                        text: "Notification Setting"),
+                        text:
+                            AppLocalizations.of(context)!.notificationSettings),
                   ),
                   SizedBox(
                     height: 17.h,
@@ -144,7 +157,7 @@ class UserProfileScreen extends StatelessWidget {
                     child: ProfileTile(
                         height: 25.h,
                         image: "assets/Icon/editprofile.png",
-                        text: "Edit Profile"),
+                        text: AppLocalizations.of(context)!.editProfile),
                   ),
                   SizedBox(
                     height: 25.h,
@@ -152,7 +165,7 @@ class UserProfileScreen extends StatelessWidget {
                   Container(
                       margin: EdgeInsets.only(right: 260.w),
                       child: Content(
-                        data: "General",
+                        data: AppLocalizations.of(context)!.general,
                         size: 18.h,
                         family: "Lato",
                         weight: FontWeight.w600,
@@ -167,7 +180,7 @@ class UserProfileScreen extends StatelessWidget {
                       child: ProfileTile(
                           height: 20.h,
                           image: "assets/Icon/world.png",
-                          text: "Language")),
+                          text: AppLocalizations.of(context)!.language)),
                   SizedBox(
                     height: 17.h,
                   ),
@@ -178,7 +191,7 @@ class UserProfileScreen extends StatelessWidget {
                     child: ProfileTile(
                         height: 25.h,
                         image: "assets/Icon/help.png",
-                        text: "Support"),
+                        text: AppLocalizations.of(context)!.support),
                   ),
                   SizedBox(
                     height: 17.h,
@@ -190,7 +203,7 @@ class UserProfileScreen extends StatelessWidget {
                     child: ProfileTile(
                         height: 25.h,
                         image: "assets/Icon/lock.png",
-                        text: "Policies"),
+                        text: AppLocalizations.of(context)!.policies),
                   ),
                   // ProfileTile(image: "assets/Icon/layouticon.png", text: "Logout"),
                   SizedBox(
@@ -207,7 +220,7 @@ class UserProfileScreen extends StatelessWidget {
                       child: ProfileTile(
                           height: 25.h,
                           image: "assets/Icon/Logout.png",
-                          text: "Logout"),
+                          text: AppLocalizations.of(context)!.logOut),
                     ),
                   ),
 
@@ -220,7 +233,8 @@ class UserProfileScreen extends StatelessWidget {
                     },
                     child: Center(
                         child: Content(
-                            data: "Do you want to delete the account? Delete",
+                            data:
+                                "${AppLocalizations.of(context)!.doYouWantToDelete} ${AppLocalizations.of(context)!.delete}",
                             size: 12.h,
                             weight: FontWeight.w300)),
                   ),

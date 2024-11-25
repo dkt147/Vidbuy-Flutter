@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
-import 'package:vidbuy_app/view/home_screen.dart';
-import 'package:vidbuy_app/view/payment_error_screen.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/user_task_detail_view_model.dart';
 
-class OrderCancelScreen extends StatelessWidget {
-  OrderCancelScreen({super.key});
-  TextEditingController _meesageController = TextEditingController();
+// ignore: must_be_immutable
+class OrderCancelScreen extends StatefulWidget {
+  String videoTypeId;
+  OrderCancelScreen({required this.videoTypeId, super.key});
+
+  @override
+  State<OrderCancelScreen> createState() => _OrderCancelScreenState();
+}
+
+class _OrderCancelScreenState extends State<OrderCancelScreen> {
+  TextEditingController _messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final viewModel =
+        Provider.of<UserTaskDetailViewModel>(context, listen: false);
     return Scaffold(
       body: Center(
         child: Column(
@@ -38,7 +47,7 @@ class OrderCancelScreen extends StatelessWidget {
               width: 334.w,
               height: 384.h,
               child: TextField(
-                controller: _meesageController,
+                controller: _messageController,
                 maxLines: 15,
                 decoration: InputDecoration(
                   hintText: 'Description of what is going on..',
@@ -51,41 +60,35 @@ class OrderCancelScreen extends StatelessWidget {
             SizedBox(
               height: 29.h,
             ),
-            Center(
-              child: Container(
-                width: 335.w,
-                height: 50.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // if (_emailController.text.isEmpty) {
-                    //   snackBar("Enter Valid Email", context);
-                    // } else if (_passwordController.text.isEmpty) {
-                    //   snackBar(
-                    //     "Enter Password",
-                    //     context,
-                    //   );
-                    // } else if (_passwordController.text.length < 8) {
-                    //   snackBar(
-                    //       "Enter Minium 8 Characters of Password", context);
-                    // } else {
-                    //   // Navigator.push(
-                    //   //     context,
-                    //   //     MaterialPageRoute(
-                    //   //         builder: (_) => TabBarWidget()));
-                    navigate(context, HomeScreen());
-                    // }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff5271FF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                  ),
-                  child: Text(
-                    "Sumbit",
-                    style: TextStyle(fontSize: 16.h, color: Colors.white),
+            SizedBox(
+              width: 335.w,
+              height: 50.h,
+              child: ElevatedButton(
+                onPressed: viewModel.userRejectStatusloading
+                    ? null
+                    : () {
+                        viewModel.fetchUploadUserRejectStatusData(
+                          context,
+                          videoTypeId: widget.videoTypeId,
+                          reason: _messageController.text.toString(),
+                        );
+
+                        // navigate(context, FeedbackScreen());
+                      },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff5271FF),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.r),
                   ),
                 ),
+                child: viewModel.userRejectStatusloading
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
+                    : Text(
+                        "Sumbit now",
+                        style: TextStyle(fontSize: 16.h, color: Colors.white),
+                      ),
               ),
             ),
           ],

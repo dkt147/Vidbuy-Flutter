@@ -104,17 +104,16 @@ class CreateOrderViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchCreateUserOrderResponse(
-    BuildContext context, {
-    required String influencerId,
-    required String videoTypeId,
-    required String videoFor,
-    required String from,
-    required String to,
-    required String description,
-    required int requiredDays,
-    required String deliveryCharges,
-  }) async {
+  Future<void> fetchCreateUserOrderResponse(BuildContext context,
+      {required String influencerId,
+      required String videoTypeId,
+      required String videoFor,
+      required String from,
+      required String to,
+      required String description,
+      required int requiredDays,
+      required String deliveryCharges,
+      required String hide}) async {
     Map<String, dynamic> createOrderData = {
       'influencer_id': influencerId,
       'video_type_id': videoTypeId,
@@ -124,6 +123,7 @@ class CreateOrderViewModel extends ChangeNotifier {
       'description': description,
       'required_days': requiredDays,
       'delivery_charges': deliveryCharges,
+      "hide_in_profile": hide
     };
 
     setLoading(true);
