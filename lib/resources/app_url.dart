@@ -76,4 +76,13 @@ class AppUrl {
   static String userAcceptVideoOrderUrl =
       "$baseUrl/requested-video/update-status/";
   static String userReviewUrl = "$baseUrl/review/add";
+
+
+
+
+  static String adminPendingInfluencersUrl = "$baseUrl/admin/pending-influencer";
+  static String adminApprovedInfluencersUrl = "$baseUrl/admin/approved-influencer";
+  static String adminRejectedInfluencersUrl = "$baseUrl/admin/cancelled-influencer";
+
+
 }

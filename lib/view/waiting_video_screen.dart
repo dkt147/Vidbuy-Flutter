@@ -149,7 +149,9 @@ class _WaitingVideoScreenState extends State<WaitingVideoScreen> {
             return Container();
           }),
         ),
-                  SizedBox(height: 70.h,)
+        SizedBox(
+          height: 70.h,
+        )
       ],
     );
   }

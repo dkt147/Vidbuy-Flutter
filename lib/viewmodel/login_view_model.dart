@@ -7,18 +7,13 @@ import 'package:vidbuy_app/model/login_data_model/login_data_model.dart';
 import 'package:vidbuy_app/model/login_data_model/result.dart';
 import 'package:vidbuy_app/model/login_data_model/user.dart';
 import 'package:vidbuy_app/repo/login_repo.dart';
-import 'package:vidbuy_app/resources/componenets/influencer_navbar.dart';
-import 'package:vidbuy_app/resources/componenets/navbar_widget.dart';
 import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
-import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
-import 'package:vidbuy_app/view/home_screen.dart';
+import 'package:vidbuy_app/view/account_rejected_screen.dart';
+import 'package:vidbuy_app/view/admin_navbar_screen.dart';
 import 'package:vidbuy_app/view/influencer_navbar_screen.dart';
-import 'package:vidbuy_app/view/influencer_profile_screen.dart';
-import 'package:vidbuy_app/view/influencer_unique_profile.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
-import 'package:vidbuy_app/view/user_login_screen.dart';
-import 'package:vidbuy_app/view/user_profile_screen.dart';
+import 'package:vidbuy_app/view/pending_account_screen.dart';
 
 class LoginViewModel with ChangeNotifier {
   LoginRepo _loginRepo = LoginRepo();
@@ -148,15 +143,49 @@ class LoginViewModel with ChangeNotifier {
     await ld.getTokenLocally();
   }
 
-  void navigateBasedOnRole(BuildContext context, User user) {
-    // User user = User.fromJson(result.user as Map<String, dynamic>);
-    final roleId = user.roleId;
-    final isProfileComplete = user.isProfileCompleted;
+ void navigateBasedOnRole(BuildContext context, User user) {
+  // Extract necessary details from the user object
+  final roleId = user.roleId;
+  final isProfileComplete = user.isProfileCompleted;
+  final status = user.status; // Assume `status` indicates Pending, Approved, or Cancelled
 
+  if (roleId == 3) {
+    // Additional conditions for roleId == 3
+    if (isProfileComplete == 0) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => TabBarWidget()), // Navigate to TabBarWidget
+        (route) => false,
+      );
+    } else{
+    if (status == "Pending") {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => PendingAccountScreen()), // Navigate to PendingScreen
+        (route) => false,
+      );
+    } else if (status == "Approved") {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => InfluencerNavbarScreen()), // Navigate to ApprovedScreen
+        (route) => false,
+      );
+    } else if (status == "Cancelled") {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => AccountRejectedScreen()), // Navigate to CancelledScreen
+        (route) => false,
+      );
+    } else {
+      Utils.snackBar("Unknown status: $status", context);
+    }
+    }
+  } else {
+    // Default navigation for other roles
     final Map<int, Widget> roleNavigationMap = {
-      1: AdminDashboardScreen(),
+      1: const AdminNavBarScreen(),
       2: const NavBarScreen(),
-      3: isProfileComplete == 0 ? TabBarWidget() : InfluencerNavbarScreen(),
+      // For roleId == 3, this part is bypassed because of the above condition
     };
 
     if (roleNavigationMap.containsKey(roleId)) {
@@ -169,6 +198,8 @@ class LoginViewModel with ChangeNotifier {
       Utils.snackBar("Unknown role: $roleId", context);
     }
   }
+}
+
 
   void handleFailedLogin(LoginDataModel response, BuildContext context) {
     Utils.snackBar(response.message.toString(), context);

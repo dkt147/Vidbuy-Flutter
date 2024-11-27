@@ -153,7 +153,9 @@ class _PendingScreenState extends State<PendingScreen> {
               return Container();
             }),
           ),
-                    SizedBox(height: 70.h,)
+          SizedBox(
+            height: 70.h,
+          )
           // SizedBox(
           //   height: 20.h,
           // ),

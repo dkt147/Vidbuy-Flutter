@@ -129,14 +129,13 @@ class UserProfileViewModel with ChangeNotifier {
         .then((value) async {
       setDeleteAccountData(ApiResponse.completed(value));
       Utils.snackBar(value.message.toString(), context);
-         logOut(context, false);
+      logOut(context, false);
       setdeleteAccountLoading(false);
     }).onError((error, stackTrace) {
       setdeleteAccountLoading(false);
       Utils.snackBar(error.toString(), context);
     });
   }
-
 
   ApiResponse<DeleteAccountDataModel> _logoutAccountData =
       ApiResponse.loading();
@@ -151,13 +150,10 @@ class UserProfileViewModel with ChangeNotifier {
   Future<void> fetchLogOutAccountResponse(BuildContext context) async {
     Map<String, dynamic> logoutData = {};
     setDeleteAccountData(ApiResponse.loading());
-    _userProfileRepo
-        .fetchLogOutAccountResponse(logoutData)
-        .then((value) async {
+    _userProfileRepo.fetchLogOutAccountResponse(logoutData).then((value) async {
       setDeleteAccountData(ApiResponse.completed(value));
       Utils.snackBar(value.message.toString(), context);
       logOut(context, false);
-
     }).onError((error, stackTrace) {
       Utils.snackBar(error.toString(), context);
     });

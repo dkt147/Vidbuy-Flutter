@@ -478,13 +478,13 @@ class StyledCarouselSlider extends StatefulWidget {
 }
 
 class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
-int _currentIndex = 0;
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-         Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Left text (previous item)
@@ -517,8 +517,8 @@ int _currentIndex = 0;
             // Right text (next item)
             Expanded(
               child: Text(
-                widget.categories[
-                        (_currentIndex + 1) % widget.categories.length]["title"] ??
+                widget.categories[(_currentIndex + 1) %
+                        widget.categories.length]["title"] ??
                     "",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -541,7 +541,7 @@ int _currentIndex = 0;
                   margin: EdgeInsets.symmetric(horizontal: 8.w),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.r),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
                         blurRadius: 5,
@@ -602,8 +602,8 @@ int _currentIndex = 0;
             enableInfiniteScroll: true,
             viewportFraction: 0.6,
             onPageChanged: (index, reason) {
-              final itemId =
-                  widget.categories[index]["id"]; // Get the Id of the current item
+              final itemId = widget.categories[index]
+                  ["id"]; // Get the Id of the current item
               widget.onChanged(itemId); // Pass the Id to the onChanged callback
             },
           ),

@@ -7,7 +7,6 @@ import 'package:vidbuy_app/resources/componenets/all_task_tile.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_task_detail_tabbar_widget.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencers_orders_view_model.dart';
-import 'package:vidbuy_app/viewmodel/influencer_view_model/setting_view_model.dart';
 
 // ignore: must_be_immutable
 class AllOrdersScreen extends StatefulWidget {
@@ -155,7 +154,9 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
               return Container();
             }),
           ),
-                    SizedBox(height: 70.h,)
+          SizedBox(
+            height: 70.h,
+          )
         ],
       ),
     );

@@ -53,7 +53,8 @@ class InfleuncersOrderRepo {
     try {
       dynamic response = await apiServices.getGetApiResponse(
           AppUrl.influencerCompletedVideoListUrl + dateQuery!, true);
-      return response = InfluencerCompletedOrderListDataModel.fromJson(response);
+      return response =
+          InfluencerCompletedOrderListDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }

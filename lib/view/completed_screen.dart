@@ -139,12 +139,11 @@ class _CompleteOrderScreenState extends State<CompleteOrderScreen> {
                                                 .toString(),
                                             totalPrice: influencer.totalPrice
                                                 .toString(),
-                                                 videoUrl: influencer
-                                              .influencerRequestVideos!
-                                              .first
-                                              .videoUrl
-                                              .toString()
-                                                ));
+                                            videoUrl: influencer
+                                                .influencerRequestVideos!
+                                                .first
+                                                .videoUrl
+                                                .toString()));
                                   },
                                   child: AllTaskTile(
                                     category:
@@ -160,7 +159,9 @@ class _CompleteOrderScreenState extends State<CompleteOrderScreen> {
               return Container();
             }),
           ),
-          SizedBox(height: 70.h,)
+          SizedBox(
+            height: 70.h,
+          )
           // SizedBox(
           //   height: 20.h,
           // ),

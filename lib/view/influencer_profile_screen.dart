@@ -1126,7 +1126,6 @@ class SubtleRightSideSlantClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
-
 class DashedBorderContainer extends StatelessWidget {
   final String text;
 
@@ -1238,7 +1237,6 @@ class Dash extends StatelessWidget {
     );
   }
 }
-
 
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;

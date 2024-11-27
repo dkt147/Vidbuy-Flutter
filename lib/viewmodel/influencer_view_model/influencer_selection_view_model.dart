@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
@@ -13,6 +17,8 @@ import 'package:vidbuy_app/model/influencer_model/set_video_type_data_model/set_
 import 'package:vidbuy_app/repo/influencer_selection_repo.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/otp_scren.dart';
+import 'package:http/http.dart' as http;
+import 'package:vidbuy_app/view/pending_account_screen.dart';
 
 class InfluencerSelectionViewModel with ChangeNotifier {
   InfluencerSelectionRepo _influencerSelectionRepo = InfluencerSelectionRepo();
@@ -371,5 +377,62 @@ class InfluencerSelectionViewModel with ChangeNotifier {
     }).onError((error, stackTrace) {
       setInfluencerReviewList(ApiResponse.error(error.toString()));
     });
+  }
+
+
+  bool _faceIdentityLoading = false;
+  bool get faceIdentityLoading => _faceIdentityLoading;
+
+  setFaceIdentityLoading(bool value) {
+    _faceIdentityLoading = value;
+    print(_loading);
+    notifyListeners();
+  }
+
+    Future<void> uploadFaceIdentityVideo(
+      BuildContext context, File videoFile, VoidCallback onVideoReset) async {
+    Map<String, dynamic> videoData = {
+      // 'request_video_id': requestVideoId,
+    };
+    final uri = Uri.parse(
+        "http://influenzers.waapsdeveloper.co/api/face-identity");
+    final request = http.MultipartRequest('POST', uri)
+      ..headers['Authorization'] = 'Bearer ${LocalData.token}'
+      ..fields.addAll(
+          videoData.map((key, value) => MapEntry(key, value.toString())))
+      ..files.add(await http.MultipartFile.fromPath('link', videoFile.path));
+
+    try {
+     setFaceIdentityLoading(true);
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseData = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseData);
+
+        // Check if the response contains the boolean key and it's true
+        if (jsonResponse['bool'] == true) {
+          Utils.snackBar(jsonResponse['message'], context);
+
+          Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const PendingAccountScreen()),
+        (route) => false,
+      );
+          onVideoReset();
+          // clearVideo();
+        } else {
+          Utils.snackBar(jsonResponse['message'], context);
+          setFaceIdentityLoading(false);
+        }
+      } else {
+        print("Failed to upload: ${response.statusCode}");
+      }
+    } catch (e) {
+      Utils.snackBar(e.toString(), context);
+      print("Exception caught: $e");
+    } finally {
+      setLoading(false);
+    }
   }
 }

@@ -1,15 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
-class PersnolDetailsScreen extends StatefulWidget {
-  const PersnolDetailsScreen({super.key});
+// ignore: must_be_immutable
+class PersonalDetailsScreen extends StatefulWidget {
+
+ String name;
+ String email;
+ String country;
+ String genera;
+String username;
+String videosAccepted;
+String pricePerVideo;
+String totalReviews;
+String totalVideosMade;
+String totalVideosRejected; 
+String createdAt;
+ PersonalDetailsScreen({ required this.name ,
+  required this.email,
+  required this.country,
+  required this.genera,
+  required this.username,
+  required this.videosAccepted,
+  required this.pricePerVideo ,
+  required this.totalReviews,
+  required this.totalVideosMade,
+  required this.totalVideosRejected,
+  required this.createdAt,
+
+  super.key});
 
   @override
-  State<PersnolDetailsScreen> createState() => _PersnolDetailsScreenState();
+  State<PersonalDetailsScreen> createState() => _PersonalDetailsScreenState();
 }
 
-class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
+class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,11 +49,22 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
             height: 31.h,
             color: Color(0xffD9D9D9).withOpacity(0.3),
             padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
-            child: Content(
-              data: "Persnol Detail",
-              size: 12.h,
-              family: "Nunito",
-              weight: FontWeight.w700,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Content(
+                  data: "Personal Detail",
+                  size: 12.h,
+                  family: "Nunito",
+                  weight: FontWeight.w700,
+                ),
+                Content(
+                  data: Utils.dateFormat3(widget.createdAt.toString()),
+                  size: 12.h,
+                  family: "Nunito",
+                  weight: FontWeight.w700,
+                ),
+              ],
             ),
           ),
           Container(
@@ -38,13 +75,13 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Name",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.name,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -55,13 +92,13 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Email",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.email,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -72,13 +109,13 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Country",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.country,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -89,13 +126,13 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Influencer Genera",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.genera,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -106,13 +143,13 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Username",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.username,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -131,7 +168,7 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
             color: Color(0xffD9D9D9).withOpacity(0.3),
             padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
             child: Content(
-              data: "Persnol Detail",
+              data: "Personal Detail",
               size: 12.h,
               family: "Nunito",
               weight: FontWeight.w700,
@@ -145,13 +182,13 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Videos accepted",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.videosAccepted,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -162,13 +199,13 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Price per video",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.pricePerVideo,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -179,13 +216,13 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Total reviews",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.totalReviews,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -196,30 +233,31 @@ class _PersnolDetailsScreenState extends State<PersnolDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Total videos made",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.totalVideosMade,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
                     ),
                   ],
                 ),
-                Row(
+
+                                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
-                      data: "Video Price",
+                      data: "Total videos rejected",
                       size: 14.h,
                       family: "Lato",
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: "€ 34.56 ",
+                      data: widget.totalVideosRejected,
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,

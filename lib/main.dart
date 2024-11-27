@@ -5,19 +5,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vidbuy_app/Provider/admin_navbar_provider.dart';
 import 'package:vidbuy_app/Provider/influencer_navbar_provider.dart';
 import 'package:vidbuy_app/Provider/navbar_provider.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
+import 'package:vidbuy_app/view/account_rejected_screen.dart';
 import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
+import 'package:vidbuy_app/view/admin_navbar_screen.dart';
 import 'package:vidbuy_app/view/influencer_navbar_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
+import 'package:vidbuy_app/view/pending_account_screen.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
+import 'package:vidbuy_app/viewmodel/admin_view_model/admin_influencer_list_view_model.dart';
 import 'package:vidbuy_app/viewmodel/change_language_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencers_orders_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/setting_view_model.dart';
+import 'package:vidbuy_app/viewmodel/log_out_view_model.dart';
 import 'package:vidbuy_app/viewmodel/login_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/contact_us_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/create_order_view_model.dart';
@@ -56,6 +62,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => NavbarProvider()),
           ChangeNotifierProvider(create: (_) => InfluencerNavbarProvider()),
+          ChangeNotifierProvider(create: (_) => AdminNavbarProvider()),
           ChangeNotifierProvider(create: (_) => InfluencerSignupViewModel()),
           ChangeNotifierProvider(create: (_) => UserSignupViewModel()),
           ChangeNotifierProvider(create: (_) => InfluencerSelectionViewModel()),
@@ -74,6 +81,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => SettingViewModel()),
           ChangeNotifierProvider(create: (_) => UserTaskDetailViewModel()),
           ChangeNotifierProvider(create: (_) => UserProfileViewModel()),
+           ChangeNotifierProvider(create: (_) => AdminInfluencersViewModel()),
+           ChangeNotifierProvider(create: (_) => LogoutProfileViewModel()),
+
         ],
         child: Builder(builder: (BuildContext context) {
           return ScreenUtilInit(
@@ -115,17 +125,27 @@ class MyApp extends StatelessWidget {
         }));
   }
 
-  Widget _getInitialScreen() {
-    if (LocalData.roleId == "1") {
-      return AdminDashboardScreen();
-    } else if (LocalData.roleId == "2") {
-      return NavBarScreen();
-    } else if (LocalData.roleId == "3") {
-      return InfluencerNavbarScreen();
-    } else {
-      return SplashScreen();
+Widget _getInitialScreen() {
+  if (LocalData.roleId == "1") {
+    return const AdminNavBarScreen();
+  } else if (LocalData.roleId == "2") {
+    return const NavBarScreen();
+  } else if (LocalData.roleId == "3") {
+    switch (LocalData.status) {
+      case "Pending":
+        return const PendingAccountScreen();
+      case "Active":
+        return const InfluencerNavbarScreen();
+      case "Cancelled":
+        return const AccountRejectedScreen();
+      default:
+        return const InfluencerNavbarScreen(); // Fallback for undefined status
     }
+  } else {
+    return SplashScreen();
   }
+}
+
 }
 
 // Future<String> _getInitialRoute() async {

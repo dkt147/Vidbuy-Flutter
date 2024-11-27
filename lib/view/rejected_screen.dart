@@ -165,7 +165,9 @@ class _RejectedScreenState extends State<RejectedScreen> {
               return Container();
             }),
           ),
-                    SizedBox(height: 70.h,)
+          SizedBox(
+            height: 70.h,
+          )
           // SizedBox(
           //   height: 20.h,
           // ),

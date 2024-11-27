@@ -7,7 +7,6 @@ import 'package:vidbuy_app/resources/componenets/influencer_order_tabbar.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_video_price_tab_bar.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
-import 'package:vidbuy_app/resources/log_out.dart';
 import 'package:vidbuy_app/view/balance_screen.dart';
 import 'package:vidbuy_app/view/contact_us_screen.dart';
 import 'package:vidbuy_app/view/delete_account_screen.dart';
@@ -62,7 +61,7 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
 
   @override
   Widget build(BuildContext context) {
-     Provider.of<UserProfileViewModel>(context, listen: false);
+    Provider.of<UserProfileViewModel>(context, listen: false);
     return Scaffold(
       body: Column(
         children: [
@@ -327,18 +326,17 @@ class _InfluencerUniqueProfileState extends State<InfluencerUniqueProfile> {
                   SizedBox(
                     height: 11.h,
                   ),
-                Consumer<UserProfileViewModel>(
-              builder: (context, viewModel, child) {
-                return GestureDetector(
+                  Consumer<UserProfileViewModel>(
+                      builder: (context, viewModel, child) {
+                    return GestureDetector(
                       onTap: () {
-                      viewModel.fetchLogOutAccountResponse(context);
+                        viewModel.fetchLogOutAccountResponse(context);
                       },
                       child: ProfileTile(
                           image: "assets/Icon/layouticon.png",
                           text: AppLocalizations.of(context)!.logOut),
                     );
-              }
-                  ),
+                  }),
                   SizedBox(
                     height: 11.h,
                   ),

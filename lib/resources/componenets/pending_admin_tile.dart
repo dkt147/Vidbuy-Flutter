@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
+// ignore: must_be_immutable
 class PendingAdminTile extends StatelessWidget {
-  const PendingAdminTile({super.key});
+  String name;
+  String countryName;
+  String reviews;
+   PendingAdminTile({required this.countryName , required this.name, required this.reviews,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,35 +21,39 @@ class PendingAdminTile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  Content(
-                    data: "Influencers Name",
-                    size: 16.h,
-                    weight: FontWeight.w500,
-                    family: "Lato",
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Content(
-                        data: "Country name",
-                        size: 8.h,
-                        weight: FontWeight.w500,
-                        family: "Lato",
-                      ),
-                      SizedBox(
-                        width: 23.w,
-                      ),
-                      Content(
-                        data: "Total Reviews",
-                        size: 8.h,
-                        weight: FontWeight.w500,
-                        family: "Lato",
-                      ),
-                    ],
-                  ),
-                ],
+              Container(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Content(
+                      data: name,
+                      size: 16.h,
+                      weight: FontWeight.w500,
+                      family: "Lato",
+                    ),
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Content(
+                          data: countryName,
+                          size: 8.h,
+                          weight: FontWeight.w500,
+                          family: "Lato",
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Content(
+                          data: reviews,
+                          size: 8.h,
+                          weight: FontWeight.w500,
+                          family: "Lato",
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               Container(
                 width: 105.w,

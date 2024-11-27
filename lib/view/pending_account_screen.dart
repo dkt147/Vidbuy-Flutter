@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/account_rejected_screen.dart';
+import 'package:vidbuy_app/viewmodel/log_out_view_model.dart';
 
-class PendingAccountScreen extends StatelessWidget {
+class PendingAccountScreen extends StatefulWidget {
   const PendingAccountScreen({super.key});
 
   @override
+  State<PendingAccountScreen> createState() => _PendingAccountScreenState();
+}
+
+class _PendingAccountScreenState extends State<PendingAccountScreen> {
+  @override
   Widget build(BuildContext context) {
+     Provider.of<LogoutProfileViewModel>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -21,20 +29,29 @@ class PendingAccountScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Icon(Icons.more_vert_rounded),
-                  Container(
-                    width: 101.w,
-                    height: 30.h,
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(10.r)),
-                    child: Center(
-                        child: Content(
-                      data: "Logout",
-                      size: 16.h,
-                      family: "Lato",
-                      color: Colors.black,
-                    )),
+                  // Icon(Icons.more_vert_rounded),
+                  Consumer<LogoutProfileViewModel>(
+                      builder: (context, viewModel, child) {
+                    return GestureDetector(
+                      onTap: (){
+                        viewModel.fetchLogOutAccountResponse(context);
+                      },
+                      child: Container(
+                        width: 101.w,
+                        height: 30.h,
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(10.r)),
+                        child: Center(
+                            child: Content(
+                          data: "Logout",
+                          size: 16.h,
+                          family: "Lato",
+                          color: Colors.black,
+                        )),
+                      ),
+                    );
+                      }
                   ),
                 ],
               ),
@@ -68,9 +85,20 @@ class PendingAccountScreen extends StatelessWidget {
                     onTap: () {
                       navigate(context, AccountRejectedScreen());
                     },
-                    child: Icon(
-                      Icons.person,
-                      size: 221.h,
+                    child: Container(
+                      width: 221.h, // Diameter of the circle
+                      height: 221.h, // Diameter of the circle
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black, // Black circle
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.person,
+                          size: 120.h, // Adjust the size of the icon
+                          color: Colors.white, // White icon
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(

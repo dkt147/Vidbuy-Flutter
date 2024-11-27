@@ -27,7 +27,11 @@ class _MainTabbarAdminWidgetState extends State<MainTabbarAdminWidget>
         if (_tabController.index ==
             widget.tabTitles.indexOf("Pending Request")) {
           showSearchField = false; // Reset search field when switching tabs
-        } else if (_tabController.index ==
+        }else if (_tabController.index ==
+            widget.tabTitles.indexOf("Approved")) {
+          showSearchField = false; // Reset search field when switching tabs
+        }
+         else if (_tabController.index ==
             widget.tabTitles.indexOf("Canceled")) {
           showSearchField = false; // Reset search field when switching tabs
         }
@@ -46,41 +50,21 @@ class _MainTabbarAdminWidgetState extends State<MainTabbarAdminWidget>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: _tabController.index ==
-                widget.tabTitles.indexOf("Pending Request")
-            ? Row(
-                children: [
-                  Image.asset(
-                    "assets/Icon/backarrow.png",
-                    height: 25.h,
-                  ),
-                  SizedBox(width: 8.w),
-                  // Text("Influencer Requests", style: T,),
-                  Content(
-                    data: "Influencer Request",
-                    size: 14.h,
-                    weight: FontWeight.w400,
-                    family: "Nunito",
-                  ),
-                  Spacer(),
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      setState(() {
-                        showSearchField = false;
-                      });
-                    },
-                  ),
-                ],
-              )
-            : _tabController.index == widget.tabTitles.indexOf("Canceled")
-                ? Row(
+        title:  Row(
                     children: [
                       Image.asset(
                         "assets/Icon/backarrow.png",
                         height: 25.h,
                       ),
                       SizedBox(width: 8.w),
+                  // Text("Influencer Requests", style: T,),
+                  if(!showSearchField)
+                  Content(
+                    data: "Influencer Request",
+                    size: 14.h,
+                    weight: FontWeight.w400,
+                    family: "Nunito",
+                  ),
                       Expanded(
                         child: AnimatedContainer(
                           duration: Duration(milliseconds: 300),
@@ -90,7 +74,17 @@ class _MainTabbarAdminWidgetState extends State<MainTabbarAdminWidget>
                               ? TextField(
                                   decoration: InputDecoration(
                                     // hintText: "Search...",
-                                    prefixIcon: Icon(Icons.search),
+                                    prefixIcon: const Icon(Icons.search),
+                                    suffix:IconButton(
+                                      onPressed: () {
+                                         setState(() {
+                              showSearchField = false;
+                            });
+                                      },
+                                       icon: Icon(Icons.cancel)
+                                      ),
+                                     
+                                    
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.r),
                                     ),
@@ -109,8 +103,7 @@ class _MainTabbarAdminWidgetState extends State<MainTabbarAdminWidget>
                           },
                         ),
                     ],
-                  )
-                : null,
+                  ),
         bottom: TabBar(
           isScrollable: true,
           controller: _tabController,

@@ -1,20 +1,20 @@
 import 'package:collection/collection.dart';
 
-import 'completed_list.dart';
+import 'data.dart';
 
 class Result {
-  CompletedList? completedList;
+  Data? data;
 
-  Result({this.completedList});
+  Result({this.data});
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        completedList: json['list'] == null
+        data: json['data'] == null
             ? null
-            : CompletedList.fromJson(json['list'] as Map<String, dynamic>),
+            : Data.fromJson(json['data'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
-        'list': completedList?.toJson(),
+        'data': data?.toJson(),
       };
 
   @override
@@ -26,5 +26,5 @@ class Result {
   }
 
   @override
-  int get hashCode => completedList.hashCode;
+  int get hashCode => data.hashCode;
 }

@@ -34,7 +34,7 @@ class UserProfileRepo {
     }
   }
 
-    Future<DeleteAccountDataModel> fetchLogOutAccountResponse(
+  Future<DeleteAccountDataModel> fetchLogOutAccountResponse(
       dynamic data) async {
     try {
       dynamic response = await apiServices.getPostApiResponse(
