@@ -27,11 +27,10 @@ class _AccountRejectedScreenState extends State<AccountRejectedScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Icon(Icons.more_vert_rounded),
-                 Consumer<LogoutProfileViewModel>(
+                  Consumer<LogoutProfileViewModel>(
                       builder: (context, viewModel, child) {
                     return GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         viewModel.fetchLogOutAccountResponse(context);
                       },
                       child: Container(
@@ -49,8 +48,7 @@ class _AccountRejectedScreenState extends State<AccountRejectedScreen> {
                         )),
                       ),
                     );
-                      }
-                  ),
+                  }),
                 ],
               ),
             ),
@@ -70,11 +68,14 @@ class _AccountRejectedScreenState extends State<AccountRejectedScreen> {
                   SizedBox(
                     height: 13.h,
                   ),
-                  Content(
-                    data: "For some reason your account was not approved",
-                    size: 16.h,
-                    weight: FontWeight.w400,
-                    family: "Lato",
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Content(
+                      data: "For some reason your account was not approved",
+                      size: 15.h,
+                      weight: FontWeight.w400,
+                      family: "Lato",
+                    ),
                   ),
                   SizedBox(
                     height: 61.h,

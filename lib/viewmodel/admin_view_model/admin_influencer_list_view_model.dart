@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
-import 'package:vidbuy_app/model/admin_model/admin_pending_influencers_list_data_model/admin_pending_influencers_list_data_model.dart';
+import 'package:vidbuy_app/model/admin_model/admin_change_influencer_status_data_model/admin_change_influencer_status_data_model.dart';
+import 'package:vidbuy_app/model/admin_model/admin_pending_influencer_list_data_model/admin_pending_influencer_list_data_model.dart';
 import 'package:vidbuy_app/repo/admin_repo/admin_influencer_repo.dart';
+import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
+import 'package:vidbuy_app/view/approved_admin_screen.dart';
+import 'package:vidbuy_app/view/cancel_screen.dart';
+import 'package:vidbuy_app/view/pending_admin_screen.dart';
 
 class AdminInfluencersViewModel with ChangeNotifier {
- AdminInfleuncerRepo _adminInfluencerRepo = AdminInfleuncerRepo();
+  AdminInfleuncerRepo _adminInfluencerRepo = AdminInfleuncerRepo();
 
   // bool _influencerAllOrdersListLoading = false;
   // bool get influencerAllOrdersListLoading => _influencerAllOrdersListLoading;
@@ -15,12 +22,13 @@ class AdminInfluencersViewModel with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  ApiResponse<AdminPendingInfluencersListDataModel> _adminPendingInfluencerList =
+  ApiResponse<AdminPendingInfluencerListDataModel> _adminPendingInfluencerList =
       ApiResponse.loading();
-  ApiResponse<AdminPendingInfluencersListDataModel> get adminPendingInfluencerList =>
-      _adminPendingInfluencerList;
+  ApiResponse<AdminPendingInfluencerListDataModel>
+      get adminPendingInfluencerList => _adminPendingInfluencerList;
 
-  setAdminPendingInfluencerList(ApiResponse<AdminPendingInfluencersListDataModel> response) {
+  setAdminPendingInfluencerList(
+      ApiResponse<AdminPendingInfluencerListDataModel> response) {
     _adminPendingInfluencerList = response;
     _adminPendingInfluencerList.toString();
     notifyListeners();
@@ -34,7 +42,8 @@ class AdminInfluencersViewModel with ChangeNotifier {
       queryParam = "";
     }
     setAdminPendingInfluencerList(ApiResponse.loading());
-    _adminInfluencerRepo.fetchAdminPendingInfluencersList(queryParam)
+    _adminInfluencerRepo
+        .fetchAdminPendingInfluencersList(queryParam)
         .then((value) {
       setAdminPendingInfluencerList(ApiResponse.completed(value));
       print(value);
@@ -43,12 +52,13 @@ class AdminInfluencersViewModel with ChangeNotifier {
     });
   }
 
-    ApiResponse<AdminPendingInfluencersListDataModel> _adminApprovedInfluencerList =
-      ApiResponse.loading();
-  ApiResponse<AdminPendingInfluencersListDataModel> get adminApprovedInfluencerList =>
-      _adminApprovedInfluencerList;
+  ApiResponse<AdminPendingInfluencerListDataModel>
+      _adminApprovedInfluencerList = ApiResponse.loading();
+  ApiResponse<AdminPendingInfluencerListDataModel>
+      get adminApprovedInfluencerList => _adminApprovedInfluencerList;
 
-  setAdminApprovedInfluencerList(ApiResponse<AdminPendingInfluencersListDataModel> response) {
+  setAdminApprovedInfluencerList(
+      ApiResponse<AdminPendingInfluencerListDataModel> response) {
     _adminApprovedInfluencerList = response;
     _adminApprovedInfluencerList.toString();
     notifyListeners();
@@ -62,7 +72,8 @@ class AdminInfluencersViewModel with ChangeNotifier {
       queryParam = "";
     }
     setAdminApprovedInfluencerList(ApiResponse.loading());
-    _adminInfluencerRepo.fetchAdminApprovedInfluencersList(queryParam)
+    _adminInfluencerRepo
+        .fetchAdminApprovedInfluencersList(queryParam)
         .then((value) {
       setAdminApprovedInfluencerList(ApiResponse.completed(value));
       print(value);
@@ -71,12 +82,13 @@ class AdminInfluencersViewModel with ChangeNotifier {
     });
   }
 
-    ApiResponse<AdminPendingInfluencersListDataModel> _adminCancelledInfluencerList =
-      ApiResponse.loading();
-  ApiResponse<AdminPendingInfluencersListDataModel> get adminCancelledInfluencerList =>
-      _adminCancelledInfluencerList;
+  ApiResponse<AdminPendingInfluencerListDataModel>
+      _adminCancelledInfluencerList = ApiResponse.loading();
+  ApiResponse<AdminPendingInfluencerListDataModel>
+      get adminCancelledInfluencerList => _adminCancelledInfluencerList;
 
-  setAdminCancelledInfluencerList(ApiResponse<AdminPendingInfluencersListDataModel> response) {
+  setAdminCancelledInfluencerList(
+      ApiResponse<AdminPendingInfluencerListDataModel> response) {
     _adminCancelledInfluencerList = response;
     _adminCancelledInfluencerList.toString();
     notifyListeners();
@@ -90,12 +102,59 @@ class AdminInfluencersViewModel with ChangeNotifier {
       queryParam = "";
     }
     setAdminCancelledInfluencerList(ApiResponse.loading());
-    _adminInfluencerRepo.fetchAdminRejectedInfluencersList(queryParam)
+    _adminInfluencerRepo
+        .fetchAdminRejectedInfluencersList(queryParam)
         .then((value) {
       setAdminCancelledInfluencerList(ApiResponse.completed(value));
       print(value);
     }).onError((error, stackTrace) {
       setAdminCancelledInfluencerList(ApiResponse.error(error.toString()));
+    });
+  }
+
+  bool _changeStatusLoading = false;
+  bool get changeStatusLoading => _changeStatusLoading;
+
+  setChangeStatusLoading(bool value) {
+    _changeStatusLoading = value;
+    print(_changeStatusLoading);
+    notifyListeners();
+  }
+
+  ApiResponse<AdminChangeInfluencerStatusDataModel> _adminChangeStatusData =
+      ApiResponse.loading();
+  ApiResponse<AdminChangeInfluencerStatusDataModel> get adminChangeStatusData =>
+      _adminChangeStatusData;
+
+  setAdminChangeStatusData(
+      ApiResponse<AdminChangeInfluencerStatusDataModel> response) {
+    _adminChangeStatusData = response;
+    _adminChangeStatusData.toString();
+    notifyListeners();
+  }
+
+  Future<void> fetchChangeInfluencerStatus(
+      String status, String influencerId, context) async {
+    Map<String, dynamic> statusData = {'status': status};
+    setChangeStatusLoading(true);
+    setAdminChangeStatusData(ApiResponse.loading());
+    _adminInfluencerRepo
+        .fetchAdminInfluencersStatus(influencerId, statusData)
+        .then((value) {
+      if (value.Isbool!) {
+        setAdminChangeStatusData(ApiResponse.completed(value));
+        Utils.snackBar(value.message.toString(), context);
+        navigatePushReplace(
+          context,
+          MainTabbarAdminWidget(),
+        );
+      } else {
+        Utils.snackBar(value.message.toString(), context);
+      }
+
+      setChangeStatusLoading(false);
+    }).onError((error, stackTrace) {
+      setAdminChangeStatusData(ApiResponse.error(error.toString()));
     });
   }
 

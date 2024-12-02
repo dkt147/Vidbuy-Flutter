@@ -46,7 +46,7 @@ class Utils {
     return DateFormat('E, dd MMM yy').format(DateTime.parse(value.toString()));
   }
 
-   static String dateFormat3(String value) {
+  static String dateFormat3(String value) {
     // Expected Output: 12 Sep 2024, 08:35PM
     return DateFormat('dd MMM yyyy, hh:mma').format(DateTime.parse(value));
   }

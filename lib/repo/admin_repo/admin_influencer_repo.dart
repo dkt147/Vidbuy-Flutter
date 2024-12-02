@@ -1,38 +1,51 @@
 import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/data/network/network_api_services.dart';
-import 'package:vidbuy_app/model/admin_model/admin_pending_influencers_list_data_model/admin_pending_influencers_list_data_model.dart';
+import 'package:vidbuy_app/model/admin_model/admin_change_influencer_status_data_model/admin_change_influencer_status_data_model.dart';
+import 'package:vidbuy_app/model/admin_model/admin_pending_influencer_list_data_model/admin_pending_influencer_list_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
 class AdminInfleuncerRepo {
   BaseApiServices apiServices = NetworkApiService();
 
-  Future<AdminPendingInfluencersListDataModel> fetchAdminPendingInfluencersList(
+  Future<AdminPendingInfluencerListDataModel> fetchAdminPendingInfluencersList(
       String? dateQuery) async {
     try {
       dynamic response = await apiServices.getGetApiResponse(
           AppUrl.adminPendingInfluencersUrl + dateQuery!, true);
-      return response = AdminPendingInfluencersListDataModel.fromJson(response);
+      return response = AdminPendingInfluencerListDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }
   }
 
-    Future<AdminPendingInfluencersListDataModel> fetchAdminApprovedInfluencersList(
+  Future<AdminPendingInfluencerListDataModel> fetchAdminApprovedInfluencersList(
       String? dateQuery) async {
     try {
       dynamic response = await apiServices.getGetApiResponse(
           AppUrl.adminApprovedInfluencersUrl + dateQuery!, true);
-      return response = AdminPendingInfluencersListDataModel.fromJson(response);
+      return response = AdminPendingInfluencerListDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }
   }
-    Future<AdminPendingInfluencersListDataModel> fetchAdminRejectedInfluencersList(
+
+  Future<AdminPendingInfluencerListDataModel> fetchAdminRejectedInfluencersList(
       String? dateQuery) async {
     try {
       dynamic response = await apiServices.getGetApiResponse(
           AppUrl.adminRejectedInfluencersUrl + dateQuery!, true);
-      return response = AdminPendingInfluencersListDataModel.fromJson(response);
+      return response = AdminPendingInfluencerListDataModel.fromJson(response);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<AdminChangeInfluencerStatusDataModel> fetchAdminInfluencersStatus(
+      String influencerId, dynamic status) async {
+    try {
+      dynamic response = await apiServices.getPostApiResponse(
+          AppUrl.adminChangeInfluencerStatusUrl + influencerId, status, true);
+      return response = AdminChangeInfluencerStatusDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }

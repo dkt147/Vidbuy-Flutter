@@ -464,9 +464,159 @@ class _SearchScreenState extends State<SearchScreen>
   }
 }
 
+// class StyledCarouselSlider extends StatefulWidget {
+//   final List<Map<String, String?>> categories;
+//   final ValueChanged<String?> onChanged; // Update callback to pass the Id
+
+//   StyledCarouselSlider({
+//     required this.categories,
+//     required this.onChanged,
+//   });
+
+//   @override
+//   State<StyledCarouselSlider> createState() => _StyledCarouselSliderState();
+// }
+
+// class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
+//   int _currentIndex = 0;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             // Left text (previous item)
+//             Expanded(
+//               child: Text(
+//                 widget.categories[
+//                         (_currentIndex - 1 + widget.categories.length) %
+//                             widget.categories.length]["title"] ??
+//                     "",
+//                 textAlign: TextAlign.center,
+//                 style: TextStyle(
+//                   fontSize: 16.sp,
+//                   fontWeight: FontWeight.normal,
+//                   color: Colors.grey,
+//                 ),
+//               ),
+//             ),
+//             // Center text (current item)
+//             Expanded(
+//               child: Text(
+//                 widget.categories[_currentIndex]["title"] ?? "",
+//                 textAlign: TextAlign.center,
+//                 style: TextStyle(
+//                   fontSize: 22.sp,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.black,
+//                 ),
+//               ),
+//             ),
+//             // Right text (next item)
+//             Expanded(
+//               child: Text(
+//                 widget.categories[(_currentIndex + 1) %
+//                         widget.categories.length]["title"] ??
+//                     "",
+//                 textAlign: TextAlign.center,
+//                 style: TextStyle(
+//                   fontSize: 16.sp,
+//                   fontWeight: FontWeight.normal,
+//                   color: Colors.grey,
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//         // SizedBox(height: 10.h),
+//         SizedBox(height: 10.h),
+//         CarouselSlider(
+//           items: widget.categories.map((item) {
+//             return Builder(
+//               builder: (BuildContext context) {
+//                 return Container(
+//                   width: 250.w,
+//                   margin: EdgeInsets.symmetric(horizontal: 8.w),
+//                   decoration: BoxDecoration(
+//                     borderRadius: BorderRadius.circular(20.r),
+//                     boxShadow: const [
+//                       BoxShadow(
+//                         color: Colors.black26,
+//                         blurRadius: 5,
+//                         spreadRadius: 1,
+//                         offset: Offset(0, 3),
+//                       ),
+//                     ],
+//                     image: DecorationImage(
+//                       image: NetworkImage(item["image"]!),
+//                       fit: BoxFit.cover,
+//                     ),
+//                   ),
+//                   child: Stack(
+//                     alignment: Alignment.bottomLeft,
+//                     children: [
+//                       Container(
+//                         width: 250.w,
+//                         padding: EdgeInsets.all(10.h),
+//                         decoration: BoxDecoration(
+//                           color: Colors.black.withOpacity(0.6),
+//                           borderRadius: BorderRadius.only(
+//                             bottomLeft: Radius.circular(20.r),
+//                             bottomRight: Radius.circular(20.r),
+//                           ),
+//                         ),
+//                         child: Column(
+//                           mainAxisSize: MainAxisSize.min,
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Text(
+//                               item["title"] ?? "No Title",
+//                               style: TextStyle(
+//                                 color: Colors.white,
+//                                 fontSize: 16.h,
+//                                 fontWeight: FontWeight.bold,
+//                               ),
+//                             ),
+//                             SizedBox(height: 2),
+//                             Text(
+//                               item["subtitle"] ?? "No Subtitle",
+//                               style: TextStyle(
+//                                 color: Colors.white70,
+//                                 fontSize: 14.h,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 );
+//               },
+//             );
+//           }).toList(),
+//           options: CarouselOptions(
+//             height: 150.h,
+//             enlargeCenterPage: true,
+//             enableInfiniteScroll: true,
+//             viewportFraction: 0.6,
+//             onPageChanged: (index, reason) {
+//               final itemId = widget.categories[index]
+//                   ["id"]; // Get the Id of the current item
+//               widget.onChanged(itemId); // Pass the Id to the onChanged callback
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+
 class StyledCarouselSlider extends StatefulWidget {
   final List<Map<String, String?>> categories;
-  final ValueChanged<String?> onChanged; // Update callback to pass the Id
+  final ValueChanged<String?> onChanged;
 
   StyledCarouselSlider({
     required this.categories,
@@ -479,132 +629,149 @@ class StyledCarouselSlider extends StatefulWidget {
 
 class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
   int _currentIndex = 0;
+  final CarouselSliderController _carouselController = CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Left text (previous item)
-            Expanded(
-              child: Text(
-                widget.categories[
-                        (_currentIndex - 1 + widget.categories.length) %
-                            widget.categories.length]["title"] ??
-                    "",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-            // Center text (current item)
-            Expanded(
-              child: Text(
-                widget.categories[_currentIndex]["title"] ?? "",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            // Right text (next item)
-            Expanded(
-              child: Text(
-                widget.categories[(_currentIndex + 1) %
-                        widget.categories.length]["title"] ??
-                    "",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-          ],
-        ),
-        // SizedBox(height: 10.h),
-        SizedBox(height: 10.h),
-        CarouselSlider(
-          items: widget.categories.map((item) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Container(
-                  width: 250.w,
-                  margin: EdgeInsets.symmetric(horizontal: 8.w),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.r),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 5,
-                        spreadRadius: 1,
-                        offset: Offset(0, 3),
+        // Sliding Texts for Previous, Current, and Next
+        SizedBox(
+          height: 40.0,
+          child: PageView.builder(
+            controller: PageController(viewportFraction: 1.0),
+            itemCount: widget.categories.length,
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            itemBuilder: (context, index) {
+              final prevIndex = (_currentIndex - 1 + widget.categories.length) %
+                  widget.categories.length;
+              final nextIndex =
+                  (_currentIndex + 1) % widget.categories.length;
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Previous Text
+                  Expanded(
+                    child: Text(
+                      widget.categories[prevIndex]["title"] ?? "",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey,
                       ),
-                    ],
-                    image: DecorationImage(
-                      image: NetworkImage(item["image"]!),
-                      fit: BoxFit.cover,
                     ),
                   ),
-                  child: Stack(
-                    alignment: Alignment.bottomLeft,
-                    children: [
-                      Container(
-                        width: 250.w,
-                        padding: EdgeInsets.all(10.h),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.6),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20.r),
-                            bottomRight: Radius.circular(20.r),
+                  // Current Text
+                  Expanded(
+                    child: Text(
+                      widget.categories[_currentIndex]["title"] ?? "",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  // Next Text
+                  Expanded(
+                    child: Text(
+                      widget.categories[nextIndex]["title"] ?? "",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 10),
+        // Carousel Slider
+        CarouselSlider.builder(
+          carouselController: _carouselController,
+          itemCount: widget.categories.length,
+          itemBuilder: (context, index, realIndex) {
+            final item = widget.categories[index];
+            return Container(
+              width: 250,
+              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+                image: DecorationImage(
+                  image: NetworkImage(item["image"]!),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Stack(
+                alignment: Alignment.bottomLeft,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.6),
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item["title"] ?? "No Title",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item["title"] ?? "No Title",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.h,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 2),
-                            Text(
-                              item["subtitle"] ?? "No Subtitle",
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 14.h,
-                              ),
-                            ),
-                          ],
+                        const SizedBox(height: 2),
+                        Text(
+                          item["subtitle"] ?? "No Subtitle",
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14.0,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                );
-              },
+                ],
+              ),
             );
-          }).toList(),
+          },
           options: CarouselOptions(
-            height: 150.h,
+            height: 150.0,
             enlargeCenterPage: true,
             enableInfiniteScroll: true,
             viewportFraction: 0.6,
             onPageChanged: (index, reason) {
-              final itemId = widget.categories[index]
-                  ["id"]; // Get the Id of the current item
-              widget.onChanged(itemId); // Pass the Id to the onChanged callback
+              setState(() {
+                _currentIndex = index;
+              });
+              final itemId = widget.categories[index]["id"];
+              widget.onChanged(itemId);
             },
           ),
         ),

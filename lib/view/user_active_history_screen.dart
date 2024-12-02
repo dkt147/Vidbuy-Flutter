@@ -265,6 +265,15 @@ class _UserActiveHistoryScreenState extends State<UserActiveHistoryScreen> {
                                                       family: "Nunito",
                                                       weight: FontWeight.w300,
                                                     ),
+                                                      if (statusData.status ==
+                                                      "Ask new video")
+                                                    Content(
+                                                      data:
+                                                          "Admin has requested to make new video.",
+                                                      size: 12.h,
+                                                      family: "Nunito",
+                                                      weight: FontWeight.w300,
+                                                    ),
                                                 ],
                                               ),
                                             ],

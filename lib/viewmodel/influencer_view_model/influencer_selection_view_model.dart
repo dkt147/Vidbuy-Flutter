@@ -379,7 +379,6 @@ class InfluencerSelectionViewModel with ChangeNotifier {
     });
   }
 
-
   bool _faceIdentityLoading = false;
   bool get faceIdentityLoading => _faceIdentityLoading;
 
@@ -389,13 +388,13 @@ class InfluencerSelectionViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-    Future<void> uploadFaceIdentityVideo(
+  Future<void> uploadFaceIdentityVideo(
       BuildContext context, File videoFile, VoidCallback onVideoReset) async {
     Map<String, dynamic> videoData = {
       // 'request_video_id': requestVideoId,
     };
-    final uri = Uri.parse(
-        "http://influenzers.waapsdeveloper.co/api/face-identity");
+    final uri =
+        Uri.parse("http://influenzers.waapsdeveloper.co/api/face-identity");
     final request = http.MultipartRequest('POST', uri)
       ..headers['Authorization'] = 'Bearer ${LocalData.token}'
       ..fields.addAll(
@@ -403,7 +402,7 @@ class InfluencerSelectionViewModel with ChangeNotifier {
       ..files.add(await http.MultipartFile.fromPath('link', videoFile.path));
 
     try {
-     setFaceIdentityLoading(true);
+      setFaceIdentityLoading(true);
       final response = await request.send();
 
       if (response.statusCode == 200) {
@@ -415,10 +414,10 @@ class InfluencerSelectionViewModel with ChangeNotifier {
           Utils.snackBar(jsonResponse['message'], context);
 
           Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const PendingAccountScreen()),
-        (route) => false,
-      );
+            context,
+            MaterialPageRoute(builder: (_) => const PendingAccountScreen()),
+            (route) => false,
+          );
           onVideoReset();
           // clearVideo();
         } else {

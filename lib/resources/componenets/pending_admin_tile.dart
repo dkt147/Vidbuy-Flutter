@@ -7,7 +7,11 @@ class PendingAdminTile extends StatelessWidget {
   String name;
   String countryName;
   String reviews;
-   PendingAdminTile({required this.countryName , required this.name, required this.reviews,super.key});
+  PendingAdminTile(
+      {required this.countryName,
+      required this.name,
+      required this.reviews,
+      super.key});
 
   @override
   Widget build(BuildContext context) {

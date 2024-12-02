@@ -77,12 +77,23 @@ class AppUrl {
       "$baseUrl/requested-video/update-status/";
   static String userReviewUrl = "$baseUrl/review/add";
 
+  static String adminPendingInfluencersUrl =
+      "$baseUrl/admin/pending-influencer";
+  static String adminApprovedInfluencersUrl =
+      "$baseUrl/admin/approved-influencer";
+  static String adminRejectedInfluencersUrl =
+      "$baseUrl/admin/cancelled-influencer";
+  static String adminChangeInfluencerStatusUrl =
+      "$baseUrl/admin/update-status/";
 
 
+      static String adminRejectedOrderListUrl =
+      "$baseUrl/admin/rejected/orders";
 
-  static String adminPendingInfluencersUrl = "$baseUrl/admin/pending-influencer";
-  static String adminApprovedInfluencersUrl = "$baseUrl/admin/approved-influencer";
-  static String adminRejectedInfluencersUrl = "$baseUrl/admin/cancelled-influencer";
+      static String adminCompletedOrderListUrl ="$baseUrl/admin/completed/orders";
+      static String adminRefundOrderListUrl ="$baseUrl/admin/completed/orders";
 
 
+      static String adminChangeOrderStatusUrl =
+      "$baseUrl/admin/request/video/update-status/";
 }

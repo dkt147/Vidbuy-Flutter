@@ -3,7 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
 class OrderTile extends StatelessWidget {
-  const OrderTile({super.key});
+  String orderId;
+  String orderPrice;
+  bool show;
+
+ OrderTile({super.key, 
+ required this.orderId,
+ required this.show,
+ required this.orderPrice,
+
+ });
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +30,14 @@ class OrderTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Content(
-                    data: "Order #VB5064",
+                    data: "Order #${orderId}",
                     size: 14.h,
                     weight: FontWeight.w400,
                     family: "Nunito",
                   ),
                   Content(
-                    data: "Order price",
-                    size: 12.h,
+                    data: "${orderPrice}€",
+                    size: 13.h,
                     weight: FontWeight.w500,
                     family: "Lato",
                   ),
@@ -36,6 +45,7 @@ class OrderTile extends StatelessWidget {
               ),
               Row(
                 children: [
+                  if(show)
                   Container(
                     width: 105.w,
                     height: 35.h,
@@ -51,7 +61,7 @@ class OrderTile extends StatelessWidget {
                           family: "Lato",
                           weight: FontWeight.w700,
                         ),
-                        Image.asset("assets/Icon/polygon.png"),
+                        // Image.asset("assets/Icon/polygon.png"),
                       ],
                     ),
                   ),

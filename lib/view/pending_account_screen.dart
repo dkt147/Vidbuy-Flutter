@@ -16,7 +16,7 @@ class PendingAccountScreen extends StatefulWidget {
 class _PendingAccountScreenState extends State<PendingAccountScreen> {
   @override
   Widget build(BuildContext context) {
-     Provider.of<LogoutProfileViewModel>(context, listen: false);
+    Provider.of<LogoutProfileViewModel>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -33,7 +33,7 @@ class _PendingAccountScreenState extends State<PendingAccountScreen> {
                   Consumer<LogoutProfileViewModel>(
                       builder: (context, viewModel, child) {
                     return GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         viewModel.fetchLogOutAccountResponse(context);
                       },
                       child: Container(
@@ -51,8 +51,7 @@ class _PendingAccountScreenState extends State<PendingAccountScreen> {
                         )),
                       ),
                     );
-                      }
-                  ),
+                  }),
                 ],
               ),
             ),

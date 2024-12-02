@@ -1,5 +1,4 @@
- 
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/delete_account_data_model.dart';
@@ -8,7 +7,7 @@ import 'package:vidbuy_app/resources/log_out.dart';
 
 class LogoutProfileViewModel with ChangeNotifier {
   UserProfileRepo _userProfileRepo = UserProfileRepo();
- 
+
   ApiResponse<DeleteAccountDataModel> _logoutAccountData =
       ApiResponse.loading();
   ApiResponse<DeleteAccountDataModel> get logoutAccountData =>
@@ -30,5 +29,4 @@ class LogoutProfileViewModel with ChangeNotifier {
       Utils.snackBar(error.toString(), context);
     });
   }
-
- }
+}

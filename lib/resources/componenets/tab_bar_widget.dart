@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/view/choose_category_screen.dart.dart';
 import 'package:vidbuy_app/view/choose_price_screen.dart';
 import 'package:vidbuy_app/view/review_selection_screen.dart';
-import 'package:vidbuy_app/view/videos_accepet_screen.dart';
+import 'package:vidbuy_app/view/videos_accept_screen.dart';
 
 class TabBarWidget extends StatefulWidget {
   // final List<Widget> screens;

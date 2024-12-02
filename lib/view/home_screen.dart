@@ -516,36 +516,40 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
 
                     // Recently Added List
-                    // value.recentlyAddedList.status == Status.LOADING
-                    //     ? Center(child: CircularProgressIndicator())
-                    //     : value.recentlyAddedList.status == Status.ERROR
-                    //         ? Center(child: Content(data: value.recentlyAddedList.message.toString(), size: 18))
-                    //         : value.recentlyAddedList.status == Status.COMPLETED
-                    //             ? Row(
-                    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //                 children: value.recentlyAddedList.data!.result!.users!
-                    //                     .take(3) // Only show the first 3 users
-                    //                     .map((influencer) {
-                    //                       return GestureDetector(
-                    //                         onTap: () {
-                    //                           Navigator.push(
-                    //                             context,
-                    //                             MaterialPageRoute(
-                    //                               builder: (context) => InfluencerProfileScreen(
-                    //                                 influencerId: influencer.id.toString(),
-                    //                               ),
-                    //                             ),
-                    //                           );
-                    //                         },
-                    //                         child: InfluencerCardWidget(
-                    //                           image: influencer.image.toString(), // Image URL or asset
-                    //                           influencerName: influencer.name.toString(), // Influencer name
-                    //                           categoryName: influencer.influencerCategory!.first.name.toString(), // Category name
-                    //                         ),
-                    //                       );
-                    //                     }).toList(),
-                    //               )
-                    //             : Container(),
+                   Container(
+                    margin:
+                            EdgeInsets.only(left: 14.w, right: 14.w, top: 17.h),
+                      child: value.recentlyAddedList.status == Status.LOADING
+                          ? Center(child: CircularProgressIndicator())
+                          : value.recentlyAddedList.status == Status.ERROR
+                              ? Center(child: Content(data: value.recentlyAddedList.message.toString(), size: 18))
+                              : value.recentlyAddedList.status == Status.COMPLETED
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: value.recentlyAddedList.data!.result!.users!
+                                          .take(3) // Only show the first 3 users
+                                          .map((influencer) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => InfluencerProfileScreen(
+                                                      influencerId: influencer.id.toString(),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              child: InfluencerCardWidget(
+                                                image: influencer.image.toString(), // Image URL or asset
+                                                influencerName: influencer.name.toString(), // Influencer name
+                                                categoryName: influencer.influencerCategory!.first.name.toString(), // Category name
+                                              ),
+                                            );
+                                          }).toList(),
+                                    )
+                                  : Container(),
+                    ),
 
                     SizedBox(
                       height: 70.h,

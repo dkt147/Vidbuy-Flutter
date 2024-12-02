@@ -153,7 +153,7 @@ class _VideoScreenState extends State<VideoScreen> {
       return _buildNotSelectedUI();
     } else if (widget.status == "Accepted by influencer") {
       return _buildPendingUI(viewModel);
-    } else if (widget.status == "waiting video") {
+    } else if (widget.status == "video sent") {
       return _buildWaitingVideoUI();
     } else if (widget.status == "Completed") {
       return _buildWaitingVideoUI();
@@ -161,7 +161,10 @@ class _VideoScreenState extends State<VideoScreen> {
       return _buildRejectedByInfluencerUI();
     } else if (widget.status == "Rejected by user") {
       return _buildRejectedByUserUI();
-    } else {
+    }else if (widget.status == "Ask new video") {
+      return _buildAskNewVideoUI();
+    } 
+    else {
       return Center(child: Text("Unknown status"));
     }
   }
@@ -219,6 +222,26 @@ class _VideoScreenState extends State<VideoScreen> {
           SizedBox(height: 16),
           Text(
             "The user rejected this video request.",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAskNewVideoUI() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/Logo/logo.png',
+            height: 177.h,
+            width: 128.w,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "Admin requested to make new video.",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ],

@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
-import 'package:vidbuy_app/resources/componenets/User_order_tab_bar.dart';
+import 'package:vidbuy_app/resources/componenets/admin_canceled_order_tab_bar.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/resources/log_out.dart';
-import 'package:vidbuy_app/view/approved_admin_screen.dart';
-import 'package:vidbuy_app/view/cancel_screen.dart';
 import 'package:vidbuy_app/view/influencer_donations_screen.dart';
 import 'package:vidbuy_app/view/language_screen.dart';
-import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/view/notification_setting_screen.dart';
-import 'package:vidbuy_app/view/pending_admin_screen.dart';
 import 'package:vidbuy_app/view/policies_screen.dart';
 import 'package:vidbuy_app/view/user_edit_profile_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdminProfileScreen extends StatelessWidget {
   const AdminProfileScreen({super.key});
@@ -94,18 +90,7 @@ class AdminProfileScreen extends StatelessWidget {
                       onTap: () {
                         navigate(
                           context,
-                          MainTabbarAdminWidget(
-                            tabTitles: const [
-                              "Pending Request",
-                              "Approved",
-                              "Canceled"
-                            ],
-                            screens: const [
-                              PendingAdminScreen(),
-                              ApprovedAdminScreen(),
-                              CancelScreen(),
-                            ],
-                          ),
+                          MainTabbarAdminWidget(),
                         );
                       },
                       child: ProfileTile(
@@ -119,7 +104,7 @@ class AdminProfileScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        navigate(context, UserOrderTabbar());
+                        navigate(context, AdminCanceledOrderTabBar());
                       },
                       child: ProfileTile(
                           height: 18.h,

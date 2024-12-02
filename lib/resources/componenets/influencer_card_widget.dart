@@ -24,10 +24,13 @@ class InfluencerCardWidget extends StatelessWidget {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10.r)),
               child: Stack(children: [
-                Image.network(
-                  image ?? "",
-                  height: 173.h,
-                  fit: BoxFit.cover,
+                SizedBox(
+                  width: double.infinity,
+                  child: Image.network(
+                    image ?? "",
+                    height: 173.h,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Positioned(
                   top: 80.h,
@@ -105,10 +108,13 @@ class InfluencerCardWidget2 extends StatelessWidget {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10.r)),
               child: Stack(children: [
-                Image.network(
-                  image,
-                  height: 173.h,
-                  fit: BoxFit.cover,
+                SizedBox(
+                  width: double.infinity,
+                  child: Image.network(
+                    image,
+                    height: 173.h,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Positioned(
                   top: 120.h,

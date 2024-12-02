@@ -1,35 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/viewmodel/admin_view_model/admin_influencer_list_view_model.dart';
 
 // ignore: must_be_immutable
 class PersonalDetailsScreen extends StatefulWidget {
+  String influencerId;
+  String status;
+  String name;
+  String email;
+  String country;
+  String genera;
+  String username;
+  String videosAccepted;
+  String pricePerVideo;
+  String totalReviews;
+  String totalVideosMade;
+  String totalVideosRejected;
+  String createdAt;
+  List<String> videoTypes;
+  List<String> videoPrices;
 
- String name;
- String email;
- String country;
- String genera;
-String username;
-String videosAccepted;
-String pricePerVideo;
-String totalReviews;
-String totalVideosMade;
-String totalVideosRejected; 
-String createdAt;
- PersonalDetailsScreen({ required this.name ,
-  required this.email,
-  required this.country,
-  required this.genera,
-  required this.username,
-  required this.videosAccepted,
-  required this.pricePerVideo ,
-  required this.totalReviews,
-  required this.totalVideosMade,
-  required this.totalVideosRejected,
-  required this.createdAt,
-
-  super.key});
+  PersonalDetailsScreen(
+      {required this.influencerId,
+      required this.status,
+      required this.name,
+      required this.email,
+      required this.country,
+      required this.genera,
+      required this.username,
+      required this.videosAccepted,
+      required this.pricePerVideo,
+      required this.totalReviews,
+      required this.totalVideosMade,
+      required this.totalVideosRejected,
+      required this.createdAt,
+      required this.videoTypes,
+      required this.videoPrices,
+      super.key});
 
   @override
   State<PersonalDetailsScreen> createState() => _PersonalDetailsScreenState();
@@ -38,6 +48,7 @@ String createdAt;
 class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    Provider.of<AdminInfluencersViewModel>(context, listen: false);
     return Scaffold(
       body: Column(
         children: [
@@ -47,14 +58,14 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           Container(
             width: 375.w,
             height: 31.h,
-            color: Color(0xffD9D9D9).withOpacity(0.3),
+            color: Color(0xffD9D9D9).withOpacity(0.7),
             padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Content(
                   data: "Personal Detail",
-                  size: 12.h,
+                  size: 16.h,
                   family: "Nunito",
                   weight: FontWeight.w700,
                 ),
@@ -165,11 +176,11 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           Container(
             width: 375.w,
             height: 31.h,
-            color: Color(0xffD9D9D9).withOpacity(0.3),
+            color: Color(0xffD9D9D9).withOpacity(0.7),
             padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
             child: Content(
-              data: "Personal Detail",
-              size: 12.h,
+              data: "Order Details",
+              size: 16.h,
               family: "Nunito",
               weight: FontWeight.w700,
             ),
@@ -188,7 +199,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: widget.videosAccepted,
+                      data: widget.videoTypes.join(', '),
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -205,7 +216,9 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       weight: FontWeight.w600,
                     ),
                     Content(
-                      data: widget.pricePerVideo,
+                      data: widget.videoPrices
+                          .map((price) => '$price€')
+                          .join(", "),
                       size: 12.h,
                       family: "Lato",
                       weight: FontWeight.w400,
@@ -246,8 +259,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     ),
                   ],
                 ),
-
-                                Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Content(
@@ -270,84 +282,64 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           SizedBox(
             height: 26.h,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 156.w,
-                height: 40.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // if (_emailController.text.isEmpty) {
-                    //   snackBar("Enter Valid Email", context);
-                    // } else if (_passwordController.text.isEmpty) {
-                    //   snackBar(
-                    //     "Enter Password",
-                    //     context,
-                    //   );
-                    // } else if (_passwordController.text.length < 8) {
-                    //   snackBar(
-                    //       "Enter Minium 8 Characters of Password", context);
-                    // } else {
-                    //   // Navigator.push(
-                    //   //     context,
-                    //   //     MaterialPageRoute(
-                    //   //         builder: (_) => TabBarWidget()));
-                    // navigate(context, FeedbackScreen());
-                    // }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff908B8B),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
+          if (widget.status == "Pending")
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Consumer<AdminInfluencersViewModel>(
+                      builder: (context, viewModel, child) {
+                    return SizedBox(
+                      width: 156.w,
+                      height: 40.h,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          viewModel.fetchChangeInfluencerStatus(
+                              "Cancelled", widget.influencerId, context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff908B8B),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.r),
+                          ),
+                        ),
+                        child: Text(
+                          "Reject",
+                          style: TextStyle(fontSize: 16.h, color: Colors.white),
+                        ),
+                      ),
+                    );
+                  }),
+                  SizedBox(
+                    width: 8.h,
                   ),
-                  child: Text(
-                    "Reject",
-                    style: TextStyle(fontSize: 16.h, color: Colors.white),
-                  ),
-                ),
+                  Consumer<AdminInfluencersViewModel>(
+                      builder: (context, viewModel, child) {
+                    return SizedBox(
+                      width: 156.w,
+                      height: 40.h,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          viewModel.fetchChangeInfluencerStatus(
+                              "Approved", widget.influencerId, context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff5271FF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.r),
+                          ),
+                        ),
+                        child: Text(
+                          "Approve",
+                          style: TextStyle(fontSize: 16.h, color: Colors.white),
+                        ),
+                      ),
+                    );
+                  }),
+                ],
               ),
-              SizedBox(
-                width: 8.h,
-              ),
-              Container(
-                width: 156.w,
-                height: 40.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // if (_emailController.text.isEmpty) {
-                    //   snackBar("Enter Valid Email", context);
-                    // } else if (_passwordController.text.isEmpty) {
-                    //   snackBar(
-                    //     "Enter Password",
-                    //     context,
-                    //   );
-                    // } else if (_passwordController.text.length < 8) {
-                    //   snackBar(
-                    //       "Enter Minium 8 Characters of Password", context);
-                    // } else {
-                    //   // Navigator.push(
-                    //   //     context,
-                    //   //     MaterialPageRoute(
-                    //   //         builder: (_) => TabBarWidget()));
-                    // navigate(context, OrderCancelScreen());
-                    // }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff5271FF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                  ),
-                  child: Text(
-                    "Approve",
-                    style: TextStyle(fontSize: 16.h, color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
         ],
       ),
     );

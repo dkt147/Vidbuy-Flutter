@@ -1,123 +1,164 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:vidbuy_app/data/response/status.dart';
+import 'package:vidbuy_app/resources/componenets/admin_task_detail_tab_bar.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
-import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
 import 'package:vidbuy_app/resources/componenets/order_tile.dart';
-import 'package:vidbuy_app/view/active_history_admin_screen.dart';
-import 'package:vidbuy_app/view/task_detail_admin_scree.dart';
-import 'package:vidbuy_app/view/video_screen_admin.dart';
+import 'package:vidbuy_app/viewmodel/admin_view_model/admin_rejected_orders_view_model.dart';
 
-class CancelRequestScreen extends StatelessWidget {
-  const CancelRequestScreen({super.key});
+// ignore: must_be_immutable
+class CancelRequestScreen extends StatefulWidget {
+  String? search;
+  CancelRequestScreen({super.key, this.search});
+
+  @override
+  State<CancelRequestScreen> createState() => _CancelRequestScreenState();
+}
+
+class _CancelRequestScreenState extends State<CancelRequestScreen> {
+  AdminRejectedOrdersViewModel adminRejectedOrdersViewModel =
+      AdminRejectedOrdersViewModel();
+
+      final ScrollController _scrollController = ScrollController();
+
+
+  @override
+  void initState() {
+    super.initState();
+    // influencersOrdersViewModel = Provider.of<InfluencerOrdersViewModel>(context, listen: false);
+    // Initial API call
+    adminRejectedOrdersViewModel.fetchAdminRejectedOrdersList(widget.search);
+
+      _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent - 100 &&
+          adminRejectedOrdersViewModel.hasMore) {
+        adminRejectedOrdersViewModel.fetchAdminRejectedOrdersList(widget.search, isNextPage: true);
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant CancelRequestScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Check if the date has changed
+    if (oldWidget.search != widget.search) {
+      adminRejectedOrdersViewModel.fetchAdminRejectedOrdersList(widget.search);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.only(top: 55.h, left: 21.w),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset(
-                    "assets/Icon/backarrow.png",
-                    height: 25.h,
-                  ),
-                ),
-                SizedBox(
-                  width: 5.w,
-                ),
-                Content(
-                  data: "Cancel Request",
-                  size: 14.h,
-                  weight: FontWeight.w600,
-                  family: "Nunito",
-                ),
-              ],
-            ),
-          ),
-          // Container(
-          //   width: 375.w,
-          //   height: 75.h,
-          //   child: ,
-          // )
-          SizedBox(
-            height: 23.h,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 28.w, right: 37.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Content(
-                      data: "Canceled",
-                      size: 16.h,
-                      weight: FontWeight.w500,
-                      family: "Lato",
+          ChangeNotifierProvider(
+            create: (BuildContext context) => adminRejectedOrdersViewModel,
+            child: Consumer<AdminRejectedOrdersViewModel>(
+                builder: (context, value, child) {
+              switch (value.adminRejectedOrdersList.status) {
+                case Status.INIT:
+                  return Container();
+                case Status.LOADING:
+                  return const Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                Content(
-                  data: "Complete",
-                  size: 16.h,
-                  weight: FontWeight.w500,
-                  family: "Lato",
-                ),
-                Content(
-                  data: "Refund",
-                  size: 16.h,
-                  weight: FontWeight.w500,
-                  family: "Lato",
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: GestureDetector(
-                onTap: () {
-                  navigate(
-                      context,
-                      MainTabbarAdminWidget(screens: [
-                        VideoScreenAdmin(),
-                        TaskDetailAdminScreen(),
-                        ActiveHistoryAdminScreen(),
-                      ], tabTitles: [
-                        "Video",
-                        "Orders Details",
-                        "Active History",
-                      ]));
-                },
-                child: Column(
-                  children: [
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                    OrderTile(),
-                  ],
-                ),
-              ),
-            ),
+                  );
+                case Status.ERROR:
+                  return Center(
+                    child: Content(
+                        data: value.adminRejectedOrdersList.message.toString(),
+                        size: 18),
+                  );
+                case Status.COMPLETED:
+                  return value.adminRejectedOrdersList.data!.data!.data == 0
+                      ? Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Center(
+                                child: Image.asset(
+                                  'assets/Logo/logo.png',
+                                  height: 177.h,
+                                  width: 128.w,
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                              Center(
+                                child: Text(
+                                  "No Rejected Orders Currently",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount:  value.orders.length + (value.hasMore ? 1 : 0),
+                            itemBuilder: (context, index) {
+                              if (index == value.orders.length) {
+                            // Show loader at the end
+                            return const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+                          final order = value.orders[index];
+                              return GestureDetector(
+                                  onTap: () {
+                                    navigate(context, AdminTaskDetailTabBar(
+                                      videoTypeId: order.id.toString(),
+                                       influencerId: order.influencer!.id.toString(),
+                                        createdAt: order.createdAt.toString(),
+                                         orderId: order.orderId.toString(), 
+                                         expiresAt: order.expiresAt.toString(),
+                                          status: order.status.toString(),
+                                           videoTypeName: order.videoType!.name.toString(),
+                                            from: order.from.toString(),
+                                             to: order.to.toString(), 
+                                             requiredDays: order.requiredDays.toString(),
+                                              description: order.description.toString(),
+                                               totalPrice: order.totalPrice.toString(),
+                                               buyerName: order.user!.name.toString(),
+                                               buyerUsername: order.user!.username.toString(),
+                                               buyerEmail: order.user!.email.toString(),
+                                               influencerName: order.influencer!.name.toString(),
+                                               influencerEmail: order.influencer!.email.toString(),
+                                               influencerUsername: order.influencer!.username.toString(),
+                                               reason: order.reason.toString(),
+                                               videoUploadId: order.influencerRequestVideos!.first.requestVideoId.toString(),
+                                               videoUrl: order.influencerRequestVideos!.first.videoUrl.toString(),
+                                               ));
+
+                                  }, child: OrderTile(
+                              orderId: order.orderId.toString(),
+                              orderPrice: order.totalPrice.toString(),
+                              show: true,
+                            ),
+                          );
+                            },
+                          ),
+                        );
+                case null:
+              }
+              return Container();
+            }),
           ),
         ],
       ),

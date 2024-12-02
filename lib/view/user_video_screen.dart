@@ -68,7 +68,7 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
       return _buildNotSelectedUI();
     } else if (widget.status == "Pending") {
       return _buildPendingUI();
-    } else if (widget.status == "waiting video") {
+    } else if (widget.status == "video sent") {
       return _buildWaitingVideoUI(viewModel);
     } else if (widget.status == "Completed") {
       return _buildCompletedVideoUI();
@@ -78,10 +78,34 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
       return _buildRejectedByInfluencerUI();
     } else if (widget.status == "Accepted by influencer") {
       return _buildAcceptedByInfluencerUI();
+    } else if (widget.status == "Ask new video") {
+      return _buildAskNewVideoUI();
     } else {
       return Center(child: Text("Unknown status"));
     }
   }
+
+
+    Widget _buildAskNewVideoUI() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/Logo/logo.png',
+            height: 177.h,
+            width: 128.w,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "Admin requested to make new video.",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget _buildNotSelectedUI() {
     return Center(
