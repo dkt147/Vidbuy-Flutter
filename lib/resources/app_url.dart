@@ -11,6 +11,8 @@ class AppUrl {
       "$baseUrl/influencer/category/update";
   static String editInfluencerProfileUrl = "$baseUrl/influencer/profile/edit";
 
+  static String userNotificationUrl = "$baseUrl/update-firebase-token";
+
   static String searchInfluencerUrl = "$baseUrl/search-influencers";
 
   static String influencerDetailUrl = "$baseUrl/influencer/detail/by-id/";
@@ -86,14 +88,13 @@ class AppUrl {
   static String adminChangeInfluencerStatusUrl =
       "$baseUrl/admin/update-status/";
 
-
-      static String adminRejectedOrderListUrl =
-      "$baseUrl/admin/rejected/orders";
-
-      static String adminCompletedOrderListUrl ="$baseUrl/admin/completed/orders";
-      static String adminRefundOrderListUrl ="$baseUrl/admin/completed/orders";
+  static String adminRejectedOrderListUrl = "$baseUrl/admin/rejected/orders";
+  static String adminReportedVideosListUrl = "$baseUrl/report-videos";
 
 
-      static String adminChangeOrderStatusUrl =
+  static String adminCompletedOrderListUrl = "$baseUrl/admin/completed/orders";
+  static String adminRefundOrderListUrl = "$baseUrl/admin/completed/orders";
+
+  static String adminChangeOrderStatusUrl =
       "$baseUrl/admin/request/video/update-status/";
 }

@@ -7,12 +7,12 @@ class OrderTile extends StatelessWidget {
   String orderPrice;
   bool show;
 
- OrderTile({super.key, 
- required this.orderId,
- required this.show,
- required this.orderPrice,
-
- });
+  OrderTile({
+    super.key,
+    required this.orderId,
+    required this.show,
+    required this.orderPrice,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,26 +45,26 @@ class OrderTile extends StatelessWidget {
               ),
               Row(
                 children: [
-                  if(show)
-                  Container(
-                    width: 105.w,
-                    height: 35.h,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30.r),
-                        border: Border.all(color: Colors.black)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Content(
-                          data: "Approve",
-                          size: 15.h,
-                          family: "Lato",
-                          weight: FontWeight.w700,
-                        ),
-                        // Image.asset("assets/Icon/polygon.png"),
-                      ],
+                  if (show)
+                    Container(
+                      width: 105.w,
+                      height: 35.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30.r),
+                          border: Border.all(color: Colors.black)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Content(
+                            data: "Approve",
+                            size: 15.h,
+                            family: "Lato",
+                            weight: FontWeight.w700,
+                          ),
+                          // Image.asset("assets/Icon/polygon.png"),
+                        ],
+                      ),
                     ),
-                  ),
                   Image.asset(
                     "assets/Icon/forward.png",
                     height: 30.h,

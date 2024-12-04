@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "803524973592",
+    "project_id": "vidbuy-1b7b9",
+    "storage_bucket": "vidbuy-1b7b9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803524973592:android:5c74db5bf626f231071f6d",
+        "android_client_info": {
+          "package_name": "vidbuy.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6hgJT3rKJ9Si25Cl8XW0GYhN0vO3ddHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

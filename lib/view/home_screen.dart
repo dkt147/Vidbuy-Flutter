@@ -4,6 +4,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/data/response/status.dart';
+import 'package:vidbuy_app/notification_services/notification_services.dart';
 import 'package:vidbuy_app/resources/componenets/carousel_slider_category.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_card_widget.dart';
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen>
   List<dynamic> categories = [];
 
   HomeScreenViewModel viewModel = HomeScreenViewModel();
+  NotificationServices notificationServices = NotificationServices();
 
   bool get wantKeepAlive => true;
   @override
@@ -38,6 +40,11 @@ class _HomeScreenState extends State<HomeScreen>
     viewModel.fetchTrendingInfluencerList();
     viewModel.fetchGiveAwayList();
     viewModel.fetchRecentlyAddedList();
+    notificationServices.getDeviceToken().then((value) {
+      viewModel.fetchNotificationUpdate(value.toString());
+      print("device token");
+      print(value);
+    });
   }
 
   String getGreeting() {
@@ -192,26 +199,26 @@ class _HomeScreenState extends State<HomeScreen>
                         child: TypeAheadField(
                           textFieldConfiguration: TextFieldConfiguration(
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30.r),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff908B8B), width: 2.0),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30.r),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff908B8B), width: 2.0),
                               ),
                               errorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30.r),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff908B8B), width: 2.0),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30.r),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xff908B8B), width: 2.0),
                               ),
                               suffixIcon: Image.asset("assets/Icon/cancel.png",
@@ -516,37 +523,51 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
 
                     // Recently Added List
-                   Container(
-                    margin:
-                            EdgeInsets.only(left: 14.w, right: 14.w, top: 17.h),
+                    Container(
+                      margin:
+                          EdgeInsets.only(left: 14.w, right: 14.w, top: 17.h),
                       child: value.recentlyAddedList.status == Status.LOADING
                           ? Center(child: CircularProgressIndicator())
                           : value.recentlyAddedList.status == Status.ERROR
-                              ? Center(child: Content(data: value.recentlyAddedList.message.toString(), size: 18))
-                              : value.recentlyAddedList.status == Status.COMPLETED
+                              ? Center(
+                                  child: Content(
+                                      data: value.recentlyAddedList.message
+                                          .toString(),
+                                      size: 18))
+                              : value.recentlyAddedList.status ==
+                                      Status.COMPLETED
                                   ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: value.recentlyAddedList.data!.result!.users!
-                                          .take(3) // Only show the first 3 users
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: value.recentlyAddedList.data!
+                                          .result!.users!
+                                          .take(
+                                              3) // Only show the first 3 users
                                           .map((influencer) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => InfluencerProfileScreen(
-                                                      influencerId: influencer.id.toString(),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                              child: InfluencerCardWidget(
-                                                image: influencer.image.toString(), // Image URL or asset
-                                                influencerName: influencer.name.toString(), // Influencer name
-                                                categoryName: influencer.influencerCategory!.first.name.toString(), // Category name
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    InfluencerProfileScreen(
+                                                  influencerId:
+                                                      influencer.id.toString(),
+                                                ),
                                               ),
                                             );
-                                          }).toList(),
+                                          },
+                                          child: InfluencerCardWidget(
+                                            image: influencer.image
+                                                .toString(), // Image URL or asset
+                                            influencerName: influencer.name
+                                                .toString(), // Influencer name
+                                            categoryName: influencer
+                                                .influencerCategory!.first.name
+                                                .toString(), // Category name
+                                          ),
+                                        );
+                                      }).toList(),
                                     )
                                   : Container(),
                     ),

@@ -30,7 +30,7 @@ class AdminRejectedOrdersRepo {
     }
   }
 
-    Future<AdminCompletedOrdersDataModel> fetchAdminRefundOrdersList(
+  Future<AdminCompletedOrdersDataModel> fetchAdminRefundOrdersList(
       String? dateQuery) async {
     try {
       dynamic response = await apiServices.getGetApiResponse(

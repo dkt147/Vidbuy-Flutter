@@ -12,7 +12,7 @@ class AdminChangeOrderStatusDataModel {
   factory AdminChangeOrderStatusDataModel.fromJson(Map<String, dynamic> json) {
     return AdminChangeOrderStatusDataModel(
       Isbool: json['bool'] as bool?,
-      result: json['result'], 
+      result: json['result'],
       // == null
       //     ? null
       //     : Result.fromJson(json['result'] as Map<String, dynamic>),

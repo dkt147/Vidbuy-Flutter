@@ -21,8 +21,7 @@ class _CancelRequestScreenState extends State<CancelRequestScreen> {
   AdminRejectedOrdersViewModel adminRejectedOrdersViewModel =
       AdminRejectedOrdersViewModel();
 
-      final ScrollController _scrollController = ScrollController();
-
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -31,11 +30,12 @@ class _CancelRequestScreenState extends State<CancelRequestScreen> {
     // Initial API call
     adminRejectedOrdersViewModel.fetchAdminRejectedOrdersList(widget.search);
 
-      _scrollController.addListener(() {
+    _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
               _scrollController.position.maxScrollExtent - 100 &&
           adminRejectedOrdersViewModel.hasMore) {
-        adminRejectedOrdersViewModel.fetchAdminRejectedOrdersList(widget.search, isNextPage: true);
+        adminRejectedOrdersViewModel.fetchAdminRejectedOrdersList(widget.search,
+            isNextPage: true);
       }
     });
   }
@@ -108,50 +108,69 @@ class _CancelRequestScreenState extends State<CancelRequestScreen> {
                       : Expanded(
                           child: ListView.builder(
                             controller: _scrollController,
-                            itemCount:  value.orders.length + (value.hasMore ? 1 : 0),
+                            itemCount:
+                                value.orders.length + (value.hasMore ? 1 : 0),
                             itemBuilder: (context, index) {
                               if (index == value.orders.length) {
-                            // Show loader at the end
-                            return const Center(
-                              child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
-                          final order = value.orders[index];
+                                // Show loader at the end
+                                return const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              }
+                              final order = value.orders[index];
                               return GestureDetector(
-                                  onTap: () {
-                                    navigate(context, AdminTaskDetailTabBar(
-                                      videoTypeId: order.id.toString(),
-                                       influencerId: order.influencer!.id.toString(),
+                                onTap: () {
+                                  navigate(
+                                      context,
+                                      AdminTaskDetailTabBar(
+                                        videoTypeId: order.id.toString(),
+                                        influencerId:
+                                            order.influencer!.id.toString(),
                                         createdAt: order.createdAt.toString(),
-                                         orderId: order.orderId.toString(), 
-                                         expiresAt: order.expiresAt.toString(),
-                                          status: order.status.toString(),
-                                           videoTypeName: order.videoType!.name.toString(),
-                                            from: order.from.toString(),
-                                             to: order.to.toString(), 
-                                             requiredDays: order.requiredDays.toString(),
-                                              description: order.description.toString(),
-                                               totalPrice: order.totalPrice.toString(),
-                                               buyerName: order.user!.name.toString(),
-                                               buyerUsername: order.user!.username.toString(),
-                                               buyerEmail: order.user!.email.toString(),
-                                               influencerName: order.influencer!.name.toString(),
-                                               influencerEmail: order.influencer!.email.toString(),
-                                               influencerUsername: order.influencer!.username.toString(),
-                                               reason: order.reason.toString(),
-                                               videoUploadId: order.influencerRequestVideos!.first.requestVideoId.toString(),
-                                               videoUrl: order.influencerRequestVideos!.first.videoUrl.toString(),
-                                               ));
-
-                                  }, child: OrderTile(
-                              orderId: order.orderId.toString(),
-                              orderPrice: order.totalPrice.toString(),
-                              show: true,
-                            ),
-                          );
+                                        orderId: order.orderId.toString(),
+                                        expiresAt: order.expiresAt.toString(),
+                                        status: order.status.toString(),
+                                        videoTypeName:
+                                            order.videoType!.name.toString(),
+                                        from: order.from.toString(),
+                                        to: order.to.toString(),
+                                        requiredDays:
+                                            order.requiredDays.toString(),
+                                        description:
+                                            order.description.toString(),
+                                        totalPrice: order.totalPrice.toString(),
+                                        buyerName: order.user!.name.toString(),
+                                        buyerUsername:
+                                            order.user!.username.toString(),
+                                        buyerEmail:
+                                            order.user!.email.toString(),
+                                        influencerName:
+                                            order.influencer!.name.toString(),
+                                        influencerEmail:
+                                            order.influencer!.email.toString(),
+                                        influencerUsername: order
+                                            .influencer!.username
+                                            .toString(),
+                                        reason: order.reason.toString(),
+                                        videoUploadId: order
+                                            .influencerRequestVideos!
+                                            .first
+                                            .requestVideoId
+                                            .toString(),
+                                        videoUrl: order.influencerRequestVideos!
+                                            .first.videoUrl
+                                            .toString(),
+                                      ));
+                                },
+                                child: OrderTile(
+                                  orderId: order.orderId.toString(),
+                                  orderPrice: order.totalPrice.toString(),
+                                  show: true,
+                                ),
+                              );
                             },
                           ),
                         );

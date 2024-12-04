@@ -10,8 +10,6 @@ import 'package:vidbuy_app/model/admin_model/admin_rejected_orders_data_model/re
 import 'package:vidbuy_app/repo/admin_repo/admin_rejected_orders_repo.dart';
 import 'package:vidbuy_app/resources/componenets/admin_canceled_order_tab_bar.dart';
 
-
-
 class AdminRejectedOrdersViewModel with ChangeNotifier {
   AdminRejectedOrdersRepo _adminRejectedOrdersRepo = AdminRejectedOrdersRepo();
 
@@ -24,12 +22,10 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
   //   notifyListeners();
   // }
 
-
-
- ApiResponse<AdminRejectedOrdersDataModel> _adminRejectedOrdersList =
+  ApiResponse<AdminRejectedOrdersDataModel> _adminRejectedOrdersList =
       ApiResponse.loading();
-  ApiResponse<AdminRejectedOrdersDataModel>
-      get adminRejectedOrdersList => _adminRejectedOrdersList;
+  ApiResponse<AdminRejectedOrdersDataModel> get adminRejectedOrdersList =>
+      _adminRejectedOrdersList;
 
   List<RejectedDatum> _orders = []; // Store the list of orders
   List<RejectedDatum> get orders => _orders;
@@ -44,7 +40,8 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchAdminRejectedOrdersList(String? search, {bool isNextPage = false}) async {
+  Future<void> fetchAdminRejectedOrdersList(String? search,
+      {bool isNextPage = false}) async {
     if (_isFetching) return;
 
     String queryParam = "?page=$_currentPage"; // Add pagination parameter
@@ -60,8 +57,9 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
 
     _isFetching = true;
     try {
-      final response = await _adminRejectedOrdersRepo.fetchAdminRejectedOrdersList(queryParam);
-      
+      final response = await _adminRejectedOrdersRepo
+          .fetchAdminRejectedOrdersList(queryParam);
+
       if (response.data!.data?.isEmpty ?? true) {
         _hasMore = false; // No more data
       } else {
@@ -85,9 +83,6 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
   }
 
   bool get hasMore => _hasMore;
-
-
-
 
   // ApiResponse<AdminRejectedOrdersDataModel> _adminRejectedOrdersList =
   //     ApiResponse.loading();
@@ -147,15 +142,10 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
 //     });
 //   }
 
-
-
-
-
-
-ApiResponse<AdminCompletedOrdersDataModel> _adminCompletedOrdersList =
+  ApiResponse<AdminCompletedOrdersDataModel> _adminCompletedOrdersList =
       ApiResponse.loading();
-  ApiResponse<AdminCompletedOrdersDataModel>
-      get adminCompletedOrdersList => _adminCompletedOrdersList;
+  ApiResponse<AdminCompletedOrdersDataModel> get adminCompletedOrdersList =>
+      _adminCompletedOrdersList;
 
   List<CompletedDatum> _completedOrders = []; // List to store completed orders
   List<CompletedDatum> get completedOrders => _completedOrders;
@@ -170,7 +160,8 @@ ApiResponse<AdminCompletedOrdersDataModel> _adminCompletedOrdersList =
     notifyListeners();
   }
 
-  Future<void> fetchAdminCompletedOrdersList(String? search, {bool isNextPage = false}) async {
+  Future<void> fetchAdminCompletedOrdersList(String? search,
+      {bool isNextPage = false}) async {
     if (_isFetching) return;
 
     String queryParam = "?page=$_currentPage"; // Add page number to the query
@@ -186,13 +177,15 @@ ApiResponse<AdminCompletedOrdersDataModel> _adminCompletedOrdersList =
 
     _isFetching = true;
     try {
-      final response = await _adminRejectedOrdersRepo.fetchAdminCompletedOrdersList(queryParam);
+      final response = await _adminRejectedOrdersRepo
+          .fetchAdminCompletedOrdersList(queryParam);
 
       if (response.data?.data!.isEmpty ?? true) {
         _hasMore = false; // No more data available
       } else {
         _currentPage++; // Increment page for next request
-        _completedOrders.addAll(response.data!.data!); // Add new data to the list
+        _completedOrders
+            .addAll(response.data!.data!); // Add new data to the list
       }
 
       setAdminCompletedOrdersList(ApiResponse.completed(response));
@@ -203,15 +196,10 @@ ApiResponse<AdminCompletedOrdersDataModel> _adminCompletedOrdersList =
     }
   }
 
-
-
-
-
-
-   ApiResponse<AdminCompletedOrdersDataModel>
-      _adminRefundOrdersList = ApiResponse.loading();
-  ApiResponse<AdminCompletedOrdersDataModel>
-      get adminRefundOrdersList => _adminRefundOrdersList;
+  ApiResponse<AdminCompletedOrdersDataModel> _adminRefundOrdersList =
+      ApiResponse.loading();
+  ApiResponse<AdminCompletedOrdersDataModel> get adminRefundOrdersList =>
+      _adminRefundOrdersList;
 
   setAdminRefundOrdersList(
       ApiResponse<AdminCompletedOrdersDataModel> response) {
@@ -228,7 +216,8 @@ ApiResponse<AdminCompletedOrdersDataModel> _adminCompletedOrdersList =
       queryParam = "";
     }
     setAdminRefundOrdersList(ApiResponse.loading());
- _adminRejectedOrdersRepo.fetchAdminRefundOrdersList(queryParam)
+    _adminRejectedOrdersRepo
+        .fetchAdminRefundOrdersList(queryParam)
         .then((value) {
       setAdminRefundOrdersList(ApiResponse.completed(value));
       print(value);
@@ -237,9 +226,6 @@ ApiResponse<AdminCompletedOrdersDataModel> _adminCompletedOrdersList =
     });
   }
 
-
-
-  
   bool _changeOrderStatusLoading = false;
   bool get changeOrderStatusLoading => _changeOrderStatusLoading;
 
@@ -262,7 +248,7 @@ ApiResponse<AdminCompletedOrdersDataModel> _adminCompletedOrdersList =
   }
 
   Future<void> fetchChangeOrderStatus(
-      dynamic statusData , String orderId, context) async {
+      dynamic statusData, String orderId, context) async {
     // Map<String, dynamic> statusData = {
     //   'status': status
     //   };

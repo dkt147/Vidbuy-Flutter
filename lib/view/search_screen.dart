@@ -613,7 +613,6 @@ class _SearchScreenState extends State<SearchScreen>
 //   }
 // }
 
-
 class StyledCarouselSlider extends StatefulWidget {
   final List<Map<String, String?>> categories;
   final ValueChanged<String?> onChanged;
@@ -629,7 +628,8 @@ class StyledCarouselSlider extends StatefulWidget {
 
 class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
   int _currentIndex = 0;
-  final CarouselSliderController _carouselController = CarouselSliderController();
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -649,8 +649,7 @@ class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
             itemBuilder: (context, index) {
               final prevIndex = (_currentIndex - 1 + widget.categories.length) %
                   widget.categories.length;
-              final nextIndex =
-                  (_currentIndex + 1) % widget.categories.length;
+              final nextIndex = (_currentIndex + 1) % widget.categories.length;
 
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

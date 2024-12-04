@@ -10,16 +10,15 @@ class FaceIdentity {
   DateTime? updatedAt;
   String? video;
 
-  FaceIdentity({
-    this.id,
-    this.userId,
-    this.link,
-    this.slug,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-    this.video
-  });
+  FaceIdentity(
+      {this.id,
+      this.userId,
+      this.link,
+      this.slug,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.video});
 
   factory FaceIdentity.fromJson(Map<String, dynamic> json) => FaceIdentity(
         id: json['id'] as int?,
@@ -33,7 +32,7 @@ class FaceIdentity {
         updatedAt: json['updated_at'] == null
             ? null
             : DateTime.parse(json['updated_at'] as String),
-            video: json['video'] as String?,
+        video: json['video'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,7 +44,6 @@ class FaceIdentity {
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
         'video': link,
-
       };
 
   @override
@@ -66,5 +64,4 @@ class FaceIdentity {
       createdAt.hashCode ^
       updatedAt.hashCode ^
       video.hashCode;
-
 }

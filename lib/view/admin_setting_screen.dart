@@ -8,6 +8,7 @@ import 'package:vidbuy_app/resources/componenets/main_tabbar_admin_widget.dart';
 import 'package:vidbuy_app/resources/componenets/profile_tile.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/resources/log_out.dart';
+import 'package:vidbuy_app/view/admin_reported_video_screen.dart';
 import 'package:vidbuy_app/view/influencer_donations_screen.dart';
 import 'package:vidbuy_app/view/language_screen.dart';
 import 'package:vidbuy_app/view/notification_setting_screen.dart';
@@ -110,6 +111,18 @@ class AdminProfileScreen extends StatelessWidget {
                           height: 18.h,
                           image: "assets/Icon/layouticon.png",
                           text: "Canceled Orders"),
+                    ),
+                    SizedBox(
+                      height: 17.h,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        navigate(context, AdminReportedVideoScreen());
+                      },
+                      child: ProfileTile(
+                          height: 18.h,
+                          image: "assets/Icon/layouticon.png",
+                          text: "Reported Videos"),
                     ),
                     SizedBox(
                       height: 17.h,

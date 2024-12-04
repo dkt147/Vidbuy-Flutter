@@ -5,7 +5,10 @@ import 'package:vidbuy_app/model/influencer_model/influencer_completed_order_lis
 import 'package:vidbuy_app/model/influencer_model/influencer_pending_orders_data_model/influencer_pending_orders_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_rejected_order_list_data_model/influencer_rejected_order_list_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_waiting_video_list_data_model/influencer_waiting_video_list_data_model.dart';
+import 'package:vidbuy_app/model/notification_update_data_model/notification_update_data_model.dart';
 import 'package:vidbuy_app/repo/influencer_orders_repo.dart';
+import 'package:vidbuy_app/repo/user_home_repo.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 
 class InfluencerOrdersViewModel with ChangeNotifier {
   InfleuncersOrderRepo _influencersOrderRepo = InfleuncersOrderRepo();
@@ -202,6 +205,36 @@ class InfluencerOrdersViewModel with ChangeNotifier {
       print(value);
     }).onError((error, stackTrace) {
       setInfluencerRejectedVideoList(ApiResponse.error(error.toString()));
+    });
+  }
+
+
+    ApiResponse<NotificationUpdateDataModel> _notificationResponse =
+      ApiResponse.loading();
+  ApiResponse<NotificationUpdateDataModel> get notificationResponse =>
+      _notificationResponse;
+
+  setNotificationResponse(ApiResponse<NotificationUpdateDataModel> response) {
+    _notificationResponse = response;
+    _notificationResponse.toString();
+    notifyListeners();
+  }
+
+   UserHomeRepo _userHomeRepo = UserHomeRepo();
+
+  Future<void> fetchNotificationUpdate(String token) async {
+    Map<String, dynamic> notificationData = {
+      "email": LocalData.email.toString(),
+      "token": token
+    };
+    setNotificationResponse(ApiResponse.loading());
+    _userHomeRepo.fetchUserNotifications(notificationData).then((value) {
+      setNotificationResponse(ApiResponse.completed(value));
+      print(
+          "<<<<<<<<<<<<<<<<<<<<<<<<<<<<Fcm Sent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      print(value);
+    }).onError((error, stackTrace) {
+      setNotificationResponse(ApiResponse.error(error.toString()));
     });
   }
 }

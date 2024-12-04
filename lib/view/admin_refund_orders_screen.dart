@@ -14,7 +14,8 @@ class AdminRefundOrdersScreen extends StatefulWidget {
   AdminRefundOrdersScreen({super.key, this.search});
 
   @override
-  State<AdminRefundOrdersScreen> createState() => _AdminRefundOrdersScreenState();
+  State<AdminRefundOrdersScreen> createState() =>
+      _AdminRefundOrdersScreenState();
 }
 
 class _AdminRefundOrdersScreenState extends State<AdminRefundOrdersScreen> {
@@ -96,40 +97,71 @@ class _AdminRefundOrdersScreenState extends State<AdminRefundOrdersScreen> {
                         )
                       : Expanded(
                           child: ListView.builder(
-                            itemCount: value.adminRefundOrdersList.data!.data!
-                                .data!.length,
+                            itemCount: value
+                                .adminRefundOrdersList.data!.data!.data!.length,
                             itemBuilder: (context, index) {
                               final influencer = value.adminRefundOrdersList
                                   .data!.data!.data![index];
 
                               return GestureDetector(
                                   onTap: () {
-
-                                    navigate(context, AdminTaskDetailTabBar(
-                                      videoTypeId: influencer.id.toString(),
-                                       influencerId: influencer.influencer!.id.toString(),
-                                        createdAt: influencer.createdAt.toString(),
-                                         orderId: influencer.orderId.toString(), 
-                                         expiresAt: influencer.expiresAt.toString(),
+                                    navigate(
+                                        context,
+                                        AdminTaskDetailTabBar(
+                                          videoTypeId: influencer.id.toString(),
+                                          influencerId: influencer
+                                              .influencer!.id
+                                              .toString(),
+                                          createdAt:
+                                              influencer.createdAt.toString(),
+                                          orderId:
+                                              influencer.orderId.toString(),
+                                          expiresAt:
+                                              influencer.expiresAt.toString(),
                                           status: influencer.status.toString(),
-                                           videoTypeName: influencer.videoType!.name.toString(),
-                                            from: influencer.from.toString(),
-                                             to: influencer.to.toString(), 
-                                             requiredDays: influencer.requiredDays.toString(),
-                                              description: influencer.description.toString(),
-                                               totalPrice: influencer.totalPrice.toString(),
-                                               buyerName: influencer.user!.name.toString(),
-                                               buyerUsername: influencer.user!.username.toString(),
-                                               buyerEmail: influencer.user!.email.toString(),
-                                               influencerName: influencer.influencer!.name.toString(),
-                                               influencerEmail: influencer.influencer!.email.toString(),
-                                               influencerUsername: influencer.influencer!.username.toString(),
-                                               reason: influencer.reason.toString(),
-                                               videoUploadId: influencer.videoTypeId.toString(),
-                                               videoUrl: influencer.influencerRequestVideos!.first.videoUrl.toString(),
-                                               ));
-
-                                  }, child: OrderTile(orderId: influencer.orderId.toString(), orderPrice: influencer.totalPrice.toString(), show: true,));
+                                          videoTypeName: influencer
+                                              .videoType!.name
+                                              .toString(),
+                                          from: influencer.from.toString(),
+                                          to: influencer.to.toString(),
+                                          requiredDays: influencer.requiredDays
+                                              .toString(),
+                                          description:
+                                              influencer.description.toString(),
+                                          totalPrice:
+                                              influencer.totalPrice.toString(),
+                                          buyerName:
+                                              influencer.user!.name.toString(),
+                                          buyerUsername: influencer
+                                              .user!.username
+                                              .toString(),
+                                          buyerEmail:
+                                              influencer.user!.email.toString(),
+                                          influencerName: influencer
+                                              .influencer!.name
+                                              .toString(),
+                                          influencerEmail: influencer
+                                              .influencer!.email
+                                              .toString(),
+                                          influencerUsername: influencer
+                                              .influencer!.username
+                                              .toString(),
+                                          reason: influencer.reason.toString(),
+                                          videoUploadId:
+                                              influencer.videoTypeId.toString(),
+                                          videoUrl: influencer
+                                              .influencerRequestVideos!
+                                              .first
+                                              .videoUrl
+                                              .toString(),
+                                        ));
+                                  },
+                                  child: OrderTile(
+                                    orderId: influencer.orderId.toString(),
+                                    orderPrice:
+                                        influencer.totalPrice.toString(),
+                                    show: true,
+                                  ));
                             },
                           ),
                         );

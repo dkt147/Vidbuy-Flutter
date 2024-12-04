@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/data/response/status.dart';
+import 'package:vidbuy_app/notification_services/notification_services.dart';
 import 'package:vidbuy_app/resources/componenets/all_task_tile.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_task_detail_tabbar_widget.dart';
@@ -24,12 +25,20 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
   InfluencerOrdersViewModel influencersOrdersViewModel =
       InfluencerOrdersViewModel();
 
+       NotificationServices notificationServices = NotificationServices();
+
   @override
   void initState() {
     super.initState();
     // influencersOrdersViewModel = Provider.of<InfluencerOrdersViewModel>(context, listen: false);
     // Initial API call
     influencersOrdersViewModel.fetchInfluencerAllOrdersList(widget.date);
+
+    notificationServices.getDeviceToken().then((value) {
+      influencersOrdersViewModel.fetchNotificationUpdate(value.toString());
+      print("device token");
+      print(value);
+    });
   }
 
   @override

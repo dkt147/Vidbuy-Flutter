@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
+import 'package:vidbuy_app/model/notification_update_data_model/notification_update_data_model.dart';
 import 'package:vidbuy_app/model/user_model/give_away_data_model/give_away_data_model.dart';
 import 'package:vidbuy_app/model/user_model/recently_added_data_model/recently_added_data_model.dart';
 import 'package:vidbuy_app/model/user_model/trending_influencers_data_model/trending_influencers_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_search_data_model/user_search_data_model.dart';
 import 'package:vidbuy_app/repo/user_home_repo.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 
 class HomeScreenViewModel with ChangeNotifier {
   UserHomeRepo _userHomeRepo = UserHomeRepo();
@@ -202,6 +204,33 @@ class HomeScreenViewModel with ChangeNotifier {
     _debounce = Timer(const Duration(seconds: 1), () {
       // After 500 ms, fetch search results
       fetchSearchInfluencerList(searchText);
+    });
+  }
+
+  ApiResponse<NotificationUpdateDataModel> _notificationResponse =
+      ApiResponse.loading();
+  ApiResponse<NotificationUpdateDataModel> get notificationResponse =>
+      _notificationResponse;
+
+  setNotificationResponse(ApiResponse<NotificationUpdateDataModel> response) {
+    _notificationResponse = response;
+    _notificationResponse.toString();
+    notifyListeners();
+  }
+
+  Future<void> fetchNotificationUpdate(String token) async {
+    Map<String, dynamic> notificationData = {
+      "email": LocalData.email.toString(),
+      "token": token
+    };
+    setNotificationResponse(ApiResponse.loading());
+    _userHomeRepo.fetchUserNotifications(notificationData).then((value) {
+      setNotificationResponse(ApiResponse.completed(value));
+      print(
+          "<<<<<<<<<<<<<<<<<<<<<<<<<<<<Fcm Sent>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      print(value);
+    }).onError((error, stackTrace) {
+      setNotificationResponse(ApiResponse.error(error.toString()));
     });
   }
 }

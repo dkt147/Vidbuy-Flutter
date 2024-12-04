@@ -1,6 +1,7 @@
 import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/data/network/network_api_services.dart';
 import 'package:vidbuy_app/model/influencer_model/influencer_category_data_model/influencer_category_data_model.dart';
+import 'package:vidbuy_app/model/notification_update_data_model/notification_update_data_model.dart';
 import 'package:vidbuy_app/model/user_model/give_away_data_model/give_away_data_model.dart';
 import 'package:vidbuy_app/model/user_model/recently_added_data_model/recently_added_data_model.dart';
 import 'package:vidbuy_app/model/user_model/trending_influencers_data_model/trending_influencers_data_model.dart';
@@ -56,6 +57,17 @@ class UserHomeRepo {
       dynamic response = await apiServices.getPostApiResponse(
           AppUrl.searchInfluencerUrl, data, true);
       return response = UserSearchDataModel.fromJson(response);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<NotificationUpdateDataModel> fetchUserNotifications(
+      dynamic data) async {
+    try {
+      dynamic response = await apiServices.getPostApiResponse(
+          AppUrl.userNotificationUrl, data, true);
+      return response = NotificationUpdateDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }

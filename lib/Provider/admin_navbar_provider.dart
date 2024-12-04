@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_order_tabbar.dart';
+import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
 import 'package:vidbuy_app/view/admin_setting_screen.dart';
 import 'package:vidbuy_app/view/influencer_unique_profile.dart';
 
@@ -12,7 +13,8 @@ final screens = [
   // InfluencerDonationsTabbarWidget(),
   // UserDonationsTabBarWidget(),
   // InfluencerOrderTabbar(),
-  AdminProfileScreen()
+  AdminDashboardScreen(),
+  const AdminProfileScreen()
   //  OtpScren(),
 
   // const HomeScreen(),

@@ -263,7 +263,7 @@ class _AdminOrdersDetailsScreenState extends State<AdminOrdersDetailsScreen> {
               ),
             ),
 
-             Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -283,7 +283,7 @@ class _AdminOrdersDetailsScreenState extends State<AdminOrdersDetailsScreen> {
                 ],
               ),
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -303,7 +303,7 @@ class _AdminOrdersDetailsScreenState extends State<AdminOrdersDetailsScreen> {
                 ],
               ),
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -337,7 +337,7 @@ class _AdminOrdersDetailsScreenState extends State<AdminOrdersDetailsScreen> {
               ),
             ),
 
-                Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -357,7 +357,7 @@ class _AdminOrdersDetailsScreenState extends State<AdminOrdersDetailsScreen> {
                 ],
               ),
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -377,7 +377,7 @@ class _AdminOrdersDetailsScreenState extends State<AdminOrdersDetailsScreen> {
                 ],
               ),
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

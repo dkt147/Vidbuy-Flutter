@@ -140,10 +140,14 @@ class _AdminCanceledOrderTabBarState extends State<AdminCanceledOrderTabBar>
       body: TabBarView(
         controller: _tabController,
         children: [
-          CancelRequestScreen(search: searchText,),
-          AdminCompletedOrderScreen(search : searchText),
-          AdminRefundOrdersScreen(search: searchText,)
-          ],
+          CancelRequestScreen(
+            search: searchText,
+          ),
+          AdminCompletedOrderScreen(search: searchText),
+          AdminRefundOrdersScreen(
+            search: searchText,
+          )
+        ],
       ),
     );
   }

@@ -36,25 +36,25 @@ class AdminNavbar extends StatelessWidget {
                 padding: EdgeInsets.only(left: 63.w, right: 63.w),
                 color: Colors.white,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     value.changeScreen(0);
-                    //   },
-                    //   child: AnimatedContainer(
-                    //     margin: EdgeInsets.only(top: 6.h, bottom: 4.h),
-                    //     duration: Duration(seconds: 2),
-                    //     child: Image.asset(
-                    //       value.screen == 0
-                    //           ? "assets/Icon/Home.png"
-                    //           : "assets/Icon/Home2.png",
-                    //       height: 30.h,
-                    //       // color: value.screen == 0 ? Colors.blue : null,
-                    //     ),
-                    //   ),
-                    // ),
+                    GestureDetector(
+                      onTap: () {
+                        value.changeScreen(0);
+                      },
+                      child: AnimatedContainer(
+                        margin: EdgeInsets.only(top: 6.h, bottom: 4.h),
+                        duration: Duration(seconds: 2),
+                        child: Image.asset(
+                          value.screen == 0
+                              ? "assets/Icon/Home.png"
+                              : "assets/Icon/Home2.png",
+                          height: 30.h,
+                          // color: value.screen == 0 ? Colors.blue : null,
+                        ),
+                      ),
+                    ),
                     // Expanded(
                     //     flex: 1,
                     //     child: SizedBox(
@@ -125,7 +125,7 @@ class AdminNavbar extends StatelessWidget {
                     // ),
                     GestureDetector(
                       onTap: () {
-                        value.changeScreen(0);
+                        value.changeScreen(1);
                       },
                       child: AnimatedContainer(
                         margin: EdgeInsets.only(top: 6.h, bottom: 4.h),
@@ -137,7 +137,7 @@ class AdminNavbar extends StatelessWidget {
                         //   shape: BoxShape.circle,
                         // ),
                         child: Image.asset(
-                          value.screen == 0
+                          value.screen == 1
                               ? "assets/Icon/profile2.png"
                               : "assets/Icon/profile.png",
                           height: 29.h,

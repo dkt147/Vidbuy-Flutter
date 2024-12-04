@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
@@ -8,8 +9,11 @@ import 'package:vidbuy_app/view/check_email_screen.dart';
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
+  static const route = '/notification-screen';
+
   @override
   Widget build(BuildContext context) {
+    final message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
     return Scaffold(
       body: Column(
         children: [
@@ -46,7 +50,9 @@ class NotificationScreen extends StatelessWidget {
               child: Column(
                 children: [
                   NotificationTile(
-                      title: "Headaer", message: "message", date: "date"),
+                      title: message.notification?.title ?? "",
+                      message: message.notification?.body ?? "",
+                      date: "date"),
                   NotificationTile(
                       title: "Headaer", message: "message", date: "date"),
                   NotificationTile(

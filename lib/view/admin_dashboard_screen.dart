@@ -313,12 +313,27 @@
 //     ];
 //   }
 // }
-import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 
 class AdminDashboardScreen extends StatelessWidget {
+  final List<double> barData = [
+    1,
+    1.5,
+    2,
+    2.5,
+    3,
+    2.5,
+    2.0,
+    1.5,
+    1,
+    1.5,
+    2,
+    2.5
+  ];
+
   @override
   Widget build(BuildContext context) {
     // ScreenUtil.init(context, designSize: Size(375, 812));
@@ -339,62 +354,393 @@ class AdminDashboardScreen extends StatelessWidget {
         //   'Admin Home',
         //   style: TextStyle(color: Colors.black),
         // ),
-        bottom: PreferredSize(
-          preferredSize: Size(double.infinity, 50.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Content(
-                data: "Influncers",
-                size: 16.h,
-                family: "Lato",
-                weight: FontWeight.w500,
-              ),
-              // Text('Influencers', style: TextStyle(color: Colors.black, fontSize: 16.sp)),
-              Content(
-                data: "Users",
-                size: 16.h,
-                family: "Lato",
-                weight: FontWeight.w500,
-              ),
-              Content(
-                data: "Billing",
-                size: 16.h,
-                family: "Lato",
-                weight: FontWeight.w500,
-              ),
-            ],
-          ),
-        ),
+        // bottom: PreferredSize(
+        //   preferredSize: Size(double.infinity, 50.h),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //     children: [
+        //       Content(
+        //         data: "Influncers",
+        //         size: 16.h,
+        //         family: "Lato",
+        //         weight: FontWeight.w500,
+        //       ),
+        //       // Text('Influencers', style: TextStyle(color: Colors.black, fontSize: 16.sp)),
+        //       Content(
+        //         data: "Users",
+        //         size: 16.h,
+        //         family: "Lato",
+        //         weight: FontWeight.w500,
+        //       ),
+        //       Content(
+        //         data: "Billing",
+        //         size: 16.h,
+        //         family: "Lato",
+        //         weight: FontWeight.w500,
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 16.h),
-            Center(child: _buildStatCard()),
-            SizedBox(height: 16.h),
-            _buildBarChartSection(
-              title: "Graphic Representation",
-              xLabels: [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-              ],
-              barColor: Color(0xff4A3AFF),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 16.h),
+          Center(child: _buildStatCard()),
+          SizedBox(height: 16.h),
+          Center(
+            child: SizedBox(
+              height: 285.h,
+              width: 330.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+            Text(
+            "Graphic Representation",
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w300,
+            color: Colors.black.withOpacity(0.5)
             ),
-            SizedBox(height: 16.h),
-            _buildBarChartSection(
-              title: "Graphical representation\nInfluencers",
-              xLabels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-              barColor: Color(0xff85848F),
-            ),
-          ],
+          ),
+          Content(
+            data: "Influencers",
+            size: 18.sp,
+            weight: FontWeight.bold,
+            // family: "Lato",
+          ),
+          SizedBox(height: 10.h),
+          Divider(
+          color: Colors.black.withOpacity(0.2),
+          endIndent: 1.w,
+          indent: 1.w,
         ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     Container(
+          //       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+          //       decoration: BoxDecoration(
+          //         color: Colors.grey.shade200,
+          //         borderRadius: BorderRadius.circular(20.r),
+          //       ),
+          //       child: Row(
+          //         children: [
+          //           Text("Month", style: TextStyle(fontSize: 14.sp)),
+          //           Icon(Icons.arrow_drop_down),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: SizedBox(
+                      height: 200.h,
+                      width: 330.w,
+                      child: BarChart(
+                        BarChartData(
+                            alignment: BarChartAlignment.spaceAround,
+                            maxY: 3,
+                            minY: 0,
+                            barTouchData: BarTouchData(enabled: true),
+                            titlesData: FlTitlesData(
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitlesWidget: (value, meta) {
+                                    if (value == 0) {
+                                      return Text(
+                                        '0',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.black.withOpacity(0.5),
+                                        ),
+                                      );
+                                    } else if (value % 1 == 0) {
+                                      return Text(
+                                        '${value.toInt()}k',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.black.withOpacity(0.5),
+                                        ),
+                                      );
+                                    }
+                                    return SizedBox.shrink();
+                                  },
+                                  interval: 1,
+                                  reservedSize: 24,
+                                ),
+                              ),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitlesWidget: (value, meta) {
+                                    const months = [
+                                      'Jan',
+                                      'Feb',
+                                      'Mar',
+                                      'Apr',
+                                      'May',
+                                      'Jun',
+                                      'Jul',
+                                      'Aug',
+                                      'Sep',
+                                      'Oct',
+                                      'Nov',
+                                      'Dec'
+                                    ];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 7),
+                                      child: Text(
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.black.withOpacity(0.5),
+                                          ),
+                                          months[value.toInt()]),
+                                    );
+                                  },
+                                  reservedSize: 40.h,
+                                ),
+                              ),
+                              rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(
+                                    showTitles: false), // Remove right titles
+                              ),
+                              topTitles: const AxisTitles(
+                                sideTitles:
+                                    SideTitles(showTitles: false), // Remove top titles
+                              ),
+                            ),
+                            gridData: FlGridData(
+                              show: true,
+                              drawVerticalLine: false,
+                              drawHorizontalLine: true,
+                              horizontalInterval: 1,
+                              checkToShowHorizontalLine: (value) {
+                                return value == 0 ||
+                                    value == 1 ||
+                                    value == 2 ||
+                                    value == 3;
+                              },
+                              getDrawingHorizontalLine: (value) {
+                                return const FlLine(
+                                  color: Colors.grey,
+                                  strokeWidth: 1,
+                                  dashArray: [5, 5], // Dashed line
+                                );
+                              },
+                            ),
+                            barGroups: List.generate(12, (index) {
+                              return BarChartGroupData(
+                                x: index,
+                                barRods: [
+                                  BarChartRodData(
+                                    toY: barData[index], // Example data
+                                    color: const Color(0xFF4A3AFF),
+                                    width: 19.w,
+                                    borderRadius:
+                                        BorderRadius.zero, // Remove rounded corners
+                                    borderSide:
+                                        BorderSide.none, // Ensure no border is applied
+                                  )
+                                ],
+                              );
+                            }),
+                            borderData: FlBorderData(show: false)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+
+          SizedBox(height: 40.h,),
+          Center(
+            child: SizedBox(
+              height: 285.h,
+              width: 330.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+            Text(
+            "Graphic Representation",
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w300,
+            color: Colors.black.withOpacity(0.5)
+            ),
+          ),
+          Content(
+            data: "Influencers",
+            size: 18.sp,
+            weight: FontWeight.bold,
+            // family: "Lato",
+          ),
+          SizedBox(height: 10.h),
+          Divider(
+          color: Colors.black.withOpacity(0.2),
+          endIndent: 1.w,
+          indent: 1.w,
+        ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     Container(
+          //       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+          //       decoration: BoxDecoration(
+          //         color: Colors.grey.shade200,
+          //         borderRadius: BorderRadius.circular(20.r),
+          //       ),
+          //       child: Row(
+          //         children: [
+          //           Text("Month", style: TextStyle(fontSize: 14.sp)),
+          //           Icon(Icons.arrow_drop_down),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: SizedBox(
+                      height: 200.h,
+                      width: 330.w,
+                      child: BarChart(
+                        BarChartData(
+                            alignment: BarChartAlignment.spaceAround,
+                            maxY: 3,
+                            minY: 0,
+                            barTouchData: BarTouchData(enabled: true),
+                            titlesData: FlTitlesData(
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitlesWidget: (value, meta) {
+                                    if (value == 0) {
+                                      return Text(
+                                        '0',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.black.withOpacity(0.5),
+                                        ),
+                                      );
+                                    } else if (value % 1 == 0) {
+                                      return Text(
+                                        '${value.toInt()}k',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.black.withOpacity(0.5),
+                                        ),
+                                      );
+                                    }
+                                    return SizedBox.shrink();
+                                  },
+                                  interval: 1,
+                                  reservedSize: 24,
+                                ),
+                              ),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitlesWidget: (value, meta) {
+                                    const months = [
+                                      'Jan',
+                                      'Feb',
+                                      'Mar',
+                                      'Apr',
+                                      'May',
+                                      'Jun',
+                                      'Jul',
+                                      'Aug',
+                                      'Sep',
+                                      'Oct',
+                                      'Nov',
+                                      'Dec'
+                                    ];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 7),
+                                      child: Text(
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.black.withOpacity(0.5),
+                                          ),
+                                          months[value.toInt()]),
+                                    );
+                                  },
+                                  reservedSize: 40.h,
+                                ),
+                              ),
+                              rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(
+                                    showTitles: false), // Remove right titles
+                              ),
+                              topTitles: const AxisTitles(
+                                sideTitles:
+                                    SideTitles(showTitles: false), // Remove top titles
+                              ),
+                            ),
+                            gridData: FlGridData(
+                              show: true,
+                              drawVerticalLine: false,
+                              drawHorizontalLine: true,
+                              horizontalInterval: 1,
+                              checkToShowHorizontalLine: (value) {
+                                return value == 0 ||
+                                    value == 1 ||
+                                    value == 2 ||
+                                    value == 3;
+                              },
+                              getDrawingHorizontalLine: (value) {
+                                return const FlLine(
+                                  color: Colors.grey,
+                                  strokeWidth: 1,
+                                  dashArray: [5, 5], // Dashed line
+                                );
+                              },
+                            ),
+                            barGroups: List.generate(12, (index) {
+                              return BarChartGroupData(
+                                x: index,
+                                barRods: [
+                                  BarChartRodData(
+                                    toY: barData[index], // Example data
+                                    color: Colors.grey,
+                                    width: 19.w,
+                                    borderRadius:
+                                        BorderRadius.zero, // Remove rounded corners
+                                    borderSide:
+                                        BorderSide.none, // Ensure no border is applied
+                                  )
+                                ],
+                              );
+                            }),
+                            borderData: FlBorderData(show: false)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // _buildBarChartSection(
+          //   title: "Graphic Representation",
+          //   xLabels: [
+          //     "Jan",
+          //     "Feb",
+          //     "Mar",
+          //     "Apr",
+          //     "May",
+          //     "Jun",
+          //   ],
+          //   barColor: Color(0xff4A3AFF),
+          // ),
+          // SizedBox(height: 16.h),
+          // _buildBarChartSection(
+          //   title: "Graphical representation\nInfluencers",
+          //   xLabels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          //   barColor: Color(0xff85848F),
+          // ),
+        ],
       ),
     );
   }
@@ -405,7 +751,7 @@ class AdminDashboardScreen extends StatelessWidget {
       height: 80.h,
       decoration: BoxDecoration(
         // color: Colors.green,
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           // begin: Alignment.topRight,
           // end: Alignment.bottomLeft,
           // stops: [
@@ -455,113 +801,115 @@ class AdminDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBarChartSection({
-    required String title,
-    required List<String> xLabels,
-    required Color barColor,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 6,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Text(
-          //   title,
-          //   style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-          // ),
-          Content(
-            data: title,
-            size: 18.h,
-            weight: FontWeight.w400,
-            family: "Lato",
-          ),
-          Content(
-            data: "Influencer",
-            size: 20.h,
-            weight: FontWeight.w700,
-            family: "Lato",
-          ),
-          // SizedBox(height: 10.h),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children: [
-          //     Container(
-          //       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-          //       decoration: BoxDecoration(
-          //         color: Colors.grey.shade200,
-          //         borderRadius: BorderRadius.circular(20.r),
-          //       ),
-          //       child: Row(
-          //         children: [
-          //           Text("Month", style: TextStyle(fontSize: 14.sp)),
-          //           Icon(Icons.arrow_drop_down),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          SizedBox(height: 10.h),
-          AspectRatio(
-            aspectRatio: 1.6, // Adjust this ratio to fit the chart better
-            child: BarChart(
-              BarChartData(
-                alignment: BarChartAlignment.spaceAround,
-                maxY: 3000, // Adjust maxY to fit your data
-                barTouchData: BarTouchData(enabled: false),
-                // titlesData: FlTitlesData(
-                //   // bottomTitles: AxisTitles(
-                //   //   sideTitles: SideTitles(
-                //   //     // showTitles: true,
-                //   //     getTitlesWidget: (value, meta) {
-                //   //       return Text(
-                //   //         xLabels[value.toInt()],
-                //   //         style: TextStyle(fontSize: 12.h),
-                //   //       );
-                //   //     },
-                //   //   ),
-                //   // ),
-                //   // leftTitles: AxisTitles(
-                //   //   sideTitles: SideTitles(
-                //   //     showTitles: true,
-                //   //     getTitlesWidget: (value, meta) {
-                //   //       return Text(
-                //   //         '${(value / 1000).toStringAsFixed(1)}k',
-                //   //         style: TextStyle(fontSize: 12.sp),
-                //   //       );
-                //   //     },
-                //   //     interval: 500, // Adjust interval to fit better
-                //   //   ),
-                //   // ),
-                // ),
-                barGroups: [
-                  for (int i = 0; i < xLabels.length; i++)
-                    BarChartGroupData(
-                      x: i,
-                      barRods: [
-                        BarChartRodData(
-                          toY: (i + 1) * 200.0.h, // Adjust bar height here
-                          color: barColor,
-                          width: 12.w, // Bar width adjusted
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildBarChartSection({
+  //   required String title,
+  //   required List<String> xLabels,
+  //   required Color barColor,
+  // }) {
+  //   return Container(
+  //     padding: EdgeInsets.all(12.w),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(12.r),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.grey.withOpacity(0.1),
+  //           spreadRadius: 2,
+  //           blurRadius: 6,
+  //         ),
+  //       ],
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         // Text(
+  //         //   title,
+  //         //   style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+  //         // ),
+  //         // Content(
+  //         //   data: title,
+  //         //   size: 18.h,
+  //         //   weight: FontWeight.w400,
+  //         //   family: "Lato",
+  //         // ),
+  //         // Content(
+  //         //   data: "Influencer",
+  //         //   size: 20.h,
+  //         //   weight: FontWeight.w700,
+  //         //   family: "Lato",
+  //         // ),
+  //         // SizedBox(height: 10.h),
+  //         // Row(
+  //         //   mainAxisAlignment: MainAxisAlignment.end,
+  //         //   children: [
+  //         //     Container(
+  //         //       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+  //         //       decoration: BoxDecoration(
+  //         //         color: Colors.grey.shade200,
+  //         //         borderRadius: BorderRadius.circular(20.r),
+  //         //       ),
+  //         //       child: Row(
+  //         //         children: [
+  //         //           Text("Month", style: TextStyle(fontSize: 14.sp)),
+  //         //           Icon(Icons.arrow_drop_down),
+  //         //         ],
+  //         //       ),
+  //         //     ),
+  //         //   ],
+  //         // ),
+  //         SizedBox(height: 10.h),
+  //         // AspectRatio(
+  //         //   aspectRatio: 1.6, // Adjust this ratio to fit the chart better
+  //         //   child: BarChart(
+  //         //     BarChartData(
+  //         //       alignment: BarChartAlignment.spaceAround,
+  //         //       maxY: 3000, // Adjust maxY to fit your data
+  //         //       barTouchData: BarTouchData(enabled: false),
+  //         //       // titlesData: FlTitlesData(
+  //         //       //   // bottomTitles: AxisTitles(
+  //         //       //   //   sideTitles: SideTitles(
+  //         //       //   //     // showTitles: true,
+  //         //       //   //     getTitlesWidget: (value, meta) {
+  //         //       //   //       return Text(
+  //         //       //   //         xLabels[value.toInt()],
+  //         //       //   //         style: TextStyle(fontSize: 12.h),
+  //         //       //   //       );
+  //         //       //   //     },
+  //         //       //   //   ),
+  //         //       //   // ),
+  //         //       //   // leftTitles: AxisTitles(
+  //         //       //   //   sideTitles: SideTitles(
+  //         //       //   //     showTitles: true,
+  //         //       //   //     getTitlesWidget: (value, meta) {
+  //         //       //   //       return Text(
+  //         //       //   //         '${(value / 1000).toStringAsFixed(1)}k',
+  //         //       //   //         style: TextStyle(fontSize: 12.sp),
+  //         //       //   //       );
+  //         //       //   //     },
+  //         //       //   //     interval: 500, // Adjust interval to fit better
+  //         //       //   //   ),
+  //         //       //   // ),
+  //         //       // ),
+  //         //       barGroups: [
+  //         //         for (int i = 0; i < xLabels.length; i++)
+  //         //           BarChartGroupData(
+  //         //             x: i,
+  //         //             barRods: [
+  //         //               BarChartRodData(
+  //         //                 toY: (i + 1) * 200.0.h, // Adjust bar height here
+  //         //                 color: barColor,
+  //         //                 width: 12.w, // Bar width adjusted
+  //         //               ),
+  //         //             ],
+  //         //           ),
+  //         //       ],
+  //         //     ),
+  //         //   ),
+  //         // ),
+
+  //         SizedBox(height: 70.h,)
+  //       ],
+  //     ),
+  //   );
+  // }
 }

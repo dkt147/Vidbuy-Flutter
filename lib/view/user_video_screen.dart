@@ -85,8 +85,7 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
     }
   }
 
-
-    Widget _buildAskNewVideoUI() {
+  Widget _buildAskNewVideoUI() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +104,6 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
       ),
     );
   }
-
 
   Widget _buildNotSelectedUI() {
     return Center(

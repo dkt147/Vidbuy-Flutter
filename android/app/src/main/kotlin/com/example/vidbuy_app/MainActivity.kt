@@ -1,4 +1,4 @@
-package com.example.vidbuy_app
+package vidbuy.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -161,10 +161,9 @@ class _VideoScreenState extends State<VideoScreen> {
       return _buildRejectedByInfluencerUI();
     } else if (widget.status == "Rejected by user") {
       return _buildRejectedByUserUI();
-    }else if (widget.status == "Ask new video") {
+    } else if (widget.status == "Ask new video") {
       return _buildAskNewVideoUI();
-    } 
-    else {
+    } else {
       return Center(child: Text("Unknown status"));
     }
   }

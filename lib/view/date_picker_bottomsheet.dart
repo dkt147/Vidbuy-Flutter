@@ -181,13 +181,11 @@ void showDatePickerBottomSheet(
                   ),
                 ),
                 headerStyle: HeaderStyle(
-                  formatButtonVisible: false,
-                  titleCentered: true,
-                  leftChevronVisible: false,
-                  rightChevronVisible: false,
-                  headerPadding: EdgeInsets.zero
-                  
-                ),
+                    formatButtonVisible: false,
+                    titleCentered: true,
+                    leftChevronVisible: false,
+                    rightChevronVisible: false,
+                    headerPadding: EdgeInsets.zero),
               ),
             ),
             Padding(
@@ -215,10 +213,11 @@ void showDatePickerBottomSheet(
                           DateTime.now().minute,
                           DateTime.now().second,
                         );
-                        String formattedDate =
-                            DateFormat('yyyy-MM-dd HH:mm:ss').format(finalDateTime);
+                        String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss')
+                            .format(finalDateTime);
                         Navigator.pop(context); // Close the bottom sheet
-                        onDateSelected(formattedDate); // Pass the final timestamp
+                        onDateSelected(
+                            formattedDate); // Pass the final timestamp
                       },
                       child: Center(
                         child: Text(
