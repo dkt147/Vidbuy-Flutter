@@ -17,9 +17,11 @@ import 'package:vidbuy_app/view/influencer_navbar_screen.dart';
 import 'package:vidbuy_app/view/nav_bar.dart';
 import 'package:vidbuy_app/view/pending_account_screen.dart';
 import 'package:vidbuy_app/view/splash_screen.dart';
+import 'package:vidbuy_app/viewmodel/admin_view_model/admin_home_view_model.dart';
 import 'package:vidbuy_app/viewmodel/admin_view_model/admin_influencer_list_view_model.dart';
 import 'package:vidbuy_app/viewmodel/admin_view_model/admin_rejected_orders_view_model.dart';
 import 'package:vidbuy_app/viewmodel/change_language_view_model.dart';
+import 'package:vidbuy_app/viewmodel/forgot_password_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_selection_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_signup_view_model.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
@@ -27,6 +29,7 @@ import 'package:vidbuy_app/viewmodel/influencer_view_model/influencers_orders_vi
 import 'package:vidbuy_app/viewmodel/influencer_view_model/setting_view_model.dart';
 import 'package:vidbuy_app/viewmodel/log_out_view_model.dart';
 import 'package:vidbuy_app/viewmodel/login_view_model.dart';
+import 'package:vidbuy_app/viewmodel/notification_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/contact_us_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/create_order_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/home_screen_view_model.dart';
@@ -98,6 +101,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => AdminInfluencersViewModel()),
           ChangeNotifierProvider(create: (_) => LogoutProfileViewModel()),
           ChangeNotifierProvider(create: (_) => AdminRejectedOrdersViewModel()),
+          ChangeNotifierProvider(create: (_) => NotificationViewModel()),
+          ChangeNotifierProvider(create: (_) => AdminHomeViewModel()),
+          ChangeNotifierProvider(create: (_) => ForgotPasswordViewModel()),
         ],
         child: Builder(builder: (BuildContext context) {
           return ScreenUtilInit(

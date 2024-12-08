@@ -1,14 +1,14 @@
 import 'package:collection/collection.dart';
 
 class Link {
-  dynamic url;
+  String? url;
   String? label;
   bool? active;
 
   Link({this.url, this.label, this.active});
 
   factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json['url'] as dynamic,
+        url: json['url'] as String?,
         label: json['label'] as String?,
         active: json['active'] as bool?,
       );

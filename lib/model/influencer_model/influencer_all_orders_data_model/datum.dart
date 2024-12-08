@@ -1,9 +1,10 @@
 import 'package:collection/collection.dart';
 
+import 'influencer_request_video.dart';
 import 'user.dart';
 import 'video_type.dart';
 
-class Datum {
+class InfluencersAllOrdersDatum {
   int? id;
   int? userId;
   int? influencerId;
@@ -19,15 +20,16 @@ class Datum {
   String? status;
   String? orderId;
   dynamic paymentStatus;
-  dynamic reason;
+  String? reason;
+  int? hideInProfile;
   DateTime? createdAt;
   DateTime? updatedAt;
-  DateTime? expiresAt;
-
+  String? expiresAt;
   User? user;
   VideoType? videoType;
+  List<InfluencerRequestVideo>? influencerRequestVideos;
 
-  Datum({
+  InfluencersAllOrdersDatum({
     this.id,
     this.userId,
     this.influencerId,
@@ -44,14 +46,17 @@ class Datum {
     this.orderId,
     this.paymentStatus,
     this.reason,
+    this.hideInProfile,
     this.createdAt,
     this.updatedAt,
     this.expiresAt,
     this.user,
     this.videoType,
+    this.influencerRequestVideos,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory InfluencersAllOrdersDatum.fromJson(Map<String, dynamic> json) =>
+      InfluencersAllOrdersDatum(
         id: json['id'] as int?,
         userId: json['user_id'] as int?,
         influencerId: json['influencer_id'] as int?,
@@ -67,22 +72,26 @@ class Datum {
         status: json['status'] as String?,
         orderId: json['order_id'] as String?,
         paymentStatus: json['payment_status'] as dynamic,
-        reason: json['reason'] as dynamic,
+        reason: json['reason'] as String?,
+        hideInProfile: json['hide_in_profile'] as int?,
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at'] as String),
         updatedAt: json['updated_at'] == null
             ? null
             : DateTime.parse(json['updated_at'] as String),
-        expiresAt: json['expires_at'] == null
-            ? null
-            : DateTime.parse(json['expires_at'] as String),
+        expiresAt: json['expires_at'] as String?,
         user: json['user'] == null
             ? null
             : User.fromJson(json['user'] as Map<String, dynamic>),
         videoType: json['video_type'] == null
             ? null
             : VideoType.fromJson(json['video_type'] as Map<String, dynamic>),
+        influencerRequestVideos:
+            (json['influencer_request_videos'] as List<dynamic>?)
+                ?.map((e) =>
+                    InfluencerRequestVideo.fromJson(e as Map<String, dynamic>))
+                .toList(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -102,17 +111,20 @@ class Datum {
         'order_id': orderId,
         'payment_status': paymentStatus,
         'reason': reason,
+        'hide_in_profile': hideInProfile,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
-        'expires_at': updatedAt?.toIso8601String(),
+        'expires_at': expiresAt,
         'user': user?.toJson(),
         'video_type': videoType?.toJson(),
+        'influencer_request_videos':
+            influencerRequestVideos?.map((e) => e.toJson()).toList(),
       };
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Datum) return false;
+    if (other is! InfluencersAllOrdersDatum) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }
@@ -135,9 +147,11 @@ class Datum {
       orderId.hashCode ^
       paymentStatus.hashCode ^
       reason.hashCode ^
+      hideInProfile.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
       expiresAt.hashCode ^
       user.hashCode ^
-      videoType.hashCode;
+      videoType.hashCode ^
+      influencerRequestVideos.hashCode;
 }

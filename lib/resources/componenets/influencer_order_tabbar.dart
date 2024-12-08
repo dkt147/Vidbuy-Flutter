@@ -125,7 +125,9 @@ class _InfluencerOrderTabbarState extends State<InfluencerOrderTabbar>
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Content(
-                            data: "Expire Date",
+                            data: selectedDate != null
+                                ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}" // Format as dd/mm/yy
+                                : "Expire Date",
                             size: 18.h,
                             color: Colors.white,
                             weight: FontWeight.w300,

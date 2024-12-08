@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 class Influencer {
   int? id;
   int? userId;
-  int? languageId;
+  dynamic languageId;
   int? pushNotification;
   int? emailNotification;
   int? priceRangeId;
@@ -26,7 +26,7 @@ class Influencer {
   factory Influencer.fromJson(Map<String, dynamic> json) => Influencer(
         id: json['id'] as int?,
         userId: json['user_id'] as int?,
-        languageId: json['language_id'] as int?,
+        languageId: json['language_id'] as dynamic,
         pushNotification: json['push_notification'] as int?,
         emailNotification: json['email_notification'] as int?,
         priceRangeId: json['price_range_id'] as int?,

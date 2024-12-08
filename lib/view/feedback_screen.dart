@@ -47,7 +47,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      navigate(context, SuccessPaymentScreen());
+                      navigatePushReplace(context, SuccessPaymentScreen());
                     },
                     child: Icon(
                       Icons.cancel,

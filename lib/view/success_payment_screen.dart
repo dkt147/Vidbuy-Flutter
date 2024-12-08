@@ -111,9 +111,9 @@ class _SuccessPaymentScreenState extends State<SuccessPaymentScreen> {
                   //   //     MaterialPageRoute(
                   //   //         builder: (_) => TabBarWidget()));
                   // navigate(context, DonationBottomSheetWidget());
-                  bottomSheetWidget(context);
+                  // bottomSheetWidget(context);
 
-                  navigatePushReplace(context, NavBarScreen());
+                  Navigator.pop(context);
 
                   // }
                 },

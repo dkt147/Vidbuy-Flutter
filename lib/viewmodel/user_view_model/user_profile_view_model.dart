@@ -8,9 +8,11 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/delete_account_data_model.dart';
 import 'package:vidbuy_app/model/user_model/change_password_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_edit_profile_data_model/user.dart';
 import 'package:vidbuy_app/model/user_model/user_edit_profile_data_model/user_edit_profile_data_model.dart';
 import 'package:vidbuy_app/model/verify_passwrod_data_model.dart';
 import 'package:vidbuy_app/repo/user_profile_repo.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/resources/log_out.dart';
 import 'package:vidbuy_app/view/delete_confirm_account_screen.dart';
 import 'package:vidbuy_app/view/user_login_screen.dart';
@@ -200,6 +202,8 @@ class UserProfileViewModel with ChangeNotifier {
         if (value.Isbool!) {
           Utils.snackBar(value.message.toString(), context);
           // navigatePushReplace(context, LoginScreen());
+          User user = User.fromJson(value.result["user"]);
+          saveUserData(user);
           func.call();
         }
         Utils.snackBar(value.message.toString(), context);
@@ -209,6 +213,24 @@ class UserProfileViewModel with ChangeNotifier {
         Utils.snackBar(error.toString(), context);
       });
     }
+  }
+
+  Future<void> saveUserData(User user) async {
+    LocalData ld = LocalData();
+    await ld.saveTokenLocally(
+      user.id.toString(),
+      user.roleId.toString(),
+      user.name.toString(),
+      user.username.toString(),
+      user.countryId.toString(),
+      user.countryName.toString(),
+      user.email.toString(),
+      user.image.toString(),
+      user.status.toString(),
+      user.isProfileCompleted.toString(),
+      // token,
+    );
+    await ld.getTokenLocally();
   }
 
   bool _validateProfileFields(BuildContext context, String name,

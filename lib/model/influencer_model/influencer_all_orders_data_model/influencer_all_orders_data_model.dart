@@ -4,33 +4,25 @@ import 'result.dart';
 
 class InfluencerAllOrdersDataModel {
   bool? Isbool;
-  int? status;
-  String? message;
   Result? result;
+  String? message;
 
-  InfluencerAllOrdersDataModel({
-    this.Isbool,
-    this.status,
-    this.message,
-    this.result,
-  });
+  InfluencerAllOrdersDataModel({this.Isbool, this.result, this.message});
 
   factory InfluencerAllOrdersDataModel.fromJson(Map<String, dynamic> json) {
     return InfluencerAllOrdersDataModel(
       Isbool: json['bool'] as bool?,
-      status: json['status'] as int?,
-      message: json['message'] as String?,
       result: json['result'] == null
           ? null
           : Result.fromJson(json['result'] as Map<String, dynamic>),
+      message: json['message'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'bool': bool,
-        'status': status,
-        'message': message,
+        'bool': Isbool,
         'result': result?.toJson(),
+        'message': message,
       };
 
   @override
@@ -42,6 +34,5 @@ class InfluencerAllOrdersDataModel {
   }
 
   @override
-  int get hashCode =>
-      Isbool.hashCode ^ status.hashCode ^ message.hashCode ^ result.hashCode;
+  int get hashCode => Isbool.hashCode ^ result.hashCode ^ message.hashCode;
 }

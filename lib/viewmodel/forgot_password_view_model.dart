@@ -1,124 +1,151 @@
-import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
-import 'package:vidbuy_app/model/login_data_model/login_data_model.dart';
-import 'package:vidbuy_app/model/login_data_model/result.dart';
-import 'package:vidbuy_app/model/login_data_model/user.dart';
-import 'package:vidbuy_app/repo/login_repo.dart';
-import 'package:vidbuy_app/resources/componenets/tab_bar_widget.dart';
-import 'package:vidbuy_app/resources/local_data/local_data.dart';
-import 'package:vidbuy_app/view/admin_dashboard_screen.dart';
-import 'package:vidbuy_app/view/influencer_unique_profile.dart';
-import 'package:vidbuy_app/view/user_profile_screen.dart';
+import 'package:vidbuy_app/model/forgot_password_data_model.dart';
+import 'package:vidbuy_app/model/forgot_password_email_data_model/forgot_password_email_data_model.dart';
+import 'package:vidbuy_app/model/forgot_password_otp_data_model.dart';
+import 'package:vidbuy_app/repo/forgot_password_repo.dart';
+import 'package:vidbuy_app/view/create_new_password_screen.dart';
+import 'package:vidbuy_app/view/forgot_password_verify_otp_screen.dart';
+import 'package:vidbuy_app/view/user_login_screen.dart';
 
 class ForgotPasswordViewModel with ChangeNotifier {
-  LoginRepo _loginRepo = LoginRepo();
+  ForgotPasswordRepo _forogtPassswordRepo = ForgotPasswordRepo();
 
-  bool _loading = false;
-  bool get loading => _loading;
+  bool _emailLoading = false;
+  bool get emailLoading => _emailLoading;
 
-  setLoading(bool value) {
-    _loading = value;
-    print(_loading);
+  setEmailLoading(bool value) {
+    _emailLoading = value;
+    print(_emailLoading);
     notifyListeners();
   }
 
-  ApiResponse<LoginDataModel> _forgotPasswordData = ApiResponse.loading();
-  ApiResponse<LoginDataModel> get forgotPasswordData => _forgotPasswordData;
+  ApiResponse<ForgotPasswordEmailDataModel> _emailData = ApiResponse.loading();
+  ApiResponse<ForgotPasswordEmailDataModel> get emailData => _emailData;
 
-  void setForgotPasswordDataData(ApiResponse<LoginDataModel> response) {
+  void setEmaildData(ApiResponse<ForgotPasswordEmailDataModel> response) {
+    _emailData = response;
+    notifyListeners();
+  }
+
+  Future<void> fetchEmailResponse(BuildContext context, String email) async {
+    Map<String, dynamic> passwordData = {
+      "email": email,
+    };
+    setEmailLoading(true);
+    setEmaildData(ApiResponse.loading());
+    _forogtPassswordRepo
+        .fetchForgetPasswordEmailResponse(passwordData)
+        .then((value) async {
+      if (value.Isbool!) {
+        setEmaildData(ApiResponse.completed(value));
+        Utils.snackBar(value.message.toString(), context);
+        navigate(
+            context,
+            ForgotPasswordOtpScreen(
+              code: value.result!.codeResult!.code!,
+              userId: value.result!.codeResult!.userId!,
+            ));
+      } else {
+        Utils.snackBar(value.message.toString(), context);
+      }
+
+      setEmailLoading(false);
+    }).onError((error, stackTrace) {
+      setEmailLoading(false);
+      Utils.snackBar(error.toString(), context);
+    });
+  }
+
+  bool _otpLoading = false;
+  bool get otpLoading => _otpLoading;
+
+  setOtpLoading(bool value) {
+    _otpLoading = value;
+    print(_otpLoading);
+    notifyListeners();
+  }
+
+  ApiResponse<ForgotPasswordOtpDataModel> _otpData = ApiResponse.loading();
+  ApiResponse<ForgotPasswordOtpDataModel> get otpData => _otpData;
+
+  void setOtpData(ApiResponse<ForgotPasswordOtpDataModel> response) {
+    _otpData = response;
+    notifyListeners();
+  }
+
+  Future<void> fetchOtpResponse(
+      BuildContext context, int userId, int code) async {
+    Map<String, dynamic> passwordData = {"user_id": userId, "code": code};
+    setOtpLoading(true);
+    setOtpData(ApiResponse.loading());
+    _forogtPassswordRepo
+        .fetchForgetPasswordOtpResponse(passwordData)
+        .then((value) async {
+      if (value.Isbool!) {
+        setOtpData(ApiResponse.completed(value));
+        Utils.snackBar(value.message.toString(), context);
+        navigate(
+            context,
+            CreateNewPasswordScreen(
+              userId: userId,
+            ));
+      } else {
+        Utils.snackBar(value.message.toString(), context);
+      }
+      setOtpLoading(false);
+    }).onError((error, stackTrace) {
+      setEmailLoading(false);
+      Utils.snackBar(error.toString(), context);
+    });
+  }
+
+  bool _forgotPasswordLoading = false;
+  bool get forgotPasswordLoading => _forgotPasswordLoading;
+
+  setforgotPasswordLoading(bool value) {
+    _forgotPasswordLoading = value;
+    print(_forgotPasswordLoading);
+    notifyListeners();
+  }
+
+  ApiResponse<ForgotPasswordDataModel> _forgotPasswordData =
+      ApiResponse.loading();
+  ApiResponse<ForgotPasswordDataModel> get forgotPasswordData =>
+      _forgotPasswordData;
+
+  void setForgotPasswordData(ApiResponse<ForgotPasswordDataModel> response) {
     _forgotPasswordData = response;
     notifyListeners();
   }
 
-  Future<void> fetchForgotPasswordData(
-    BuildContext context, {
-    required String email,
-  }) async {
-    if (_validateFields(context, email)) {
-      // Return early if validation fails
-
-      Map<String, dynamic> loginData = {
-        'email': email,
-      };
-
-      setLoading(true);
-      setForgotPasswordDataData(ApiResponse.loading());
-      _loginRepo.fetchLoginResponse(loginData).then((value) async {
-        setForgotPasswordDataData(ApiResponse.completed(value));
-        // Check if value.result is a Map and access code properly
-        if (value.boolValue) {
-          Result result = Result.fromJson(value.result);
-          await LocalData.setToken(result.token ?? "");
-          await handleSuccessfulLogin(value, context);
-        } else {
-          handleFailedLogin(value, context);
-        }
-
-        setLoading(false);
-
-        if (kDebugMode) {
-          print(value.toString());
-        }
-      }).onError((error, stackTrace) {
-        setLoading(false);
-        Utils.snackBar(error.toString(), context);
-        if (kDebugMode) {
-          print(error.toString());
-        }
-      });
-    }
-  }
-
-  Future<void> handleSuccessfulLogin(
-      LoginDataModel response, BuildContext context) async {
-    User user = User.fromJson(response.result["user"]);
-
-    Utils.snackBar(response.message.toString(), context);
-
-    navigateBasedOnRole(context, user);
-  }
-
-  void navigateBasedOnRole(BuildContext context, User user) {
-    // User user = User.fromJson(result.user as Map<String, dynamic>);
-    final roleId = user.roleId;
-    final isProfileComplete = user.isProfileCompleted;
-
-    final Map<int, Widget> roleNavigationMap = {
-      1: AdminDashboardScreen(),
-      2: UserProfileScreen(),
-      3: isProfileComplete == 0 ? TabBarWidget() : InfluencerUniqueProfile(),
+  Future<void> fetchForgotPasswordResponse(BuildContext context, int userId,
+      String password, String confirmPassword) async {
+    Map<String, dynamic> passwordData = {
+      "user_id": userId,
+      "password": password,
+      "confirm_password": confirmPassword
     };
+    setforgotPasswordLoading(true);
+    setForgotPasswordData(ApiResponse.loading());
+    _forogtPassswordRepo
+        .fetchForgetPasswordResponse(passwordData)
+        .then((value) async {
+      if (value.Isbool!) {
+        setForgotPasswordData(ApiResponse.completed(value));
+        Utils.snackBar(value.message.toString(), context);
+        navigatePushReplace(context, LoginScreen());
+      } else {
+        Utils.snackBar(value.message.toString(), context);
+      }
 
-    if (roleNavigationMap.containsKey(roleId)) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => roleNavigationMap[roleId]!),
-        (route) => false,
-      );
-    } else {
-      Utils.snackBar("Unknown role: $roleId", context);
-    }
-  }
-
-  void handleFailedLogin(LoginDataModel response, BuildContext context) {
-    Utils.snackBar(response.message.toString(), context);
-  }
-
-  bool _validateFields(BuildContext context, String email) {
-    if (email.isEmpty || !_isValidEmail(email)) {
-      Utils.snackBar('Please enter a valid email', context);
-      return false;
-    }
-    return true;
-  }
-
-  bool _isValidEmail(String email) {
-    RegExp emailRegExp = RegExp(
-      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-    );
-    return emailRegExp.hasMatch(email);
+      setforgotPasswordLoading(false);
+    }).onError((error, stackTrace) {
+      setEmailLoading(false);
+      Utils.snackBar(error.toString(), context);
+    });
   }
 }

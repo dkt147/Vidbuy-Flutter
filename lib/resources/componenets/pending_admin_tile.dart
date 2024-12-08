@@ -41,7 +41,7 @@ class PendingAdminTile extends StatelessWidget {
                       children: [
                         Content(
                           data: countryName,
-                          size: 8.h,
+                          size: 12.h,
                           weight: FontWeight.w500,
                           family: "Lato",
                         ),
@@ -50,7 +50,7 @@ class PendingAdminTile extends StatelessWidget {
                         ),
                         Content(
                           data: reviews,
-                          size: 8.h,
+                          size: 12.h,
                           weight: FontWeight.w500,
                           family: "Lato",
                         ),

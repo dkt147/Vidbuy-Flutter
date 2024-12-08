@@ -30,8 +30,8 @@ class NotificationServices {
   void handleMessage(RemoteMessage? message) {
     if (message == null) return;
 
-    navigatorKey.currentState
-        ?.pushNamed(NotificationScreen.route, arguments: message);
+    // navigatorKey.currentState
+    //     ?.pushNamed(NotificationScreen.route, arguments: message);
   }
 
   Future initLocalNotifcation() async {

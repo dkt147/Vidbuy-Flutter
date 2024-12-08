@@ -16,6 +16,4 @@ class AdminReportedVideosRepo {
       throw e;
     }
   }
-
-
 }

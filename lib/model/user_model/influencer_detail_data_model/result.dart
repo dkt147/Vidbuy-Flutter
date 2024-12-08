@@ -10,8 +10,19 @@ class Result {
   List<Review>? reviews;
   List<Video>? videos;
   List<Influencer>? influencer;
+  int? totalReviews;
+  int? totalRequest;
+  String? priceRange;
 
-  Result({this.user, this.reviews, this.videos, this.influencer});
+  Result({
+    this.user,
+    this.reviews,
+    this.videos,
+    this.influencer,
+    this.totalReviews,
+    this.totalRequest,
+    this.priceRange,
+  });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         user: json['user'] == null
@@ -26,6 +37,9 @@ class Result {
         influencer: (json['influencer'] as List<dynamic>?)
             ?.map((e) => Influencer.fromJson(e as Map<String, dynamic>))
             .toList(),
+        totalReviews: json['total_reviews'] as int?,
+        totalRequest: json['total_request'] as int?,
+        priceRange: json['price_range'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,6 +47,9 @@ class Result {
         'reviews': reviews?.map((e) => e.toJson()).toList(),
         'videos': videos?.map((e) => e.toJson()).toList(),
         'influencer': influencer?.map((e) => e.toJson()).toList(),
+        'total_reviews': totalReviews,
+        'total_request': totalRequest,
+        'price_range': priceRange,
       };
 
   @override
@@ -45,5 +62,11 @@ class Result {
 
   @override
   int get hashCode =>
-      user.hashCode ^ reviews.hashCode ^ videos.hashCode ^ influencer.hashCode;
+      user.hashCode ^
+      reviews.hashCode ^
+      videos.hashCode ^
+      influencer.hashCode ^
+      totalReviews.hashCode ^
+      totalRequest.hashCode ^
+      priceRange.hashCode;
 }

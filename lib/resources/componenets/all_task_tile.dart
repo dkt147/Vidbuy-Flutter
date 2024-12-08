@@ -7,11 +7,15 @@ class AllTaskTile extends StatelessWidget {
   final String price;
   final String category;
   final String date;
+  final String status;
+  final String orderId;
 
   AllTaskTile(
       {required this.price,
       required this.category,
       required this.date,
+      required this.orderId,
+      required this.status,
       super.key});
 
   @override
@@ -64,11 +68,47 @@ class AllTaskTile extends StatelessWidget {
                       ),
                     ],
                   ),
+                  // SizedBox(height: 8),
+                  // Row(
+                  //   children: [
+                  //     Content(
+                  //       data: "OrderID:",
+                  //       size: 11.h,
+                  //       weight: FontWeight.w500,
+                  //       family: "Lato",
+                  //     ),
+                  //     SizedBox(width: 8),
+                  //     Content(
+                  //       data: orderId,
+                  //       size: 11.h,
+                  //       weight: FontWeight.w500,
+                  //       family: "Lato",
+                  //     ),
+                  //   ],
+                  // ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Content(
+                        data: "Status:",
+                        size: 11.h,
+                        weight: FontWeight.w500,
+                        family: "Lato",
+                      ),
+                      SizedBox(width: 8),
+                      Content(
+                        data: status,
+                        size: 11.h,
+                        weight: FontWeight.w500,
+                        family: "Lato",
+                      ),
+                    ],
+                  ),
                 ],
               ),
               // Status Order Button
               Container(
-                margin: EdgeInsets.only(bottom: 20.h),
+                // margin: EdgeInsets.only(bottom: 20.h),
                 width: 120.w,
                 height: 40.h,
                 decoration: BoxDecoration(

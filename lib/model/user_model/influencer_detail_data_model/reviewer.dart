@@ -17,6 +17,7 @@ class Reviewer {
   DateTime? createdAt;
   DateTime? updatedAt;
   List<dynamic>? influencerCategories;
+  List<dynamic>? videoTypes;
 
   Reviewer({
     this.id,
@@ -35,6 +36,7 @@ class Reviewer {
     this.createdAt,
     this.updatedAt,
     this.influencerCategories,
+    this.videoTypes,
   });
 
   factory Reviewer.fromJson(Map<String, dynamic> json) => Reviewer(
@@ -58,6 +60,7 @@ class Reviewer {
             ? null
             : DateTime.parse(json['updated_at'] as String),
         influencerCategories: json['influencer_categories'] as List<dynamic>?,
+        videoTypes: json['video_types'] as List<dynamic>?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,6 +80,7 @@ class Reviewer {
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
         'influencer_categories': influencerCategories,
+        'video_types': videoTypes,
       };
 
   @override
@@ -104,5 +108,6 @@ class Reviewer {
       isProfileCompleted.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
-      influencerCategories.hashCode;
+      influencerCategories.hashCode ^
+      videoTypes.hashCode;
 }

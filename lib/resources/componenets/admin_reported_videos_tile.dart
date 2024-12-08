@@ -74,8 +74,7 @@ class _ReportedVideosTileState extends State<ReportedVideosTile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Content(
-                    data:
-                        "Influencer Details",
+                    data: "Influencer Details",
                     size: 18.h,
                     weight: FontWeight.bold,
                     family: "Nunito",

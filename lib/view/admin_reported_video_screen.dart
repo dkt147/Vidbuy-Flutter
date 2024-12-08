@@ -61,7 +61,7 @@ class _AdminReportedVideoScreenState extends State<AdminReportedVideoScreen> {
           // SizedBox(
           //   height: 32.h,
           // ),
-          // Conta 
+          // Conta
           // SizedBox(
           //   height: 32.h,
           // ),
@@ -92,7 +92,8 @@ class _AdminReportedVideoScreenState extends State<AdminReportedVideoScreen> {
                       children: [
                         Center(
                           child: Content(
-                              data: value.adminReportedVideoList.message.toString(),
+                              data: value.adminReportedVideoList.message
+                                  .toString(),
                               size: 18),
                         ),
                       ],
@@ -135,14 +136,18 @@ class _AdminReportedVideoScreenState extends State<AdminReportedVideoScreen> {
                               return GestureDetector(
                                   onTap: () {},
                                   child: ReportedVideosTile(
-                                    userName: reportedVideo.user!.name
-                                        .toString(),
+                                    userName:
+                                        reportedVideo.user!.name.toString(),
                                     influencerName: reportedVideo
                                         .influenzer!.name
                                         .toString(),
                                     videoUrl: reportedVideo.fullUrl.toString(),
-                                    reviewCount: reportedVideo.influenzer!.reviewCount.toString(),
-                                    reportedNo: reportedVideo.influenzer!.avgRating.toString(),
+                                    reviewCount: reportedVideo
+                                        .influenzer!.reviewCount
+                                        .toString(),
+                                    reportedNo: reportedVideo
+                                        .influenzer!.avgRating
+                                        .toString(),
                                   ));
                             },
                           ),

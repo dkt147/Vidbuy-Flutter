@@ -5,7 +5,7 @@ import 'link.dart';
 
 class WaitingVideoList {
   int? currentPage;
-  List<Datum>? data;
+  List<InfluencerWaitingVideoDatum>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -38,7 +38,8 @@ class WaitingVideoList {
     return WaitingVideoList(
       currentPage: json['current_page'] as int?,
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          ?.map((e) =>
+              InfluencerWaitingVideoDatum.fromJson(e as Map<String, dynamic>))
           .toList(),
       firstPageUrl: json['first_page_url'] as String?,
       from: json['from'] as int?,

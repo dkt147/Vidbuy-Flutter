@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/data/response/status.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
 import 'package:vidbuy_app/view/create_order_screen.dart';
 import 'package:vidbuy_app/view/stream_video_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/influencer_detail_view_model.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class InfluencerProfileScreen extends StatefulWidget {
@@ -33,6 +35,7 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
     super.initState();
 
     viewModel.fetchinfluencerDetailList(widget.influencerId.toString());
+    viewModel.fetchInfluencerView(context, widget.influencerId.toString());
 
     // Fetch video URLs from your ViewModel or API (simulated here)
     // final viewModel = Provider.of<InfluencerDetailViewModel>(context, listen: false);
@@ -128,7 +131,8 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                   width: 5.w,
                                 ),
                                 Content(
-                                  data: "Influencer",
+                                  data:
+                                      AppLocalizations.of(context)!.influencer,
                                   size: 14.h,
                                   weight: FontWeight.w600,
                                   family: "Nunito",
@@ -248,7 +252,8 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                         color: Color(0xff161436),
                                         child: Center(
                                             child: Content(
-                                          data: "Book Me",
+                                          data: AppLocalizations.of(context)!
+                                              .userInfluencerProfileBookMe,
                                           size: 16.h,
                                           family: "Nunito",
                                           weight: FontWeight.w700,
@@ -307,13 +312,16 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                 Column(
                                   children: [
                                     Content(
-                                      data: "Total Reviews",
+                                      data: AppLocalizations.of(context)!
+                                          .userInfluencerProfileTotalReviews,
                                       size: 12.h,
                                       family: "Nunito",
                                       weight: FontWeight.w400,
                                     ),
                                     Content(
-                                      data: "120k",
+                                      data: value.influencerDetailList.data!
+                                          .result!.totalReviews
+                                          .toString(),
                                       size: 12.h,
                                       family: "Nunito",
                                       weight: FontWeight.w700,
@@ -329,13 +337,16 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                 Column(
                                   children: [
                                     Content(
-                                      data: "Price Per Video",
+                                      data: AppLocalizations.of(context)!
+                                          .userInfluencerProfilePricePerVideo,
                                       size: 12.h,
                                       family: "Nunito",
                                       weight: FontWeight.w400,
                                     ),
                                     Content(
-                                      data: "50 to 200",
+                                      data: value.influencerDetailList.data!
+                                          .result!.priceRange
+                                          .toString(),
                                       size: 12.h,
                                       family: "Nunito",
                                       weight: FontWeight.w700,
@@ -351,13 +362,16 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                 Column(
                                   children: [
                                     Content(
-                                      data: "Total Request",
+                                      data: AppLocalizations.of(context)!
+                                          .userInfluencerProfileTotalRequest,
                                       size: 12.h,
                                       family: "Nunito",
                                       weight: FontWeight.w400,
                                     ),
                                     Content(
-                                      data: "55",
+                                      data: value.influencerDetailList.data!
+                                          .result!.totalRequest
+                                          .toString(),
                                       size: 12.h,
                                       family: "Nunito",
                                       weight: FontWeight.w700,
@@ -374,7 +388,8 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                       const EdgeInsets.symmetric(vertical: 10),
                                   child: Center(
                                     child: DashedBorderContainer(
-                                        text: 'No videos available'),
+                                        text: AppLocalizations.of(context)!
+                                            .userInfluencerProfileNoVideos),
                                   ),
                                 )
                               : Padding(
@@ -411,7 +426,14 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                               4.w), // Margin around each item
                                           child: VideoPlayerWidget(
                                             videoUrl: videoUrl!,
-                                            videoTitle: "Questions",
+                                            videoTitle: viewModel
+                                                .influencerDetailList
+                                                .data!
+                                                .result!
+                                                .user!
+                                                .videoTypes![index]
+                                                .videoTypeName
+                                                .toString(),
                                           ), // Pass video URL to the VideoPlayerWidget
                                         );
                                       },
@@ -429,7 +451,8 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Content(
-                                        data: "Influencer Reviews",
+                                        data: AppLocalizations.of(context)!
+                                            .userInfluencerProfileInfluencerReviews,
                                         size: 18.h,
                                         family: "Nunito",
                                         weight: FontWeight.w700,
@@ -445,7 +468,8 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                       const EdgeInsets.symmetric(vertical: 10),
                                   child: Center(
                                     child: DashedBorderContainer(
-                                        text: 'No reviews available'),
+                                        text: AppLocalizations.of(context)!
+                                            .userInfluencerProfileNoReviews),
                                   ),
                                 )
                               : SizedBox(

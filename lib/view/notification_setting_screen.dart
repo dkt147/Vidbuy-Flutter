@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/viewmodel/notification_view_model.dart';
 
 class NotificationSettingScreen extends StatefulWidget {
   const NotificationSettingScreen({super.key});
@@ -11,8 +14,39 @@ class NotificationSettingScreen extends StatefulWidget {
 }
 
 class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
-  bool pushNotifications = true;
-  bool emailNotifications = true;
+  bool pushNotifications = false;
+  bool emailNotifications = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+  }
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      pushNotifications = prefs.getBool('pushNotifications') ?? false;
+      emailNotifications = prefs.getBool('emailNotifications') ?? false;
+    });
+  }
+
+  Future<void> _savePreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('pushNotifications', pushNotifications);
+    await prefs.setBool('emailNotifications', emailNotifications);
+  }
+
+  void _saveSettings(BuildContext context) {
+    final viewModel =
+        Provider.of<NotificationViewModel>(context, listen: false);
+    viewModel.fetchNotificationData(
+      context,
+      notification: pushNotifications ? 1 : 0,
+      email: emailNotifications ? 1 : 0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +54,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // AppBar-like row
           Container(
             margin: EdgeInsets.only(top: 55.h, left: 21.w),
             child: Row(
@@ -33,11 +68,9 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
                     height: 25.h,
                   ),
                 ),
-                SizedBox(
-                  width: 5.w,
-                ),
+                SizedBox(width: 5.w),
                 Content(
-                  data: "Notifactions",
+                  data: "Notifications",
                   size: 14.h,
                   weight: FontWeight.w600,
                   family: "Nunito",
@@ -45,6 +78,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               ],
             ),
           ),
+
+          // Notification settings
           Container(
             margin: EdgeInsets.only(left: 21.w, top: 20.h),
             child: Column(
@@ -56,7 +91,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
                   weight: FontWeight.w300,
                 ),
                 Content(
-                  data: "Choose what notifcations you want to recieve ",
+                  data: "Choose what notifications you want to receive",
                   size: 16.h,
                   weight: FontWeight.w300,
                   family: "Lato",
@@ -64,13 +99,12 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               ],
             ),
           ),
-          SizedBox(
-            height: 60.h,
-          ),
 
+          SizedBox(height: 60.h),
+
+          // Push Notifications
           SwitchListTile(
-            // activeColor: Colors.blue,
-            activeColor: Color(0xff5271FF),
+            activeColor: const Color(0xff5271FF),
             contentPadding: EdgeInsets.symmetric(horizontal: 30.w),
             title: Text(
               'Push Notifications',
@@ -81,25 +115,27 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               ),
             ),
             subtitle: Text(
-              'Receive Push notifications from our application on a semi-regular basis.',
+              'Receive push notifications from our application.',
               style: TextStyle(
-                  fontSize: 14.h,
-                  fontFamily: "Nunito",
-                  fontWeight: FontWeight.w400),
+                fontSize: 14.h,
+                fontFamily: "Nunito",
+                fontWeight: FontWeight.w400,
+              ),
             ),
             value: pushNotifications,
             onChanged: (bool value) {
               setState(() {
                 pushNotifications = value;
               });
+              _savePreferences();
             },
           ),
-          SizedBox(
-            height: 39.h,
-          ),
+
+          SizedBox(height: 39.h),
+
+          // Email Notifications
           SwitchListTile(
-            // activeColor: Colors.blue,
-            activeColor: Color(0xff5271FF),
+            activeColor: const Color(0xff5271FF),
             contentPadding: EdgeInsets.symmetric(horizontal: 30.w),
             title: Text(
               'Email Notifications',
@@ -110,73 +146,57 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               ),
             ),
             subtitle: Text(
-              'Receive email notifications from our marketing team about new features.',
+              'Receive email notifications from our marketing team.',
               style: TextStyle(
-                  fontSize: 14.h,
-                  fontFamily: "Nunito",
-                  fontWeight: FontWeight.w400),
+                fontSize: 14.h,
+                fontFamily: "Nunito",
+                fontWeight: FontWeight.w400,
+              ),
             ),
             value: emailNotifications,
             onChanged: (bool value) {
               setState(() {
                 emailNotifications = value;
               });
+              _savePreferences();
             },
           ),
-          // Content(
-          //       data: "Push Notifications",
-          //       size: 18.h,
-          //       family: "Nunito",
-          //       weight: FontWeight.w600,
-          //     ),
-          //     Row(
-          //       children: [
-          //         Content(
-          //                       data: "Receive Push notifications from our\napplication on a semi regular basis. ",
-          //                       size: 16.h,
-          //                       weight: FontWeight.w300,
-          //                       family: "Lato",
-          //                     ),
-          //       ],
-          //     ),
-          SizedBox(
-            height: 221.h,
-          ),
+
+          SizedBox(height: 221.h),
+
+          // Save button
           Center(
-            child: Container(
-              width: 335.w,
-              height: 50.h,
-              child: ElevatedButton(
-                onPressed: () {
-                  // if (_emailController.text.isEmpty) {
-                  //   snackBar("Enter Valid Email", context);
-                  // } else if (_passwordController.text.isEmpty) {
-                  //   snackBar(
-                  //     "Enter Password",
-                  //     context,
-                  //   );
-                  // } else if (_passwordController.text.length < 8) {
-                  //   snackBar(
-                  //       "Enter Minium 8 Characters of Password", context);
-                  // } else {
-                  //   // Navigator.push(
-                  //   //     context,
-                  //   //     MaterialPageRoute(
-                  //   //         builder: (_) => TabBarWidget()));
-                  //   navigate(context, NavBarScreen());
-                  // }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff5271FF),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.r),
+            child: Consumer<NotificationViewModel>(
+              builder: (context, viewModel, child) {
+                return Container(
+                  width: 335.w,
+                  height: 50.h,
+                  child: ElevatedButton(
+                    onPressed: viewModel.loading
+                        ? null
+                        : () {
+                            _saveSettings(context);
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff5271FF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                    ),
+                    child: viewModel.loading
+                        ? const CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
+                          )
+                        : Text(
+                            "Save",
+                            style:
+                                TextStyle(fontSize: 16.h, color: Colors.white),
+                          ),
                   ),
-                ),
-                child: Text(
-                  "Save",
-                  style: TextStyle(fontSize: 16.h, color: Colors.white),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],

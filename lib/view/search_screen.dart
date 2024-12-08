@@ -10,6 +10,7 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_card_widget.dart';
 import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_search_screen_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({super.key});
@@ -30,12 +31,6 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   bool get wantKeepAlive => true;
 
-  Map<String, String> sortOptions = {
-    'Price: Low to High': 'lowtohigh',
-    'Price: High to Low': 'hightolow',
-    'Newest': 'newest',
-    'Oldest': 'oldest',
-  };
   double _sliderValue = 0;
 
   Timer? _debounce;
@@ -104,7 +99,14 @@ class _SearchScreenState extends State<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
+    // AppLocalizations.of(context)!.userHomeSearchText
     super.build(context);
+    Map<String, String> sortOptions = {
+      AppLocalizations.of(context)!.userSearchPriceLtoH: 'lowtohigh',
+      AppLocalizations.of(context)!.userSearchPriceHtoL: 'hightolow',
+      AppLocalizations.of(context)!.userSearchNewest: 'newest',
+      AppLocalizations.of(context)!.userSearchOldest: 'oldest',
+    };
     return Scaffold(
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -137,7 +139,8 @@ class _SearchScreenState extends State<SearchScreen>
                               style: TextStyle(
                                   color: Colors.black, fontFamily: "Nunito"),
                               decoration: InputDecoration(
-                                hintText: 'Discover celebrities...',
+                                hintText: AppLocalizations.of(context)!
+                                    .userHomeSearchText,
                                 suffixIcon: Image.asset(
                                   "assets/Icon/cancel.png",
                                   height: 20.h,
@@ -227,7 +230,8 @@ class _SearchScreenState extends State<SearchScreen>
                                   underline: SizedBox(),
                                   isExpanded: true,
                                   hint: Text(
-                                    'Sort by',
+                                    AppLocalizations.of(context)!
+                                        .userSearchSortBy,
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 16.h,
@@ -303,7 +307,8 @@ class _SearchScreenState extends State<SearchScreen>
                                         right: 25.w,
                                         top: 25.h,
                                         child: Content(
-                                          data: 'Max Price',
+                                          data: AppLocalizations.of(context)!
+                                              .userSearchMaxPrice,
                                           size: 12.h,
                                           family: "Lato",
                                           weight: FontWeight.w500,
@@ -659,10 +664,10 @@ class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
                     child: Text(
                       widget.categories[prevIndex]["title"] ?? "",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16.0,
+                      style: const TextStyle(
+                        fontSize: 17.0,
                         fontWeight: FontWeight.normal,
-                        color: Colors.grey,
+                        color: Color(0xFFAC1D7B), // Custom color
                       ),
                     ),
                   ),
@@ -675,18 +680,36 @@ class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(
+                                4.0, 4.0), // Larger offset for a bigger shadow
+                            blurRadius:
+                                6.0, // Increased blur for a softer effect
+                            color:
+                                Colors.black.withOpacity(0.5), // Darker shadow
+                          ),
+                          Shadow(
+                            offset: const Offset(
+                                -2.0, -2.0), // Additional shadow for depth
+                            blurRadius: 4.0,
+                            color:
+                                Colors.grey.withOpacity(0.3), // Lighter shadow
+                          ),
+                        ],
                       ),
                     ),
                   ),
+
                   // Next Text
                   Expanded(
                     child: Text(
                       widget.categories[nextIndex]["title"] ?? "",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16.0,
+                      style: const TextStyle(
+                        fontSize: 17.0,
                         fontWeight: FontWeight.normal,
-                        color: Colors.grey,
+                        color: Color(0xFF6D640D),
                       ),
                     ),
                   ),

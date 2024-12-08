@@ -4,7 +4,7 @@ import 'face_identity.dart';
 import 'influencer_category.dart';
 import 'video_type.dart';
 
-class Datum {
+class AdminPendingListDatum {
   int? id;
   String? name;
   String? username;
@@ -24,7 +24,7 @@ class Datum {
   List<VideoType>? videoTypes;
   FaceIdentity? faceIdentity;
 
-  Datum({
+  AdminPendingListDatum({
     this.id,
     this.name,
     this.username,
@@ -45,7 +45,8 @@ class Datum {
     this.faceIdentity,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory AdminPendingListDatum.fromJson(Map<String, dynamic> json) =>
+      AdminPendingListDatum(
         id: json['id'] as int?,
         name: json['name'] as String?,
         username: json['username'] as String?,
@@ -102,7 +103,7 @@ class Datum {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Datum) return false;
+    if (other is! AdminPendingListDatum) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

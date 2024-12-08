@@ -113,7 +113,7 @@ class _MainTabbarAdminWidgetState extends State<MainTabbarAdminWidget>
                 fontSize: 16.h,
                 fontWeight: FontWeight.w500,
               ),
-              tabs: [
+              tabs: const [
                 Tab(
                   child: Text(
                     "Pending Request",

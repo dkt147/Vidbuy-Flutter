@@ -137,7 +137,7 @@ void bottomSheetWidget(BuildContext context) {
                               ),
                             ),
                             onPressed: () {
-                              navigatePushReplace(context, UserOrderTabbar());
+                              Navigator.pop(context);
                             },
                             child: Text(
                               "Donate",

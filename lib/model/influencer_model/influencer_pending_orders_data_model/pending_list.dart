@@ -5,7 +5,7 @@ import 'link.dart';
 
 class PendingList {
   int? currentPage;
-  List<Datum>? data;
+  List<InfluencerPendingOrdersDatum>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -37,7 +37,8 @@ class PendingList {
   factory PendingList.fromJson(Map<String, dynamic> json) => PendingList(
         currentPage: json['current_page'] as int?,
         data: (json['data'] as List<dynamic>?)
-            ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => InfluencerPendingOrdersDatum.fromJson(
+                e as Map<String, dynamic>))
             .toList(),
         firstPageUrl: json['first_page_url'] as String?,
         from: json['from'] as int?,

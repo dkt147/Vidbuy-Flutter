@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 
 import 'influencer_category.dart';
+import 'video_type.dart';
 
 class User {
   int? id;
@@ -19,6 +20,7 @@ class User {
   DateTime? createdAt;
   DateTime? updatedAt;
   List<InfluencerCategory>? influencerCategories;
+  List<VideoType>? videoTypes;
 
   User({
     this.id,
@@ -37,6 +39,7 @@ class User {
     this.createdAt,
     this.updatedAt,
     this.influencerCategories,
+    this.videoTypes,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -62,6 +65,9 @@ class User {
         influencerCategories: (json['influencer_categories'] as List<dynamic>?)
             ?.map((e) => InfluencerCategory.fromJson(e as Map<String, dynamic>))
             .toList(),
+        videoTypes: (json['video_types'] as List<dynamic>?)
+            ?.map((e) => VideoType.fromJson(e as Map<String, dynamic>))
+            .toList(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -82,6 +88,7 @@ class User {
         'updated_at': updatedAt?.toIso8601String(),
         'influencer_categories':
             influencerCategories?.map((e) => e.toJson()).toList(),
+        'video_types': videoTypes?.map((e) => e.toJson()).toList(),
       };
 
   @override
@@ -109,5 +116,6 @@ class User {
       isProfileCompleted.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
-      influencerCategories.hashCode;
+      influencerCategories.hashCode ^
+      videoTypes.hashCode;
 }

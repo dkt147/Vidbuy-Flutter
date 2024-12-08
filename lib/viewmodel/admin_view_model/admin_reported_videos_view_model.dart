@@ -4,7 +4,7 @@ import 'package:vidbuy_app/model/admin_model/admin_reported_videos_data_model/ad
 import 'package:vidbuy_app/repo/admin_repo/admin_reported_videos_repo.dart';
 
 class AdminReportedVideosViewModel with ChangeNotifier {
-    AdminReportedVideosRepo _adminReportedVideosRepo = AdminReportedVideosRepo();
+  AdminReportedVideosRepo _adminReportedVideosRepo = AdminReportedVideosRepo();
 
   // bool _influencerAllOrdersListLoading = false;
   // bool get influencerAllOrdersListLoading => _influencerAllOrdersListLoading;
@@ -15,8 +15,10 @@ class AdminReportedVideosViewModel with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  ApiResponse<AdminReportedVideosDataModel> _adminReportedVideoList = ApiResponse.loading();
-  ApiResponse<AdminReportedVideosDataModel> get adminReportedVideoList => _adminReportedVideoList;
+  ApiResponse<AdminReportedVideosDataModel> _adminReportedVideoList =
+      ApiResponse.loading();
+  ApiResponse<AdminReportedVideosDataModel> get adminReportedVideoList =>
+      _adminReportedVideoList;
 
   setAdminReportedVideoList(
       ApiResponse<AdminReportedVideosDataModel> response) {
@@ -33,12 +35,12 @@ class AdminReportedVideosViewModel with ChangeNotifier {
       queryParam = "";
     }
     setAdminReportedVideoList(ApiResponse.loading());
-    _adminReportedVideosRepo.fetchAdminReportedVideosList(queryParam).then((value) {
+    _adminReportedVideosRepo
+        .fetchAdminReportedVideosList(queryParam)
+        .then((value) {
       setAdminReportedVideoList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setAdminReportedVideoList(ApiResponse.error(error.toString()));
     });
   }
-
-
 }

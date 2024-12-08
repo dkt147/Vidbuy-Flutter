@@ -8,7 +8,11 @@ import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detai
 // ignore: must_be_immutable
 class InfluencerOrderCancelScreen extends StatelessWidget {
   String videoTypeId;
-  InfluencerOrderCancelScreen({required this.videoTypeId, super.key});
+  InfluencerTaskDetailViewModel influencerTaskDetailViewModel;
+  InfluencerOrderCancelScreen(
+      {required this.videoTypeId,
+      required this.influencerTaskDetailViewModel,
+      super.key});
   TextEditingController _messageController = TextEditingController();
 
   @override
@@ -66,7 +70,11 @@ class InfluencerOrderCancelScreen extends StatelessWidget {
                         } else {
                           viewModel.fetchRejectStatusData(context,
                               videoTypeId: videoTypeId,
-                              reason: _messageController.text.toString());
+                              reason: _messageController.text.toString(),
+                              func: () {
+                            influencerTaskDetailViewModel
+                                .fetchOrderData(videoTypeId);
+                          });
                         }
                         // navigate(context, FeedbackScreen());
                       },

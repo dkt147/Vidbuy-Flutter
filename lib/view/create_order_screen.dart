@@ -9,6 +9,7 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/view/request_video_scree.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/create_order_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateOrderScreen extends StatefulWidget {
   final String influencerName;
@@ -57,6 +58,10 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> categories = [
+      "Another Person",
+      "My Self",
+    ];
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -103,7 +108,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                         Container(
                           margin: EdgeInsets.only(bottom: 9.h, left: 17.w),
                           child: Text(
-                            "Who's this video for?",
+                            AppLocalizations.of(context)!.userWhosThisVideoFor,
                             style: TextStyle(
                                 fontSize: 16.h,
                                 color: Colors.black,
@@ -113,8 +118,14 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                         ),
                         _buildVideoTypeDropdown(viewModel),
                         SizedBox(height: 13.h),
-                        _buildTextField("From", "Enter Name", _fromController),
-                        _buildTextField("To", "Enter Name", _toController),
+                        _buildTextField(
+                            AppLocalizations.of(context)!.userFrom,
+                            AppLocalizations.of(context)!.userEnterName,
+                            _fromController),
+                        _buildTextField(
+                            AppLocalizations.of(context)!.userTo,
+                            AppLocalizations.of(context)!.userEnterName,
+                            _toController),
                         _buildDetailsSection(),
                         SizedBox(height: 20.h),
                         _buildSubmitButton(viewModel),
@@ -142,7 +153,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           ),
           SizedBox(width: 5.w),
           Content(
-            data: "Create Order",
+            data: AppLocalizations.of(context)!.userCreateOrder,
             size: 14.h,
             weight: FontWeight.w600,
             family: "Nunito",
@@ -159,12 +170,13 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Content(
-              data: "Influencer Video Service",
+              data: AppLocalizations.of(context)!.userInfluencerVideoService,
               size: 20.h,
               weight: FontWeight.w500,
               family: "Lato"),
           Content(
-              data: "Provide the video information",
+              data:
+                  AppLocalizations.of(context)!.userProvideTheVideoInformation,
               size: 14.h,
               weight: FontWeight.w300,
               family: "Lato"),
@@ -220,7 +232,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         Container(
             margin: EdgeInsets.only(bottom: 9.h, left: 18.w),
             child: Text(
-              "Select Video Type",
+              AppLocalizations.of(context)!.userSelectVideoType,
               style: TextStyle(
                   fontSize: 16.h,
                   color: Colors.black,
@@ -233,7 +245,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
             width: 335.w,
             child: DropdownButtonFormField<String>(
               decoration: InputDecoration(
-                // labelText: 'Select Video Type',
+                labelText: AppLocalizations.of(context)!.userSelectVideoType,
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                 focusedBorder: OutlineInputBorder(
@@ -306,7 +318,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         Container(
           margin: EdgeInsets.only(bottom: 9.h, left: 17.w),
           child: Text(
-            "Details about Request",
+            AppLocalizations.of(context)!.userDetailsAboutRequest,
             style: TextStyle(
                 fontSize: 16.h,
                 color: Colors.black,
@@ -322,7 +334,8 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               controller: _detailController,
               maxLines: 5,
               decoration: InputDecoration(
-                hintText: 'Description of what is going on..',
+                hintText: AppLocalizations.of(context)!
+                    .userDescriptionOfWhatIsGoingOn,
                 hintStyle: TextStyle(
                   fontFamily: "Lato",
                   fontSize: 14.h,
@@ -410,7 +423,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
             ),
           ),
           child: Text(
-            "Next",
+            AppLocalizations.of(context)!.userNext,
             style: TextStyle(
                 fontSize: 16.h, color: Colors.white, fontFamily: "Lato"),
           ),

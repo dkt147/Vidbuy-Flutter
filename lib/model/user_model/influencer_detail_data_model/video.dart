@@ -4,26 +4,28 @@ class Video {
   int? id;
   int? userId;
   int? requestVideoId;
-  String? video;
+  dynamic link;
   dynamic slug;
   String? status;
   dynamic reason;
+  int? hideInProfile;
+  String? video;
   DateTime? createdAt;
   DateTime? updatedAt;
-  int? hideInProfile;
   String? fullUrl;
 
   Video({
     this.id,
     this.userId,
     this.requestVideoId,
-    this.video,
+    this.link,
     this.slug,
     this.status,
     this.reason,
+    this.hideInProfile,
+    this.video,
     this.createdAt,
     this.updatedAt,
-    this.hideInProfile,
     this.fullUrl,
   });
 
@@ -31,17 +33,18 @@ class Video {
         id: json['id'] as int?,
         userId: json['user_id'] as int?,
         requestVideoId: json['request_video_id'] as int?,
-        video: json['video'] as String?,
+        link: json['link'] as dynamic,
         slug: json['slug'] as dynamic,
         status: json['status'] as String?,
         reason: json['reason'] as dynamic,
+        hideInProfile: json['hide_in_profile'] as int?,
+        video: json['video'] as String?,
         createdAt: json['created_at'] == null
             ? null
             : DateTime.parse(json['created_at'] as String),
         updatedAt: json['updated_at'] == null
             ? null
             : DateTime.parse(json['updated_at'] as String),
-        hideInProfile: json['hide_in_profile'] as int?,
         fullUrl: json['full_url'] as String?,
       );
 
@@ -49,13 +52,14 @@ class Video {
         'id': id,
         'user_id': userId,
         'request_video_id': requestVideoId,
-        'video': video,
+        'link': link,
         'slug': slug,
         'status': status,
         'reason': reason,
+        'hide_in_profile': hideInProfile,
+        'video': video,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
-        'hide_in_profile': hideInProfile,
         'full_url': fullUrl,
       };
 
@@ -72,12 +76,13 @@ class Video {
       id.hashCode ^
       userId.hashCode ^
       requestVideoId.hashCode ^
-      video.hashCode ^
+      link.hashCode ^
       slug.hashCode ^
       status.hashCode ^
       reason.hashCode ^
+      hideInProfile.hashCode ^
+      video.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
-      hideInProfile.hashCode ^
       fullUrl.hashCode;
 }

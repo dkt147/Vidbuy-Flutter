@@ -10,9 +10,7 @@ import 'package:vidbuy_app/viewmodel/user_view_model/user_task_detail_view_model
 // ignore: must_be_immutable
 class AdminActiveHistoryScreen extends StatefulWidget {
   String videoTypeId;
-  String status;
-  AdminActiveHistoryScreen(
-      {super.key, required this.videoTypeId, required this.status});
+  AdminActiveHistoryScreen({super.key, required this.videoTypeId});
 
   @override
   State<AdminActiveHistoryScreen> createState() =>
@@ -70,55 +68,57 @@ class _AdminActiveHistoryScreenState extends State<AdminActiveHistoryScreen> {
                   var data = value.userActiveHistoryData.data!.data!.first;
                   return Column(
                     children: [
-                      Container(
-                        margin:
-                            EdgeInsets.only(left: 20.h, right: 22.w, top: 17.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Content(
-                                data: "Track Order",
-                                size: 22.h,
-                                family: "Nunito",
-                                weight: FontWeight.w700,
-                              ),
-                            ),
-                            Content(
-                              data:
-                                  "Created at: ${Utils.dateFormat2(data.createdAt.toString())}",
-                              size: 14.h,
-                              family: "Nunito",
-                              weight: FontWeight.w400,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Content(
-                                  data:
-                                      "Expires: ${Utils.dateFormat2(data.expiryAt.toString())}",
-                                  size: 14.h,
-                                  family: "Nunito",
-                                  weight: FontWeight.w400,
-                                ),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                Content(
-                                  data:
-                                      "Price:  €${data.totalPrice.toString()}",
-                                  size: 16.h,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              left: 20.h, right: 22.w, top: 17.h),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child: Content(
+                                  data: "Track Order",
+                                  size: 22.h,
                                   family: "Nunito",
                                   weight: FontWeight.w700,
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              Content(
+                                data:
+                                    "Created at: ${Utils.dateFormat2(data.createdAt.toString())}",
+                                size: 14.h,
+                                family: "Nunito",
+                                weight: FontWeight.w400,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Content(
+                                    data:
+                                        "Expires: ${Utils.dateFormat2(data.expiryAt.toString())}",
+                                    size: 14.h,
+                                    family: "Nunito",
+                                    weight: FontWeight.w400,
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Content(
+                                    data:
+                                        "Price:  €${data.totalPrice.toString()}",
+                                    size: 16.h,
+                                    family: "Nunito",
+                                    weight: FontWeight.w700,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 50.h,
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 21.w),
@@ -135,149 +135,159 @@ class _AdminActiveHistoryScreenState extends State<AdminActiveHistoryScreen> {
                               height: 17.h,
                             ),
 
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: value.userActiveHistoryData.data!.data!
-                                  .length, // Replace with your data list length
-                              itemBuilder: (context, index) {
-                                final statusData =
-                                    value.userActiveHistoryData.data!.data![
-                                        index]; // Replace with your data model
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                Icons.grade_rounded,
-                                                size: 10.h,
-                                                color: Colors.green,
-                                              ),
-                                              Icon(
-                                                Icons
-                                                    .missed_video_call_outlined,
-                                                size: 33.h,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Content(
-                                                    data:
-                                                        _capitalizeFirstLetter(
-                                                            statusData
-                                                                .currentStaus
-                                                                .toString()),
-                                                    size: 13.h,
-                                                    family: "Nunito",
-                                                    weight: FontWeight.w600,
-                                                  ),
-                                                  if (statusData.status ==
-                                                      "Order Created")
+                            SizedBox(
+                              height: 500.h,
+                              child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: value
+                                    .userActiveHistoryData
+                                    .data!
+                                    .data!
+                                    .length, // Replace with your data list length
+                                itemBuilder: (context, index) {
+                                  final statusData = value
+                                          .userActiveHistoryData.data!.data![
+                                      index]; // Replace with your data model
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.grade_rounded,
+                                                  size: 10.h,
+                                                  color: Colors.green,
+                                                ),
+                                                Icon(
+                                                  Icons
+                                                      .missed_video_call_outlined,
+                                                  size: 33.h,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
                                                     Content(
                                                       data:
-                                                          "Order ID:${statusData.orderId}",
-                                                      size: 12.h,
+                                                          _capitalizeFirstLetter(
+                                                              statusData
+                                                                  .currentStaus
+                                                                  .toString()),
+                                                      size: 13.h,
                                                       family: "Nunito",
-                                                      weight: FontWeight.w300,
+                                                      weight: FontWeight.w600,
                                                     ),
-                                                  if (statusData.status ==
-                                                      "Rejected by influencer")
-                                                    Content(
-                                                      data:
-                                                          "${statusData.requestVideo!.influencer!.name.toString()} rejected the video request.",
-                                                      size: 12.h,
-                                                      family: "Nunito",
-                                                      weight: FontWeight.w300,
-                                                    ),
-                                                  if (statusData.status ==
-                                                      "Rejected by user")
-                                                    Content(
-                                                      data:
-                                                          "${statusData.requestVideo!.user!.name.toString()} rejected the video request.",
-                                                      size: 12.h,
-                                                      family: "Nunito",
-                                                      weight: FontWeight.w300,
-                                                    ),
-                                                  if (statusData.status ==
-                                                      "Rejected")
-                                                    Content(
-                                                      data:
-                                                          "${statusData.requestVideo!.user!.name.toString()} rejected the video request.",
-                                                      size: 12.h,
-                                                      family: "Nunito",
-                                                      weight: FontWeight.w300,
-                                                    ),
-                                                  if (statusData.status ==
-                                                      "waiting video")
-                                                    Content(
-                                                      data:
-                                                          "Waiting for ${statusData.requestVideo!.user!.name.toString()} to accept video.",
-                                                      size: 12.h,
-                                                      family: "Nunito",
-                                                      weight: FontWeight.w300,
-                                                    ),
-                                                  if (statusData.status ==
-                                                      "Accepted by influencer")
-                                                    Content(
-                                                      data:
-                                                          "${statusData.requestVideo!.influencer!.name.toString()} accepted the video request.",
-                                                      size: 12.h,
-                                                      family: "Nunito",
-                                                      weight: FontWeight.w300,
-                                                    ),
-                                                  if (statusData.status ==
-                                                      "Completed")
-                                                    Content(
-                                                      data:
-                                                          "Order ID:${statusData.orderId} Completed",
-                                                      size: 12.h,
-                                                      family: "Nunito",
-                                                      weight: FontWeight.w300,
-                                                    ),
-                                                ],
-                                              ),
-                                            ],
+                                                    if (statusData.status ==
+                                                        "Order Created")
+                                                      Content(
+                                                        data:
+                                                            "Order ID:${statusData.orderId}",
+                                                        size: 12.h,
+                                                        family: "Nunito",
+                                                        weight: FontWeight.w300,
+                                                      ),
+                                                    if (statusData.status ==
+                                                        "Rejected by influencer")
+                                                      Content(
+                                                        data:
+                                                            "${statusData.requestVideo!.influencer!.name.toString()} rejected the video request.",
+                                                        size: 12.h,
+                                                        family: "Nunito",
+                                                        weight: FontWeight.w300,
+                                                      ),
+                                                    if (statusData.status ==
+                                                        "Rejected by user")
+                                                      Content(
+                                                        data:
+                                                            "${statusData.requestVideo!.user!.name.toString()} rejected the video request.",
+                                                        size: 12.h,
+                                                        family: "Nunito",
+                                                        weight: FontWeight.w300,
+                                                      ),
+                                                    if (statusData.status ==
+                                                        "Rejected")
+                                                      Content(
+                                                        data:
+                                                            "${statusData.requestVideo!.user!.name.toString()} rejected the video request.",
+                                                        size: 12.h,
+                                                        family: "Nunito",
+                                                        weight: FontWeight.w300,
+                                                      ),
+                                                    if (statusData.status ==
+                                                        "waiting video")
+                                                      Content(
+                                                        data:
+                                                            "Waiting for ${statusData.requestVideo!.user!.name.toString()} to accept video.",
+                                                        size: 12.h,
+                                                        family: "Nunito",
+                                                        weight: FontWeight.w300,
+                                                      ),
+                                                    if (statusData.status ==
+                                                        "Accepted by influencer")
+                                                      Content(
+                                                        data:
+                                                            "${statusData.requestVideo!.influencer!.name.toString()} accepted the video request.",
+                                                        size: 12.h,
+                                                        family: "Nunito",
+                                                        weight: FontWeight.w300,
+                                                      ),
+                                                    if (statusData.status ==
+                                                        "Completed")
+                                                      Content(
+                                                        data:
+                                                            "Order ID:${statusData.orderId} Completed",
+                                                        size: 12.h,
+                                                        family: "Nunito",
+                                                        weight: FontWeight.w300,
+                                                      ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 30),
-                                          child: Content(
-                                            data: Utils.formatToTimeOnly(
-                                                statusData.updatedAt
-                                                    .toString()),
-                                            size: 12.h,
-                                            family: "Nunito",
-                                            color: Colors.grey.withOpacity(0.8),
-                                            weight: FontWeight.w600,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 30),
+                                            child: Content(
+                                              data: Utils.formatToTimeOnly(
+                                                  statusData.updatedAt
+                                                      .toString()),
+                                              size: 12.h,
+                                              family: "Nunito",
+                                              color:
+                                                  Colors.grey.withOpacity(0.8),
+                                              weight: FontWeight.w600,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    if (index !=
-                                        value.userActiveHistoryData.data!.data!
-                                                .length -
-                                            1)
-                                      Container(
-                                        margin: EdgeInsets.only(left: 5.w),
-                                        child: Dash(
-                                          direction: Axis.vertical,
-                                          length: 50.w,
-                                          dashLength: 10.w,
-                                          dashGap: 5.w,
-                                          dashColor: Colors.black,
-                                        ),
+                                        ],
                                       ),
-                                  ],
-                                );
-                              },
+                                      if (index !=
+                                          value.userActiveHistoryData.data!
+                                                  .data!.length -
+                                              1)
+                                        Container(
+                                          margin: EdgeInsets.only(left: 5.w),
+                                          child: Dash(
+                                            direction: Axis.vertical,
+                                            length: 50.w,
+                                            dashLength: 10.w,
+                                            dashGap: 5.w,
+                                            dashColor: Colors.black,
+                                          ),
+                                        ),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
 
                             // Row(

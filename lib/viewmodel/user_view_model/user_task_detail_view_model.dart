@@ -4,6 +4,7 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/user_model/update_user_video_status_data_model/update_user_video_status_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_activity_history_data_model/user_activity_history_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_order_detail_data_model/user_order_detail_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_review_data_model/user_review_data_model.dart';
 import 'package:vidbuy_app/repo/user_order_repo.dart';
 import 'package:vidbuy_app/resources/componenets/User_order_tab_bar.dart';
@@ -47,11 +48,10 @@ class UserTaskDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchUploadUserStatusData(
-    BuildContext context, {
-    required String videoTypeId,
-    required String influencerId,
-  }) async {
+  Future<void> fetchUploadUserStatusData(BuildContext context,
+      {required String videoTypeId,
+      required String influencerId,
+      required VoidCallback func}) async {
     Map<String, dynamic> uploadStatusData = {
       'status': "Completed",
     };
@@ -64,11 +64,12 @@ class UserTaskDetailViewModel extends ChangeNotifier {
       if (value.Isbool!) {
         setUserStatusData(ApiResponse.completed(value));
         Utils.snackBar(value.message.toString(), context);
-        navigatePushReplace(
+        navigate(
             context,
             FeedbackScreen(
               influencerId: influencerId,
             ));
+        func.call();
       } else {
         Utils.snackBar(value.message.toString(), context);
       }
@@ -125,6 +126,48 @@ class UserTaskDetailViewModel extends ChangeNotifier {
       setUserActiveHistoryData(ApiResponse.error(error.toString()));
     });
   }
+
+  ApiResponse<UserOrderDetailDataModel> _userOrderData = ApiResponse.loading();
+  ApiResponse<UserOrderDetailDataModel> get userOrderData => _userOrderData;
+
+  setUserOrderData(ApiResponse<UserOrderDetailDataModel> response) {
+    _userOrderData = response;
+    _userOrderData.toString();
+    notifyListeners();
+  }
+
+  Future<void> fetchUserOrderData(String videoTypeId) async {
+    setUserOrderData(ApiResponse.loading());
+    _userOrderRepo.fetchUserOrderData(videoTypeId).then((value) {
+      setUserOrderData(ApiResponse.completed(value));
+      print(value);
+    }).onError((error, stackTrace) {
+      setUserOrderData(ApiResponse.error(error.toString()));
+    });
+  }
+
+  // To be used
+
+  // ApiResponse<UserActivityHistoryDataModel> _userOrderHistoryData =
+  //     ApiResponse.loading();
+  // ApiResponse<UserActivityHistoryDataModel> get userOrderHistoryData =>
+  //     _userOrderHistoryData;
+
+  // setUserOrderHistoryData(ApiResponse<UserActivityHistoryDataModel> response) {
+  //   _userOrderHistoryData = response;
+  //   _userOrderHistoryData.toString();
+  //   notifyListeners();
+  // }
+
+  // Future<void> fetchUserOrderHistoryData(String videoTypeId) async {
+  //   setUserOrderHistoryData(ApiResponse.loading());
+  //   _userOrderRepo.fetchUserActiveHistoryData(videoTypeId).then((value) {
+  //     setUserOrderHistoryData(ApiResponse.completed(value));
+  //     print(value);
+  //   }).onError((error, stackTrace) {
+  //     setUserOrderHistoryData(ApiResponse.error(error.toString()));
+  //   });
+  // }
 
   bool _userReviewloading = false;
   bool get userReviewloading => _userReviewloading;

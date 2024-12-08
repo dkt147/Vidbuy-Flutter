@@ -3,22 +3,22 @@ import 'package:collection/collection.dart';
 import 'datum.dart';
 import 'link.dart';
 
-class Orders {
+class AllOrderList {
   int? currentPage;
-  List<Datum>? data;
+  List<InfluencersAllOrdersDatum>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
   String? lastPageUrl;
   List<Link>? links;
-  dynamic nextPageUrl;
+  String? nextPageUrl;
   String? path;
   int? perPage;
-  dynamic prevPageUrl;
+  String? prevPageUrl;
   int? to;
   int? total;
 
-  Orders({
+  AllOrderList({
     this.currentPage,
     this.data,
     this.firstPageUrl,
@@ -34,10 +34,11 @@ class Orders {
     this.total,
   });
 
-  factory Orders.fromJson(Map<String, dynamic> json) => Orders(
+  factory AllOrderList.fromJson(Map<String, dynamic> json) => AllOrderList(
         currentPage: json['current_page'] as int?,
         data: (json['data'] as List<dynamic>?)
-            ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+            ?.map((e) =>
+                InfluencersAllOrdersDatum.fromJson(e as Map<String, dynamic>))
             .toList(),
         firstPageUrl: json['first_page_url'] as String?,
         from: json['from'] as int?,
@@ -46,10 +47,10 @@ class Orders {
         links: (json['links'] as List<dynamic>?)
             ?.map((e) => Link.fromJson(e as Map<String, dynamic>))
             .toList(),
-        nextPageUrl: json['next_page_url'] as dynamic,
+        nextPageUrl: json['next_page_url'] as String?,
         path: json['path'] as String?,
         perPage: json['per_page'] as int?,
-        prevPageUrl: json['prev_page_url'] as dynamic,
+        prevPageUrl: json['prev_page_url'] as String?,
         to: json['to'] as int?,
         total: json['total'] as int?,
       );
@@ -73,7 +74,7 @@ class Orders {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Orders) return false;
+    if (other is! AllOrderList) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

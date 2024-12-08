@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 import 'influencer.dart';
 import 'video_type.dart';
 
-class Datum {
+class PendingOrdersDatum {
   int? id;
   int? userId;
   int? influencerId;
@@ -26,7 +26,7 @@ class Datum {
   Influencer? influencer;
   VideoType? videoType;
 
-  Datum({
+  PendingOrdersDatum({
     this.id,
     this.userId,
     this.influencerId,
@@ -50,7 +50,8 @@ class Datum {
     this.videoType,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory PendingOrdersDatum.fromJson(Map<String, dynamic> json) =>
+      PendingOrdersDatum(
         id: json['id'] as int?,
         userId: json['user_id'] as int?,
         influencerId: json['influencer_id'] as int?,
@@ -109,7 +110,7 @@ class Datum {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Datum) return false;
+    if (other is! PendingOrdersDatum) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

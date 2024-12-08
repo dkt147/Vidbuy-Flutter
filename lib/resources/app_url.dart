@@ -18,6 +18,11 @@ class AppUrl {
   static String influencerDetailUrl = "$baseUrl/influencer/detail/by-id/";
   static String influencerVideoTypeListUrl =
       "$baseUrl/influencer/video-type/list/";
+  static String userAddViewUrl = "$baseUrl/profile-view/add";
+  static String forgotPasswordEmailUrl = "$baseUrl/forget-password";
+  static String forgotPasswordOtpUrl = "$baseUrl/verify-otp";
+  static String forgotPasswordUrl = "$baseUrl/validate-otp-and-change-password";
+
   static String influencerAllOrdersListUrl =
       "$baseUrl/video-request/list/influencer";
   static String influencerPendingOrdersListUrl =
@@ -42,8 +47,11 @@ class AppUrl {
   static String verifyPasswordUrl = "$baseUrl/verify-password";
   static String deleteAccountUrl = "$baseUrl/delete/account";
   static String logoutAccountUrl = "$baseUrl/logout";
+  static String notificationsSettingUrl = "$baseUrl/user/notification/add";
+
   static String userEditProfileUrl = "$baseUrl/user/profile/edit";
   static String changePasswordUrl = "$baseUrl/change-password";
+  static String notificationsUrl = "$baseUrl/notifications";
 
   static String userAddOrderUrl = "$baseUrl/video-request/add";
   static String influencerWaitingvideoUrl =
@@ -72,6 +80,7 @@ class AppUrl {
   static String influencerActiveHistoryUrl =
       "$baseUrl/video-request/list/influencer/activity-history/";
   static String userActiveHistoryUrl = "$baseUrl/get-activity-history/";
+  static String userOrderHistoryUrl = "$baseUrl/get/request-video/from-user/";
 
   static String influencerUploadUserVideoUrl = "$baseUrl/upload-video-request";
 
@@ -85,16 +94,23 @@ class AppUrl {
       "$baseUrl/admin/approved-influencer";
   static String adminRejectedInfluencersUrl =
       "$baseUrl/admin/cancelled-influencer";
+  static String adminInfluencerDataUrl = "$baseUrl/admin/influencer/by/";
+
   static String adminChangeInfluencerStatusUrl =
       "$baseUrl/admin/update-status/";
 
   static String adminRejectedOrderListUrl = "$baseUrl/admin/rejected/orders";
   static String adminReportedVideosListUrl = "$baseUrl/report-videos";
 
-
   static String adminCompletedOrderListUrl = "$baseUrl/admin/completed/orders";
   static String adminRefundOrderListUrl = "$baseUrl/admin/completed/orders";
 
   static String adminChangeOrderStatusUrl =
       "$baseUrl/admin/request/video/update-status/";
+
+  static String adminGraphYearlyUrl = "$baseUrl/profile-view/yearly";
+
+  static String adminTotalInfluencerUrl = "$baseUrl/admin/total-influencer";
+
+  static String adminGraphDateWiseUrl = "$baseUrl/profile-view/date-wise";
 }

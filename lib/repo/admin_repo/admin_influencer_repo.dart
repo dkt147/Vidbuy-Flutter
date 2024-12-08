@@ -1,6 +1,7 @@
 import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/data/network/network_api_services.dart';
 import 'package:vidbuy_app/model/admin_model/admin_change_influencer_status_data_model/admin_change_influencer_status_data_model.dart';
+import 'package:vidbuy_app/model/admin_model/admin_influencer_detail_data_model/admin_influencer_detail_data_model.dart';
 import 'package:vidbuy_app/model/admin_model/admin_pending_influencer_list_data_model/admin_pending_influencer_list_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
@@ -35,6 +36,17 @@ class AdminInfleuncerRepo {
       dynamic response = await apiServices.getGetApiResponse(
           AppUrl.adminRejectedInfluencersUrl + dateQuery!, true);
       return response = AdminPendingInfluencerListDataModel.fromJson(response);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<AdminInfluencerDetailDataModel> fetchAdminInfluencerData(
+      String influencerId) async {
+    try {
+      dynamic response = await apiServices.getGetApiResponse(
+          AppUrl.adminInfluencerDataUrl + influencerId, true);
+      return response = AdminInfluencerDetailDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }

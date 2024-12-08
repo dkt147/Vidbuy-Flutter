@@ -1,20 +1,20 @@
 import 'package:collection/collection.dart';
 
-import 'orders.dart';
+import 'all_order_list.dart';
 
 class Result {
-  Orders? orders;
+  AllOrderList? allOrderList;
 
-  Result({this.orders});
+  Result({this.allOrderList});
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        orders: json['list'] == null
+        allOrderList: json['list'] == null
             ? null
-            : Orders.fromJson(json['list'] as Map<String, dynamic>),
+            : AllOrderList.fromJson(json['list'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
-        'list': orders?.toJson(),
+        'list': allOrderList?.toJson(),
       };
 
   @override
@@ -26,5 +26,5 @@ class Result {
   }
 
   @override
-  int get hashCode => orders.hashCode;
+  int get hashCode => allOrderList.hashCode;
 }

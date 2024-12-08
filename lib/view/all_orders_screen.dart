@@ -21,19 +21,18 @@ class AllOrdersScreen extends StatefulWidget {
 class _AllOrdersScreenState extends State<AllOrdersScreen> {
   // InfluencerOrdersViewModel influencersOrdersViewModel =
   //     InfluencerOrdersViewModel();
-
   InfluencerOrdersViewModel influencersOrdersViewModel =
       InfluencerOrdersViewModel();
 
-       NotificationServices notificationServices = NotificationServices();
+  NotificationServices notificationServices = NotificationServices();
 
   @override
   void initState() {
     super.initState();
     // influencersOrdersViewModel = Provider.of<InfluencerOrdersViewModel>(context, listen: false);
     // Initial API call
-    influencersOrdersViewModel.fetchInfluencerAllOrdersList(widget.date);
-
+    // influencersOrdersViewModel = InfluencerOrdersViewModel();
+    influencersOrdersViewModel.fetchInfluencerAllOrdersList(date: widget.date);
     notificationServices.getDeviceToken().then((value) {
       influencersOrdersViewModel.fetchNotificationUpdate(value.toString());
       print("device token");
@@ -44,133 +43,234 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
   @override
   void didUpdateWidget(covariant AllOrdersScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Check if the date has changed
     if (oldWidget.date != widget.date) {
-      influencersOrdersViewModel.fetchInfluencerAllOrdersList(widget.date);
+      influencersOrdersViewModel
+          .resetPagination(); // Reset data and pagination state
+      influencersOrdersViewModel.fetchInfluencerAllOrdersList(
+          date: widget.date);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final influencersOrdersViewModel = Provider.of<InfluencerOrdersViewModel>(context, listen: false);
-    // influencersOrdersViewModel.fetchInfluencerAllOrdersList(widget.date);
     return Scaffold(
-      body: Column(
-        children: [
-          ChangeNotifierProvider(
-            create: (BuildContext context) => influencersOrdersViewModel,
-            child: Consumer<InfluencerOrdersViewModel>(
-                builder: (context, value, child) {
-              switch (value.influencerAllOrdersList.status) {
-                case Status.INIT:
-                  return Container();
-                case Status.LOADING:
-                  return const Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
+      body: ChangeNotifierProvider(
+        create: (_) => influencersOrdersViewModel,
+        child: Consumer<InfluencerOrdersViewModel>(
+          builder: (context, viewModel, child) {
+            return Column(
+              children: [
+                if (viewModel.isLoading && viewModel.allOrders.isEmpty)
+                  const Expanded(
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                else if (!viewModel.isLoading && viewModel.allOrders.isEmpty)
+                  Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/Logo/logo.png',
+                            height: 177.h,
+                            width: 128.w,
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            "No Orders Currently",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
-                  );
-                case Status.ERROR:
-                  return Center(
-                    child: Content(
-                        data: value.influencerAllOrdersList.message.toString(),
-                        size: 18),
-                  );
-                case Status.COMPLETED:
-                  return value.influencerAllOrdersList!.data!.result!.orders!
-                              .data!.length ==
-                          0
-                      ? Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Center(
-                                child: Image.asset(
-                                  'assets/Logo/logo.png',
-                                  height: 177.h,
-                                  width: 128.w,
+                  )
+                else
+                  Expanded(
+                    child: NotificationListener<ScrollNotification>(
+                      onNotification: (scrollInfo) {
+                        if (scrollInfo.metrics.pixels ==
+                                scrollInfo.metrics.maxScrollExtent &&
+                            !viewModel.isFetchingMore) {
+                          viewModel.fetchInfluencerAllOrdersList(
+                            date: widget.date,
+                            isLoadMore: true,
+                          );
+                        }
+                        return false;
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 70),
+                        child: ListView.builder(
+                          itemCount: viewModel.allOrders.length +
+                              (viewModel.isFetchingMore ? 1 : 0),
+                          itemBuilder: (context, index) {
+                            if (index == viewModel.allOrders.length) {
+                              return const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: CircularProgressIndicator(),
                                 ),
-                              ),
-                              SizedBox(height: 16),
-                              Center(
-                                child: Text(
-                                  "No Orders Currently",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Expanded(
-                          child: ListView.builder(
-                            itemCount: value.influencerAllOrdersList.data!
-                                .result!.orders!.data!.length,
-                            itemBuilder: (context, index) {
-                              final influencer = value.influencerAllOrdersList
-                                  .data!.result!.orders!.data![index];
+                              );
+                            }
 
-                              return GestureDetector(
-                                  onTap: () {
-                                    navigate(
-                                        context,
-                                        InfluencerTaskDetailTabBarWidget(
-                                            videoTypeId:
-                                                influencer.id.toString(),
-                                            influencerId: influencer
-                                                .influencerId
-                                                .toString(),
-                                            createdAt:
-                                                influencer.createdAt.toString(),
-                                            orderId:
-                                                influencer.orderId.toString(),
-                                            expiresAt:
-                                                influencer.expiresAt.toString(),
-                                            status:
-                                                influencer.status.toString(),
-                                            videoTypeName: influencer
-                                                .videoType!.name
-                                                .toString(),
-                                            from: influencer.from.toString(),
-                                            to: influencer.to.toString(),
-                                            requiredDays: influencer
-                                                .requiredDays
-                                                .toString(),
-                                            description: influencer.description
-                                                .toString(),
-                                            totalPrice: influencer.totalPrice
-                                                .toString()));
-                                  },
-                                  child: AllTaskTile(
-                                    category:
-                                        influencer.videoType!.name.toString(),
-                                    price: influencer.totalPrice.toString(),
-                                    date: influencer.createdAt.toString(),
-                                  ));
-                            },
-                          ),
-                        );
-                case null:
-              }
-              return Container();
-            }),
-          ),
-          SizedBox(
-            height: 70.h,
-          )
-        ],
+                            final influencer = viewModel.allOrders[index];
+                            return GestureDetector(
+                              onTap: () {
+                                navigate(
+                                    context,
+                                    InfluencerTaskDetailTabBarWidget(
+                                      videoTypeId: influencer.id.toString(),
+                                    ));
+                              },
+                              child: AllTaskTile(
+                                category: influencer.videoType!.name.toString(),
+                                price: influencer.totalPrice.toString(),
+                                date: influencer.createdAt.toString(),
+                                status: influencer.status.toString(),
+                                orderId: influencer.orderId.toString(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                if (viewModel.isFetchingMore)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: CircularProgressIndicator(),
+                  ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // final influencersOrdersViewModel = Provider.of<InfluencerOrdersViewModel>(context, listen: false);
+//     // influencersOrdersViewModel.fetchInfluencerAllOrdersList(widget.date);
+//     return Scaffold(
+//       body: Column(
+//         children: [
+//           ChangeNotifierProvider(
+//             create: (BuildContext context) => influencersOrdersViewModel,
+//             child: Consumer<InfluencerOrdersViewModel>(
+//                 builder: (context, value, child) {
+//               switch (value.influencerAllOrdersList.status) {
+//                 case Status.INIT:
+//                   return Container();
+//                 case Status.LOADING:
+//                   return const Expanded(
+//                     child: Column(
+//                       mainAxisAlignment: MainAxisAlignment.center,
+//                       mainAxisSize: MainAxisSize.max,
+//                       children: [
+//                         Center(
+//                           child: CircularProgressIndicator(),
+//                         ),
+//                       ],
+//                     ),
+//                   );
+//                 case Status.ERROR:
+//                   return Center(
+//                     child: Content(
+//                         data: value.influencerAllOrdersList.message.toString(),
+//                         size: 18),
+//                   );
+//                 case Status.COMPLETED:
+//                   return value.influencerAllOrdersList!.data!.result!.orders!
+//                               .data!.length ==
+//                           0
+//                       ? Expanded(
+//                           child: Column(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             mainAxisSize: MainAxisSize.max,
+//                             children: [
+//                               Center(
+//                                 child: Image.asset(
+//                                   'assets/Logo/logo.png',
+//                                   height: 177.h,
+//                                   width: 128.w,
+//                                 ),
+//                               ),
+//                               SizedBox(height: 16),
+//                               Center(
+//                                 child: Text(
+//                                   "No Orders Currently",
+//                                   style: TextStyle(
+//                                       fontSize: 20,
+//                                       fontWeight: FontWeight.bold),
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         )
+//                       : Expanded(
+//                           child: ListView.builder(
+//                             itemCount: value.influencerAllOrdersList.data!
+//                                 .result!.orders!.data!.length,
+//                             itemBuilder: (context, index) {
+//                               final influencer = value.influencerAllOrdersList
+//                                   .data!.result!.orders!.data![index];
+
+//                               return GestureDetector(
+//                                   onTap: () {
+//                                     navigate(
+//                                         context,
+//                                         InfluencerTaskDetailTabBarWidget(
+//                                             videoTypeId:
+//                                                 influencer.id.toString(),
+//                                             influencerId: influencer
+//                                                 .influencerId
+//                                                 .toString(),
+//                                             createdAt:
+//                                                 influencer.createdAt.toString(),
+//                                             orderId:
+//                                                 influencer.orderId.toString(),
+//                                             expiresAt:
+//                                                 influencer.expiresAt.toString(),
+//                                             status:
+//                                                 influencer.status.toString(),
+//                                             videoTypeName: influencer
+//                                                 .videoType!.name
+//                                                 .toString(),
+//                                             from: influencer.from.toString(),
+//                                             to: influencer.to.toString(),
+//                                             requiredDays: influencer
+//                                                 .requiredDays
+//                                                 .toString(),
+//                                             description: influencer.description
+//                                                 .toString(),
+//                                             totalPrice: influencer.totalPrice
+//                                                 .toString()));
+//                                   },
+//                                   child: AllTaskTile(
+//                                     category:
+//                                         influencer.videoType!.name.toString(),
+//                                     price: influencer.totalPrice.toString(),
+//                                     date: influencer.createdAt.toString(),
+//                                   ));
+//                             },
+//                           ),
+//                         );
+//                 case null:
+//               }
+//               return Container();
+//             }),
+//           ),
+//           SizedBox(
+//             height: 70.h,
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }
 // SizedBox(
 //   height: 20.h,
 // ),

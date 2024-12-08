@@ -14,6 +14,7 @@ import 'package:vidbuy_app/view/influencer_profile_screen.dart';
 import 'package:vidbuy_app/view/notification_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/home_screen_view_model.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -51,13 +52,14 @@ class _HomeScreenState extends State<HomeScreen>
     int hour = DateTime.now().hour;
 
     if (hour < 12) {
-      return "Good Morning";
+      return AppLocalizations.of(context)!.userHomeTitleGoodMorning;
+      // "Good Morning";
     } else if (hour < 17) {
-      return "Good Afternoon";
+      return AppLocalizations.of(context)!.userHomeTitleGoodAfternoon;
     } else if (hour < 20) {
-      return "Good Evening";
+      return AppLocalizations.of(context)!.userHomeTitleGoodEvening;
     } else {
-      return "Good Night";
+      return AppLocalizations.of(context)!.userHomeTitleGoodNight;
     }
   }
 
@@ -227,7 +229,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   "assets/Icon/searchIcon.png",
                                   height: 18.h),
                               border: InputBorder.none,
-                              hintText: 'Discover celebrities...',
+                              hintText: AppLocalizations.of(context)!
+                                  .userHomeSearchText,
                               hintStyle: TextStyle(
                                 fontFamily: "Nunito",
                                 fontSize: 14.h,
@@ -317,7 +320,8 @@ class _HomeScreenState extends State<HomeScreen>
                     Container(
                       margin: EdgeInsets.only(left: 12.w),
                       child: Content(
-                        data: "Trending Influencers",
+                        data: AppLocalizations.of(context)!
+                            .userHomeTitleTrendingInfluencers,
                         size: 22.h,
                         family: "Nunito",
                         color: Color(0xff0A071E),
@@ -514,7 +518,8 @@ class _HomeScreenState extends State<HomeScreen>
                     Container(
                       margin: EdgeInsets.only(left: 12.w),
                       child: Content(
-                        data: "Recently Added",
+                        data: AppLocalizations.of(context)!
+                            .userHomeTitleRecentlyAdded,
                         size: 22.h,
                         family: "Nunito",
                         color: Color(0xff0A071E),

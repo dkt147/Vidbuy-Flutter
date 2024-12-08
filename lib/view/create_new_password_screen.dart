@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vidbuy_app/Function/navigate.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
-import 'package:vidbuy_app/view/nav_bar.dart';
+import 'package:vidbuy_app/viewmodel/forgot_password_view_model.dart';
 
+// ignore: must_be_immutable
 class CreateNewPasswordScreen extends StatelessWidget {
-  CreateNewPasswordScreen({super.key});
+  int userId;
+  CreateNewPasswordScreen({super.key, required this.userId});
 
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ForgotPasswordViewModel>(context, listen: false);
     return Scaffold(
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 21.w),
@@ -47,7 +50,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
               ),
               SizedBox(height: 55.h),
               ContentFieldPassword(
-                label: "Your Password",
+                label: "New Password",
                 hint: "Password",
                 index: 0, // Add this line
                 controller: _passwordController,
@@ -58,7 +61,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
               SizedBox(height: 8.h),
 
               Text(
-                "Must be at least 6 characters.",
+                "Must be at least 8 characters.",
                 style: TextStyle(
                   fontSize: 14.h,
                   fontFamily: "Nunito",
@@ -67,49 +70,74 @@ class CreateNewPasswordScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               ContentFieldPassword(
-                label: "Your Password",
+                label: "Confirm Password",
                 hint: "Password",
                 index: 0, // Add this line
-                controller: _passwordController,
+                controller: _confirmPasswordController,
                 inputFormat: [FilteringTextInputFormatter.singleLineFormatter],
                 keyboardType:
                     TextInputType.visiblePassword, // This line is also included
               ),
               SizedBox(height: 40.h),
-              Container(
-                width: 335.w,
-                height: 50.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_passwordController.text.isEmpty) {
-                      snackBar("Please Enter Pass", context);
-                    } else if (_confirmPasswordController.text.isEmpty) {
-                      snackBar("Please Enter Confrim Password", context);
-                    } else {
-                      navigate(context, NavBarScreen());
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff5271FF),
-                    // padding: EdgeInsets.symmetric(
-                    //   horizontal: 120.w,
-                    //   vertical: 15.h,
-                    // ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
+              Consumer<ForgotPasswordViewModel>(
+                  builder: (context, viewModel, child) {
+                return SizedBox(
+                  width: 335.w,
+                  height: 50.h,
+                  child: ElevatedButton(
+                    onPressed: viewModel.forgotPasswordLoading
+                        ? null // Disable button if loading
+                        : () {
+                            if (_passwordController.text.isEmpty) {
+                              Utils.snackBar("Please enter password", context);
+                            } else if (_confirmPasswordController
+                                .text.isEmpty) {
+                              Utils.snackBar(
+                                  "Please enter confirm password", context);
+                            } else if (_passwordController.text.length < 8) {
+                              Utils.snackBar(
+                                  "Password must be at least 8 characters long",
+                                  context);
+                            } else if (_confirmPasswordController.text.length <
+                                8) {
+                              Utils.snackBar(
+                                  "Confirm Password must be at least 8 characters long",
+                                  context);
+                            } else {
+                              viewModel.fetchForgotPasswordResponse(
+                                  context,
+                                  userId,
+                                  _passwordController.text.toString(),
+                                  _confirmPasswordController.text.toString());
+                            }
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff5271FF),
+                      // padding: EdgeInsets.symmetric(
+                      //   horizontal: 120.w,
+                      //   vertical: 15.h,
+                      // ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
                     ),
+                    child: viewModel.forgotPasswordLoading
+                        ? CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                        : Text(
+                            "Reset Password",
+                            style: TextStyle(
+                              fontSize: 16.h,
+                              color: Colors.white,
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                   ),
-                  child: Text(
-                    "Reset Password",
-                    style: TextStyle(
-                      fontSize: 16.h,
-                      color: Colors.white,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
+                );
+              }),
             ],
           ),
         ),

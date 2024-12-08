@@ -4,6 +4,7 @@ import 'package:vidbuy_app/model/user_model/update_user_video_status_data_model/
 import 'package:vidbuy_app/model/user_model/user_activity_history_data_model/user_activity_history_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_all_orders_data_model/user_all_orders_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_completed_order_list_data_model/user_completed_order_list_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_order_detail_data_model/user_order_detail_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_pending_orders_data_model/user_pending_orders_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_rejected_orders_data_model/user_rejected_orders_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_review_data_model/user_review_data_model.dart';
@@ -13,51 +14,59 @@ import 'package:vidbuy_app/resources/app_url.dart';
 class UsersOrderRepo {
   BaseApiServices apiServices = NetworkApiService();
 
-  Future<UserAllOrdersDataModel> fetchUserAllOrdersList() async {
+  Future<UserAllOrdersDataModel> fetchUserAllOrdersList(int page) async {
     try {
+      final String paginatedQuery = '?page=$page';
       dynamic response = await apiServices.getGetApiResponse(
-          AppUrl.userAllOrdersListUrl, true);
+          AppUrl.userAllOrdersListUrl + paginatedQuery, true);
       print(response);
-      return response = UserAllOrdersDataModel.fromJson(response);
+      return UserAllOrdersDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }
   }
 
-  Future<UserPendingOrdersDataModel> fetchUserPendingOrdersList() async {
+  Future<UserPendingOrdersDataModel> fetchUserPendingOrdersList(
+      int page) async {
     try {
+      final String paginatedQuery = '?page=$page';
       dynamic response = await apiServices.getGetApiResponse(
-          AppUrl.userPendingOrdersListUrl, true);
+          AppUrl.userPendingOrdersListUrl + paginatedQuery, true);
       return response = UserPendingOrdersDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }
   }
 
-  Future<UserWaitingVideoDataModel> fetchUserWaitingVideoList() async {
+  Future<UserWaitingVideoDataModel> fetchUserWaitingVideoList(int page) async {
     try {
-      dynamic response =
-          await apiServices.getGetApiResponse(AppUrl.userWaitingvideoUrl, true);
+      final String paginatedQuery = '?page=$page';
+      dynamic response = await apiServices.getGetApiResponse(
+          AppUrl.userWaitingvideoUrl + paginatedQuery, true);
       return response = UserWaitingVideoDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }
   }
 
-  Future<UserCompletedOrderListDataModel> fetchUserCompletedVideoList() async {
+  Future<UserCompletedOrderListDataModel> fetchUserCompletedVideoList(
+      int page) async {
     try {
+      final String paginatedQuery = '?page=$page';
       dynamic response = await apiServices.getGetApiResponse(
-          AppUrl.userCompletedOrdersListUrl, true);
+          AppUrl.userCompletedOrdersListUrl + paginatedQuery, true);
       return response = UserCompletedOrderListDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }
   }
 
-  Future<UserRejectedOrdersDataModel> fetchUserRejectedVideoList() async {
+  Future<UserRejectedOrdersDataModel> fetchUserRejectedVideoList(
+      int page) async {
     try {
+      final String paginatedQuery = '?page=$page';
       dynamic response = await apiServices.getGetApiResponse(
-          AppUrl.userRejectedOrdersListUrl, true);
+          AppUrl.userRejectedOrdersListUrl + paginatedQuery, true);
       return response = UserRejectedOrdersDataModel.fromJson(response);
     } catch (e) {
       throw e;
@@ -71,6 +80,18 @@ class UsersOrderRepo {
           AppUrl.userActiveHistoryUrl + videoTypeId, true);
       print(response);
       return response = UserActivityHistoryDataModel.fromJson(response);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<UserOrderDetailDataModel> fetchUserOrderData(
+      String videoTypeId) async {
+    try {
+      dynamic response = await apiServices.getGetApiResponse(
+          AppUrl.userOrderHistoryUrl + videoTypeId, true);
+      print(response);
+      return response = UserOrderDetailDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }

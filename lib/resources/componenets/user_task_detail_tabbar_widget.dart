@@ -124,23 +124,12 @@ class _UserTaskDetailTabBarWidgetState extends State<UserTaskDetailTabBarWidget>
           // WaitingVideoScreen(),
           UserVideoScreen(
             status: widget.status.toString(),
-            videoTypeId: widget.videoUploadId.toString(),
+            videoTypeId: widget.videoTypeId.toString(),
             videoUrl: widget.videoUrl.toString(),
             influencerId: widget.influencerId.toString(),
           ),
           UserOrdersDetailsScreen(
             videoTypeId: widget.videoTypeId.toString(),
-            createdAt: widget.createdAt.toString(),
-            orderId: widget.orderId.toString(),
-            expiresAt: widget.expiresAt.toString(),
-            status: widget.status.toString(),
-            videoTypeName: widget.videoTypeName.toString(),
-            from: widget.from.toString(),
-            to: widget.to.toString(),
-            requiredDays: widget.requiredDays.toString(),
-            description: widget.description.toString(),
-            totalPrice: widget.totalPrice.toString(),
-            reason: widget.reason.toString(),
           ),
 
           UserActiveHistoryScreen(

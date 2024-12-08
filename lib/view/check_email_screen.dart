@@ -62,11 +62,11 @@ class CheckEmailScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // Add functionality to open email app
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CreateNewPasswordScreen()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => CreateNewPasswordScreen()),
+                  // );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff5271FF),

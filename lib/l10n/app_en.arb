@@ -16,7 +16,54 @@
     "policies" :"Policies",
     "logOut" : "Log Out",
     "influencers" : "Influencers",
+    "influencer" : "Influencer",
     "doYouWantToDelete" : "Do you want to delete the account?",
-    "delete" : "Delete"
+    "delete" : "Delete",
+    "userHomeTitleGoodMorning" : "Good Morning",
+    "userHomeTitleGoodEvening" : "Good Evening",
+    "userHomeTitleGoodAfternoon" : "Good Afternoon",
+    "userHomeTitleGoodNight" : "Good Night",
+    "userHomeSearchText" : "Discover Celebrities...",
+    "userHomeTitleTrendingInfluencers" : "Trending Influencers",
+    "userHomeTitleRecentlyAdded" : "Recently Added",
+    "userSearchSortBy" : "Sort By",
+    "userSearchPriceHtoL" : "Price: High to Low",
+    "userSearchPriceLtoH" : "Price: Low to High",
+    "userSearchNewest" : "Newest",
+    "userSearchOldest" : "Oldest",
+    "userSearchMaxPrice" : "Max Price",
+    "userOrdersRecentOrders" : "Recent Orders",
+    "userInfluencerProfileBookMe" : "Book Me",
+    "userInfluencerProfileTotalReviews" : "Total Reviews",
+    "userInfluencerProfilePricePerVideo" : "Price Per Video",
+    "userInfluencerProfileTotalRequest" : "Total Requests",
+    "userInfluencerProfileInfluencerReviews" : "Influencer Reviews",
+    "userInfluencerProfileNoVideos" : "No Videos Available",
+    "userInfluencerProfileNoReviews" : "No Reviews Available",
+    "userCreateOrder" : "Create Order",
+    "userInfluencerVideoService" : "Influencer Video Service",
+    "userProvideTheVideoInformation" : "Provide the video information",
+    "userWhosThisVideoFor" : "Who's this video for?",
+    "userSelectVideoType" : "Select Video Type",
+    "userFrom" : "From",
+    "userTo" : "To",
+    "userDetailsAboutRequest" : "Details about request",
+    "userDescriptionOfWhatIsGoingOn" : "Description of what is going on...",
+    "userNext" : "Next",
+    "userEnterName" : "Enter name"
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
 
 }

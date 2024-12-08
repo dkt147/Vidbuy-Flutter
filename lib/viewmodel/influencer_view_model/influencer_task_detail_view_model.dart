@@ -10,7 +10,9 @@ import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/influencer_model/update_status_data_model/update_status_data_model.dart';
 import 'package:vidbuy_app/model/influencer_model/upload_video_data_model/upload_video_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_activity_history_data_model/user_activity_history_data_model.dart';
+import 'package:vidbuy_app/model/user_model/user_order_detail_data_model/user_order_detail_data_model.dart';
 import 'package:vidbuy_app/repo/influencer_orders_repo.dart';
+import 'package:vidbuy_app/repo/user_order_repo.dart';
 import 'package:vidbuy_app/resources/componenets/influencer_order_tabbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
@@ -86,8 +88,8 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> uploadData(
-      BuildContext context, String requestVideoId, File videoFile) async {
+  Future<void> uploadData(BuildContext context, String requestVideoId,
+      File videoFile, VoidCallback func) async {
     Map<String, dynamic> videoData = {
       'request_video_id': requestVideoId,
     };
@@ -110,8 +112,8 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
         // Check if the response contains the boolean key and it's true
         if (jsonResponse['bool'] == true) {
           Utils.snackBar(jsonResponse['message'], context);
-
-          Navigator.pop(context);
+          func.call();
+          // Navigator.pop(context);
           clearVideo();
         } else {
           Utils.snackBar(jsonResponse['message'], context);
@@ -177,7 +179,7 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
   }
 
   Future<void> fetchUploadStatusData(BuildContext context,
-      {required String videoTypeId}) async {
+      {required String videoTypeId, required VoidCallback func}) async {
     Map<String, dynamic> uploadStatusData = {
       'status': "Accepted by influencer",
     };
@@ -190,7 +192,7 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
       if (value.Isbool!) {
         setinfluencerStatusData(ApiResponse.completed(value));
         Utils.snackBar(value.message.toString(), context);
-        Navigator.pop(context);
+        func.call();
       } else {
         Utils.snackBar(value.message.toString(), context);
       }
@@ -210,11 +212,10 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchRejectStatusData(
-    BuildContext context, {
-    required String videoTypeId,
-    required String reason,
-  }) async {
+  Future<void> fetchRejectStatusData(BuildContext context,
+      {required String videoTypeId,
+      required String reason,
+      required VoidCallback func}) async {
     Map<String, dynamic> uploadStatusData = {
       'status': "Rejected by influencer",
       "reason": reason
@@ -228,8 +229,8 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
       if (value.Isbool!) {
         setinfluencerStatusData(ApiResponse.completed(value));
         Utils.snackBar(value.message.toString(), context);
+        func.call();
         Navigator.pop(context);
-        navigatePushReplace(context, InfluencerNavbarScreen());
       } else {
         Utils.snackBar(value.message.toString(), context);
       }
@@ -261,6 +262,27 @@ class InfluencerTaskDetailViewModel extends ChangeNotifier {
       print(value);
     }).onError((error, stackTrace) {
       setInfluencerActiveHistoryData(ApiResponse.error(error.toString()));
+    });
+  }
+
+  ApiResponse<UserOrderDetailDataModel> _userOrderData = ApiResponse.loading();
+  ApiResponse<UserOrderDetailDataModel> get userOrderData => _userOrderData;
+
+  setUserOrderData(ApiResponse<UserOrderDetailDataModel> response) {
+    _userOrderData = response;
+    _userOrderData.toString();
+    notifyListeners();
+  }
+
+  UsersOrderRepo _userOrderRepo = UsersOrderRepo();
+
+  Future<void> fetchOrderData(String videoTypeId) async {
+    setUserOrderData(ApiResponse.loading());
+    _userOrderRepo.fetchUserOrderData(videoTypeId).then((value) {
+      setUserOrderData(ApiResponse.completed(value));
+      print(value);
+    }).onError((error, stackTrace) {
+      setUserOrderData(ApiResponse.error(error.toString()));
     });
   }
 

@@ -4,41 +4,9 @@ import 'package:vidbuy_app/view/personal_details_screen.dart';
 import 'package:vidbuy_app/view/video_identity_screen.dart';
 
 class AdminInfluencerDetailTabBarWidget extends StatefulWidget {
-  final String status;
-  final String? videoUrl;
   String influencerId;
-  String name;
-  String email;
-  String country;
-  String genera;
-  String username;
-  String videosAccepted;
-  String pricePerVideo;
-  String totalReviews;
-  String totalVideosMade;
-  String totalVideosRejected;
-  String createdAt;
-  List<String> videoTypes;
-  List<String> videoPrices;
 
-  AdminInfluencerDetailTabBarWidget(
-      {required this.status,
-      required this.influencerId,
-      this.videoUrl,
-      required this.name,
-      required this.email,
-      required this.country,
-      required this.genera,
-      required this.username,
-      required this.videosAccepted,
-      required this.pricePerVideo,
-      required this.totalReviews,
-      required this.totalVideosMade,
-      required this.totalVideosRejected,
-      required this.createdAt,
-      required this.videoTypes,
-      required this.videoPrices,
-      super.key});
+  AdminInfluencerDetailTabBarWidget({required this.influencerId, super.key});
 
   @override
   _AdminInfluencerDetailTabBarWidgetState createState() =>
@@ -120,27 +88,10 @@ class _AdminInfluencerDetailTabBarWidgetState
         controller: _tabController,
         children: [
           VideoIdentityScreen(
-            status: widget.status.toString(),
             influencerId: widget.influencerId.toString(),
-            videoUrl: widget.videoUrl.toString(),
           ),
           PersonalDetailsScreen(
             influencerId: widget.influencerId.toString(),
-            status: widget.status.toString(),
-            name: widget.name.toString(),
-            email: widget.email.toString(),
-            country: widget.country.toString(),
-            genera: widget.genera.toString(),
-            username: widget.username.toString(),
-            videosAccepted: "10", // If this needs a check, replace accordingly
-            pricePerVideo: "10", // If this needs a check, replace accordingly
-            totalReviews: widget.totalReviews.toString(),
-            totalVideosMade: "10", // If this needs a check, replace accordingly
-            totalVideosRejected:
-                "20", // If this needs a check, replace accordingly
-            createdAt: widget.createdAt.toString(),
-            videoTypes: widget.videoTypes,
-            videoPrices: widget.videoPrices,
           )
         ],
       ),

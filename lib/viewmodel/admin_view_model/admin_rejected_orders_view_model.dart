@@ -7,7 +7,9 @@ import 'package:vidbuy_app/model/admin_model/admin_completed_orders_data_model/a
 import 'package:vidbuy_app/model/admin_model/admin_completed_orders_data_model/datum.dart';
 import 'package:vidbuy_app/model/admin_model/admin_rejected_orders_data_model/admin_rejected_orders_data_model.dart';
 import 'package:vidbuy_app/model/admin_model/admin_rejected_orders_data_model/rejected_datum.dart';
+import 'package:vidbuy_app/model/user_model/user_order_detail_data_model/user_order_detail_data_model.dart';
 import 'package:vidbuy_app/repo/admin_repo/admin_rejected_orders_repo.dart';
+import 'package:vidbuy_app/repo/user_order_repo.dart';
 import 'package:vidbuy_app/resources/componenets/admin_canceled_order_tab_bar.dart';
 
 class AdminRejectedOrdersViewModel with ChangeNotifier {
@@ -27,62 +29,129 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
   ApiResponse<AdminRejectedOrdersDataModel> get adminRejectedOrdersList =>
       _adminRejectedOrdersList;
 
-  List<RejectedDatum> _orders = []; // Store the list of orders
-  List<RejectedDatum> get orders => _orders;
-
-  int _currentPage = 1; // Start with the first page
-  bool _hasMore = true; // Flag to indicate if more data is available
-  bool _isFetching = false; // Prevent duplicate API calls
-
   setAdminRejectedOrdersList(
       ApiResponse<AdminRejectedOrdersDataModel> response) {
     _adminRejectedOrdersList = response;
     notifyListeners();
   }
 
+  final List<RejectedDatum> _adminRejectedOrders = [];
+  List<RejectedDatum> get adminRejectedOrders => _adminRejectedOrders;
+
+  bool _isAdminRejectedListLoading = false;
+  bool get isAdminRejectedListLoading => _isAdminRejectedListLoading;
+
+  bool _isFetchingMoreRejectedAdminList = false;
+  bool get isFetchingMoreRejectedAdminList => _isFetchingMoreRejectedAdminList;
+
+  int _currentPageAdminRejectedList = 1;
+  bool _hasMoreAdminRejectedList = true;
+  bool get hasMoreAdminRejectedList => _hasMoreAdminRejectedList;
+
   Future<void> fetchAdminRejectedOrdersList(String? search,
-      {bool isNextPage = false}) async {
-    if (_isFetching) return;
+      {bool isLoadMore = false}) async {
+    if (isLoadMore && !_hasMoreAdminRejectedList) return;
 
-    String queryParam = "?page=$_currentPage"; // Add pagination parameter
-    if (search != null && search.isNotEmpty) {
-      queryParam += "&search=$search"; // Add search parameter if available
-    }
-
-    if (!isNextPage) {
+    if (!isLoadMore) {
+      _isAdminRejectedListLoading = true;
+      _currentPageAdminRejectedList = 1;
+      _adminRejectedOrders.clear();
       setAdminRejectedOrdersList(ApiResponse.loading());
-      _currentPage = 1; // Reset the page when not paginating
-      _orders.clear(); // Clear the list for new search
+    } else {
+      _isFetchingMoreRejectedAdminList = true;
+      notifyListeners();
     }
 
-    _isFetching = true;
     try {
-      final response = await _adminRejectedOrdersRepo
-          .fetchAdminRejectedOrdersList(queryParam);
-
-      if (response.data!.data?.isEmpty ?? true) {
-        _hasMore = false; // No more data
-      } else {
-        _currentPage++; // Increment the page for the next fetch
-        _orders.addAll(response.data!.data!); // Append new data
+      String queryParam = "?page=$_currentPageAdminRejectedList";
+      if (search != null && search.isNotEmpty) {
+        queryParam += "&search=$search";
       }
 
-      setAdminRejectedOrdersList(ApiResponse.completed(response));
+      final value = await _adminRejectedOrdersRepo
+          .fetchAdminRejectedOrdersList(queryParam);
+
+      _adminRejectedOrders.addAll(value.data!.data!);
+      _hasMoreAdminRejectedList = value.data!.data!.isNotEmpty;
+      _currentPageAdminRejectedList++;
+
+      setAdminRejectedOrdersList(ApiResponse.completed(value));
     } catch (error) {
       setAdminRejectedOrdersList(ApiResponse.error(error.toString()));
     } finally {
-      _isFetching = false;
+      _isAdminRejectedListLoading = false;
+      _isFetchingMoreRejectedAdminList = false;
+      notifyListeners();
     }
   }
 
-  void resetPagination() {
-    _currentPage = 1;
-    _hasMore = true;
-    _orders.clear();
-    notifyListeners();
+  void resetAdminRejectedOrdersPagination() {
+    _currentPageAdminRejectedList = 1;
+    _hasMoreAdminRejectedList = true;
+    _adminRejectedOrders.clear();
   }
 
-  bool get hasMore => _hasMore;
+  // ApiResponse<AdminRejectedOrdersDataModel> _adminRejectedOrdersList =
+  //     ApiResponse.loading();
+  // ApiResponse<AdminRejectedOrdersDataModel> get adminRejectedOrdersList =>
+  //     _adminRejectedOrdersList;
+
+  // List<RejectedDatum> _orders = []; // Store the list of orders
+  // List<RejectedDatum> get orders => _orders;
+
+  // int _currentPage = 1; // Start with the first page
+  // bool _hasMore = true; // Flag to indicate if more data is available
+  // bool _isFetching = false; // Prevent duplicate API calls
+
+  // setAdminRejectedOrdersList(
+  //     ApiResponse<AdminRejectedOrdersDataModel> response) {
+  //   _adminRejectedOrdersList = response;
+  //   notifyListeners();
+  // }
+
+  // Future<void> fetchAdminRejectedOrdersList(String? search,
+  //     {bool isNextPage = false}) async {
+  //   if (_isFetching) return;
+
+  //   String queryParam = "?page=$_currentPage"; // Add pagination parameter
+  //   if (search != null && search.isNotEmpty) {
+  //     queryParam += "&search=$search"; // Add search parameter if available
+  //   }
+
+  //   if (!isNextPage) {
+  //     setAdminRejectedOrdersList(ApiResponse.loading());
+  //     _currentPage = 1; // Reset the page when not paginating
+  //     _orders.clear(); // Clear the list for new search
+  //   }
+
+  //   _isFetching = true;
+  //   try {
+  //     final response = await _adminRejectedOrdersRepo
+  //         .fetchAdminRejectedOrdersList(queryParam);
+
+  //     if (response.data!.data?.isEmpty ?? true) {
+  //       _hasMore = false; // No more data
+  //     } else {
+  //       _currentPage++; // Increment the page for the next fetch
+  //       _orders.addAll(response.data!.data!); // Append new data
+  //     }
+
+  //     setAdminRejectedOrdersList(ApiResponse.completed(response));
+  //   } catch (error) {
+  //     setAdminRejectedOrdersList(ApiResponse.error(error.toString()));
+  //   } finally {
+  //     _isFetching = false;
+  //   }
+  // }
+
+  // void resetPagination() {
+  //   _currentPage = 1;
+  //   _hasMore = true;
+  //   _orders.clear();
+  //   notifyListeners();
+  // }
+
+  // bool get hasMore => _hasMore;
 
   // ApiResponse<AdminRejectedOrdersDataModel> _adminRejectedOrdersList =
   //     ApiResponse.loading();
@@ -160,40 +229,61 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchAdminCompletedOrdersList(String? search,
-      {bool isNextPage = false}) async {
-    if (_isFetching) return;
+  List<CompletedDatum> _adminCompletedOrders =
+      []; // List to store completed orders
+  List<CompletedDatum> get adminCompletedOrders => _adminCompletedOrders;
 
-    String queryParam = "?page=$_currentPage"; // Add page number to the query
-    if (search != null && search.isNotEmpty) {
-      queryParam += "&search=$search"; // Add search query if provided
-    }
+  bool _isAdminApprovedListLoading = false;
+  bool get isAdminApprovedListLoading => _isAdminApprovedListLoading;
 
-    if (!isNextPage) {
+  bool _isFetchingMoreApprovedAdminList = false;
+  bool get isFetchingMoreApprovedAdminList => _isFetchingMoreApprovedAdminList;
+
+  int _currentPageAdminApprovedList = 1;
+  bool _hasMoreAdminApprovedList = true;
+  bool get hasMoreAdminApprovedList => _hasMoreAdminApprovedList;
+
+  Future<void> fetchAdminApprovedOrdersList(String? search,
+      {bool isLoadMore = false}) async {
+    if (isLoadMore && !_hasMoreAdminApprovedList) return;
+
+    if (!isLoadMore) {
+      _isAdminApprovedListLoading = true;
+      _currentPageAdminApprovedList = 1;
+      _adminCompletedOrders.clear();
       setAdminCompletedOrdersList(ApiResponse.loading());
-      _currentPage = 1; // Reset page for new search
-      _completedOrders.clear(); // Clear existing data for fresh search
+    } else {
+      _isFetchingMoreApprovedAdminList = true;
+      notifyListeners();
     }
 
-    _isFetching = true;
     try {
-      final response = await _adminRejectedOrdersRepo
-          .fetchAdminCompletedOrdersList(queryParam);
-
-      if (response.data?.data!.isEmpty ?? true) {
-        _hasMore = false; // No more data available
-      } else {
-        _currentPage++; // Increment page for next request
-        _completedOrders
-            .addAll(response.data!.data!); // Add new data to the list
+      String queryParam = "?page=$_currentPageAdminApprovedList";
+      if (search != null && search.isNotEmpty) {
+        queryParam += "&search=$search";
       }
 
-      setAdminCompletedOrdersList(ApiResponse.completed(response));
+      final value = await _adminRejectedOrdersRepo
+          .fetchAdminCompletedOrdersList(queryParam);
+
+      _adminCompletedOrders.addAll(value.data!.data!);
+      _hasMoreAdminApprovedList = value.data!.data!.isNotEmpty;
+      _currentPageAdminApprovedList++;
+
+      setAdminCompletedOrdersList(ApiResponse.completed(value));
     } catch (error) {
       setAdminCompletedOrdersList(ApiResponse.error(error.toString()));
     } finally {
-      _isFetching = false;
+      _isAdminApprovedListLoading = false;
+      _isFetchingMoreApprovedAdminList = false;
+      notifyListeners();
     }
+  }
+
+  void resetAdminCompletedOrdersPagination() {
+    _currentPageAdminApprovedList = 1;
+    _hasMoreAdminApprovedList = true;
+    _adminCompletedOrders.clear();
   }
 
   ApiResponse<AdminCompletedOrdersDataModel> _adminRefundOrdersList =
@@ -248,7 +338,7 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
   }
 
   Future<void> fetchChangeOrderStatus(
-      dynamic statusData, String orderId, context) async {
+      dynamic statusData, String orderId, VoidCallback func, context) async {
     // Map<String, dynamic> statusData = {
     //   'status': status
     //   };
@@ -260,10 +350,7 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
       if (value.Isbool!) {
         setAdminChangeStatusData(ApiResponse.completed(value));
         Utils.snackBar(value.message.toString(), context);
-        navigatePushReplace(
-          context,
-          AdminCanceledOrderTabBar(),
-        );
+        func.call();
       } else {
         Utils.snackBar(value.message.toString(), context);
       }
@@ -428,4 +515,24 @@ class AdminRejectedOrdersViewModel with ChangeNotifier {
   //     setInfluencerRejectedVideoList(ApiResponse.error(error.toString()));
   //   });
   // }
+
+  ApiResponse<UserOrderDetailDataModel> _userOrderData = ApiResponse.loading();
+  ApiResponse<UserOrderDetailDataModel> get userOrderData => _userOrderData;
+
+  setUserOrderData(ApiResponse<UserOrderDetailDataModel> response) {
+    _userOrderData = response;
+    _userOrderData.toString();
+    notifyListeners();
+  }
+
+  UsersOrderRepo _userOrderRepo = UsersOrderRepo();
+  Future<void> fetchUserOrderData(String videoTypeId) async {
+    setUserOrderData(ApiResponse.loading());
+    _userOrderRepo.fetchUserOrderData(videoTypeId).then((value) {
+      setUserOrderData(ApiResponse.completed(value));
+      print(value);
+    }).onError((error, stackTrace) {
+      setUserOrderData(ApiResponse.error(error.toString()));
+    });
+  }
 }
