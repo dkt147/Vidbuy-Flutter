@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vidbuy_app/view/user_active_history_screen.dart';
 import 'package:vidbuy_app/view/user_order_detail_screen.dart';
 import 'package:vidbuy_app/view/user_video_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserTaskDetailTabBarWidget extends StatefulWidget {
   String videoTypeId;
@@ -104,15 +105,15 @@ class _UserTaskDetailTabBarWidgetState extends State<UserTaskDetailTabBarWidget>
             fontSize: 16.h,
             fontWeight: FontWeight.w500,
           ),
-          tabs: const [
+          tabs: [
             Tab(
-              text: 'Video',
+              text: AppLocalizations.of(context)!.userVideo,
             ),
             Tab(
-              text: 'Orders Details',
+              text: AppLocalizations.of(context)!.userOrderDetails,
             ),
             Tab(
-              text: 'Active History',
+              text: AppLocalizations.of(context)!.userActiveHistory,
             ),
           ],
         ),
@@ -123,10 +124,7 @@ class _UserTaskDetailTabBarWidgetState extends State<UserTaskDetailTabBarWidget>
           // PendingScreen(),
           // WaitingVideoScreen(),
           UserVideoScreen(
-            status: widget.status.toString(),
             videoTypeId: widget.videoTypeId.toString(),
-            videoUrl: widget.videoUrl.toString(),
-            influencerId: widget.influencerId.toString(),
           ),
           UserOrdersDetailsScreen(
             videoTypeId: widget.videoTypeId.toString(),

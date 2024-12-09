@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/contact_us_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ContactUsScreen extends StatefulWidget {
   ContactUsScreen({super.key});
@@ -65,7 +66,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     width: 5.w,
                   ),
                   Content(
-                    data: "Contact",
+                    data: AppLocalizations.of(context)!.userContactUs,
                     size: 14.h,
                     weight: FontWeight.w600,
                     family: "Nunito",
@@ -84,8 +85,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     weight: FontWeight.w300,
                   ),
                   Content(
-                    data:
-                        "Please feel free to contact us, we will respond as quickly as possible",
+                    data: AppLocalizations.of(context)!.userPleaseFeelFree,
                     size: 16.h,
                     weight: FontWeight.w300,
                     family: "Lato",
@@ -99,8 +99,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ContentField(
-                    label: "Your Name",
-                    hint: "Enter Your Name",
+                    label: AppLocalizations.of(context)!.userYourName,
+                    hint: AppLocalizations.of(context)!.userEnterYourName,
                     colorr: Colors.transparent,
                     prefixIcon: Image.asset(
                       "assets/Icon/person.png",
@@ -114,8 +114,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   ),
                   SizedBox(height: 10.h),
                   ContentField(
-                    label: "Email",
-                    hint: "Enter Your Email",
+                    label: AppLocalizations.of(context)!.userEmail,
+                    hint: AppLocalizations.of(context)!.userEnterYourEmail,
                     colorr: Colors.transparent,
                     prefixIcon: Image.asset(
                       "assets/Icon/email.png",
@@ -131,7 +131,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   ),
                   SizedBox(height: 20.h),
                   Content(
-                    data: "Message",
+                    data: AppLocalizations.of(context)!.userMessage,
                     size: 16.h,
                     weight: FontWeight.w500,
                     family: "Lato",
@@ -144,7 +144,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       controller: _messageController,
                       maxLines: 5,
                       decoration: InputDecoration(
-                        hintText: 'Description of what is going on..',
+                        hintText: AppLocalizations.of(context)!
+                            .userDescriptionOfWhatIsGoingOn,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.r),
                         ),
@@ -189,7 +190,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 AlwaysStoppedAnimation<Color>(Colors.white),
                           )
                         : Text(
-                            "Save",
+                            AppLocalizations.of(context)!.userSave,
                             style:
                                 TextStyle(fontSize: 16.h, color: Colors.white),
                           ),

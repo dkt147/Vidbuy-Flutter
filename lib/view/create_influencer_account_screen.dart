@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/status.dart';
+import 'package:vidbuy_app/model/admin_model/admin_completed_orders_data_model/influencer.dart';
+import 'package:vidbuy_app/model/influencer_model/country_list_data_model/datum.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
@@ -26,7 +28,8 @@ class _CreateInfluencerAccountScreenState
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _countryController;
-  String? _selectedCountry;
+  // String? _selectedCountry = '';
+  CountryDatum? _selectedCountry;
 
   final List<String> _countries = ['USA', 'Canada', 'UK', 'Australia', 'India'];
 
@@ -38,10 +41,12 @@ class _CreateInfluencerAccountScreenState
   // File? _profileImage;
   // String? _base64Image;
 
+  FocusNode _dropdownFocusNode = FocusNode();
+
   @override
   void initState() {
-    // influencerSignupViewModel.fetchCountryList();
     super.initState();
+    influencerSignupViewModel.fetchUserAllOrdersList();
     // _networkService = NetworkService(api: ApiService());
 
     _nameController = TextEditingController();
@@ -58,6 +63,7 @@ class _CreateInfluencerAccountScreenState
     _emailController.dispose();
     _passwordController.dispose();
     _countryController.dispose();
+    _dropdownFocusNode.dispose();
     super.dispose();
   }
 
@@ -359,6 +365,53 @@ class _CreateInfluencerAccountScreenState
             //     )),
             // Center(
             //   child: Consumer<InfluencerSignupViewModel>(
+            //     builder: (context, countryProvider, child) {
+            //       if (countryProvider.isAllOrderFetching &&
+            //           countryProvider.allCountries.isEmpty) {
+            //         return Center(child: CircularProgressIndicator());
+            //       }
+
+            //       return Column(
+            //         children: [
+            //           DropdownButton<CountryDatum>(
+            //             hint: Text('Select Country'),
+            //             value: _selectedCountry,
+            //             onChanged: (newValue) {
+            //               setState(() {
+            //                 // _selectedCountry = newValue;
+            //               });
+            //             },
+            //             items: countryProvider.allCountries
+            //                 .map((CountryDatum country) {
+            //               return DropdownMenuItem<CountryDatum>(
+            //                 value: country,
+            //                 child: Text(country
+            //                     .name!), // Assuming the country has a 'name' property.
+            //               );
+            //             }).toList(),
+            //             onTap: () {
+            //               if (countryProvider.hasAllOrderMoreData &&
+            //                   !countryProvider.isAllOrderFetching) {
+            //                 countryProvider.fetchUserAllOrdersList();
+            //               }
+            //             },
+            //           ),
+            //           // Optionally show a loading indicator if more data is being fetched.
+            //           if (countryProvider.isAllOrderFetching)
+            //             Padding(
+            //               padding: const EdgeInsets.only(top: 8.0),
+            //               child: CircularProgressIndicator(),
+            //             ),
+            //         ],
+            //       );
+            //     },
+            //   ),
+            // ),
+
+            // CountryDropdownWithInfiniteScroll(),
+
+            // Center(
+            //   child: Consumer<InfluencerSignupViewModel>(
             //     builder: (context, value, child) {
             //       switch (value.countryList.status) {
             //         case Status.INIT:
@@ -519,3 +572,169 @@ class _CreateInfluencerAccountScreenState
     );
   }
 }
+
+// class CountryDropdownWithInfiniteScroll extends StatefulWidget {
+//   @override
+//   _CountryDropdownWithInfiniteScrollState createState() =>
+//       _CountryDropdownWithInfiniteScrollState();
+// }
+
+// class _CountryDropdownWithInfiniteScrollState
+//     extends State<CountryDropdownWithInfiniteScroll> {
+//   late ScrollController _scrollController;
+//   CountryDatum? _selectedCountry;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _scrollController = ScrollController();
+
+//     // Fetch initial data when dropdown is tapped
+//     final provider =
+//         Provider.of<InfluencerSignupViewModel>(context, listen: false);
+//     provider.fetchDataOnTap();
+
+//     // Listen for scroll events to implement pagination
+//     _scrollController.addListener(() {
+//       if (_scrollController.position.pixels ==
+//           _scrollController.position.maxScrollExtent) {
+//         // When user reaches the bottom of the list, fetch more data
+//         final provider =
+//             Provider.of<InfluencerSignupViewModel>(context, listen: false);
+//         if (provider.hasAllOrderMoreData && !provider.isAllOrderFetching) {
+//           provider.fetchUserAllOrdersList();
+//         }
+//       }
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<InfluencerSignupViewModel>(
+//       builder: (context, countryProvider, child) {
+//         return ConstrainedBox(
+//           constraints:
+//               BoxConstraints(maxHeight: 300), // Limit the dropdown height
+//           child: DropdownButtonFormField<CountryDatum>(
+//             decoration: InputDecoration(
+//               labelText: 'Select Country',
+//               border: OutlineInputBorder(),
+//             ),
+//             value: _selectedCountry,
+//             onChanged: (CountryDatum? newValue) {
+//               setState(() {
+//                 _selectedCountry = newValue;
+//               });
+//             },
+//             items: [
+//               DropdownMenuItem<CountryDatum>(
+//                 enabled: false,
+//                 child: Material(
+//                   color: Colors.transparent,
+//                   child: ListView.builder(
+//                     controller: _scrollController,
+//                     shrinkWrap:
+//                         true, // Ensures the ListView only takes as much space as necessary
+//                     itemCount: countryProvider.allCountries.length + 1,
+//                     itemBuilder: (context, index) {
+//                       if (index == countryProvider.allCountries.length) {
+//                         return countryProvider.isAllOrderFetching
+//                             ? Padding(
+//                                 padding: const EdgeInsets.all(8.0),
+//                                 child: Row(
+//                                   mainAxisAlignment: MainAxisAlignment.center,
+//                                   children: const [
+//                                     CircularProgressIndicator(),
+//                                     SizedBox(width: 8),
+//                                     Text('Loading more...'),
+//                                   ],
+//                                 ),
+//                               )
+//                             : SizedBox.shrink();
+//                       }
+
+//                       final country = countryProvider.allCountries[index];
+//                       return ListTile(
+//                         title: Text(country.name!),
+//                         onTap: () {
+//                           setState(() {
+//                             _selectedCountry = country;
+//                           });
+//                           Navigator.pop(
+//                               context); // Close the dropdown when selecting a country
+//                         },
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   @override
+//   void dispose() {
+//     _scrollController.dispose();
+//     super.dispose();
+//   }
+// }
+// class CountryDropdownWithPagination extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<InfluencerSignupViewModel>(
+//       builder: (context, countryProvider, child) {
+//         // Trigger the API call when the dropdown is opened and not fetching
+//         if (!countryProvider.isAllOrderFetching &&
+//             countryProvider.hasAllOrderMoreData &&
+//             countryProvider.allCountries.isEmpty) {
+//           countryProvider.fetchUserAllOrdersList();
+//         }
+
+//         return DropdownButtonHideUnderline(
+//           child: DropdownButtonFormField<CountryDatum>(
+//             hint: Text('Select Country'),
+//             value: countryProvider.allCountries.isNotEmpty
+//                 ? countryProvider.allCountries.first
+//                 : null,
+//             onChanged: (CountryDatum? selectedCountry) {
+//               // Handle the selection change if needed
+//               print('Selected Country: ${selectedCountry?.name}');
+//             },
+//             items: [
+//               ...countryProvider.allCountries.map((CountryDatum country) {
+//                 return DropdownMenuItem<CountryDatum>(
+//                   value: country,
+//                   child: Text(country.name!),
+//                 );
+//               }).toList(),
+//               if (countryProvider.isAllOrderFetching)
+//                 DropdownMenuItem<CountryDatum>(
+//                   value: null,
+//                   child: Padding(
+//                     padding: const EdgeInsets.all(8.0),
+//                     child: Row(
+//                       children: const [
+//                         CircularProgressIndicator(),
+//                         SizedBox(width: 8),
+//                         Text('Loading more...'),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//             ],
+//             onTap: () {
+//               // Fetch more data when the user opens the dropdown
+//               if (countryProvider.hasAllOrderMoreData &&
+//                   !countryProvider.isAllOrderFetching) {
+//                 countryProvider.fetchUserAllOrdersList();
+//               }
+//             },
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }

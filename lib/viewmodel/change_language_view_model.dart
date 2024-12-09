@@ -9,10 +9,39 @@ class LanguageChangeViewModel with ChangeNotifier {
     SharedPreferences sp = await SharedPreferences.getInstance();
     _appLocale = type;
     if (type == Locale('en')) {
-      await sp.setString('langauge_code', 'en');
+      print("english selected");
+      await sp.setString('language_code', 'en');
     } else {
-      await sp.setString("langauge_code", "pt");
+      print("portuguese selected");
+      await sp.setString('language_code', 'pt');
     }
     notifyListeners();
   }
 }
+
+// class LanguageChangeViewModel with ChangeNotifier {
+//   Locale _appLocale = Locale('en'); // Default to English
+//   Locale get appLocale => _appLocale;
+
+//   LanguageChangeViewModel() {
+//     _loadSavedLanguage(); // Load saved language on initialization
+//   }
+
+//   void _loadSavedLanguage() async {
+//     SharedPreferences sp = await SharedPreferences.getInstance();
+//     String? languageCode = sp.getString('language_code');
+//     print("Loaded language code: $languageCode"); // Debugging
+//     if (languageCode != null) {
+//       _appLocale = Locale(languageCode);
+//       notifyListeners();
+//     }
+//   }
+
+//   void changeLanguage(Locale locale) async {
+//     print("Changing language to: ${locale.languageCode}"); // Debugging
+//     SharedPreferences sp = await SharedPreferences.getInstance();
+//     _appLocale = locale;
+//     await sp.setString('language_code', locale.languageCode);
+//     notifyListeners();
+//   }
+// }

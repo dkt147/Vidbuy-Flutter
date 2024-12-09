@@ -7,6 +7,7 @@ import 'package:vidbuy_app/view/user_order_rejected_screen.dart';
 import 'package:vidbuy_app/view/user_pending_screen.dart';
 import 'package:vidbuy_app/view/user_waiting_video_screen.dart';
 import 'package:vidbuy_app/view/waiting_video_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserOrderTabbar extends StatefulWidget {
   @override
@@ -62,7 +63,7 @@ class _UserOrderTabbarState extends State<UserOrderTabbar>
         backgroundColor: Color(0xffFFFFFF),
         titleSpacing: 20.h,
         title: Content(
-          data: "Recent orders ",
+          data: AppLocalizations.of(context)!.userOrdersRecentOrders,
           size: 30.h,
           weight: FontWeight.w300,
         ),
@@ -84,20 +85,20 @@ class _UserOrderTabbarState extends State<UserOrderTabbar>
             fontWeight: FontWeight.w500,
           ),
           tabs: [
-            Tab(text: 'All Orders'),
+            Tab(text: AppLocalizations.of(context)!.userOrderAllOrders),
             // Tab(text: 'Pending', ),
             // Tab(text: 'Waiting Video', ),
             Tab(
-              text: 'Pending',
+              text: AppLocalizations.of(context)!.userorderPendingOrders,
             ),
             Tab(
-              text: 'Waiting Video',
+              text: AppLocalizations.of(context)!.userOrdersWaitingVideo,
             ),
             Tab(
-              text: 'Completed',
+              text: AppLocalizations.of(context)!.userOrderCompleted,
             ),
             Tab(
-              text: 'Rejected',
+              text: AppLocalizations.of(context)!.userOrderRejected,
             ),
           ],
         ),

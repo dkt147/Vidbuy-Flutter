@@ -504,7 +504,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 5),
                                         child: SizedBox(
-                                          height: 200.h,
+                                          height: 160.h,
                                           width: 330.w,
                                           child: BarChart(
                                             BarChartData(
@@ -671,13 +671,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
+                              horizontal: 20, vertical: 10),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Graphic Representation (Yearly)",
+                                "Graphic Representation (Weekly)",
                                 style: TextStyle(
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.w300,
@@ -1323,8 +1323,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             //   xLabels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             //   barColor: Color(0xff85848F),
             // ),
+
             SizedBox(
-              height: 70,
+              height: 50.h,
             )
           ],
         ),
@@ -1594,7 +1595,7 @@ class WeekdayBarChart extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: SizedBox(
-        height: 200,
+        height: 170.h,
         width: 330,
         child: BarChart(
           BarChartData(

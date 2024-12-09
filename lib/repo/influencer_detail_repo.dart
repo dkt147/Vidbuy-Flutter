@@ -1,6 +1,7 @@
 import 'package:vidbuy_app/data/network/base_api_services.dart';
 import 'package:vidbuy_app/data/network/network_api_services.dart';
 import 'package:vidbuy_app/model/user_model/influencer_detail_data_model/influencer_detail_data_model.dart';
+import 'package:vidbuy_app/model/user_model/influencer_report_video_data_model/influencer_report_video_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_add_view_data_model/user_add_view_data_model.dart';
 import 'package:vidbuy_app/resources/app_url.dart';
 
@@ -23,6 +24,17 @@ class InfluencerDetailRepo {
       dynamic response = await apiServices.getPostApiResponse(
           AppUrl.userAddViewUrl, data, true);
       return response = UserAddViewDataModel.fromJson(response);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
+    Future<InfluencerReportVideoDataModel> fetchInfluencerReportVideo(dynamic data) async {
+    try {
+      dynamic response = await apiServices.getPostApiResponse(
+          AppUrl.adminReportedVideosListUrl, data, true);
+      return response = InfluencerReportVideoDataModel.fromJson(response);
     } catch (e) {
       throw e;
     }

@@ -110,37 +110,37 @@ class SettingViewModel with ChangeNotifier {
   }
 
   // Fetch country list with pagination
-  Future<void> fetchCountryList({int page = 1}) async {
-    setCountryLoading(true);
-    if (_countryList.status == Status.LOADING)
-      return; // Prevent refetching if already loading
-    setCountryList(ApiResponse.loading());
-    try {
-      dynamic response = await _signupRepo.fetchCountryList(page: page);
-      CountryListDataModel countryData =
-          CountryListDataModel.fromJson(response);
-      setCountryLoading(false);
-      setCountryList(ApiResponse.completed(countryData));
-    } catch (e) {
-      setCountryLoading(false);
-      setCountryList(ApiResponse.error(e.toString()));
-    }
-  }
+  // Future<void> fetchCountryList({int page = 1}) async {
+  //   setCountryLoading(true);
+  //   if (_countryList.status == Status.LOADING)
+  //     return; // Prevent refetching if already loading
+  //   setCountryList(ApiResponse.loading());
+  //   try {
+  //     dynamic response = await _signupRepo.fetchCountryList(page: page);
+  //     CountryListDataModel countryData =
+  //         CountryListDataModel.fromJson(response);
+  //     setCountryLoading(false);
+  //     setCountryList(ApiResponse.completed(countryData));
+  //   } catch (e) {
+  //     setCountryLoading(false);
+  //     setCountryList(ApiResponse.error(e.toString()));
+  //   }
+  // }
 
-  void incrementPage() {
-    if (_currentPage < 25) {
-      // Ensure the page does not exceed the max number
-      _currentPage++;
-      fetchCountryList(page: _currentPage); // Fetch new data for next page
-    }
-  }
+  // void incrementPage() {
+  //   if (_currentPage < 25) {
+  //     // Ensure the page does not exceed the max number
+  //     _currentPage++;
+  //     fetchCountryList(page: _currentPage); // Fetch new data for next page
+  //   }
+  // }
 
-  void decrementPage() {
-    if (_currentPage > 1) {
-      _currentPage--;
-      fetchCountryList(page: _currentPage); // Fetch new data for previous page
-    }
-  }
+  // void decrementPage() {
+  //   if (_currentPage > 1) {
+  //     _currentPage--;
+  //     fetchCountryList(page: _currentPage); // Fetch new data for previous page
+  //   }
+  // }
 
   List<Map<String, dynamic>> categories =
       []; // List to hold category ID and name

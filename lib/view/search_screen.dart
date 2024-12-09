@@ -141,10 +141,10 @@ class _SearchScreenState extends State<SearchScreen>
                               decoration: InputDecoration(
                                 hintText: AppLocalizations.of(context)!
                                     .userHomeSearchText,
-                                suffixIcon: Image.asset(
-                                  "assets/Icon/cancel.png",
-                                  height: 20.h,
-                                ),
+                                // suffixIcon: Image.asset(
+                                //   "assets/Icon/cancel.png",
+                                //   height: 20.h,
+                                // ),
                                 prefixIcon: Image.asset(
                                   "assets/Icon/searchIcon.png",
                                   height: 18.h,
@@ -664,8 +664,8 @@ class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
                     child: Text(
                       widget.categories[prevIndex]["title"] ?? "",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 17.0,
+                      style: TextStyle(
+                        fontSize: 16.h,
                         fontWeight: FontWeight.normal,
                         color: Color(0xFFAC1D7B), // Custom color
                       ),
@@ -677,7 +677,7 @@ class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
                       widget.categories[_currentIndex]["title"] ?? "",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 22.0,
+                        fontSize: 21.h,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         shadows: [
@@ -706,8 +706,8 @@ class _StyledCarouselSliderState extends State<StyledCarouselSlider> {
                     child: Text(
                       widget.categories[nextIndex]["title"] ?? "",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 17.0,
+                      style: TextStyle(
+                        fontSize: 16.h,
                         fontWeight: FontWeight.normal,
                         color: Color(0xFF6D640D),
                       ),

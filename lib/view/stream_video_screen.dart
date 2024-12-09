@@ -1,14 +1,27 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:vidbuy_app/main.dart';
+import 'package:vidbuy_app/resources/componenets/content.dart';
+import 'package:vidbuy_app/resources/local_data/local_data.dart';
+import 'package:vidbuy_app/viewmodel/user_view_model/influencer_detail_view_model.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StreamVideoScreen extends StatefulWidget {
   final dynamic videoSource;
+  final int influencerId;
+  final int reportVideoId;
 
-  const StreamVideoScreen({super.key, required this.videoSource});
+  StreamVideoScreen(
+      {super.key,
+      required this.videoSource,
+      required this.reportVideoId,
+      required this.influencerId});
 
   @override
   _StreamVideoScreenState createState() => _StreamVideoScreenState();
@@ -37,7 +50,7 @@ class _StreamVideoScreenState extends State<StreamVideoScreen> {
 
     _controller.initialize().then((_) {
       setState(() {});
-      _controller.setLooping(true);
+      _controller.setLooping(false);
       _controller.play(); // Optional: start playing immediately
 
       // Start listening to the controller's position updates
@@ -105,6 +118,7 @@ class _StreamVideoScreenState extends State<StreamVideoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<InfluencerDetailViewModel>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -117,29 +131,94 @@ class _StreamVideoScreenState extends State<StreamVideoScreen> {
               ),
             ),
 
+          Positioned(
+            top: 60.h,
+            left: 20.w,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context); // Pop the page
+              },
+              child: Icon(
+                Icons.close,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+          ),
+
+          // **New Dialog Icon**
+          Positioned(
+            top: 60.h,
+            right: 20.w,
+            child: GestureDetector(
+              onTap: () {
+                _showDialog(context, viewModel, widget.reportVideoId,
+                    widget.influencerId); // Open dialog
+              },
+              child: Icon(
+                Icons.info, // Example icon; you can replace it
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+          ),
+
           // Overlayed icons on the right side of the screen
           Positioned(
-            right: 16,
-            bottom: 50,
+            right: 0.w,
+            bottom: 100.h,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(
-                  icon: Icon(
-                    _isLiked ? Icons.favorite : Icons.favorite_border,
-                    color: _isLiked ? Colors.red : Colors.white,
+                Container(
+                  width: 100.w, // Diameter of the circle
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white, // Border color
+                      width: 3.0, // Border width
+                    ),
+                    color: Colors.transparent, // Transparent background
                   ),
-                  onPressed: _toggleLike,
+                  child: IconButton(
+                    icon: const Icon(Icons.share, color: Colors.white),
+                    onPressed: _shareVideo,
+                  ),
+                ),
+                Content(
+                  data: AppLocalizations.of(context)!.userShare,
+                  size: 15.h,
+                  weight: FontWeight.w300,
+                  color: Colors.white,
                 ),
                 const SizedBox(height: 10),
-                IconButton(
-                  icon: const Icon(Icons.download, color: Colors.white),
-                  onPressed: _downloadVideo,
+                Container(
+                  width: 100.w, // Diameter of the circle
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white, // Border color
+                      width: 3.0, // Border width
+                    ),
+                    color: Colors.transparent, // Transparent background
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.download, color: Colors.white),
+                    onPressed: _downloadVideo,
+                  ),
+                ),
+                Content(
+                  data: AppLocalizations.of(context)!.userDownload,
+                  size: 15.h,
+                  weight: FontWeight.w300,
+                  color: Colors.white,
                 ),
                 const SizedBox(height: 10),
-                IconButton(
-                  icon: const Icon(Icons.share, color: Colors.white),
-                  onPressed: _shareVideo,
+                CircleAvatar(
+                  radius: 28.r,
+                  backgroundImage: NetworkImage(LocalData.image),
                 ),
               ],
             ),
@@ -186,4 +265,89 @@ class _StreamVideoScreenState extends State<StreamVideoScreen> {
       ),
     );
   }
+}
+
+void _showDialog(
+    BuildContext context,
+    InfluencerDetailViewModel influencerDetailViewModel,
+    int reportedVideoId,
+    int influencerId) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Color(0xff201E23),
+        title: Text(
+          AppLocalizations.of(context)!.userReportThisVideo,
+          style:
+              const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+        ),
+        content: Text(
+          AppLocalizations.of(context)!.userLetUsKnow,
+          style: TextStyle(
+            fontSize: 14.h,
+            fontWeight: FontWeight.w300,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: 100.w,
+                height: 30.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.r),
+                  border: Border.all(color: Colors.white),
+                ),
+                child: Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.userCancel,
+                    style: TextStyle(
+                        fontSize: 14.h,
+                        color: Colors.white,
+                        fontFamily: "Lato",
+                        fontWeight: FontWeight.w300),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10.w,
+              ),
+              SizedBox(
+                width: 100.w,
+                height: 30.h,
+                child: ElevatedButton(
+                  onPressed: () {
+                    influencerDetailViewModel.fetchReportInfluencerVideo(
+                        context,
+                        reportedVideoId: reportedVideoId,
+                        influencerId: influencerId, func: () {
+                      Navigator.of(context).pop();
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff5271FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.userReport,
+                    style: TextStyle(
+                      fontSize: 14.h,
+                      color: Colors.white,
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
 }

@@ -81,9 +81,8 @@ class _CompleteOrderScreenState extends State<CompleteOrderScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 70),
                 child: ListView.builder(
-                  itemCount: value.hasMoreCompletedVideos
-                      ? value.completedVideos.length + 1
-                      : value.completedVideos.length,
+                  itemCount: value.completedVideos.length +
+                      (value.isFetchingMoreCompletedVideos ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == value.completedVideos.length) {
                       return const Center(child: CircularProgressIndicator());

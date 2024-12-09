@@ -6,6 +6,7 @@ import 'package:vidbuy_app/data/response/status.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/viewmodel/influencer_view_model/influencer_task_detail_view_model.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_task_detail_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class UserOrdersDetailsScreen extends StatefulWidget {
@@ -41,16 +42,14 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
             case Status.INIT:
               return Container();
             case Status.LOADING:
-              return const Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ],
-                ),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ],
               );
             case Status.ERROR:
               return Center(
@@ -119,7 +118,7 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                     padding:
                         EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
                     child: Content(
-                      data: "Video Details",
+                      data: AppLocalizations.of(context)!.userVideoDetails,
                       size: 18.h,
                       family: "Nunito",
                       weight: FontWeight.w700,
@@ -146,7 +145,8 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                           child: Row(
                             children: [
                               Content(
-                                data: "From: ",
+                                data: AppLocalizations.of(context)!.userFrom +
+                                    ": ",
                                 size: 14.h,
                                 family: "Lato",
                                 weight: FontWeight.w600,
@@ -165,7 +165,8 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                           child: Row(
                             children: [
                               Content(
-                                data: "To: ",
+                                data:
+                                    AppLocalizations.of(context)!.userTo + ": ",
                                 size: 14.h,
                                 family: "Lato",
                                 weight: FontWeight.w600,
@@ -184,7 +185,8 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                           child: Row(
                             children: [
                               Content(
-                                data: "Delivery day: ",
+                                data: AppLocalizations.of(context)!
+                                    .userDeliveryDay,
                                 size: 14.h,
                                 family: "Lato",
                                 weight: FontWeight.w600,
@@ -203,7 +205,9 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                           child: Row(
                             children: [
                               Content(
-                                data: "Description: ",
+                                data: AppLocalizations.of(context)!
+                                        .userDescription +
+                                    ": ",
                                 size: 14.h,
                                 family: "Lato",
                                 weight: FontWeight.w600,
@@ -227,7 +231,7 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                     padding:
                         EdgeInsets.symmetric(vertical: 5.h, horizontal: 20.w),
                     child: Content(
-                      data: "Price Detail",
+                      data: AppLocalizations.of(context)!.userPriceDetail,
                       size: 18.h,
                       family: "Nunito",
                       weight: FontWeight.w700,
@@ -240,7 +244,8 @@ class _UserOrdersDetailsScreenState extends State<UserOrdersDetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Content(
-                          data: "Total price for this video",
+                          data: AppLocalizations.of(context)!
+                              .userTotalPriceForthisVideo,
                           size: 14.h,
                           family: "Lato",
                           weight: FontWeight.w600,

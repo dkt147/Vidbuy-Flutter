@@ -88,9 +88,8 @@ class _PendingScreenState extends State<PendingScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 70),
                 child: ListView.builder(
-                  itemCount: value.hasMorePendingOrders
-                      ? value.pendingOrders.length + 1
-                      : value.pendingOrders.length,
+                  itemCount: value.pendingOrders.length + 
+                       (value.isFetchingMorePendingOrders ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == value.pendingOrders.length) {
                       // Show loading indicator for "load more"

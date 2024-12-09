@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 
-class Datum {
+class CountryDatum {
   int? id;
   String? name;
   String? iso3;
@@ -30,7 +30,7 @@ class Datum {
   int? flag;
   String? wikiDataId;
 
-  Datum({
+  CountryDatum({
     this.id,
     this.name,
     this.iso3,
@@ -61,7 +61,7 @@ class Datum {
     this.wikiDataId,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory CountryDatum.fromJson(Map<String, dynamic> json) => CountryDatum(
         id: json['id'] as int?,
         name: json['name'] as String?,
         iso3: json['iso3'] as String?,
@@ -130,7 +130,7 @@ class Datum {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Datum) return false;
+    if (other is! CountryDatum) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

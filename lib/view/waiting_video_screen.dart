@@ -81,9 +81,8 @@ class _WaitingVideoScreenState extends State<WaitingVideoScreen> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 70),
               child: ListView.builder(
-                itemCount: value.hasMoreWaitingVideos
-                    ? value.waitingVideos.length + 1
-                    : value.waitingVideos.length,
+                itemCount: value.waitingVideos.length +
+                    (value.isFetchingMoreWaitingVideos ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index == value.waitingVideos.length) {
                     return const Center(

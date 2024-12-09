@@ -79,9 +79,8 @@ class _RejectedScreenState extends State<RejectedScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 70),
                 child: ListView.builder(
-                  itemCount: value.hasMoreRejectedVideos
-                      ? value.rejectedVideos.length + 1
-                      : value.rejectedVideos.length,
+                  itemCount: value.rejectedVideos.length +
+                      (value.isFetchingMoreRejectedVideos ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == value.rejectedVideos.length) {
                       return const Center(child: CircularProgressIndicator());

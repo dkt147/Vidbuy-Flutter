@@ -9,6 +9,8 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/generic_signup_data_model/generic_signup_data_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:vidbuy_app/model/influencer_model/country_list_data_model/country_list_data_model.dart';
+import 'package:vidbuy_app/model/influencer_model/country_list_data_model/datum.dart';
 import 'package:vidbuy_app/model/upload_image_data_model/upload_image_data_model.dart';
 import 'package:vidbuy_app/repo/signup_repo.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
@@ -296,14 +298,82 @@ class InfluencerSignupViewModel extends ChangeNotifier {
   //   }
   // }
 
-  // ApiResponse<CountryListDataModel> _countryList = ApiResponse.loading();
-  // ApiResponse<CountryListDataModel> get countryList => _countryList;
+  ApiResponse<CountryListDataModel> _countryList = ApiResponse.loading();
+  ApiResponse<CountryListDataModel> get countryList => _countryList;
 
-  // setCountryList(ApiResponse<CountryListDataModel> response) {
-  //   _countryList = response;
-  //   _countryList.toString();
+  setCountryList(ApiResponse<CountryListDataModel> response) {
+    _countryList = response;
+    _countryList.toString();
+    notifyListeners();
+  }
+
+ List<CountryDatum> _allCountries = [];
+  List<CountryDatum> get allCountries => _allCountries;
+
+  bool _isAllOrderFetching = false;
+  bool get isAllOrderFetching => _isAllOrderFetching;
+
+  bool _hasAllOrderMoreData = true;
+  bool get hasAllOrderMoreData => _hasAllOrderMoreData;
+
+  int _allOrderscurrentPage = 1;
+
+
+  Future<void> fetchUserAllOrdersList() async {
+    if (_isAllOrderFetching || !_hasAllOrderMoreData) return;
+
+    _isAllOrderFetching = true;
+    notifyListeners();
+
+    try {
+      // Fetch the country list from the API
+      final result = await _signupRepo.fetchCountryList(_allOrderscurrentPage);
+
+      if (result.result!.countryList!.data != null && result.result!.countryList!.data != null && result.result!.countryList!.data!.isNotEmpty) {
+        _allCountries.addAll(result.result!.countryList!.data!);
+        _allOrderscurrentPage++; // Increase the page number for the next call
+      } else {
+        _hasAllOrderMoreData = false; // No more data to load
+      }
+    } catch (error) {
+      print("Error fetching countries: $error");
+    } finally {
+      _isAllOrderFetching = false;
+      notifyListeners();
+    }
+  }
+    // Trigger fetching when the dropdown is tapped
+  void fetchDataOnTap() {
+    if (_allCountries.isEmpty && !_isAllOrderFetching) {
+      fetchUserAllOrdersList();
+    }
+  }
+
+  // Future<void> fetchUserAllOrdersList() async {
+  //   if (_isAllOrderFetching || !_hasAllOrderMoreData) return;
+
+  //   _isAllOrderFetching = true;
   //   notifyListeners();
+
+  //   try {
+  //     final result =
+  //         await _signupRepo.fetchCountryList(_allOrderscurrentPage);
+
+  //     if (result.result!.countryList!.data!.isNotEmpty) {
+  //       _allCountries.addAll(result.result!.countryList!.data!);
+  //       _allOrderscurrentPage++;
+  //     } else {
+  //       _hasAllOrderMoreData = false; // No more data to load
+  //     }
+  //   } catch (error) {
+  //     print("Error fetching orders: $error");
+  //   } finally {
+  //     _isAllOrderFetching = false;
+  //     notifyListeners();
+  //   }
   // }
+
+
 
   // Future<void> fetchCountryList() async {
   //   setCountryList(ApiResponse.loading());

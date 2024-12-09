@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/viewmodel/notification_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationSettingScreen extends StatefulWidget {
   const NotificationSettingScreen({super.key});
@@ -70,7 +71,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
                 ),
                 SizedBox(width: 5.w),
                 Content(
-                  data: "Notifications",
+                  data: AppLocalizations.of(context)!.userNotifications,
                   size: 14.h,
                   weight: FontWeight.w600,
                   family: "Nunito",
@@ -86,12 +87,13 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Content(
-                  data: "Notifications",
+                  data: AppLocalizations.of(context)!.userNotifications,
                   size: 30.h,
                   weight: FontWeight.w300,
                 ),
                 Content(
-                  data: "Choose what notifications you want to receive",
+                  data:
+                      AppLocalizations.of(context)!.userChooseWhatNotifications,
                   size: 16.h,
                   weight: FontWeight.w300,
                   family: "Lato",
@@ -107,7 +109,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             activeColor: const Color(0xff5271FF),
             contentPadding: EdgeInsets.symmetric(horizontal: 30.w),
             title: Text(
-              'Push Notifications',
+              AppLocalizations.of(context)!.userPushNotifications,
               style: TextStyle(
                 fontSize: 18.h,
                 fontWeight: FontWeight.w600,
@@ -115,7 +117,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               ),
             ),
             subtitle: Text(
-              'Receive push notifications from our application.',
+              AppLocalizations.of(context)!.userRecievePushNotifications,
               style: TextStyle(
                 fontSize: 14.h,
                 fontFamily: "Nunito",
@@ -138,7 +140,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             activeColor: const Color(0xff5271FF),
             contentPadding: EdgeInsets.symmetric(horizontal: 30.w),
             title: Text(
-              'Email Notifications',
+              AppLocalizations.of(context)!.userEmailNotification,
               style: TextStyle(
                 fontSize: 18.h,
                 fontWeight: FontWeight.w600,
@@ -146,7 +148,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               ),
             ),
             subtitle: Text(
-              'Receive email notifications from our marketing team.',
+              AppLocalizations.of(context)!.userRecieveEmailNotification,
               style: TextStyle(
                 fontSize: 14.h,
                 fontFamily: "Nunito",
@@ -190,7 +192,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
                             ),
                           )
                         : Text(
-                            "Save",
+                            AppLocalizations.of(context)!.userSave,
                             style:
                                 TextStyle(fontSize: 16.h, color: Colors.white),
                           ),

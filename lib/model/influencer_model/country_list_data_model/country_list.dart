@@ -5,7 +5,7 @@ import 'link.dart';
 
 class CountryList {
   int? currentPage;
-  List<Datum>? data;
+  List<CountryDatum>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -37,7 +37,7 @@ class CountryList {
   factory CountryList.fromJson(Map<String, dynamic> json) => CountryList(
         currentPage: json['current_page'] as int?,
         data: (json['data'] as List<dynamic>?)
-            ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => CountryDatum.fromJson(e as Map<String, dynamic>))
             .toList(),
         firstPageUrl: json['first_page_url'] as String?,
         from: json['from'] as int?,

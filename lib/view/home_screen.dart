@@ -223,8 +223,8 @@ class _HomeScreenState extends State<HomeScreen>
                                 borderSide: const BorderSide(
                                     color: Color(0xff908B8B), width: 2.0),
                               ),
-                              suffixIcon: Image.asset("assets/Icon/cancel.png",
-                                  height: 20.h),
+                              // suffixIcon: Image.asset("assets/Icon/cancel.png",
+                              //     height: 20.h),
                               prefixIcon: Image.asset(
                                   "assets/Icon/searchIcon.png",
                                   height: 18.h),

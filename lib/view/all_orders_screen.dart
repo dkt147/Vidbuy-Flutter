@@ -136,11 +136,11 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
                       ),
                     ),
                   ),
-                if (viewModel.isFetchingMore)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: CircularProgressIndicator(),
-                  ),
+                // if (viewModel.isFetchingMore)
+                //   const Padding(
+                //     padding: EdgeInsets.symmetric(vertical: 10),
+                //     child: CircularProgressIndicator(),
+                //   ),
               ],
             );
           },

@@ -52,16 +52,14 @@ class _AdminRefundOrdersScreenState extends State<AdminRefundOrdersScreen> {
                 case Status.INIT:
                   return Container();
                 case Status.LOADING:
-                  return const Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ],
                   );
                 case Status.ERROR:
                   return Center(

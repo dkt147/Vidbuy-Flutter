@@ -6,6 +6,7 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_profile_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class ChangePasswordScreen extends StatelessWidget {
@@ -39,13 +40,12 @@ class ChangePasswordScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Content(
-                  data: "Change Password",
+                  data: AppLocalizations.of(context)!.userChangePassword,
                   size: 30.h,
                   weight: FontWeight.w300,
                 ),
                 Content(
-                  data:
-                      "To confirm your identity, please insert your current password ",
+                  data: AppLocalizations.of(context)!.userToConfirmyourIdentity,
                   size: 16.h,
                   weight: FontWeight.w300,
                   family: "Lato",
@@ -54,8 +54,8 @@ class ChangePasswordScreen extends StatelessWidget {
                   height: 40.h,
                 ),
                 ContentFieldPassword(
-                  label: "Old Password",
-                  hint: "Password",
+                  label: AppLocalizations.of(context)!.userOldPassword,
+                  hint: AppLocalizations.of(context)!.userPassword,
                   index: 0, // Add this line
                   controller: _oldPasswordController,
                   inputFormat: [
@@ -68,8 +68,8 @@ class ChangePasswordScreen extends StatelessWidget {
                   height: 31.h,
                 ),
                 ContentFieldPassword(
-                  label: "New Password",
-                  hint: "Password",
+                  label: AppLocalizations.of(context)!.userNewPassword,
+                  hint: AppLocalizations.of(context)!.userPassword,
                   index: 0, // Add this line
                   controller: _newPasswordController,
                   inputFormat: [
@@ -122,7 +122,7 @@ class ChangePasswordScreen extends StatelessWidget {
                                 AlwaysStoppedAnimation<Color>(Colors.white),
                           )
                         : Text(
-                            "Change Password",
+                            AppLocalizations.of(context)!.userChangePassword,
                             style: TextStyle(
                               fontSize: 20.h,
                               fontFamily: "Lato",

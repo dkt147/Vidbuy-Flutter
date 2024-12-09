@@ -5,6 +5,7 @@ import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/user_order_tile.dart';
 import 'package:vidbuy_app/resources/componenets/user_task_detail_tabbar_widget.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_orders_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserCompletedOrderScreen extends StatefulWidget {
   const UserCompletedOrderScreen({super.key});
@@ -53,9 +54,9 @@ class _UserCompletedOrderScreenState extends State<UserCompletedOrderScreen> {
                           width: 128.w,
                         ),
                         const SizedBox(height: 16),
-                        const Text(
-                          "No Orders Currently",
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.userNoOrdersCurrently,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),

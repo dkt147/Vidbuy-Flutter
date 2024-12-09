@@ -527,7 +527,7 @@ class _CountryDropdownWidgetState extends State<CountryDropdownWidget> {
   @override
   void initState() {
     super.initState();
-    viewModel.fetchCountryList(); // Initial fetch
+    // viewModel.fetchCountryList(); // Initial fetch
   }
 
   @override
@@ -568,7 +568,7 @@ class _CountryDropdownWidgetState extends State<CountryDropdownWidget> {
                       IconButton(
                         icon: Icon(Icons.arrow_left),
                         onPressed: () {
-                          value.decrementPage(); // Decrement page
+                          // value.decrementPage(); // Decrement page
                         },
                       ),
                       Text("Page ${value.currentPage}",
@@ -576,7 +576,7 @@ class _CountryDropdownWidgetState extends State<CountryDropdownWidget> {
                       IconButton(
                         icon: Icon(Icons.arrow_right),
                         onPressed: () {
-                          value.incrementPage(); // Increment page
+                          // value.incrementPage(); // Increment page
                         },
                       ),
                     ],

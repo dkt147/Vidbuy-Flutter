@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/contentfield_password.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_profile_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class DeleteAccountScreen extends StatelessWidget {
@@ -37,13 +38,13 @@ class DeleteAccountScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Content(
-                  data: "Delete account",
+                  data: AppLocalizations.of(context)!.userDeleteAccount,
                   size: 30.h,
                   weight: FontWeight.w300,
                 ),
                 Content(
-                  data:
-                      "To confirm your identity, please insert your password. ",
+                  data: AppLocalizations.of(context)!
+                      .userToConfirmyourIdentityPassword,
                   size: 16.h,
                   weight: FontWeight.w300,
                   family: "Lato",
@@ -52,8 +53,8 @@ class DeleteAccountScreen extends StatelessWidget {
                   height: 40.h,
                 ),
                 ContentFieldPassword(
-                  label: "Your Password",
-                  hint: "Password",
+                  label: AppLocalizations.of(context)!.userYourPassword,
+                  hint: AppLocalizations.of(context)!.userPassword,
                   index: 0, // Add this line
                   controller: _passwordController,
                   inputFormat: [
@@ -93,7 +94,7 @@ class DeleteAccountScreen extends StatelessWidget {
                                 AlwaysStoppedAnimation<Color>(Colors.white),
                           )
                         : Text(
-                            "Verify",
+                            AppLocalizations.of(context)!.userVerify,
                             style: TextStyle(
                               fontSize: 20.h,
                               fontFamily: "Lato",

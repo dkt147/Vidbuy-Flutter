@@ -52,14 +52,14 @@ Future<void> main() async {
   await NotificationServices().initNotifications();
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   pref = await SharedPreferences.getInstance(); // Initialize SharedPreferences
-  final String languageCode = pref.getString("langauge_code") ?? "";
+  final String savedLanguageCode = pref.getString('language_code') ?? "";
 
   LocalData ld = LocalData();
   await LocalData.loadToken();
   await ld.getTokenLocally();
 
   runApp(MyApp(
-    locale: languageCode,
+    locale: savedLanguageCode,
   ));
 }
 
@@ -70,8 +70,8 @@ Future<void> main() async {
 // }
 
 class MyApp extends StatelessWidget {
-  final String? locale;
-  MyApp({super.key, this.locale});
+  final String locale;
+  MyApp({super.key, required this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -114,9 +114,6 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return Consumer<LanguageChangeViewModel>(
                   builder: (context, provider, child) {
-                if (locale!.isEmpty) {
-                  provider.changeLanguage(Locale('en'));
-                }
                 return GetMaterialApp(
                     locale: provider.appLocale,
                     localizationsDelegates: const [

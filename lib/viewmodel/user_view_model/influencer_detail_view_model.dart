@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/api_response.dart';
 import 'package:vidbuy_app/model/user_model/influencer_detail_data_model/influencer_detail_data_model.dart';
+import 'package:vidbuy_app/model/user_model/influencer_report_video_data_model/influencer_report_video_data_model.dart';
 import 'package:vidbuy_app/model/user_model/user_add_view_data_model/user_add_view_data_model.dart';
 import 'package:vidbuy_app/repo/influencer_detail_repo.dart';
 import 'package:vidbuy_app/resources/local_data/local_data.dart';
@@ -67,6 +68,47 @@ class InfluencerDetailViewModel with ChangeNotifier {
         setInfluencerView(ApiResponse.completed(value));
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<View Added>>>>>>>>>>>>>>>>>>");
       } else {}
+    }).onError((error, stackTrace) {
+      Utils.snackBar(error.toString(), context);
+    });
+  }
+
+  ApiResponse<InfluencerReportVideoDataModel> _influencerReportVideoData =
+      ApiResponse.loading();
+  ApiResponse<InfluencerReportVideoDataModel> get influencerReportVideoData =>
+      _influencerReportVideoData;
+
+  void setInfluencerReportVideoData(
+      ApiResponse<InfluencerReportVideoDataModel> response) {
+    _influencerReportVideoData = response;
+    notifyListeners();
+  }
+
+  Future<void> fetchReportInfluencerVideo(BuildContext context,
+      {required int reportedVideoId,
+      required int influencerId,
+      required VoidCallback func}) async {
+    // Return early if validation fails
+    int userId = int.parse(LocalData.id);
+    Map<String, dynamic> reportVideoData = {
+      'reported_video_id': reportedVideoId,
+      'status': "Report video",
+      'user_id': userId,
+      "influenzer_id": influencerId,
+      'reason': null,
+    };
+
+    setInfluencerReportVideoData(ApiResponse.loading());
+    _influencerDetailRepo
+        .fetchInfluencerReportVideo(reportVideoData)
+        .then((value) async {
+      if (value.Isbool!) {
+        setInfluencerReportVideoData(ApiResponse.completed(value));
+        Utils.snackBar(value.message.toString(), context);
+        func.call();
+      } else {
+        Utils.snackBar(value.message.toString(), context);
+      }
     }).onError((error, stackTrace) {
       Utils.snackBar(error.toString(), context);
     });

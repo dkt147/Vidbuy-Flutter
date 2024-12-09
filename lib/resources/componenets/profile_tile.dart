@@ -13,7 +13,7 @@ class ProfileTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 340.w,
-      height: 55.h,
+      height: 60.h,
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -25,21 +25,26 @@ class ProfileTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.r),
           // boxShadow: bo
           color: Color(0xffFFFFFF)),
-      child: ListTile(
-        leading: Image.asset(
-          image,
-          height: height ?? 25.h,
-        ),
-        title: Content(
-          data: text,
-          size: 20.h,
-          family: "Lato",
-          weight: FontWeight.w500,
-        ),
-        trailing: Image.asset(
-          "assets/Icon/forwordicon.png",
-          height: 30.h,
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ListTile(
+            leading: Image.asset(
+              image,
+              height: height ?? 25.h,
+            ),
+            title: Content(
+              data: text,
+              size: 17.h,
+              family: "Lato",
+              weight: FontWeight.w500,
+            ),
+            trailing: Image.asset(
+              "assets/Icon/forwordicon.png",
+              height: 30.h,
+            ),
+          ),
+        ],
       ),
     );
 

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_profile_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeleteConfirmAccountScreen extends StatelessWidget {
   const DeleteConfirmAccountScreen({super.key});
@@ -35,12 +36,13 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Content(
-                  data: "Delete account",
+                  data: AppLocalizations.of(context)!.userDeleteAccount,
                   size: 30.h,
                   weight: FontWeight.w300,
                 ),
                 Content(
-                  data: "You won't be able to recover your account after this",
+                  data:
+                      AppLocalizations.of(context)!.userYouWontBeAbleToRecover,
                   size: 16.h,
                   weight: FontWeight.w300,
                   family: "Lato",
@@ -76,7 +78,7 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
                                 AlwaysStoppedAnimation<Color>(Colors.white),
                           )
                         : Text(
-                            "Delete  Account",
+                            AppLocalizations.of(context)!.userDeleteAccount,
                             style: TextStyle(
                                 fontSize: 16.h,
                                 color: Colors.white,
@@ -146,7 +148,7 @@ class DeleteConfirmAccountScreen extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    "Cancel",
+                    AppLocalizations.of(context)!.userCancel,
                     style: TextStyle(
                         fontSize: 16.h,
                         color: Colors.black,

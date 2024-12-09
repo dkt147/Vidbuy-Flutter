@@ -8,6 +8,7 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/resources/componenets/content_field.dart';
 import 'package:vidbuy_app/view/change_password_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_profile_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserEditProfileScreen extends StatefulWidget {
   const UserEditProfileScreen({super.key});
@@ -69,13 +70,13 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   //   ),
                   // ),
                   Content(
-                    data: "Edit profile",
+                    data: AppLocalizations.of(context)!.userEditProfile,
                     size: 30.h,
                     weight: FontWeight.bold,
                   ),
                   SizedBox(height: 5.h),
                   Content(
-                    data: "Below are your profile details",
+                    data: AppLocalizations.of(context)!.userBelowAreYourProfile,
                     size: 16.h,
                     weight: FontWeight.w500,
                     family: "Lato",
@@ -125,8 +126,8 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ContentField(
-                    label: "Your Name",
-                    hint: "Enter Your Name",
+                    label: AppLocalizations.of(context)!.userYourName,
+                    hint: AppLocalizations.of(context)!.userEnterName,
                     colorr: Colors.transparent,
                     prefixIcon: Image.asset(
                       "assets/Icon/person.png",
@@ -140,8 +141,8 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   ),
                   SizedBox(height: 10.h),
                   ContentField(
-                    label: "Your username",
-                    hint: "Enter Your Username",
+                    label: AppLocalizations.of(context)!.userYourUserName,
+                    hint: AppLocalizations.of(context)!.userYourUserName,
                     colorr: Colors.transparent,
                     prefixIcon: Image.asset(
                       "assets/Icon/person.png",
@@ -155,8 +156,8 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   ),
                   SizedBox(height: 10.h),
                   ContentField(
-                    label: "The email associated with this account is:",
-                    hint: "Enter Your Email",
+                    label: AppLocalizations.of(context)!.userTheEmailAssociated,
+                    hint: AppLocalizations.of(context)!.userEnterYourEmail,
                     colorr: Colors.transparent,
                     prefixIcon: Image.asset(
                       "assets/Icon/email.png",
@@ -182,7 +183,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   },
                   child: RichText(
                     text: TextSpan(
-                      text: "Change Password?",
+                      text: AppLocalizations.of(context)!.userChangePasswordQ,
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -228,7 +229,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                                   AlwaysStoppedAnimation<Color>(Colors.white),
                             )
                           : Text(
-                              "Create Account",
+                              AppLocalizations.of(context)!.userCreateAccount,
                               style: TextStyle(
                                 fontSize: 20.h,
                                 fontFamily: "Lato",

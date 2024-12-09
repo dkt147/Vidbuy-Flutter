@@ -305,7 +305,7 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                           ),
                           Container(
                             margin: EdgeInsets.only(
-                                left: 28.w, right: 26.w, top: 15.h),
+                                left: 26.w, right: 26.w, top: 15.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -414,8 +414,7 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                             .influencerDetailList
                                             .data!
                                             .result!
-                                            .videos![index]
-                                            .fullUrl;
+                                            .videos![index];
 
                                         return Container(
                                           width: 100
@@ -425,7 +424,7 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                           margin: EdgeInsets.all(
                                               4.w), // Margin around each item
                                           child: VideoPlayerWidget(
-                                            videoUrl: videoUrl!,
+                                            videoUrl: videoUrl.fullUrl!,
                                             videoTitle: viewModel
                                                 .influencerDetailList
                                                 .data!
@@ -434,6 +433,8 @@ class _InfluencerProfileScreenState extends State<InfluencerProfileScreen> {
                                                 .videoTypes![index]
                                                 .videoTypeName
                                                 .toString(),
+                                                reportVideoId: videoUrl.id!,
+                                                influencerId: viewModel.influencerDetailList.data!.result!.user!.id!,
                                           ), // Pass video URL to the VideoPlayerWidget
                                         );
                                       },
@@ -1265,8 +1266,10 @@ class Dash extends StatelessWidget {
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
   final String videoTitle;
+  final int influencerId;
+  final int reportVideoId;
 
-  VideoPlayerWidget({required this.videoUrl, required this.videoTitle});
+  VideoPlayerWidget({required this.videoUrl, required this.videoTitle, required this.influencerId, required this.reportVideoId});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -1348,6 +1351,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                             navigate(
                                 context,
                                 StreamVideoScreen(
+                                  influencerId: widget.influencerId,
+                                  reportVideoId: widget.reportVideoId,
                                     videoSource: widget.videoUrl.toString()));
                           }, // Toggle full-screen on button press
                         ),

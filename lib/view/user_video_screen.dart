@@ -8,20 +8,15 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/order_cancel_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_task_detail_view_model.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserVideoScreen extends StatefulWidget {
-  final String status;
   final String videoTypeId;
-  final String influencerId;
-  final String? videoUrl;
 
-  const UserVideoScreen(
-      {Key? key,
-      required this.status,
-      required this.influencerId,
-      required this.videoTypeId,
-      this.videoUrl})
-      : super(key: key);
+  const UserVideoScreen({
+    Key? key,
+    required this.videoTypeId,
+  }) : super(key: key);
 
   @override
   _UserVideoScreenState createState() => _UserVideoScreenState();
@@ -77,16 +72,14 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
             case Status.INIT:
               return Container();
             case Status.LOADING:
-              return const Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ],
-                ),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ],
               );
             case Status.ERROR:
               return Center(
@@ -127,7 +120,7 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
                             .toString())
                   else if (value.userOrderData.data!.result!.first.status ==
                       "Rejected by influencer")
-                    _buildRejectedByInfluencerUI()
+                    Expanded(child: _buildRejectedByInfluencerUI())
                   else if (value.userOrderData.data!.result!.first.status ==
                       "Accepted by influencer")
                     _buildAcceptedByInfluencerUI()
@@ -186,7 +179,7 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
             ),
             SizedBox(height: 16),
             Text(
-              "Admin requested to make new video.",
+              AppLocalizations.of(context)!.userOrderAdminRequested,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ],
@@ -209,7 +202,7 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
             ),
             SizedBox(height: 16),
             Text(
-              "The influencer hasn't accepted your project yet",
+              AppLocalizations.of(context)!.userOrderInfluencerHasntAccepted,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ],
@@ -230,7 +223,7 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
           ),
           SizedBox(height: 16),
           Text(
-            "The influencer hasn't uploaded any video yet",
+            AppLocalizations.of(context)!.userOrderInfluencerHasntUploaded,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ],
@@ -251,7 +244,7 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
             ),
             SizedBox(height: 16),
             Text(
-              "The influencer hasn't uploaded any video yet",
+              AppLocalizations.of(context)!.userOrderInfluencerHasntUploaded,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ],
@@ -261,23 +254,27 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
   }
 
   Widget _buildRejectedByInfluencerUI() {
-    return Expanded(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: Image.asset(
               'assets/Logo/logo.png',
               height: 177.h,
               width: 128.w,
             ),
-            SizedBox(height: 16),
-            Text(
-              "The influencer has rejected your request",
+          ),
+          SizedBox(height: 16),
+          Center(
+            child: Text(
+              AppLocalizations.of(context)!
+                  .userOrderInfluencerHasRejectedRequest,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -325,7 +322,7 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                       )
                     : Text(
-                        "Accept",
+                        AppLocalizations.of(context)!.userAccept,
                         style: TextStyle(
                           fontSize: 16.h,
                           color: Colors.white,
@@ -355,7 +352,7 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
                 ),
               ),
               child: Text(
-                "Reject",
+                AppLocalizations.of(context)!.userReject,
                 style: TextStyle(
                   fontSize: 16.h,
                   color: Colors.white,
@@ -402,35 +399,35 @@ class _UserVideoScreenState extends State<UserVideoScreen> {
   //   );
   // }
 
-  Widget _buildRejectedByUserVideoUI() {
-    if (widget.videoUrl == null || widget.videoUrl!.isEmpty) {
-      return Center(
-        child: Text("Video URL is unavailable"),
-      );
-    }
+  // Widget _buildRejectedByUserVideoUI() {
+  //   if (widget.videoUrl == null || widget.videoUrl!.isEmpty) {
+  //     return Center(
+  //       child: Text("Video URL is unavailable"),
+  //     );
+  //   }
 
-    return FutureBuilder(
-      future: _initializeVideoFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          // Debugging error message
-          return Center(
-            child: Text("Failed to load video. Error: ${snapshot.error}"),
-          );
-        } else {
-          return Center(
-            child: SizedBox(
-              width: 305.h, // Adjust width as needed
-              height: 400.w, // Adjust height as needed
-              child: Chewie(controller: _chewieController!),
-            ),
-          );
-        }
-      },
-    );
-  }
+  //   return FutureBuilder(
+  //     future: _initializeVideoFuture,
+  //     builder: (context, snapshot) {
+  //       if (snapshot.connectionState == ConnectionState.waiting) {
+  //         return Center(child: CircularProgressIndicator());
+  //       } else if (snapshot.hasError) {
+  //         // Debugging error message
+  //         return Center(
+  //           child: Text("Failed to load video. Error: ${snapshot.error}"),
+  //         );
+  //       } else {
+  //         return Center(
+  //           child: SizedBox(
+  //             width: 305.h, // Adjust width as needed
+  //             height: 400.w, // Adjust height as needed
+  //             child: Chewie(controller: _chewieController!),
+  //           ),
+  //         );
+  //       }
+  //     },
+  //   );
+  // }
 
   @override
   void dispose() {

@@ -401,7 +401,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
             } else {
               navigatePushReplace(
                   context,
-                  RequestVideoScree(
+                  RequestVideoScreen(
                     influencerId: widget.influencerId.toString(),
                     influencerName: widget.influencerName.toString(),
                     from: _fromController.text.toString(),

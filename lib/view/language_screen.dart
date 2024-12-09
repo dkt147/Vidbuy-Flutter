@@ -62,10 +62,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   selectedIndex: selectedLanguageIndex,
                   language: "English",
                   onChanged: (index) {
-                    setState(() {
-                      selectedLanguageIndex = index;
-                      provider.changeLanguage(Locale('en'));
-                    });
+                    selectedLanguageIndex = index;
+                    provider.changeLanguage(Locale('en'));
                   },
                 ),
                 SizedBox(
@@ -74,32 +72,29 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 LanguageTile(
                   index: 1,
                   selectedIndex: selectedLanguageIndex,
-                  language: "Portugues",
+                  language: "Portuguese",
                   onChanged: (index) {
-                    setState(() {
-                      selectedLanguageIndex = index;
-                      provider.changeLanguage(Locale('pt'));
-                    });
+                    selectedLanguageIndex = index;
+                    provider.changeLanguage(Locale('pt'));
                   },
                 ),
               ],
             );
           }),
-
           SizedBox(
             height: 12.h,
           ),
-          // LanguageTile(
-          //   index: 2,
-          //   selectedIndex: selectedLanguageIndex,
-          //   onChanged: (index) {
-          //     setState(() {
-          //       selectedLanguageIndex = index;
-          //     });
-          //   },
-          // ),
         ],
       ),
     );
   }
 }
+// LanguageTile(
+//   index: 2,
+//   selectedIndex: selectedLanguageIndex,
+//   onChanged: (index) {
+//     setState(() {
+//       selectedLanguageIndex = index;
+//     });
+//   },
+// ),

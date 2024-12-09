@@ -7,10 +7,12 @@ import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/view/payment_confirm_screen.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/create_order_view_model.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../Function/navigate.dart';
 
 // ignore: must_be_immutable
-class RequestVideoScree extends StatefulWidget {
+class RequestVideoScreen extends StatefulWidget {
   final String influencerId;
   final String influencerName;
   final String from;
@@ -20,7 +22,7 @@ class RequestVideoScree extends StatefulWidget {
   final String videotTypeId;
   final String videoPrice;
 
-  RequestVideoScree(
+  RequestVideoScreen(
       {required this.influencerId,
       required this.influencerName,
       required this.from,
@@ -32,10 +34,10 @@ class RequestVideoScree extends StatefulWidget {
       super.key});
 
   @override
-  State<RequestVideoScree> createState() => _RequestVideoScreeState();
+  State<RequestVideoScreen> createState() => _RequestVideoScreenState();
 }
 
-class _RequestVideoScreeState extends State<RequestVideoScree> {
+class _RequestVideoScreenState extends State<RequestVideoScreen> {
   Color _containerColor = Colors.transparent;
   int hide = 0;
   bool isChecked = false;
@@ -93,7 +95,7 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                   width: 5.w,
                 ),
                 Content(
-                  data: "Create Order",
+                  data: AppLocalizations.of(context)!.userCreateOrder,
                   size: 14.h,
                   weight: FontWeight.w600,
                   family: "Nunito",
@@ -110,14 +112,13 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Content(
-                  data: "When do you need your video?",
+                  data: AppLocalizations.of(context)!.userWhenDoYouNeed,
                   size: 16.h,
                   weight: FontWeight.w500,
                   family: "Lato",
                 ),
                 Content(
-                  data:
-                      "Delivers in up to 7 days but if you want early the extra charges will be required.",
+                  data: AppLocalizations.of(context)!.userDeliverUpto,
                   size: 14.h,
                   weight: FontWeight.w300,
                   family: "Lato",
@@ -357,14 +358,13 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Content(
-                  data: "Review Order",
+                  data: AppLocalizations.of(context)!.userReviewOrder,
                   size: 16.h,
                   weight: FontWeight.w700,
                   family: "Lato",
                 ),
                 Content(
-                  data:
-                      "Your request will be delivered to the influencer and they will have to choose whether to accept it or not.",
+                  data: AppLocalizations.of(context)!.userYourRequest,
                   size: 14.h,
                   weight: FontWeight.w300,
                   family: "Lato",
@@ -378,7 +378,7 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Content(
-                        data: "Order Price",
+                        data: AppLocalizations.of(context)!.userOrderPrice,
                         size: 16.h,
                         weight: FontWeight.w700,
                         family: "Lato",
@@ -390,7 +390,8 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Content(
-                            data: "Personalized Video",
+                            data: AppLocalizations.of(context)!
+                                .userPersonalizedVideo,
                             size: 16.h,
                             family: "Lato",
                             weight: FontWeight.w500,
@@ -407,7 +408,8 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Content(
-                            data: "Services charges",
+                            data: AppLocalizations.of(context)!
+                                .userServiceCharges,
                             size: 16.h,
                             family: "Lato",
                             weight: FontWeight.w500,
@@ -424,7 +426,8 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Content(
-                            data: "Delivery charges",
+                            data: AppLocalizations.of(context)!
+                                .userDeliveryCharges,
                             size: 16.h,
                             family: "Lato",
                             weight: FontWeight.w500,
@@ -444,7 +447,7 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Content(
-                            data: "Total",
+                            data: AppLocalizations.of(context)!.userTotal,
                             size: 16.h,
                             family: "Lato",
                             weight: FontWeight.w500,
@@ -511,7 +514,8 @@ class _RequestVideoScreeState extends State<RequestVideoScree> {
                                     AlwaysStoppedAnimation<Color>(Colors.white),
                               )
                             : Text(
-                                "Request your Video",
+                                AppLocalizations.of(context)!
+                                    .userRequestYourVideo,
                                 style: TextStyle(
                                     fontSize: 16.h,
                                     color: Colors.white,

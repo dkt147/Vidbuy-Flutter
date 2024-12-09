@@ -7,6 +7,8 @@ import 'package:vidbuy_app/Function/utils.dart';
 import 'package:vidbuy_app/data/response/status.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
 import 'package:vidbuy_app/viewmodel/user_view_model/user_task_detail_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 // ignore: must_be_immutable
 class UserActiveHistoryScreen extends StatefulWidget {
@@ -80,7 +82,7 @@ class _UserActiveHistoryScreenState extends State<UserActiveHistoryScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Content(
-                                  data: "Track Order",
+                                  data: AppLocalizations.of(context)!.userTrackOrder,
                                   size: 22.h,
                                   family: "Nunito",
                                   weight: FontWeight.w700,
@@ -151,7 +153,7 @@ class _UserActiveHistoryScreenState extends State<UserActiveHistoryScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Content(
-                              data: "History",
+                              data: AppLocalizations.of(context)!.userHistory,
                               size: 16.h,
                               family: "Nunito",
                               weight: FontWeight.w700,

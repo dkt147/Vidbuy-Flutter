@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:vidbuy_app/Function/navigate.dart';
 import 'package:vidbuy_app/resources/componenets/User_order_tab_bar.dart';
 import 'package:vidbuy_app/resources/componenets/content.dart';
@@ -15,6 +16,7 @@ import 'package:vidbuy_app/view/notification_setting_screen.dart';
 import 'package:vidbuy_app/view/policies_screen.dart';
 import 'package:vidbuy_app/view/user_edit_profile_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vidbuy_app/viewmodel/log_out_view_model.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
@@ -36,6 +38,7 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<LogoutProfileViewModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Color(0xffFFFFFF),
       body: Column(
@@ -209,20 +212,18 @@ class UserProfileScreen extends StatelessWidget {
                   SizedBox(
                     height: 17.h,
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      // await _logoutUser(context);
-                    },
-                    child: GestureDetector(
-                      onTap: () {
-                        logOut(context, true);
+                  Consumer<LogoutProfileViewModel>(
+                      builder: (context, viewModel, child) {
+                    return GestureDetector(
+                      onTap: () async {
+                        viewModel.fetchLogOutAccountResponse(context);
                       },
                       child: ProfileTile(
                           height: 25.h,
                           image: "assets/Icon/Logout.png",
                           text: AppLocalizations.of(context)!.logOut),
-                    ),
-                  ),
+                    );
+                  }),
 
                   SizedBox(
                     height: 17.h,
